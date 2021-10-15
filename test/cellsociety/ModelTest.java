@@ -40,9 +40,6 @@ public class ModelTest {
     myModel.iterateGrid();
     Grid returnedGrid = myModel.getNewGrid();
     for (int row = 0; row < numRows; row++) {
-      System.out.println(returnedGrid.getCellState(row, 0) +
-          " " + returnedGrid.getCellState(row, 1) + " " + returnedGrid.getCellState(row, 2) + " "
-          + returnedGrid.getCellState(row, 3) + " " + returnedGrid.getCellState(row, 4));
       for (int col = 0; col < numCols; col++) {
         assertEquals(expected[row][col], returnedGrid.getCellState(row, col));
       }

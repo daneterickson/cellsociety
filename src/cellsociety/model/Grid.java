@@ -1,5 +1,7 @@
 package cellsociety.model;
 
+import java.util.ArrayList;
+
 public class Grid {
 
   private int myNumRows;
@@ -17,6 +19,23 @@ public class Grid {
     for (int row=0; row<myNumRows; row++) {
       for (int col=0; col<myNumCols; col++) {
         setCell(row, col, states[row][col]);
+      }
+    }
+  }
+
+  /**
+   * implementation with arraylist instead of array[][]
+   */
+  public Grid (int rows, int cols, ArrayList<ArrayList<Integer>> startStates) {
+    myNumRows = rows;
+    myNumCols = cols;
+    myGrid = new ModelCell[rows][cols];
+    setStartStates(startStates);
+  }
+  private void setStartStates(ArrayList<ArrayList<Integer>> states) {
+    for (int row=0; row<myNumRows; row++) {
+      for (int col=0; col<myNumCols; col++) {
+        setCell(row, col, states.get(row).get(col));
       }
     }
   }

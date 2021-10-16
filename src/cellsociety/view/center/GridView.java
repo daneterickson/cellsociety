@@ -24,11 +24,10 @@ public class GridView {
 
   public GridView() {
     myCanvas = new Canvas(GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
-    myCanvas.setOnMouseClicked(e -> handleCellClicked());
+    myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
     myAffine = new Affine();
     myAffine.appendScale(GRID_VIEW_WIDTH / GRID_MODEL_WIDTH, GRID_VIEW_HEIGHT / GRID_MODEL_HEIGHT);
   }
-
 
 
   /**
@@ -84,19 +83,17 @@ public class GridView {
   }
 
 
-  private void handleCellClicked(MouseEvent mouseEvent) throws NonInvertibleTransformException {
+  private void handleCellClicked(MouseEvent mouseEvent) {
     double cursorX = mouseEvent.getX();
     double cursorY = mouseEvent.getY();
-    try{
+    try {
       Point2D modelXY = myAffine.inverseTransform(cursorX, cursorY);
       int modelX = (int) modelXY.getX();
       int modelY = (int) modelXY.getY();
-      /*
-      Update the modelGrid cell's state. (the clicked cell is cell[X][Y])
-       */
+      //TODO Update the modelGrid cell's state. (the clicked cell is cell[X][Y])
       illustrate();
-    }catch(NonInvertibleTransformException e){
-      throw new NonInvertibleTransformException("Failed to transform clicked mouse position to valid model cell.");
+    } catch (NonInvertibleTransformException e) {
+      e.getMessage(); //It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
     }
   }
 

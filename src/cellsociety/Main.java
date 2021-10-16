@@ -1,21 +1,27 @@
 package cellsociety;
 
 
+import cellsociety.view.mainView.MainView;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 /**
  * Feel free to completely change this code or delete it entirely.
  */
-public class Main {
-    /**
-     * A method to test (and a joke :).
-     */
-    public double getVersion() {
-        return 0.001;
-    }
+public class Main extends Application {
 
-    /**
-     * Start of the program.
-     */
-    public static void main(String[] args) {
-        System.out.println("Hello world");
-    }
+  private static final int SCENE_WIDTH = 500;
+  private static final int SCENE_HEIGHT = 500;
+
+  @Override
+  public void start(Stage stage) {
+    MainView mainView = new MainView();
+    Scene scene = new Scene(mainView, SCENE_WIDTH, SCENE_HEIGHT);
+    stage.setScene(scene);
+    stage.show();
+
+    mainView.updateView();
+  }
+
 }

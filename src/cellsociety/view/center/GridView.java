@@ -25,6 +25,7 @@ public class GridView {
   public GridView() {
     myCanvas = new Canvas(GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
     myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
+    myCanvas.getStyleClass().add("canvas");
     myAffine = new Affine();
     myAffine.appendScale(GRID_VIEW_WIDTH / GRID_MODEL_WIDTH, GRID_VIEW_HEIGHT / GRID_MODEL_HEIGHT);
   }
@@ -48,8 +49,8 @@ public class GridView {
   public void illustrate() {
     GraphicsContext gc = this.myCanvas.getGraphicsContext2D();
     gc.setTransform(myAffine);
-    gc.setFill(GRID_BACKGROUND_COLOR);
-    gc.fillRect(0, 0, GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
+    //gc.setFill(GRID_BACKGROUND_COLOR);
+    //gc.fillRect(0, 0, GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
 
     updateCellColors(gc);
     drawGridLines(gc);

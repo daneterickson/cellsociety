@@ -19,6 +19,8 @@ Hours Spent:
 
 ### Resources Used
 
+- Google Material UI icons
+
 
 ### Running the Program
 

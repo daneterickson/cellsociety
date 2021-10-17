@@ -1,6 +1,7 @@
 package cellsociety.view.mainView;
 
 
+import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
@@ -9,10 +10,11 @@ import javafx.scene.layout.BorderPane;
 
 public class MainView extends BorderPane {
   GridView myGridView = new GridView();
+  SimControl mySimControl = new SimControl();
 
   public MainView(){
     this.setCenter(myGridView.getGridCanvas());
-    this.setBottom(new Button("testButton"));
+    this.setBottom(mySimControl.getSimControl());
   }
 
 

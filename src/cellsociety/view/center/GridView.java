@@ -25,7 +25,6 @@ public class GridView {
   public GridView() {
     myCanvas = new Canvas(GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
     myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
-    myCanvas.getStyleClass().add("canvas");
     myAffine = new Affine();
     myAffine.appendScale(GRID_VIEW_WIDTH / GRID_MODEL_WIDTH, GRID_VIEW_HEIGHT / GRID_MODEL_HEIGHT);
   }

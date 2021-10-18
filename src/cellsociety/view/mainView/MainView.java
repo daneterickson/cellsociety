@@ -3,12 +3,13 @@ package cellsociety.view.mainView;
 
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
+import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 
-public class MainView extends BorderPane {
+public class MainView extends BorderPane{
   GridView myGridView = new GridView();
   SimControl mySimControl = new SimControl();
 
@@ -16,7 +17,6 @@ public class MainView extends BorderPane {
     this.setCenter(myGridView.getGridCanvas());
     this.setBottom(mySimControl.getSimControl());
   }
-
 
   /**
    * Updates the canvas (grid) in the view.

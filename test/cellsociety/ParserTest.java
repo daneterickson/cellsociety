@@ -15,7 +15,8 @@ public class ParserTest {
 
   @BeforeEach
   void setUp() {
-    myParser = new Parser(new File("data/game_of_life/blinkers.csv"));
+    myParser = new Parser();
+    myParser.readCSV(new File("data/game_of_life/blinkers.csv"));
   }
 
   @Test

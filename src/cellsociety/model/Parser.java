@@ -9,18 +9,15 @@ public class Parser {
   private int numRows;
   private int numCols;
   private int startStates[][];
-  private File myFile;
 
-  public Parser(File file) {
-    myFile = file;
-    readCSV();
+  public Parser() {
   }
 
   // method to read a csv file. Mostly taken from:
   // http://opencsv.sourceforge.net/#parsing
-  private void readCSV() {
+  public void readCSV(File file) {
     try {
-      CSVReader reader = new CSVReader(new FileReader(myFile));
+      CSVReader reader = new CSVReader(new FileReader(file));
       String[] nextLine;
       int row = 1;
       while ((nextLine = reader.readNext()) != null) { // nextLine[] is array of values from line

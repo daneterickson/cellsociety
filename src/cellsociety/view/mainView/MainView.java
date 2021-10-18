@@ -3,16 +3,17 @@ package cellsociety.view.mainView;
 
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
-import javafx.scene.canvas.*;
-import javafx.scene.control.Button;
+import cellsociety.view.top.TopLoadSave;
 import javafx.scene.layout.BorderPane;
 
 
 public class MainView extends BorderPane {
-  GridView myGridView = new GridView();
-  SimControl mySimControl = new SimControl();
+  private TopLoadSave myTopLoadSave = new TopLoadSave();
+  private GridView myGridView = new GridView();
+  private SimControl mySimControl = new SimControl();
 
   public MainView(){
+    this.setTop(myTopLoadSave.getTopLoadSave());
     this.setCenter(myGridView.getGridCanvas());
     this.setBottom(mySimControl.getSimControl());
   }

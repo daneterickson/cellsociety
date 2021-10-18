@@ -4,6 +4,7 @@ package cellsociety.view.mainView;
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.left.CellProperties;
+import cellsociety.view.top.TopLoadSave;
 import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
@@ -11,9 +12,12 @@ import javafx.scene.layout.BorderPane;
 
 
 public class MainView{
-  GridView myGridView = new GridView();
-  SimControl mySimControl = new SimControl();
+
   CellProperties myCellProperties = new CellProperties();
+  private GridView myGridView = new GridView();
+  private SimControl mySimControl = new SimControl();
+  private TopLoadSave myTopLoadSave = new TopLoadSave();
+
 
   public MainView(){
   }
@@ -23,6 +27,7 @@ public class MainView{
     root.setCenter(myGridView.getGridCanvas());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
+    root.setTop(myTopLoadSave.getTopLoadSave());
     //root.setRight();
     //root.setTop();
     Scene scene = new Scene(root, width, height);
@@ -36,11 +41,5 @@ public class MainView{
   public void updateView(){
     myGridView.illustrate();
   }
-
-
-
-
-
-
 
 }

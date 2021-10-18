@@ -13,9 +13,7 @@ The view will call the model for every animation step and get all of the updated
 
 Here is a graphical look at my design:
 
-![This is cool, too bad you can't see it](images/online-shopping-uml-example.png "An initial UI")
-
-made from [a tool that generates UML from existing code](http://staruml.io/).
+![This is cool, too bad you can't see it](https://drive.google.com/file/d/1pJabquaE5qUkYEFZjuJ_fBohzQ1s5VcY/view?usp=sharing "Our initial UI")
 
 
 ## Design Considerations
@@ -45,9 +43,7 @@ Construction of the grid view.
 
 Here is our amazing UI:
 
-![This is cool, too bad you can't see it](images/29-sketched-ui-wireframe.jpg "An alternate design")
-
-taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://onextrapixel.com/40-brilliant-examples-of-sketched-ui-wireframes-and-mock-ups/).
+![This is cool, too bad you can't see it](https://drive.google.com/file/d/1iDT0bZ9EF3z9gZGiMiTi8ESi09jmRnA4/view?usp=sharing "Our UI design")
 
 
 ## Team Responsibilities

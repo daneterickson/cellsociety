@@ -1,6 +1,7 @@
 package cellsociety.model;
 
 import com.opencsv.CSVReader;
+import java.io.File;
 import java.io.FileReader;
 
 public class Parser {
@@ -8,10 +9,10 @@ public class Parser {
   private int numRows;
   private int numCols;
   private int startStates[][];
-  private String myFile;
+  private File myFile;
 
-  public Parser(String filename) {
-    myFile = filename;
+  public Parser(File file) {
+    myFile = file;
     readCSV();
   }
 

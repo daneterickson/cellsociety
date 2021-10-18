@@ -10,16 +10,16 @@ public class Model {
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
 
-  public Model(Grid grid) {
-    oldGrid = grid;
+  public Model(int rows, int cols, int[][] startStates) {
+    oldGrid = new Grid(rows, cols, startStates);
     newGridArray = new ArrayList<>();
   }
 
+  /**
+   * iterates through the grid until an exception, which determine when to go the next row/end. each
+   * cell in the grid is then processed and then used to call addToNewGrid
+   */
   public void iterateGrid() {
-    /**
-     * iterates through the grid until an exception, which determine when to go the next row/end.
-     * each cell in the grid is then processed and then used to call addToNewGrid
-     */
     int row = 0;
     int col = 0;
     while (true) {
@@ -41,13 +41,13 @@ public class Model {
   }
 
   // finds all 8 neighbors of the current cell
+
+  /**
+   * finds 8 neighboring cells and returns them as a linear array: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
+   * <p>
+   * if the current point is an edge, it acts as if the edges are DEAD_STATES
+   */
   private int[] getNearby(int row, int col) {
-    /**
-     * finds 8 neighboring cells and returns them as a linear array:
-     * [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
-     *
-     * if the current point is an edge, it acts as if the edges are DEAD_STATES
-     */
     int[] dx = {-1, 0, 1};
     int[] dy = {-1, 0, 1};
     int[] neighbors = new int[8];
@@ -69,21 +69,21 @@ public class Model {
     return neighbors;
   }
 
+  /**
+   * updates the current cell by calling the current Rule
+   */
   // checks the rule to see if cell needs to change state
   private Integer updateCell(int row, int col, int state) {
-    /**
-     * updates the current cell by calling the current Rule
-     */
     //nearby: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
     int[] nearby = getNearby(row, col);
     int newState = currRule(state, nearby);
     return newState;
   }
 
+  /**
+   * current rule for Game of life. returns dead/live state
+   */
   private Integer currRule(int state, int[] nearby) {
-    /**
-     * current rule for Game of life. returns dead/live state
-     */
     int population = 0;
     for (int i : nearby) {
       if (i == LIVE_STATE) {
@@ -99,27 +99,27 @@ public class Model {
     return DEAD_STATE;
   }
 
+  /**
+   * updates the current cell's state. then adds the new state to newGrid arraylist
+   */
   private void addToNewGrid(int row, int col, int state) {
-    /**
-     * updates the current cell's state.
-     * then adds the new state to newGrid arraylist
-     */
     if (newGridArray.size() - 1 < row) {
-      newGridArray.add(row,new ArrayList<>());
+      newGridArray.add(row, new ArrayList<>());
     }
     state = updateCell(row, col, state);
-    newGridArray.get(row).add(col,state);
+    newGridArray.get(row).add(col, state);
   }
 
-  private void buildNewGrid(){
-    /**
-     * creates a new grid. If successful, replaces old grid
-     */
+  /**
+   * creates a new grid. If successful, replaces old grid
+   */
+  private void buildNewGrid() {
     int numRows = newGridArray.size();
     int numCols = newGridArray.get(0).size();
-    Grid GridBuffer = new Grid(numRows, numCols,newGridArray);
+    Grid GridBuffer = new Grid(numRows, numCols, newGridArray);
     oldGrid = GridBuffer;
   }
+
   // sends info to Controller
   public Grid getNewGrid() {
     return oldGrid;

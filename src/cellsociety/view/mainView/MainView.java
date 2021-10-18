@@ -9,14 +9,24 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 
-public class MainView extends BorderPane{
+public class MainView{
   GridView myGridView = new GridView();
   SimControl mySimControl = new SimControl();
 
   public MainView(){
-    this.setCenter(myGridView.getGridCanvas());
-    this.setBottom(mySimControl.getSimControl());
   }
+
+  public Scene makeScene(int width, int height){
+    BorderPane root = new BorderPane();
+    root.setCenter(myGridView.getGridCanvas());
+    root.setBottom(mySimControl.getSimControl());
+    //root.setLeft();
+    //root.setRight();
+    //root.setTop();
+    Scene scene = new Scene(root, width, height);
+    return scene;
+  }
+
 
   /**
    * Updates the canvas (grid) in the view.

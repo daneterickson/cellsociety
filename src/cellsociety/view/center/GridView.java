@@ -16,8 +16,8 @@ public class GridView {
   private static final Color GRID_BACKGROUND_COLOR = Color.LIGHTGREY;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final double GRID_LINE_SIZE = .04;
-  private static final int GRID_MODEL_WIDTH = 25;
-  private static final int GRID_MODEL_HEIGHT = 25;
+  private static final int GRID_MODEL_WIDTH = 10;
+  private static final int GRID_MODEL_HEIGHT = 10;
 
   private Canvas myCanvas;
   private Affine myAffine;
@@ -91,6 +91,7 @@ public class GridView {
       Point2D modelXY = myAffine.inverseTransform(cursorX, cursorY);
       int modelX = (int) modelXY.getX();
       int modelY = (int) modelXY.getY();
+      //System.out.println(modelX + ", " + modelY);
       //TODO Update the modelGrid cell's state. (the clicked cell is cell[X][Y])
       illustrate();
     } catch (NonInvertibleTransformException e) {

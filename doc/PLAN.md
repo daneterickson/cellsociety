@@ -1,10 +1,13 @@
 # Cell Society Design Plan
 ### Team Number
+8
 ### Names
+ Dane Erickson dte12, Aaric Han ah496, Nick Strauch njs35, Albert Yuan aly11
 
 
 ## Design Overview
-
+We are separating the program into a model, view, and controller. The model will be divided up into an anstract class hierarchy. Each subclass will have different rules depending on the applicatoin type. The model will also accept a file from the view and then parse said file into useful data. 
+The view will call the model for every animation step and get all of the updated cell states. The view is primarily divided into the different visual components of the scene. Specifically, the view was divided into a top, bottom, left, right, and center. The top will contain file realated features such as save and load. The left will have the current cell properties. The right will have modifications that can be made to the simulation. The bottom will have animation specific tools such as pause and play. And the center will have the displayed grid(s). We will also have a controller that will be the middle-man for the view and the model. Whenever the view needs to get new data from the model, the model will first send the data to the controller. The controller will then modify the data before sending it to the view to ensure that the view only has as much access as it needs to the model data.
 
 ## Design Details
 
@@ -47,13 +50,32 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 ## Team Responsibilities
 
- * Team Member #1
+ * Dane Erickson
+   * Backend responsibilities: Grid model and Cell model.
 
- * Team Member #2
+ * Albert Yuan
+  * Backend responsibilities: Application models. (Game of life, segregation, etc.).
 
- * Team Member #3
+ * Nick Strauch
+   * Frontend responsibilities: Grid view, Cell properties, and Animation.
 
- * Team Member #4
+ * Aaric Han
+   * Frontend responsibilities: File loading/saving, animation start/stop/step, simulation modification inputs.
 
 
 #### Proposed Schedule
+
+* Test implementation done by October 19th, 10:00pm.
+
+* Game of Life implementation done by October 22nd, 11:00pm.
+
+* Speading of Fire implementation done by October 24th, 10:00pm.
+
+* Segregation, Predator-Prey, and Percolation done by October 26th, 10:00pm.
+
+* Duvall's required modifications finished by October 30th, 10:00pm.
+
+* Refactoring, bugfixing, code-cleanup by 10:00pm October, 31st 10:00pm.
+
+
+

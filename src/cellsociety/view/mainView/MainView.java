@@ -5,17 +5,18 @@ import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.top.TopLoadSave;
 import javafx.scene.Scene;
-import javafx.scene.canvas.*;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 
-public class MainView{
+public class MainView {
+  private Stage myStage;
   private GridView myGridView = new GridView();
   private SimControl mySimControl = new SimControl();
-  private TopLoadSave myTopLoadSave = new TopLoadSave();
+  private TopLoadSave myTopLoadSave = new TopLoadSave(myStage);
 
-  public MainView(){
+  public MainView(Stage stage){
+    myStage = stage;
   }
 
   public Scene makeScene(int width, int height){

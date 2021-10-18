@@ -1,6 +1,7 @@
 package cellsociety.view.mainView;
 
 
+import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import javafx.scene.Scene;
 import javafx.scene.canvas.*;
@@ -11,10 +12,9 @@ import javafx.scene.layout.BorderPane;
 public class MainView {
   GridView myGridView = new GridView();
   private static final String DEFAULT_STYLESHEET = "/cellsociety/view/resources/Styling.css";
-
+  SimControl mySimControl = new SimControl();
 
   public MainView(){
-
   }
 
 

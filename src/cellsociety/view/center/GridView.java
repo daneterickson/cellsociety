@@ -1,5 +1,6 @@
 package cellsociety.view.center;
 
+import cellsociety.view.left.CellProperties;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,12 +22,15 @@ public class GridView {
 
   private Canvas myCanvas;
   private Affine myAffine;
+  private CellProperties myCellProperties;
 
-  public GridView() {
+  public GridView(CellProperties cellProps) {
     myCanvas = new Canvas(GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
     myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
+    myCanvas.setOnMouseEntered(e -> handleCellHovered(e));
     myAffine = new Affine();
     myAffine.appendScale(GRID_VIEW_WIDTH / GRID_MODEL_WIDTH, GRID_VIEW_HEIGHT / GRID_MODEL_HEIGHT);
+    myCellProperties = cellProps;
   }
 
 
@@ -92,11 +96,25 @@ public class GridView {
       int modelY = (int) modelXY.getY();
       //System.out.println(modelX + ", " + modelY);
       //TODO Update the modelGrid cell's state. (the clicked cell is cell[X][Y])
+      myCellProperties.updateCellCordLabel(modelX, modelY);
       illustrate();
     } catch (NonInvertibleTransformException e) {
       e.getMessage(); //It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
     }
   }
 
+  //TODO eliminate this duplicated code between handleCellClicked and handleCellCovered
+  private void handleCellHovered(MouseEvent mouseEvent) {
+    double cursorX = mouseEvent.getX();
+    double cursorY = mouseEvent.getY();
+    try {
+      Point2D modelXY = myAffine.inverseTransform(cursorX, cursorY);
+      int modelX = (int) modelXY.getX();
+      int modelY = (int) modelXY.getY();
+      myCellProperties.updateCellCordLabel(modelX, modelY);
+    } catch (NonInvertibleTransformException e) {
+      e.getMessage(); //It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
+    }
+  }
 
 }

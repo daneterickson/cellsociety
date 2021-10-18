@@ -14,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 public class MainView{
 
   CellProperties myCellProperties = new CellProperties();
-  private GridView myGridView = new GridView();
+  private GridView myGridView = new GridView(myCellProperties);
   private SimControl mySimControl = new SimControl();
   private TopLoadSave myTopLoadSave = new TopLoadSave();
 

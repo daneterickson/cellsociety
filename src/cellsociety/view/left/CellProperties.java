@@ -8,9 +8,9 @@ public class CellProperties {
 
   private String RESOURCE = "cellsociety.view.left.";
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
-  private static final String DEFAULT_CORD_TEXT = "( , )";
-  private int currentCellX;
-  private int currentCellY;
+  private int myCurrentX;
+  private int myCurrentY;
+  //private String COORD_TEXT = "("+myCurrentX+", "+myCurrentY+")";
   private Label myCellCoordinatesLabel;
   private VBox myCellProperties;
 
@@ -29,6 +29,17 @@ public class CellProperties {
     return myCellProperties;
   }
 
+  /**
+   * Updates the label that displays the current cell that is hovered over.
+   * @param currentX X coordinate of current cell.
+   * @param currentY Y coordinate of current cell.
+   */
+  public void updateCellCordLabel(int currentX, int currentY){
+    myCurrentX = currentX;
+    myCurrentY = currentY;
+    myCellCoordinatesLabel.setText("("+myCurrentX+", "+myCurrentY+")");
+  }
+
   private Node makeCellPropLabels(){
     VBox labelBox = new VBox();
 
@@ -41,7 +52,7 @@ public class CellProperties {
   }*/
 
   private Node initializeCellCordLabel(){
-    myCellCoordinatesLabel = new Label(DEFAULT_CORD_TEXT);
+    myCellCoordinatesLabel = new Label("("+myCurrentX+", "+myCurrentY+")");
     return myCellCoordinatesLabel;
   }
 

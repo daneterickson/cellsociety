@@ -38,15 +38,8 @@ public class TopLoadSave {
 
 
   private void loadFile() {
-    // pop up window to choose file
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Open File");
-    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
-    File selectedFile = fileChooser.showOpenDialog(root);
-    if (selectedFile == null) {
-      return;
-    }
-
+   //TODO: Handle Click
+    System.out.println("Click");
   }
 
   public Node getTopLoadSave() { return myTopLoadSave; }

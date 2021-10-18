@@ -3,6 +3,7 @@ package cellsociety.view.mainView;
 
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
+import cellsociety.view.top.TopLoadSave;
 import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
@@ -10,8 +11,9 @@ import javafx.scene.layout.BorderPane;
 
 
 public class MainView{
-  GridView myGridView = new GridView();
-  SimControl mySimControl = new SimControl();
+  private GridView myGridView = new GridView();
+  private SimControl mySimControl = new SimControl();
+  private TopLoadSave myTopLoadSave = new TopLoadSave();
 
   public MainView(){
   }
@@ -20,6 +22,7 @@ public class MainView{
     BorderPane root = new BorderPane();
     root.setCenter(myGridView.getGridCanvas());
     root.setBottom(mySimControl.getSimControl());
+    root.setTop(myTopLoadSave.getTopLoadSave());
     //root.setLeft();
     //root.setRight();
     //root.setTop();

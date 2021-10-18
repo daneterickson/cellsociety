@@ -21,21 +21,23 @@ made from [a tool that generates UML from existing code](http://staruml.io/).
 ## Design Considerations
 
 #### Design Issue #1
+Communication between the model grid and the view grid.
 
- * Alernative #1
+ * Alernative #1: Send an entire grid object from the model to the controller to the view.
 
- * Alernative #2
+ * Alernative #2: Send each cell individually from the model to the controller to the view.
 
- * Trade-offs
+ * Trade-offs : Alternative #1 would only require one transfer from the model to the view, but would also be sending more data than the view may need. Alternative #2 would require multiple transfers of cell objects from the model to the view, but this would allow the model to selectively send only the cells that underwent an update in state.
 
 
 #### Design Issue #2
+Construction of the grid view.
 
- * Alernative #1
+ * Alernative #1: Create the grid view by drawing in a canvas and assign each canvas coordinate to a cell object in the model.
 
- * Alernative #2
+ * Alernative #2: Create the grid view by creating a grid of rectangle Shape nodes. Each of these Shape objects would be stored in a cell object.
 
- * Trade-offs
+ * Trade-offs: Alternative #1 would give more freedom in the grid shape and structure. Alternative #2 would simplify the process of updating the grid view given updated cell objects from the grid model.
 
 
 
@@ -53,11 +55,14 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
  * Dane Erickson
    * Backend responsibilities: Grid model and Cell model.
 
+
  * Albert Yuan
-  * Backend responsibilities: Application models. (Game of life, segregation, etc.).
+   * Backend responsibilities: Application models. (Game of life, segregation, etc.).
+
 
  * Nick Strauch
    * Frontend responsibilities: Grid view, Cell properties, and Animation.
+
 
  * Aaric Han
    * Frontend responsibilities: File loading/saving, animation start/stop/step, simulation modification inputs.

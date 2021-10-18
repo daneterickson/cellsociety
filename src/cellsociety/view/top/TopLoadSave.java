@@ -1,5 +1,6 @@
 package cellsociety.view.top;
 
+import cellsociety.controller.Controller;
 import java.io.File;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,13 +15,18 @@ public class TopLoadSave {
 
   private HBox myTopLoadSave;
 
+  private File myCSVFile;
+
   private Stage myStage;
 
-  public TopLoadSave(Stage stage) {
+  private Controller myController;
+
+  public TopLoadSave(Stage stage, Controller controller) {
     myStage = stage;
     myTopLoadSave = new HBox();
     myTopLoadSave.getChildren().add(makeLoadSaveButtons());
     setStyles();
+    myController = controller;
   }
 
   private void setStyles() {
@@ -49,7 +55,6 @@ public class TopLoadSave {
 
 
   private void loadCSVFile() {
-    //TODO: What happens when file is selected?
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Load CSV File");
     fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.csv"));
@@ -57,6 +62,8 @@ public class TopLoadSave {
     if (selectedFile == null) {
       return;
     }
+    myCSVFile = selectedFile;
+    myController.openCSVFile(myCSVFile);
   }
 
   private void loadSIMFile() {
@@ -71,4 +78,6 @@ public class TopLoadSave {
   }
 
   public Node getTopLoadSave() { return myTopLoadSave; }
+
+  public File getMyCSVFile() { return myCSVFile; }
 }

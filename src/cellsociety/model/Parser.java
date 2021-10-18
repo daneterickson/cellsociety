@@ -31,6 +31,7 @@ public class Parser {
         }
         row++;
       }
+      System.out.println("Got here");
     }
     catch (Exception e) {
       System.out.println("Invalid File");

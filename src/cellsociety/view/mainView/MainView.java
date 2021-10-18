@@ -1,9 +1,11 @@
 package cellsociety.view.mainView;
 
 
+import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.top.TopLoadSave;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -13,10 +15,13 @@ public class MainView {
   private Stage myStage;
   private GridView myGridView = new GridView();
   private SimControl mySimControl = new SimControl();
-  private TopLoadSave myTopLoadSave = new TopLoadSave(myStage);
+  private TopLoadSave myTopLoadSave;
+  private Controller myController;
 
-  public MainView(Stage stage){
+  public MainView(Stage stage, Controller controller){
+    myController = controller;
     myStage = stage;
+    myTopLoadSave = new TopLoadSave(myStage, myController);
   }
 
   public Scene makeScene(int width, int height){
@@ -39,4 +44,8 @@ public class MainView {
     myGridView.illustrate();
   }
 
+
+  public TopLoadSave getTopLoadSave() {
+    return myTopLoadSave;
+  }
 }

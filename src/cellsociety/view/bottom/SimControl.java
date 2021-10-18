@@ -98,7 +98,7 @@ public class SimControl {
   /**
    * getSimControl is used to return the made buttons at the bottom of the view
    *
-   * @return an HBox containing all of the simulation control buttons
+   * @return an HBox containing all the simulation control buttons
    */
   public Node getSimControl() {
     return mySimControl;

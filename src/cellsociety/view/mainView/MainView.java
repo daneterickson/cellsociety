@@ -25,10 +25,4 @@ public class MainView extends BorderPane {
     myGridView.illustrate();
   }
 
-
-
-
-
-
-
 }

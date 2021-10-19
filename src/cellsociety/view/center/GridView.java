@@ -5,6 +5,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
@@ -19,29 +21,34 @@ public class GridView {
   private static final double GRID_LINE_SIZE = .04;
   private static final int GRID_MODEL_WIDTH = 10;
   private static final int GRID_MODEL_HEIGHT = 10;
+  private String RESOURCE = "cellsociety.view.center.";
+  private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"GridView.css";
 
   private Canvas myCanvas;
   private Affine myAffine;
+  private HBox myGridHolder;
   private CellProperties myCellProperties;
 
   public GridView(CellProperties cellProps) {
+    myGridHolder = new HBox();
     myCanvas = new Canvas(GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
     myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
-    myCanvas.setOnMouseEntered(e -> handleCellHovered(e));
+    myCanvas.setOnMouseMoved(e -> handleCellHovered(e));
+    myGridHolder.getChildren().add(myCanvas);
     myAffine = new Affine();
     myAffine.appendScale(GRID_VIEW_WIDTH / GRID_MODEL_WIDTH, GRID_VIEW_HEIGHT / GRID_MODEL_HEIGHT);
     myCellProperties = cellProps;
+    setStyles();
   }
 
 
   /**
-   * Getter method that returns the main canvas for the view. This is where the main grid will be
-   * illustrated.
+   * Getter method that returns the HBox which holds the canvases (grids).
    *
-   * @return Canvas node that is used for the grid.
+   * @return HBox node that contains the canvas nodes.
    */
-  public Canvas getGridCanvas() {
-    return myCanvas;
+  public HBox getGridBox() {
+    return myGridHolder;
   }
 
 
@@ -115,6 +122,13 @@ public class GridView {
     } catch (NonInvertibleTransformException e) {
       e.getMessage(); //It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
     }
+  }
+
+
+  private void setStyles() {
+    myGridHolder.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    myGridHolder.getStyleClass().add("root");
+    myCanvas.getStyleClass().add("canvas");
   }
 
 }

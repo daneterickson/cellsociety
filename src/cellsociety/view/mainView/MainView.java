@@ -6,8 +6,6 @@ import cellsociety.view.center.GridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.top.TopLoadSave;
 import javafx.scene.Scene;
-import javafx.scene.canvas.*;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 
@@ -24,7 +22,7 @@ public class MainView{
 
   public Scene makeScene(int width, int height){
     BorderPane root = new BorderPane();
-    root.setCenter(myGridView.getGridCanvas());
+    root.setCenter(myGridView.getGridBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());

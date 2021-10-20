@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Model {
 
   Grid currGrid;
-  ArrayList<ArrayList<Integer>> newGridArray;
+  ArrayList<Integer> newUpdates;
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
   private String myType;
@@ -14,7 +14,7 @@ public class Model {
 
   public Model(Controller controller, Grid grid, String type) {
     myType = type;
-    newGridArray = new ArrayList<>();
+    newUpdates = new ArrayList<>();
     myController = controller;
     currGrid = grid;
   }
@@ -22,13 +22,27 @@ public class Model {
   public void updateModel(Grid currGrid){
     this.currGrid = currGrid;
     iterateGrid();
+    updateGrid();
     myController.setHasUpdate(true);
   }
+
+  private void updateGrid() {
+    int row;
+    int col;
+    int newState;
+    for(int idx = 0; idx < newUpdates.size();idx+=3){
+      row = newUpdates.get(idx);
+      col = newUpdates.get(idx+1);
+      newState = newUpdates.get(idx+2);
+      currGrid.updateCell(row,col,newState);
+    }
+  }
+
   /**
    * iterates through the grid until an exception, which determine when to go the next row/end. each
    * cell in the grid is then processed and then used to call addToNewGrid
    */
-  public void iterateGrid() {
+  private void iterateGrid() {
 
     int row = 0;
     int col = 0;
@@ -83,7 +97,11 @@ public class Model {
     //nearby: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
     int[] nearby = getNearby(row, col);
     int newState = currRule(state, nearby);
-    currGrid.updateCell(row,col,newState);
+    if (newState != state){
+      newUpdates.add(row);
+      newUpdates.add(col);
+      newUpdates.add(newState);
+    }
   }
 
   /**
@@ -104,4 +122,5 @@ public class Model {
     }
     return DEAD_STATE;
   }
+
 }

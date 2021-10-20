@@ -1,3 +1,11 @@
 .root {
   -fx-alignment: center;
 }
+
+.buttons{
+  -fx-alignment: center;
+}
+
+.slider{
+  -fx-alignment: center;
+}

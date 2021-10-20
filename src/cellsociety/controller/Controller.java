@@ -1,7 +1,8 @@
 package cellsociety.controller;
 
 import cellsociety.model.Grid;
-import cellsociety.model.Model;
+import cellsociety.model.model.GameOfLifeModel;
+import cellsociety.model.model.Model;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.view.mainView.MainView;
@@ -32,7 +33,7 @@ public class Controller {
 
   public Controller(Stage stage) {
     currGrid = DEFAULT_GRID;
-    myModel = new Model(this, currGrid, DEFAULT_TYPE);
+    myModel = new GameOfLifeModel(this, currGrid);
     myMainView = new MainView(stage, this);
     Scene scene = myMainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
@@ -47,7 +48,7 @@ public class Controller {
     myParserCSV.readFile(csvFile);
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
         myParserCSV.getStartStates(), DEFAULT_TYPE);
-    myModel = new Model(this, currGrid, DEFAULT_TYPE);
+    myModel = new GameOfLifeModel(this, currGrid);
     myMainView.initiateGridView();
   }
 
@@ -80,7 +81,7 @@ public class Controller {
     File csvFile = new File(myParserSIM.getInitialStates().split("/")[1]);
     myParserCSV.readFile(csvFile);
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
-    myModel = new Model(this, currGrid, myParserSIM.getType());
+    myModel = new GameOfLifeModel(this, currGrid);
     myMainView.initiateGridView();
   }
 

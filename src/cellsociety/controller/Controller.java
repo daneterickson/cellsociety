@@ -1,5 +1,6 @@
 package cellsociety.controller;
 
+import cellsociety.model.Grid;
 import cellsociety.model.Model;
 import cellsociety.model.Parser;
 import cellsociety.view.mainView.MainView;
@@ -12,6 +13,7 @@ public class Controller {
   private Parser myParser;
   private MainView myMainView;
   private Stage myStage;
+  private Grid currGrid;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
@@ -28,16 +30,20 @@ public class Controller {
   public void openCSVFile(File csvFile) {
     myParser = new Parser();
     myParser.readCSV(csvFile);
-
-    myModel = new Model(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates(),this);
+    currGrid = new Grid(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates());
+    myModel = new Model(this);
   }
 
   public void updateModel(){
     myModel.iterateGrid();
   }
+  public void updateGrid(Grid newGrid){
+    currGrid = newGrid;
+    myMainView.updateView();
+  }
 
   public int getCellState(int i, int j){
-    return myModel.getNewGrid().getCellState(i, j);
+    return currGrid.getCellState(i, j);
   }
 
   public void openSIMFile(File simFile) {

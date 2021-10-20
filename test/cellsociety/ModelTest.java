@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.Model;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +30,8 @@ public class ModelTest {
 
     numRows = 5;
     numCols = 5;
-//    myGrid = new Grid(numRows, numCols, myStates);
-    myModel = new Model(numRows, numCols, myStates,myController);
+    myGrid = new Grid(numRows, numCols, myStates);
+    myModel = new Model(myController);
   }
 
   @Test
@@ -93,11 +94,17 @@ public class ModelTest {
 
     myModel.iterateGrid();
 
-    Grid returnedGrid = myModel.getNewGrid();
-    for (int row = 0; row < numRows; row++) {
-      for (int col = 0; col < numCols; col++) {
-        assertEquals(expected[row][col], returnedGrid.getCellState(row, col));
+    Grid returnedGrid;
+    try {
+      Field currGrid = Model.class.getDeclaredField("currGrid");
+      returnedGrid = (Grid) currGrid.get(myModel);
+      for (int row = 0; row < numRows; row++) {
+        for (int col = 0; col < numCols; col++) {
+          assertEquals(expected[row][col], returnedGrid.getCellState(row, col));
+        }
       }
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      e.printStackTrace();
     }
   }
 

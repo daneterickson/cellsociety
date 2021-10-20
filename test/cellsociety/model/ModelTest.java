@@ -31,7 +31,7 @@ public class ModelTest {
     numRows = 5;
     numCols = 5;
     myGrid = new Grid(numRows, numCols, myStates);
-    myModel = new Model(myController);
+    myModel = new Model(myController, myGrid);
   }
 
   @Test
@@ -39,6 +39,7 @@ public class ModelTest {
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
+
 
     int[] neighbors = (int[]) getNearby.invoke(myModel, 1,2);
 
@@ -92,7 +93,7 @@ public class ModelTest {
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
 
-    myModel.iterateGrid();
+    myModel.iterateGrid(myGrid);
 
     Grid returnedGrid;
     try {

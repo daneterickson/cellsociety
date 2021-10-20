@@ -10,16 +10,18 @@ public class Model {
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
   private Controller myController;
-  public Model(Controller controller) {
+  public Model(Controller controller, Grid grid) {
     newGridArray = new ArrayList<>();
     myController = controller;
+    currGrid = grid;
   }
 
   /**
    * iterates through the grid until an exception, which determine when to go the next row/end. each
    * cell in the grid is then processed and then used to call addToNewGrid
    */
-  public void iterateGrid() {
+  public void iterateGrid(Grid currGrid) {
+
     int row = 0;
     int col = 0;
     while (true) {
@@ -38,10 +40,7 @@ public class Model {
     }
 
     buildNewGrid();
-    updateCurrGrid();
   }
-
-  // finds all 8 neighbors of the current cell
 
   /**
    * finds 8 neighboring cells and returns them as a linear array: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
@@ -121,9 +120,11 @@ public class Model {
     currGrid = GridBuffer;
   }
 
-  // sends info to Controller
-  private void updateCurrGrid() {
-    myController.updateGrid(currGrid);
+  /**
+   * updates the grid in Controller with the current grid in model
+   */
+  public Grid getGrid() {
+    return currGrid;
   }
 
 

@@ -32,14 +32,12 @@ public class Controller {
     myParserCSV = new ParserCSV();
     myParserCSV.readFile(csvFile);
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates());
-    myModel = new Model(this);
+    myModel = new Model(this, currGrid);
   }
 
   public void updateModel(){
-    myModel.iterateGrid();
-  }
-  public void updateGrid(Grid newGrid){
-    currGrid = newGrid;
+    myModel.iterateGrid(currGrid);
+    currGrid = myModel.getGrid();
     myMainView.updateView();
   }
 

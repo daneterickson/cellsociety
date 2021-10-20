@@ -34,7 +34,7 @@ public class TopLoadSave {
 
   private Node makeLoadSaveButtons() {
     HBox topLoadSave = new HBox(15);
-    topLoadSave.getChildren().add(makeLoadCSVButton());
+//    topLoadSave.getChildren().add(makeLoadCSVButton());
     topLoadSave.getChildren().add(makeLoadSIMButton());
     return topLoadSave;
   }
@@ -64,7 +64,6 @@ public class TopLoadSave {
   }
 
   private void loadSIMFile() {
-    //TODO: What happens when file is selected?
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Load SIM File");
     fileChooser.getExtensionFilters().addAll(new ExtensionFilter("SIM", "*.sim"));

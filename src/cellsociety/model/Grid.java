@@ -1,5 +1,8 @@
 package cellsociety.model;
 
+import cellsociety.model.cell.GameOfLifeCell;
+import cellsociety.model.cell.ModelCell;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class Grid {
@@ -7,10 +10,12 @@ public class Grid {
   private int myNumRows;
   private int myNumCols;
   private ModelCell myGrid[][];
+  private String myCellType;
 
-  public Grid (int rows, int cols, int[][] startStates) {
+  public Grid(int rows, int cols, int[][] startStates, String type) {
     myNumRows = rows;
     myNumCols = cols;
+    myCellType = type + "Cell";
     myGrid = new ModelCell[rows][cols];
     setStartStates(startStates);
   }
@@ -18,7 +23,13 @@ public class Grid {
   private void setStartStates(int[][] states) {
     for (int row=0; row<myNumRows; row++) {
       for (int col=0; col<myNumCols; col++) {
-        setCell(row, col, states[row][col]);
+        try {
+          setCell(row, col, states[row][col]);
+        }
+        catch (ClassNotFoundException e) {
+          System.out.println("Class Not Found");
+          e.printStackTrace();
+        }
       }
     }
   }
@@ -26,16 +37,23 @@ public class Grid {
   /**
    * implementation with arraylist instead of array[][]
    */
-  public Grid (int rows, int cols, ArrayList<ArrayList<Integer>> startStates) {
+  public Grid (int rows, int cols, ArrayList<ArrayList<Integer>> startStates, String type) {
     myNumRows = rows;
     myNumCols = cols;
+    myCellType = type + "Cell";
     myGrid = new ModelCell[rows][cols];
     setStartStates(startStates);
   }
   private void setStartStates(ArrayList<ArrayList<Integer>> states) {
     for (int row=0; row<myNumRows; row++) {
       for (int col=0; col<myNumCols; col++) {
-        setCell(row, col, states.get(row).get(col));
+        try {
+          setCell(row, col, states.get(row).get(col));
+        }
+        catch (ClassNotFoundException e) {
+          System.out.println("Class Not Found");
+          e.printStackTrace();
+        }
       }
     }
   }
@@ -44,9 +62,18 @@ public class Grid {
     return myGrid[i][j].getState();
   }
 
-  private void setCell (int i, int j, int state) {
+  private void setCell (int i, int j, int state) throws ClassNotFoundException {
+    Class<?> clazz = Class.forName(myCellType);
+    ModelCell newCell = new ModelCell(i, j, state);
+    try {
+      newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, int.class).newInstance(i, j, state);
+    }
+    catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+      System.out.println("Method Not Found");
+      e.printStackTrace();
+    }
     if (myGrid[i][j] == null) {
-      myGrid[i][j] = new ModelCell(i, j, state);
+      myGrid[i][j] = newCell;
     }
     else {
       myGrid[i][j].changeState(state);

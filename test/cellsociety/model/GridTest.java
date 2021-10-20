@@ -2,7 +2,6 @@ package cellsociety.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import cellsociety.model.Grid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,7 @@ public class GridTest {
         {0, 0, 0, 0, 0}};
     numRows = 5;
     numCols = 5;
-    myGrid = new Grid(numRows, numCols, myStates);
+    myGrid = new Grid(numRows, numCols, myStates, "GameOfLife");
   }
 
   @Test

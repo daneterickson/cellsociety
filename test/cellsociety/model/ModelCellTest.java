@@ -1,7 +1,7 @@
 package cellsociety.model;
 import static org.junit.jupiter.api.Assertions.*;
 
-import cellsociety.model.ModelCell;
+import cellsociety.model.cell.ModelCell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -12,8 +12,8 @@ public class ParserSIMTest {
 
   @BeforeEach
   void setUp() {
-    myParser = new ParserSIM(new File("data/game_of_life/blinkers.sim"));
-    myParser.readFile();
+    myParser = new ParserSIM();
+    myParser.readFile(new File("data/game_of_life/blinkers.sim"));
   }
 
   @Test

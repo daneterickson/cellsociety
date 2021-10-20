@@ -9,18 +9,26 @@ public class Model {
   ArrayList<ArrayList<Integer>> newGridArray;
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
+  private String myType;
   private Controller myController;
-  public Model(Controller controller, Grid grid) {
+
+  public Model(Controller controller, Grid grid, String type) {
+    myType = type;
     newGridArray = new ArrayList<>();
     myController = controller;
     currGrid = grid;
   }
 
+  public void updateModel(Grid currGrid){
+    this.currGrid = currGrid;
+    iterateGrid();
+    buildNewGrid();
+  }
   /**
    * iterates through the grid until an exception, which determine when to go the next row/end. each
    * cell in the grid is then processed and then used to call addToNewGrid
    */
-  public void iterateGrid(Grid currGrid) {
+  public void iterateGrid() {
 
     int row = 0;
     int col = 0;
@@ -38,8 +46,6 @@ public class Model {
         }
       }
     }
-
-    buildNewGrid();
   }
 
   /**
@@ -116,7 +122,7 @@ public class Model {
   private void buildNewGrid() {
     int numRows = newGridArray.size();
     int numCols = newGridArray.get(0).size();
-    Grid GridBuffer = new Grid(numRows, numCols, newGridArray);
+    Grid GridBuffer = new Grid(numRows, numCols, newGridArray, myType);
     currGrid = GridBuffer;
   }
 

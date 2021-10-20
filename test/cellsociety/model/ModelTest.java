@@ -28,8 +28,9 @@ public class ModelTest {
 
     numRows = 5;
     numCols = 5;
+    String type = "GameOfLife";
 //    myGrid = new Grid(numRows, numCols, myStates);
-    myModel = new Model(numRows, numCols, myStates);
+    myModel = new Model(numRows, numCols, myStates, type);
   }
 
   @Test

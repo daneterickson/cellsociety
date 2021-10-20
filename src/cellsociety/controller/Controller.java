@@ -34,7 +34,7 @@ public class Controller {
     myParserSIM.readFile(simFile);
     File csvFile = new File(myParserSIM.getInitialStates());
     myParserCSV.readFile(csvFile);
-    myModel = new Model(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates());
+    myModel = new Model(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
   }
 
   public void updateModel(){

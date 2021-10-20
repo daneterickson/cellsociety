@@ -1,4 +1,4 @@
-package cellsociety.model;
+package cellsociety.model.cell;
 
 public class ModelCell {
 

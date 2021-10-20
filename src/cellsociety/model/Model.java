@@ -1,7 +1,6 @@
 package cellsociety.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Model {
 
@@ -9,9 +8,11 @@ public class Model {
   ArrayList<ArrayList<Integer>> newGridArray;
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
+  private String myType;
 
-  public Model(int rows, int cols, int[][] startStates) {
-    oldGrid = new Grid(rows, cols, startStates);
+  public Model(int rows, int cols, int[][] startStates, String type) {
+    myType = type;
+    oldGrid = new Grid(rows, cols, startStates, type);
     newGridArray = new ArrayList<>();
   }
 
@@ -116,7 +117,7 @@ public class Model {
   private void buildNewGrid() {
     int numRows = newGridArray.size();
     int numCols = newGridArray.get(0).size();
-    Grid GridBuffer = new Grid(numRows, numCols, newGridArray);
+    Grid GridBuffer = new Grid(numRows, numCols, newGridArray, myType);
     oldGrid = GridBuffer;
   }
 

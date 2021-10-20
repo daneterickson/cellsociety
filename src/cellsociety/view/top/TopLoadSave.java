@@ -34,7 +34,7 @@ public class TopLoadSave {
 
   private Node makeLoadSaveButtons() {
     HBox topLoadSave = new HBox(15);
-//    topLoadSave.getChildren().add(makeLoadCSVButton());
+    topLoadSave.getChildren().add(makeLoadCSVButton());
     topLoadSave.getChildren().add(makeLoadSIMButton());
     return topLoadSave;
   }
@@ -55,7 +55,7 @@ public class TopLoadSave {
   private void loadCSVFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Load CSV File");
-    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.csv"));
+    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.sim"));
     File selectedFile = fileChooser.showOpenDialog(myStage);
     if (selectedFile == null) {
       return;

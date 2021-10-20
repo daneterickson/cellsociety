@@ -1,4 +1,4 @@
-package cellsociety;
+package cellsociety.model.parser;
 
 import cellsociety.model.parser.ParserCSV;
 import java.io.File;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class ParserTest {
+public class ParserCSVTest {
 
   private ParserCSV myParser;
 

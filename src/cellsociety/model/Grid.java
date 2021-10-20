@@ -88,11 +88,13 @@ public class Grid {
     myGrid[i][j].changeState(state);
   }
 
+
+  public int getNumCols(){
+    return myNumCols;
+  }
+
   public int getNumRows() {
     return myNumRows;
   }
 
-  public int getNumCols() {
-    return myNumCols;
-  }
 }

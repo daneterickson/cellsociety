@@ -33,13 +33,13 @@ public class Controller {
 
 
   public Controller(Stage stage) {
-    myMainView = new MainView(stage, this);
     currGrid = DEFAULT_GRID;
     myModel = new Model(this, currGrid, DEFAULT_TYPE);
+    myMainView = new MainView(stage, this);
     Scene scene = myMainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
-    myMainView.updateView();
+    myMainView.initiateGridView();
     myParserCSV = new ParserCSV();
     myParserSIM = new ParserSIM();
   }
@@ -49,7 +49,7 @@ public class Controller {
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
         myParserCSV.getStartStates(), DEFAULT_TYPE);
     myModel = new Model(this, currGrid, DEFAULT_TYPE);
-    myMainView.updateView();
+    myMainView.initiateGridView();
   }
 
   public void setHasUpdate(boolean hasUpdate) {
@@ -74,7 +74,15 @@ public class Controller {
     myParserCSV.readFile(csvFile);
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
     myModel = new Model(this, currGrid, myParserSIM.getType());
-    myMainView.updateView();
+    myMainView.initiateGridView();
+  }
+
+  public int getNumGridCols(){
+    return currGrid.getNumCols();
+  }
+
+  public int getNumGridRows(){
+    return currGrid.getNumRows();
   }
 
   public void saveCSVFile() {

@@ -62,6 +62,10 @@ public class Grid {
     return myGrid[i][j].getState();
   }
 
+  public ModelCell getCell (int i, int j) {
+    return myGrid[i][j];
+  }
+
   private void setCell (int i, int j, int state) throws ClassNotFoundException {
     Class<?> clazz = Class.forName(myCellType);
     ModelCell newCell = new ModelCell(i, j, state);

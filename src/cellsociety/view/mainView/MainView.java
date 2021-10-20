@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 
-public class MainView{
+public class MainView {
 
   CellProperties myCellProperties = new CellProperties();
   private GridView myGridView = new GridView(myCellProperties);
@@ -17,10 +17,10 @@ public class MainView{
   private TopLoadSave myTopLoadSave = new TopLoadSave();
 
 
-  public MainView(){
+  public MainView() {
   }
 
-  public Scene makeScene(int width, int height){
+  public Scene makeScene(int width, int height) {
     BorderPane root = new BorderPane();
     root.setCenter(myGridView.getGridBox());
     root.setBottom(mySimControl.getSimControl());
@@ -36,7 +36,7 @@ public class MainView{
   /**
    * Updates the canvas (grid) in the view.
    */
-  public void updateView(){
+  public void updateView() {
     myGridView.illustrate();
   }
 

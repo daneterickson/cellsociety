@@ -1,18 +1,14 @@
 package cellsociety.view.center;
 
 import cellsociety.view.left.CellProperties;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
-import javafx.util.Duration;
 
 public class GridView {
 
@@ -25,7 +21,7 @@ public class GridView {
   private static final int GRID_MODEL_WIDTH = 10;
   private static final int GRID_MODEL_HEIGHT = 10;
   private String RESOURCE = "cellsociety.view.center.";
-  private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"GridView.css";
+  private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "GridView.css";
 
   private Canvas myCanvas;
   private Affine myAffine;

@@ -30,8 +30,9 @@ public class ModelTest {
 
     numRows = 5;
     numCols = 5;
-    myGrid = new Grid(numRows, numCols, myStates);
-    myModel = new Model(myController, myGrid);
+    String type = "GameOfLife";
+    myGrid = new Grid(numRows, numCols, myStates, type);
+    myModel = new Model(myController, myGrid, type);
   }
 
   @Test

@@ -9,8 +9,11 @@ public class Model {
   ArrayList<ArrayList<Integer>> newGridArray;
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
+  private String myType;
   private Controller myController;
-  public Model(Controller controller, Grid grid) {
+
+  public Model(Controller controller, Grid grid, String type) {
+    myType = type;
     newGridArray = new ArrayList<>();
     myController = controller;
     currGrid = grid;
@@ -119,7 +122,7 @@ public class Model {
   private void buildNewGrid() {
     int numRows = newGridArray.size();
     int numCols = newGridArray.get(0).size();
-    Grid GridBuffer = new Grid(numRows, numCols, newGridArray);
+    Grid GridBuffer = new Grid(numRows, numCols, newGridArray, myType);
     currGrid = GridBuffer;
   }
 

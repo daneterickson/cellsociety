@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=Block
+Author=Dane Erickson
+Description=Examples of a block, a 2x2 block of alive cells that don't move in the animation
+InitialStates=game_of_life/block.csv

@@ -24,6 +24,7 @@ public class GameOfLifeModel extends Model{
     int[] dy = {-1, 0, 1};
     int[] neighbors = new int[8];
     int idx = 0;
+
     for (int x : dx) {
       for (int y : dy) {
         if (x == 0 && y == 0) {

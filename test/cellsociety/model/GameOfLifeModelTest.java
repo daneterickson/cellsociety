@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ModelTest {
+public class GameOfLifeModelTest {
 
   private Model myModel;
   private Grid myGrid;

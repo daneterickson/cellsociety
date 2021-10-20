@@ -1,21 +1,21 @@
-package cellsociety.model;
+package cellsociety.model.parser;
 
 import com.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileReader;
 
-public class Parser {
+public class ParserCSV implements Parser{
 
   private int numRows;
   private int numCols;
   private int startStates[][];
 
-  public Parser() {
+  public ParserCSV() {
   }
 
   // method to read a csv file. Mostly taken from:
   // http://opencsv.sourceforge.net/#parsing
-  public void readCSV(File file) {
+  public void readFile(File file) {
     try {
       CSVReader reader = new CSVReader(new FileReader(file));
       String[] nextLine;

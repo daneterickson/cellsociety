@@ -2,8 +2,10 @@ package cellsociety.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.Model;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +18,7 @@ public class ModelTest {
   private int myStates[][];
   private int numRows;
   private int numCols;
-
+  private Controller myController;
 
   @BeforeEach
   void setUp() {
@@ -29,8 +31,8 @@ public class ModelTest {
     numRows = 5;
     numCols = 5;
     String type = "GameOfLife";
-//    myGrid = new Grid(numRows, numCols, myStates);
-    myModel = new Model(numRows, numCols, myStates, type);
+    myGrid = new Grid(numRows, numCols, myStates, type);
+    myModel = new Model(myController, myGrid, type);
   }
 
   @Test
@@ -38,6 +40,7 @@ public class ModelTest {
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
+
 
     int[] neighbors = (int[]) getNearby.invoke(myModel, 1,2);
 
@@ -91,13 +94,19 @@ public class ModelTest {
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
 
-    myModel.iterateGrid();
+    myModel.updateModel(myGrid);
 
-    Grid returnedGrid = myModel.getNewGrid();
-    for (int row = 0; row < numRows; row++) {
-      for (int col = 0; col < numCols; col++) {
-        assertEquals(expected[row][col], returnedGrid.getCellState(row, col));
+    Grid returnedGrid;
+    try {
+      Field currGrid = Model.class.getDeclaredField("currGrid");
+      returnedGrid = (Grid) currGrid.get(myModel);
+      for (int row = 0; row < numRows; row++) {
+        for (int col = 0; col < numCols; col++) {
+          assertEquals(expected[row][col], returnedGrid.getCellState(row, col));
+        }
       }
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      e.printStackTrace();
     }
   }
 

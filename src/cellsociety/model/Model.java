@@ -1,47 +1,52 @@
 package cellsociety.model;
 
+import cellsociety.controller.Controller;
 import java.util.ArrayList;
 
 public class Model {
 
-  Grid oldGrid;
+  Grid currGrid;
   ArrayList<ArrayList<Integer>> newGridArray;
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
   private String myType;
+  private Controller myController;
 
-  public Model(int rows, int cols, int[][] startStates, String type) {
+  public Model(Controller controller, Grid grid, String type) {
     myType = type;
-    oldGrid = new Grid(rows, cols, startStates, type);
     newGridArray = new ArrayList<>();
+    myController = controller;
+    currGrid = grid;
   }
 
+  public void updateModel(Grid currGrid){
+    this.currGrid = currGrid;
+    iterateGrid();
+    buildNewGrid();
+  }
   /**
    * iterates through the grid until an exception, which determine when to go the next row/end. each
    * cell in the grid is then processed and then used to call addToNewGrid
    */
   public void iterateGrid() {
+
     int row = 0;
     int col = 0;
     while (true) {
       try {
-        addToNewGrid(row, col, oldGrid.getCellState(row, col));
+        addToNewGrid(row, col, currGrid.getCellState(row, col));
         col += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {
           col = 0;
           row += 1;
-          oldGrid.getCellState(row, col);
+          currGrid.getCellState(row, col);
         } catch (IndexOutOfBoundsException yOutOfBounds) {
           break;
         }
       }
     }
-
-    buildNewGrid();
   }
-
-  // finds all 8 neighbors of the current cell
 
   /**
    * finds 8 neighboring cells and returns them as a linear array: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
@@ -59,7 +64,7 @@ public class Model {
           continue;
         }
         try {
-          neighbors[idx] = oldGrid.getCellState(row + x, col + y);
+          neighbors[idx] = currGrid.getCellState(row + x, col + y);
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases
           neighbors[idx] = DEAD_STATE;
@@ -118,11 +123,15 @@ public class Model {
     int numRows = newGridArray.size();
     int numCols = newGridArray.get(0).size();
     Grid GridBuffer = new Grid(numRows, numCols, newGridArray, myType);
-    oldGrid = GridBuffer;
+    currGrid = GridBuffer;
   }
 
-  // sends info to Controller
-  public Grid getNewGrid() {
-    return oldGrid;
+  /**
+   * updates the grid in Controller with the current grid in model
+   */
+  public Grid getGrid() {
+    return currGrid;
   }
+
+
 }

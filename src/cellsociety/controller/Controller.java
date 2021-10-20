@@ -28,6 +28,6 @@ public class Controller {
     myParser = new Parser();
     myParser.readCSV(csvFile);
 
-    myModel = new Model(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates());
+    myModel = new Model(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates(),this);
   }
 }

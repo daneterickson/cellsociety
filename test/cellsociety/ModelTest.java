@@ -2,6 +2,7 @@ package cellsociety;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.Model;
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +17,7 @@ public class ModelTest {
   private int myStates[][];
   private int numRows;
   private int numCols;
-
+  private Controller myController;
 
   @BeforeEach
   void setUp() {
@@ -29,7 +30,7 @@ public class ModelTest {
     numRows = 5;
     numCols = 5;
 //    myGrid = new Grid(numRows, numCols, myStates);
-    myModel = new Model(numRows, numCols, myStates);
+    myModel = new Model(numRows, numCols, myStates,myController);
   }
 
   @Test

@@ -1,5 +1,6 @@
 package cellsociety.model;
 
+import cellsociety.controller.Controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,10 +10,11 @@ public class Model {
   ArrayList<ArrayList<Integer>> newGridArray;
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
-
-  public Model(int rows, int cols, int[][] startStates) {
+  private Controller myController;
+  public Model(int rows, int cols, int[][] startStates, Controller controller) {
     oldGrid = new Grid(rows, cols, startStates);
     newGridArray = new ArrayList<>();
+    myController = controller;
   }
 
   /**
@@ -123,5 +125,11 @@ public class Model {
   // sends info to Controller
   public Grid getNewGrid() {
     return oldGrid;
+  }
+  public ModelCell getCell(int i, int j) {
+    return new ModelCell(i,j,oldGrid.getCellState(i,j));
+  }
+  private void TalkToView(){
+    myController;
   }
 }

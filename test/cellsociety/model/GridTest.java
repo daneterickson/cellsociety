@@ -21,6 +21,7 @@ public class GridTest {
     numCols = 5;
     String type = "GameOfLife";
     myGrid = new Grid(numRows, numCols, myStates, type);
+
   }
 
   @Test

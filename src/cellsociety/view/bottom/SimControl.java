@@ -24,7 +24,7 @@ public class SimControl {
   private String RESOURCE = "cellsociety.view.bottom.";
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "SimControl.css";
   private String ICONS = "/" + RESOURCE.replace(".", "/") + "SimControlIcons/";
-  private static final double ANIMATION_DELAY = .01;
+  private static final double ANIMATION_DELAY = .1;
 
   private HBox mySimControl;
   private GridView myGridView;

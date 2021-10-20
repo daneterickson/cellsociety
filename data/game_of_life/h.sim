@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=H
+Author=Dane Erickson
+Description=Creates the letter H by placing alive cells around outside excluding corners and in middle on second and second to last row. The cells will not change since alive cells are touching 2 or 3 alive cells, and dead cells are touching 2 or 4+ alive cells.
+InitialStates=game_of_life/h.csv

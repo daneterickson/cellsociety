@@ -3,12 +3,14 @@ package cellsociety.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
+import cellsociety.model.model.GameOfLifeModel;
+import cellsociety.model.model.Model;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ModelTest {
+public class GameOfLifeModelTest {
 
   private Model myModel;
   private Grid myGrid;
@@ -29,7 +31,7 @@ public class ModelTest {
     numCols = 5;
     String type = "GameOfLife";
     myGrid = new Grid(numRows, numCols, myStates, type);
-    myModel = new Model(myController, myGrid, type);
+    myModel = new GameOfLifeModel(myController, myGrid);
   }
 
   @Test

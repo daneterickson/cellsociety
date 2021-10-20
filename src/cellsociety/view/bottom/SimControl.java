@@ -32,9 +32,9 @@ public class SimControl {
   private static final int BUTTON_SLIDER_SPACING = 15;
   private static final int SLIDER_LENGTH = 200;
   private static final double DELAY = .1;
-  private static final double MIN_SLIDER_VAL = -10;
-  private static final double MAX_SLIDER_VAL = -.05;
-  private static final double INITIAL_RATE = .02;
+  private static final double MIN_SLIDER_VAL = .01;
+  private static final double MAX_SLIDER_VAL = 3;
+  private static final double INITIAL_RATE = 1;
 
   private double myAnimationRate;
   private VBox mySimControl;
@@ -70,15 +70,15 @@ public class SimControl {
 
   private Node makeSpeedSlider(){
     HBox sliderBox = new HBox();
-    Slider speedSlider = new Slider( MIN_SLIDER_VAL,MAX_SLIDER_VAL, -INITIAL_RATE);
+    Slider speedSlider = new Slider( MIN_SLIDER_VAL,MAX_SLIDER_VAL, INITIAL_RATE);
     speedSlider.setPrefWidth(SLIDER_LENGTH);
     speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
       @Override
       public void changed(ObservableValue<? extends Number> observable, Number oldValue,
           Number newValue) {
-        myAnimationRate = -1 * speedSlider.getValue();
+        myAnimationRate = speedSlider.getValue();
         if(myAnimation!=null){
-          myAnimation.setRate(1/myAnimationRate);
+          myAnimation.setRate(myAnimationRate);
         }
       }
     });

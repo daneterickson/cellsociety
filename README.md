@@ -4,6 +4,7 @@ Cell Society
 This project implements a cellular automata simulator.
 
 Names: Dane Erickson dte12, Aaric Han ah496, Nick Strauch njs35, Albert Yuan aly11 
+https://duke.zoom.us/j/98623077741
 
 
 ### Timeline

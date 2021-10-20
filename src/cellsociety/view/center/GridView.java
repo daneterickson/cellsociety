@@ -1,6 +1,8 @@
 package cellsociety.view.center;
 
 import cellsociety.view.left.CellProperties;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
+import javafx.util.Duration;
 
 public class GridView {
 
@@ -28,6 +31,7 @@ public class GridView {
   private Affine myAffine;
   private HBox myGridHolder;
   private CellProperties myCellProperties;
+
 
   public GridView(CellProperties cellProps) {
     myGridHolder = new HBox();
@@ -71,6 +75,7 @@ public class GridView {
   private void updateCellColors(GraphicsContext gc) {
     for (int i = 0; i < GRID_MODEL_WIDTH; i++) {
       for (int j = 0; j < GRID_MODEL_HEIGHT; j++) {
+        //TODO
         /*
         update the [i][j] cell color in the grid based off of current cell values.
         Do something like:
@@ -130,5 +135,6 @@ public class GridView {
     myGridHolder.getStyleClass().add("root");
     myCanvas.getStyleClass().add("canvas");
   }
+
 
 }

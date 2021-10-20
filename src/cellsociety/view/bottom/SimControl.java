@@ -1,9 +1,13 @@
 package cellsociety.view.bottom;
 
+import cellsociety.view.center.GridView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 /**
  * SimControl - Simulation Control View
@@ -18,10 +22,15 @@ public class SimControl {
   private String RESOURCE = "cellsociety.view.bottom.";
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"SimControl.css";
   private String ICONS = "/"+RESOURCE.replace(".", "/")+"SimControlIcons/";
+  private static final double ANIMATION_DELAY = .01;
 
   private HBox mySimControl;
+  private GridView myGridView;
+  private Timeline myAnimation;
+  private boolean isPaused;
 
-  public SimControl() {
+  public SimControl(GridView gridView) {
+    myGridView = gridView;
     mySimControl = new HBox();
     mySimControl.getChildren().add(makeControlButtons());
     setStyles();
@@ -79,20 +88,37 @@ public class SimControl {
     return stepButton;
   }
 
-  private void play() {
-    //TODO: Performs action when play button is pressed
+  private void play () {
+    if (myAnimation == null) {
+      myAnimation = new Timeline();
+      myAnimation.setCycleCount(Timeline.INDEFINITE);
+      myAnimation.getKeyFrames()
+          .add(new KeyFrame(Duration.seconds(ANIMATION_DELAY), e -> step()));
+      myAnimation.play();
+      isPaused = false;
+    }
   }
 
   private void pause() {
-    //TODO: Performs action when pause button is pressed
+    if (isPaused) {
+      myAnimation.play();
+    }
+    else {
+      myAnimation.pause();
+    }
+    isPaused =! isPaused;
   }
 
   private void stop() {
-    //TODO: Performs action when stop button is pressed
+    if(myAnimation!=null){
+      myAnimation.stop();
+    }
   }
 
   private void step() {
-    //TODO: Performs action when step button is pressed
+    //TODO
+    //update model
+    myGridView.illustrate();
   }
 
   /**

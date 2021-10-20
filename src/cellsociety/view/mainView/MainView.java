@@ -13,7 +13,7 @@ public class MainView{
 
   CellProperties myCellProperties = new CellProperties();
   private GridView myGridView = new GridView(myCellProperties);
-  private SimControl mySimControl = new SimControl();
+  private SimControl mySimControl = new SimControl(myGridView);
   private TopLoadSave myTopLoadSave = new TopLoadSave();
 
 

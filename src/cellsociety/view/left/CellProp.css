@@ -1,3 +1,4 @@
 .root {
   -fx-alignment: center;
+  -fx-min-width: 30;
 }

@@ -20,8 +20,8 @@ public class GridView {
   private static final Color ALIVE_CELL_COLOR = Color.BLUE;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final double GRID_LINE_SIZE = .04;
-  private static final int GRID_MODEL_WIDTH = 20;
-  private static final int GRID_MODEL_HEIGHT = 20;
+  private static final int GRID_MODEL_WIDTH = 10;
+  private static final int GRID_MODEL_HEIGHT = 10;
   private String RESOURCE = "cellsociety.view.center.";
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "GridView.css";
 
@@ -76,13 +76,14 @@ public class GridView {
     for (int i = 0; i < GRID_MODEL_WIDTH; i++) {
       for (int j = 0; j < GRID_MODEL_HEIGHT; j++) {
         //TODO allow for different colors based off simulation type
-        //int cellState = myController.getCellState(i, j);
-        //if(cellState == 1){
-        //  gc.setFill(ALIVE_CELL_COLOR);
-        //}
-        //else{
-        //  gc.setFill(DEAD_CELL_COLOR);
-        //}
+        int cellState = myController.getCellState(i, j);
+        if(cellState == 1){
+          gc.setFill(ALIVE_CELL_COLOR);
+        }
+        else{
+          gc.setFill(DEAD_CELL_COLOR);
+        }
+        gc.fillRect(i, j, 1, 1);
         /*
         update the [i][j] cell color in the grid based off of current cell values.
         Do something like:

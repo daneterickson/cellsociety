@@ -20,10 +20,17 @@ public class Controller {
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
+  private static final int DEFAULT_GRID_WIDTH = 20;
+  private static final int DEFAULT_GRID_HEIGHT = 20;
+  private static final String DEFAULT_TYPE = "GameOfLife";
+  private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
+  private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_TYPE);
 
 
   public Controller(Stage stage) {
     myMainView = new MainView(stage, this);
+    currGrid = DEFAULT_GRID;
+    myModel = new Model(this, currGrid, DEFAULT_TYPE);
     Scene scene = myMainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
@@ -38,6 +45,7 @@ public class Controller {
     myParserCSV.readFile(csvFile);
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
     myModel = new Model(this, currGrid, myParserSIM.getType());
+    myMainView.updateView();
   }
 
   public void updateModel(){

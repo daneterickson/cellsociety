@@ -59,6 +59,7 @@ public class CellProperties {
   private void setStyles() {
     myCellProperties.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     myCellProperties.getStyleClass().add("root");
+    myCellCoordinatesLabel.getStyleClass().add("coordinateLabel");
   }
 
 

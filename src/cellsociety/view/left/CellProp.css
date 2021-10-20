@@ -1,4 +1,9 @@
 .root {
   -fx-alignment: center;
-  -fx-min-width: 30;
+  -fx-min-width: 50;
+}
+
+.coordinateLabel{
+  -fx-font-size: 20;
+
 }

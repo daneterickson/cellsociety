@@ -1,1 +1,8 @@
 
+.root {
+  -fx-alignment: center;
+}
+
+.canvas {
+  -fx-alignment: center;
+}

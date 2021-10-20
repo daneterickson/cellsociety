@@ -1,27 +1,37 @@
 package cellsociety.view.bottom;
 
+import cellsociety.view.center.GridView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 /**
  * SimControl - Simulation Control View
- *
- * This class makes elements that are used on the bottom of the display
- * The elements include start, pause, stop, and step buttons
+ * <p>
+ * This class makes elements that are used on the bottom of the display The elements include start,
+ * pause, stop, and step buttons
  *
  * @author Aaric Han
  */
 
 public class SimControl {
+
   private String RESOURCE = "cellsociety.view.bottom.";
-  private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"SimControl.css";
-  private String ICONS = "/"+RESOURCE.replace(".", "/")+"SimControlIcons/";
+  private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "SimControl.css";
+  private String ICONS = "/" + RESOURCE.replace(".", "/") + "SimControlIcons/";
+  private static final double ANIMATION_DELAY = .01;
 
   private HBox mySimControl;
+  private GridView myGridView;
+  private Timeline myAnimation;
+  private boolean isPaused;
 
-  public SimControl() {
+  public SimControl(GridView gridView) {
+    myGridView = gridView;
     mySimControl = new HBox();
     mySimControl.getChildren().add(makeControlButtons());
     setStyles();
@@ -44,7 +54,7 @@ public class SimControl {
   }
 
   private Node makePlayButton() {
-    ImageView playIcon = new ImageView(ICONS+"play.png");
+    ImageView playIcon = new ImageView(ICONS + "play.png");
     playIcon.setFitWidth(20);
     playIcon.setFitHeight(20);
     Button playButton = new Button("", playIcon);
@@ -53,7 +63,7 @@ public class SimControl {
   }
 
   private Node makePauseButton() {
-    ImageView pauseIcon = new ImageView(ICONS+"pause.png");
+    ImageView pauseIcon = new ImageView(ICONS + "pause.png");
     pauseIcon.setFitWidth(20);
     pauseIcon.setFitHeight(20);
     Button pauseButton = new Button("", pauseIcon);
@@ -62,7 +72,7 @@ public class SimControl {
   }
 
   private Node makeStopButton() {
-    ImageView stopIcon = new ImageView(ICONS+"stop.png");
+    ImageView stopIcon = new ImageView(ICONS + "stop.png");
     stopIcon.setFitWidth(20);
     stopIcon.setFitHeight(20);
     Button stopButton = new Button("", stopIcon);
@@ -71,7 +81,7 @@ public class SimControl {
   }
 
   private Node makeStepButton() {
-    ImageView stepIcon = new ImageView(ICONS+"step.png");
+    ImageView stepIcon = new ImageView(ICONS + "step.png");
     stepIcon.setFitWidth(20);
     stepIcon.setFitHeight(20);
     Button stepButton = new Button("", stepIcon);
@@ -80,19 +90,35 @@ public class SimControl {
   }
 
   private void play() {
-    //TODO: Performs action when play button is pressed
+    if (myAnimation == null) {
+      myAnimation = new Timeline();
+      myAnimation.setCycleCount(Timeline.INDEFINITE);
+      myAnimation.getKeyFrames()
+          .add(new KeyFrame(Duration.seconds(ANIMATION_DELAY), e -> step()));
+      myAnimation.play();
+      isPaused = false;
+    }
   }
 
   private void pause() {
-    //TODO: Performs action when pause button is pressed
+    if (isPaused) {
+      myAnimation.play();
+    } else {
+      myAnimation.pause();
+    }
+    isPaused = !isPaused;
   }
 
   private void stop() {
-    //TODO: Performs action when stop button is pressed
+    if (myAnimation != null) {
+      myAnimation.stop();
+    }
   }
 
   private void step() {
-    //TODO: Performs action when step button is pressed
+    //TODO
+    //update model
+    myGridView.illustrate();
   }
 
   /**

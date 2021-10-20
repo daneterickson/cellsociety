@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=SimpleBlinkers
+Author=Dane Erickson
+Description=Examples of a simple blinker, with one line of cells 3 tall that switches back and forth from vertical to horizontal
+InitialStates=game_of_life/simple_blinkers.csv

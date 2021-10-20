@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=Toad
+Author=Dane Erickson
+Description=Examples of a toad, two 1x3 blocks of alive cells that split and rotate each time
+InitialStates=game_of_life/toad.csv

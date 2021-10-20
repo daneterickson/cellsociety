@@ -43,6 +43,11 @@ public class SimControl {
   private Controller myController;
   private boolean isPaused;
 
+  private ImageView playIcon = new ImageView(ICONS + "play.png");
+  private ImageView pauseIcon = new ImageView(ICONS + "pause.png");
+  private ImageView stopIcon = new ImageView(ICONS + "stop.png");
+  private ImageView stepIcon = new ImageView(ICONS + "step.png");
+
   public SimControl(GridView gridView, Controller controller) {
     myAnimationRate = INITIAL_RATE;
     myGridView = gridView;
@@ -56,12 +61,21 @@ public class SimControl {
   private void setStyles() {
     mySimControl.getStyleClass().add("root");
     mySimControl.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+
+    playIcon.setFitWidth(20);
+    playIcon.setFitHeight(20);
+    pauseIcon.setFitWidth(20);
+    pauseIcon.setFitHeight(20);
+    stopIcon.setFitWidth(20);
+    stopIcon.setFitHeight(20);
+    stepIcon.setFitWidth(20);
+    stepIcon.setFitHeight(20);
+
   }
 
   private Node makeControlButtons() {
     HBox buttonHBox = new HBox(BUTTON_SPACING);
-    buttonHBox.getChildren().add(makePlayButton());
-    buttonHBox.getChildren().add(makePauseButton());
+    buttonHBox.getChildren().add(makePlayPauseButton());
     buttonHBox.getChildren().add(makeStopButton());
     buttonHBox.getChildren().add(makeStepButton());
     buttonHBox.getStyleClass().add("buttons");
@@ -87,43 +101,26 @@ public class SimControl {
     return sliderBox;
   }
 
-  private Node makePlayButton() {
-    ImageView playIcon = new ImageView(ICONS + "play.png");
-    playIcon.setFitWidth(20);
-    playIcon.setFitHeight(20);
-    Button playButton = new Button("", playIcon);
-    playButton.setOnAction(value -> play());
-    return playButton;
+  private Node makePlayPauseButton() {
+    Button playPauseButton = new Button("", playIcon);
+    playPauseButton.setOnAction(value -> play(playPauseButton));
+    return playPauseButton;
   }
 
-  private Node makePauseButton() {
-    ImageView pauseIcon = new ImageView(ICONS + "pause.png");
-    pauseIcon.setFitWidth(20);
-    pauseIcon.setFitHeight(20);
-    Button pauseButton = new Button("", pauseIcon);
-    pauseButton.setOnAction(value -> pause());
-    return pauseButton;
-  }
 
   private Node makeStopButton() {
-    ImageView stopIcon = new ImageView(ICONS + "stop.png");
-    stopIcon.setFitWidth(20);
-    stopIcon.setFitHeight(20);
     Button stopButton = new Button("", stopIcon);
     stopButton.setOnAction(value -> stop());
     return stopButton;
   }
 
   private Node makeStepButton() {
-    ImageView stepIcon = new ImageView(ICONS + "step.png");
-    stepIcon.setFitWidth(20);
-    stepIcon.setFitHeight(20);
     Button stepButton = new Button("", stepIcon);
     stepButton.setOnAction(value -> step());
     return stepButton;
   }
 
-  private void play() {
+  private void play(Button playPauseButton) {
     if (myAnimation == null) {
       myAnimation = new Timeline();
       myAnimation.setCycleCount(Timeline.INDEFINITE);
@@ -131,10 +128,19 @@ public class SimControl {
       myAnimation.setRate(myAnimationRate);
       myAnimation.play();
       isPaused = false;
+      playPauseButton.setGraphic(pauseIcon);
     }
     else if(isPaused){
       myAnimation.play();
+      isPaused = false;
+      playPauseButton.setGraphic(pauseIcon);
     }
+    else if (!isPaused) {
+      myAnimation.pause();
+      isPaused = true;
+      playPauseButton.setGraphic(playIcon);
+    }
+
   }
 
   private void pause() {

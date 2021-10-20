@@ -48,13 +48,13 @@ public class Model {
     int col = 0;
     while (true) {
       try {
-        updateCell(row, col, currGrid.getCellState(row, col));
+        updateCell(row, col, currGrid.getCellStateNumber(row, col));
         col += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {
           col = 0;
           row += 1;
-          currGrid.getCellState(row, col);
+          currGrid.getCellStateNumber(row, col);
         } catch (IndexOutOfBoundsException yOutOfBounds) {
           break;
         }
@@ -78,7 +78,7 @@ public class Model {
           continue;
         }
         try {
-          neighbors[idx] = currGrid.getCellState(row + x, col + y);
+          neighbors[idx] = currGrid.getCellStateNumber(row + x, col + y);
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases
           neighbors[idx] = DEAD_STATE;

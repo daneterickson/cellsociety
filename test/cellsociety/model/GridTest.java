@@ -28,7 +28,7 @@ public class GridTest {
   void testSetStartStates () {
     for (int row=0; row<numRows; row++) {
       for (int col=0; col<numCols; col++) {
-        assertEquals(myStates[row][col], myGrid.getCellState(row,col));
+        assertEquals(myStates[row][col], myGrid.getCellStateNumber(row,col));
       }
     }
   }

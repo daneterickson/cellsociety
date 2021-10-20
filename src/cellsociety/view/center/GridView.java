@@ -89,7 +89,7 @@ public class GridView {
     for (int i = 0; i < myNumGridRows; i++) {
       for (int j = 0; j < myNumGridCols; j++) {
         //TODO allow for different colors based off simulation type
-        int cellState = myController.getCellState(i, j);
+        int cellState = myController.getCellStateNumber(i, j);
         if(cellState == 1){
           gc.setFill(ALIVE_CELL_COLOR);
         }

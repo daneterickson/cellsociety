@@ -6,12 +6,10 @@ import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.view.mainView.MainView;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javax.management.DescriptorAccess;
 
 public class Controller {
 
@@ -67,8 +65,8 @@ public class Controller {
     myMainView.updateView();
   }
 
-  public int getCellState(int i, int j){
-    return currGrid.getCellState(i, j);
+  public int getCellStateNumber(int i, int j){
+    return currGrid.getCellStateNumber(i, j);
   }
 
   public void setCellState(int i, int j, int state){
@@ -102,10 +100,10 @@ public class Controller {
         StringBuilder rowCSV = new StringBuilder();
         for (int j = 0; j < currGrid.getNumCols(); j++) {
           if (j != currGrid.getNumCols() - 1) {
-            rowCSV.append(currGrid.getCellState(i, j) + ",");
+            rowCSV.append(currGrid.getCellStateNumber(i, j) + ",");
           }
           else {
-            rowCSV.append(currGrid.getCellState(i, j) + "\n");
+            rowCSV.append(currGrid.getCellStateNumber(i, j) + "\n");
           }
         }
         csvFile.write(rowCSV.toString());

@@ -8,6 +8,7 @@ public class CellProperties {
 
   private String RESOURCE = "cellsociety.view.left.";
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
+  private final String CORD_TITLE = "Current Cell";
   private int myCurrentX;
   private int myCurrentY;
   private Label myCellCoordinatesLabel;
@@ -42,6 +43,7 @@ public class CellProperties {
 
   private Node makeCellPropLabels(){
     VBox labelBox = new VBox();
+    labelBox.getChildren().add(makeCellCordTitle());
     labelBox.getChildren().add(initializeCellCordLabel());
 
     return labelBox;
@@ -54,6 +56,11 @@ public class CellProperties {
     return myCellCoordinatesLabel;
   }
 
+  private Node makeCellCordTitle(){
+    Label title = new Label(CORD_TITLE);
+    title.getStyleClass().add("coordinateTitle");
+    return title;
+  }
   /*private Node initializeCellStateLabel(){
     myCellStateLabel = new Label();
     return myCellStateLabel;

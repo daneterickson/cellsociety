@@ -14,8 +14,8 @@ import javafx.scene.transform.NonInvertibleTransformException;
 public class GridView {
 
   //TODO Make these temporary hardcoded values dependent on the window size or Model values ASAP
-  private static final int GRID_VIEW_WIDTH = 300;
-  private static final int GRID_VIEW_HEIGHT = 300;
+  private static final int GRID_VIEW_MAX_WIDTH = 300;
+  private static final int GRID_VIEW_MAX_HEIGHT = 300;
   private static final Color DEAD_CELL_COLOR = Color.LIGHTGREY;
   private static final Color ALIVE_CELL_COLOR = Color.BLUE;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
@@ -25,6 +25,8 @@ public class GridView {
   private int myNumGridRows;
   private String RESOURCE = "cellsociety.view.center.";
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "GridView.css";
+  private double myGridWidth;
+  private double myGridHeight;
 
   private Canvas myCanvas;
   private Affine myAffine;
@@ -36,15 +38,11 @@ public class GridView {
   public GridView(CellProperties cellProps, Controller controller) {
     myGridHolder = new HBox();
     myController = controller;
-    myNumGridCols = myController.getNumGridCols();
-    myNumGridRows = myController.getNumGridRows();
-    myCanvas = new Canvas(GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
-    myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
-    myCanvas.setOnMouseMoved(e -> handleCellHovered(e));
-    myGridHolder.getChildren().add(myCanvas);
-    myAffine = new Affine();
-    myAffine.appendScale(GRID_VIEW_WIDTH / myNumGridCols, GRID_VIEW_HEIGHT / myNumGridRows);
     myCellProperties = cellProps;
+    findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
+    setupCanvas();
+    myGridHolder.getChildren().add(myCanvas);
+    makeAffine();
     setStyles();
   }
 
@@ -68,7 +66,7 @@ public class GridView {
     gc.clearRect(0, 0, myCanvas.getWidth(), myCanvas.getHeight());
     gc.setTransform(myAffine);
     gc.setFill(DEAD_CELL_COLOR);
-    gc.fillRect(0, 0, GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
+    gc.fillRect(0, 0, myGridWidth, myGridHeight);
 
     updateCellColors(gc);
     drawGridLines(gc);
@@ -79,17 +77,17 @@ public class GridView {
    * grid view.
    */
   public void initiateGrid(){
-    myNumGridCols = myController.getNumGridCols();
-    myNumGridRows = myController.getNumGridRows();
-    myAffine = new Affine();
-    myAffine.appendScale(GRID_VIEW_WIDTH / myNumGridCols, GRID_VIEW_HEIGHT / myNumGridRows);
+    findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
+    myCanvas.setWidth(myGridWidth);
+    myCanvas.setHeight(myGridHeight);
+    makeAffine();
     updateGrid();
   }
 
 
   private void updateCellColors(GraphicsContext gc) {
-    for (int i = 0; i < myNumGridCols; i++) {
-      for (int j = 0; j < myNumGridRows; j++) {
+    for (int i = 0; i < myNumGridRows; i++) {
+      for (int j = 0; j < myNumGridCols; j++) {
         //TODO allow for different colors based off simulation type
         int cellState = myController.getCellState(i, j);
         if(cellState == 1){
@@ -151,6 +149,34 @@ public class GridView {
     myGridHolder.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     myGridHolder.getStyleClass().add("root");
     myCanvas.getStyleClass().add("canvas");
+  }
+
+
+  private void findOptimalGridSizing(int numRows, int numCols){
+    myNumGridRows = numRows;
+    myNumGridCols = numCols;
+    double blockLength;
+    if(numRows > numCols){
+      myGridHeight = GRID_VIEW_MAX_HEIGHT;
+      blockLength = myGridHeight/numRows;
+      myGridWidth = blockLength*numCols;
+    }
+    else{
+      myGridWidth = GRID_VIEW_MAX_WIDTH;
+      blockLength = myGridWidth/numCols;
+      myGridHeight = blockLength*numRows;
+    }
+  }
+
+  private void makeAffine() {
+    myAffine = new Affine();
+    myAffine.appendScale(myGridWidth / myNumGridCols, myGridHeight / myNumGridRows);
+  }
+
+  private void setupCanvas() {
+    myCanvas = new Canvas(myGridWidth, myGridHeight);
+    myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
+    myCanvas.setOnMouseMoved(e -> handleCellHovered(e));
   }
 
 

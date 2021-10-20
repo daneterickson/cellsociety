@@ -8,13 +8,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Controller {
-  Model myModel;
-  Parser myParser;
-  MainView myMainView;
-  Stage myStage;
+  private Model myModel;
+  private Parser myParser;
+  private MainView myMainView;
+  private Stage myStage;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
+
 
   public Controller(Stage stage) {
     myMainView = new MainView(stage, this);
@@ -30,6 +31,15 @@ public class Controller {
 
     myModel = new Model(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates());
   }
+
+  public void updateModel(){
+    myModel.iterateGrid();
+  }
+
+  public int getCellState(int i, int j){
+    return myModel.getNewGrid().getCellState(i, j);
+  }
+
   public void openSIMFile(File simFile) {
 
   }

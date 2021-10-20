@@ -101,6 +101,9 @@ public class SimControl {
       myAnimation.play();
       isPaused = false;
     }
+    else if(isPaused){
+      myAnimation.play();
+    }
   }
 
   private void pause() {
@@ -119,8 +122,10 @@ public class SimControl {
   }
 
   private void step() {
-    myController.updateModel();
-    myGridView.updateGrid();
+    if(myController.getHasUpdate()){
+      myController.updateModel();
+      myGridView.updateGrid();
+    }
   }
 
   /**

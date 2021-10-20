@@ -26,8 +26,11 @@ public class mainViewTest extends DukeApplicationTest {
     myController = new Controller(stage);
   }
 
-
-
+  @Test
+  void testLoadCSV() {
+    loadCSVButton = lookup("#LoadCSVButton").query();
+    clickOn(loadCSVButton);
+  }
 
   @Test
   void testSaveCSV() {

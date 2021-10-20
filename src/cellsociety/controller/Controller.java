@@ -42,6 +42,7 @@ public class Controller {
     myMainView.initiateGridView();
     myParserCSV = new ParserCSV();
     myParserSIM = new ParserSIM();
+    hasUpdate = true;
   }
 
   public void openCSVFile(File csvFile) {
@@ -54,6 +55,10 @@ public class Controller {
 
   public void setHasUpdate(boolean hasUpdate) {
     this.hasUpdate = hasUpdate;
+  }
+
+  public boolean getHasUpdate(){
+    return hasUpdate;
   }
 
   public void updateModel(){

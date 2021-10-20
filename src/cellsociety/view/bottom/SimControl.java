@@ -38,8 +38,8 @@ public class SimControl {
   }
 
   private void setStyles() {
-    mySimControl.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     mySimControl.getStyleClass().add("root");
+    mySimControl.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
   }
 
   private Node makeControlButtons() {

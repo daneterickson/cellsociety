@@ -1,11 +1,13 @@
 package cellsociety.view.top;
 
+import cellsociety.controller.Controller;
 import java.io.File;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 public class TopLoadSave {
   private String RESOURCE = "cellsociety.view.top.";
@@ -13,34 +15,69 @@ public class TopLoadSave {
 
   private HBox myTopLoadSave;
 
-  public TopLoadSave() {
+  private File myCSVFile;
+
+  private Stage myStage;
+
+  private Controller myController;
+
+  public TopLoadSave(Stage stage, Controller controller) {
+    myStage = stage;
     myTopLoadSave = new HBox();
     myTopLoadSave.getChildren().add(makeLoadSaveButtons());
     setStyles();
+    myController = controller;
   }
 
   private void setStyles() {
-    myTopLoadSave.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     myTopLoadSave.getStyleClass().add("root");
+    myTopLoadSave.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
   }
 
   private Node makeLoadSaveButtons() {
-    HBox topLoadSave = new HBox();
-    topLoadSave.getChildren().add(makeLoadButton());
+    HBox topLoadSave = new HBox(15);
+    topLoadSave.getChildren().add(makeLoadCSVButton());
+    topLoadSave.getChildren().add(makeLoadSIMButton());
     return topLoadSave;
   }
 
-  private Node makeLoadButton() {
-    Button loadButton = new Button("Load File");
-    loadButton.setOnAction(e -> loadFile());
+  private Node makeLoadCSVButton() {
+    Button loadCSVButton = new Button("Load CSV File");
+    loadCSVButton.setOnAction(e -> loadCSVFile());
+    return loadCSVButton;
+  }
+
+  private Node makeLoadSIMButton() {
+    Button loadButton = new Button("Load Sim File");
+    loadButton.setOnAction(e -> loadSIMFile());
     return loadButton;
   }
 
 
-  private void loadFile() {
-   //TODO: Handle Click
-    System.out.println("Click");
+  private void loadCSVFile() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Load CSV File");
+    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.csv"));
+    File selectedFile = fileChooser.showOpenDialog(myStage);
+    if (selectedFile == null) {
+      return;
+    }
+    myCSVFile = selectedFile;
+    myController.openCSVFile(myCSVFile);
+  }
+
+  private void loadSIMFile() {
+    //TODO: What happens when file is selected?
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Load SIM File");
+    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("SIM", "*.sim"));
+    File selectedFile = fileChooser.showOpenDialog(myStage);
+    if (selectedFile == null) {
+      return;
+    }
   }
 
   public Node getTopLoadSave() { return myTopLoadSave; }
+
+  public File getMyCSVFile() { return myCSVFile; }
 }

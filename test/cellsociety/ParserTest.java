@@ -1,6 +1,7 @@
 package cellsociety;
 
 import cellsociety.model.Parser;
+import java.io.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,8 @@ public class ParserTest {
 
   @BeforeEach
   void setUp() {
-    myParser = new Parser("data/game_of_life/blinkers.csv");
+    myParser = new Parser();
+    myParser.readCSV(new File("data/game_of_life/blinkers.csv"));
   }
 
   @Test

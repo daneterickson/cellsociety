@@ -28,8 +28,8 @@ public class ModelTest {
 
     numRows = 5;
     numCols = 5;
-    myGrid = new Grid(numRows, numCols, myStates);
-    myModel = new Model(myGrid);
+//    myGrid = new Grid(numRows, numCols, myStates);
+    myModel = new Model(numRows, numCols, myStates);
   }
 
   @Test

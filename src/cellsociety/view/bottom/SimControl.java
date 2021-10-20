@@ -1,5 +1,6 @@
 package cellsociety.view.bottom;
 
+import cellsociety.controller.Controller;
 import cellsociety.view.center.GridView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,12 +29,14 @@ public class SimControl {
   private HBox mySimControl;
   private GridView myGridView;
   private Timeline myAnimation;
+  private Controller myController;
   private boolean isPaused;
 
-  public SimControl(GridView gridView) {
+  public SimControl(GridView gridView, Controller controller) {
     myGridView = gridView;
     mySimControl = new HBox();
     mySimControl.getChildren().add(makeControlButtons());
+    myController = controller;
     setStyles();
   }
 
@@ -116,9 +119,8 @@ public class SimControl {
   }
 
   private void step() {
-    //TODO
-    //update model
-    myGridView.illustrate();
+    myController.updateModel();
+    myGridView.updateGrid();
   }
 
   /**

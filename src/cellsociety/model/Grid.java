@@ -87,4 +87,12 @@ public class Grid {
   public void updateCell(int i, int j, int state){
     myGrid[i][j].changeState(state);
   }
+
+  public int getNumCols(){
+    return myNumCols;
+  }
+
+  public int getNumRows(){
+    return myNumRows;
+  }
 }

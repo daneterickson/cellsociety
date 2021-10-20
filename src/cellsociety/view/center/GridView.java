@@ -20,8 +20,9 @@ public class GridView {
   private static final Color ALIVE_CELL_COLOR = Color.BLUE;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final double GRID_LINE_SIZE = .04;
-  private static final int GRID_MODEL_WIDTH = 10;
-  private static final int GRID_MODEL_HEIGHT = 10;
+
+  private int myNumGridCols;
+  private int myNumGridRows;
   private String RESOURCE = "cellsociety.view.center.";
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "GridView.css";
 
@@ -34,14 +35,16 @@ public class GridView {
 
   public GridView(CellProperties cellProps, Controller controller) {
     myGridHolder = new HBox();
+    myController = controller;
+    myNumGridCols = myController.getNumGridCols();
+    myNumGridRows = myController.getNumGridRows();
     myCanvas = new Canvas(GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);
     myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
     myCanvas.setOnMouseMoved(e -> handleCellHovered(e));
     myGridHolder.getChildren().add(myCanvas);
     myAffine = new Affine();
-    myAffine.appendScale(GRID_VIEW_WIDTH / GRID_MODEL_WIDTH, GRID_VIEW_HEIGHT / GRID_MODEL_HEIGHT);
+    myAffine.appendScale(GRID_VIEW_WIDTH / myNumGridCols, GRID_VIEW_HEIGHT / myNumGridRows);
     myCellProperties = cellProps;
-    myController = controller;
     setStyles();
   }
 
@@ -69,13 +72,24 @@ public class GridView {
 
     updateCellColors(gc);
     drawGridLines(gc);
+  }
 
+  /**
+   * Sets the initial scaling for the grid view based off the model grid sizing. Then updates the
+   * grid view.
+   */
+  public void initiateGrid(){
+    myNumGridCols = myController.getNumGridCols();
+    myNumGridRows = myController.getNumGridRows();
+    myAffine = new Affine();
+    myAffine.appendScale(GRID_VIEW_WIDTH / myNumGridCols, GRID_VIEW_HEIGHT / myNumGridRows);
+    updateGrid();
   }
 
 
   private void updateCellColors(GraphicsContext gc) {
-    for (int i = 0; i < GRID_MODEL_WIDTH; i++) {
-      for (int j = 0; j < GRID_MODEL_HEIGHT; j++) {
+    for (int i = 0; i < myNumGridCols; i++) {
+      for (int j = 0; j < myNumGridRows; j++) {
         //TODO allow for different colors based off simulation type
         int cellState = myController.getCellState(i, j);
         if(cellState == 1){
@@ -99,11 +113,11 @@ public class GridView {
   private void drawGridLines(GraphicsContext gc) {
     gc.setStroke(GRID_LINE_COLOR);
     gc.setLineWidth(GRID_LINE_SIZE);
-    for (int i = 0; i < GRID_MODEL_WIDTH + 1; i++) {
-      gc.strokeLine(i, 0, i, GRID_MODEL_HEIGHT);
+    for (int i = 0; i < myNumGridCols + 1; i++) {
+      gc.strokeLine(i, 0, i, myNumGridRows);
     }
-    for (int j = 0; j < GRID_VIEW_HEIGHT + 1; j++) {
-      gc.strokeLine(0, j, GRID_MODEL_WIDTH, j);
+    for (int j = 0; j < myNumGridRows + 1; j++) {
+      gc.strokeLine(0, j, myNumGridCols, j);
     }
   }
 

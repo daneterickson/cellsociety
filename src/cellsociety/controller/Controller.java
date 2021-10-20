@@ -39,4 +39,8 @@ public class Controller {
   public int getCellState(int i, int j){
     return myModel.getNewGrid().getCellState(i, j);
   }
+
+  public void openSIMFile(File simFile) {
+
+  }
 }

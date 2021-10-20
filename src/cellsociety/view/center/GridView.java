@@ -99,12 +99,6 @@ public class GridView {
           gc.setFill(DEAD_CELL_COLOR);
         }
         gc.fillRect(j, i, 1, 1);
-        /*
-        update the [i][j] cell color in the grid based off of current cell values.
-        Do something like:
-        gc.setFill(getCell(i,j).getColor);
-        gc.fillRect(i, j, 1, 1);
-         */
       }
     }
   }
@@ -127,11 +121,11 @@ public class GridView {
     double cursorY = mouseEvent.getY();
     try {
       Point2D modelXY = myAffine.inverseTransform(cursorX, cursorY);
-      int modelX = (int) modelXY.getX();
-      int modelY = (int) modelXY.getY();
-      //System.out.println(modelX + ", " + modelY);
+      int i = (int) modelXY.getX();
+      int j = (int) modelXY.getY();
       //TODO Update the modelGrid cell's state. (the clicked cell is cell[X][Y])
-      myCellProperties.updateCellCordLabel(modelX, modelY);
+      myCellProperties.updateCellCordLabel(i, j);
+      //myController.setCellState(i, j, call some method here that returns whatever the cells next state should be);
       updateGrid();
     } catch (NonInvertibleTransformException e) {
       e.getMessage(); //It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.

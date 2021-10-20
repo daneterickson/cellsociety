@@ -83,7 +83,7 @@ public class GridView {
         else{
           gc.setFill(DEAD_CELL_COLOR);
         }
-        gc.fillRect(i, j, 1, 1);
+        gc.fillRect(j, i, 1, 1);
         /*
         update the [i][j] cell color in the grid based off of current cell values.
         Do something like:

@@ -62,6 +62,7 @@ public class GridView {
    */
   public void updateGrid() {
     GraphicsContext gc = this.myCanvas.getGraphicsContext2D();
+    gc.clearRect(0, 0, myCanvas.getWidth(), myCanvas.getHeight());
     gc.setTransform(myAffine);
     gc.setFill(DEAD_CELL_COLOR);
     gc.fillRect(0, 0, GRID_VIEW_WIDTH, GRID_VIEW_HEIGHT);

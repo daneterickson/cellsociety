@@ -55,7 +55,7 @@ public class TopLoadSave {
   private void loadCSVFile() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Load CSV File");
-    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.sim"));
+    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.csv"));
     File selectedFile = fileChooser.showOpenDialog(myStage);
     if (selectedFile == null) {
       return;

@@ -18,7 +18,8 @@ public class GridTest {
         {0, 0, 0, 0, 0}};
     numRows = 5;
     numCols = 5;
-    myGrid = new Grid(numRows, numCols, myStates, );
+    String type = "GameOfLife";
+    myGrid = new Grid(numRows, numCols, myStates, type);
   }
 
   @Test

@@ -69,6 +69,10 @@ public class Controller {
     return currGrid.getCellStateName(i, j);
   }
 
+  public void setCellState(int i, int j, int state){
+    currGrid.updateCell(i, j, state);
+  }
+
   public void openSIMFile(File simFile) {
     // TODO: Not working fix this
     myParserSIM.readFile(simFile);

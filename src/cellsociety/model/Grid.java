@@ -58,8 +58,8 @@ public class Grid {
     }
   }
 
-  public String getCellStateName(int i, int j) {
-    return myGrid[i][j].getStateName();
+  public int getCellStateNumber(int i, int j) {
+    return myGrid[i][j].getStateNumber();
   }
 
   public ModelCell getCell (int i, int j) {

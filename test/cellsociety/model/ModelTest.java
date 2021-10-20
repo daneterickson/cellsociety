@@ -98,7 +98,7 @@ public class ModelTest {
     for (int row = 0; row < numRows; row++) {
       System.out.println("");
       for (int col = 0; col < numCols; col++) {
-        System.out.print(" "+myGrid.getCellStateName(row, col));
+        System.out.print(" "+myGrid.getCellStateNumber(row, col));
 //        assertEquals(expected[row][col], myGrid.getCellState(row, col), row +", "+col);
       }
     }

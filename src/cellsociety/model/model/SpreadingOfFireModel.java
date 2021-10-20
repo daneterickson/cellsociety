@@ -31,7 +31,7 @@ public class SpreadingOfFireModel extends Model{
 
     while(idx<4){
       try {
-        neighbors[idx] = currGrid.getCellState(row + x[idx], col + y[idx]);
+        neighbors[idx] = currGrid.getCellStateNumber(row + x[idx], col + y[idx]);
       } catch (IndexOutOfBoundsException e) {
         //handles edge cases
         neighbors[idx] = EMPTY;

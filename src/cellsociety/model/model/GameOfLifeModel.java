@@ -31,7 +31,7 @@ public class GameOfLifeModel extends Model{
           continue;
         }
         try {
-          neighbors[idx] = currGrid.get(row + x, col + y);
+          neighbors[idx] = currGrid.getCellStateNumber(row + x, col + y);
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases
           neighbors[idx] = DEAD_STATE;

@@ -32,13 +32,13 @@ public abstract class Model {
     int col = 0;
     while (true) {
       try {
-        updateCell(row, col, currGrid.getCellState(row, col));
+        updateCell(row, col, currGrid.getCellStateNumber(row, col));
         col += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {
           col = 0;
           row += 1;
-          currGrid.getCellState(row, col);
+          currGrid.getCellStateNumber(row, col);
         } catch (IndexOutOfBoundsException yOutOfBounds) {
           break;
         }

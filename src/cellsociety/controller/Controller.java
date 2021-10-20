@@ -50,7 +50,6 @@ public class Controller {
 
   public void updateModel(){
     myModel.updateModel(currGrid);
-    currGrid = myModel.getGrid();
     myMainView.updateView();
   }
 

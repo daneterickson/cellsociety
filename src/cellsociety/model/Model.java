@@ -22,7 +22,7 @@ public class Model {
   public void updateModel(Grid currGrid){
     this.currGrid = currGrid;
     iterateGrid();
-    buildNewGrid();
+//    buildNewGrid();
   }
   /**
    * iterates through the grid until an exception, which determine when to go the next row/end. each
@@ -113,7 +113,7 @@ public class Model {
       newGridArray.add(row, new ArrayList<>());
     }
     state = updateCell(row, col, state);
-    newGridArray.get(row).add(col, state);
+    currGrid.updateCell(row,col, state);
   }
 
   /**

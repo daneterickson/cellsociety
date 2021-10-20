@@ -83,4 +83,8 @@ public class Grid {
       myGrid[i][j].changeState(state);
     }
   }
+
+  public void updateCell(int i, int j, int state){
+    myGrid[i][j].changeState(state);
+  }
 }

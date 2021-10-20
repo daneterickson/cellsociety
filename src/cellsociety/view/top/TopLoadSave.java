@@ -43,7 +43,7 @@ public class TopLoadSave {
   private Node makeLoadCSVButton() {
     Button loadCSVButton = new Button("Load CSV File");
     loadCSVButton.setOnAction(e -> loadCSVFile());
-    return loadCSVButton;
+    return setID(loadCSVButton, "LoadCSVButton");
   }
 
   private Node makeLoadSIMButton() {
@@ -55,7 +55,7 @@ public class TopLoadSave {
   private Node makeSaveCSVButton() {
     Button loadButton = new Button("Save CSV File");
     loadButton.setOnAction(e -> saveCSVFile());
-    return loadButton;
+    return setID(loadButton, "SaveCSVButton");
   }
 
   private void loadCSVFile() {
@@ -82,6 +82,11 @@ public class TopLoadSave {
 
   private void saveCSVFile() {
     myController.saveCSVFile();
+  }
+
+  private Node setID(Node disp, String id) {
+    disp.setId(id);
+    return disp;
   }
 
   public Node getTopLoadSave() { return myTopLoadSave; }

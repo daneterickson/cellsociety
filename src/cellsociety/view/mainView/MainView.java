@@ -48,8 +48,16 @@ public class MainView {
     myGridView.updateGrid();
   }
 
+  /**
+   * Updates the canvas (grid) in the view and changes the scaling.
+   */
+  public void initiateGridView(){
+    myGridView.initiateGrid();
+  }
+
 
   public TopLoadSave getTopLoadSave() {
     return myTopLoadSave;
   }
+
 }

@@ -1,15 +1,16 @@
 package cellsociety.controller;
 
 import cellsociety.model.Model;
-import cellsociety.model.Parser;
+import cellsociety.model.parser.ParserCSV;
 import cellsociety.view.mainView.MainView;
 import java.io.File;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Controller {
+
   private Model myModel;
-  private Parser myParser;
+  private ParserCSV myParserCSV;
   private MainView myMainView;
   private Stage myStage;
 
@@ -26,10 +27,10 @@ public class Controller {
   }
 
   public void openCSVFile(File csvFile) {
-    myParser = new Parser();
-    myParser.readCSV(csvFile);
+    myParserCSV = new ParserCSV();
+    myParserCSV.readFile(csvFile);
 
-    myModel = new Model(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates());
+    myModel = new Model(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates());
   }
 
   public void updateModel(){

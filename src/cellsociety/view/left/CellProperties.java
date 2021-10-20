@@ -8,10 +8,11 @@ public class CellProperties {
 
   private String RESOURCE = "cellsociety.view.left.";
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
+  private final String CORD_TITLE = "Current Cell";
   private int myCurrentX;
   private int myCurrentY;
-  //private String COORD_TEXT = "("+myCurrentX+", "+myCurrentY+")";
   private Label myCellCoordinatesLabel;
+  private Label myCellStateLabel;
   private VBox myCellProperties;
 
 
@@ -42,19 +43,28 @@ public class CellProperties {
 
   private Node makeCellPropLabels(){
     VBox labelBox = new VBox();
-
+    labelBox.getChildren().add(makeCellCordTitle());
     labelBox.getChildren().add(initializeCellCordLabel());
 
     return labelBox;
   }
-  /*private Label makeCellPropLabel(){
-    Label retLabel = new Label()
-  }*/
+
+
 
   private Node initializeCellCordLabel(){
     myCellCoordinatesLabel = new Label("("+myCurrentX+", "+myCurrentY+")");
     return myCellCoordinatesLabel;
   }
+
+  private Node makeCellCordTitle(){
+    Label title = new Label(CORD_TITLE);
+    title.getStyleClass().add("coordinateTitle");
+    return title;
+  }
+  /*private Node initializeCellStateLabel(){
+    myCellStateLabel = new Label();
+    return myCellStateLabel;
+  }*/
 
   private void setStyles() {
     myCellProperties.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());

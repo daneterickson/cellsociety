@@ -3,12 +3,8 @@ package cellsociety.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
-import cellsociety.model.Grid;
-import cellsociety.model.Model;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import org.apache.commons.lang3.ObjectUtils.Null;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -102,7 +98,7 @@ public class ModelTest {
     for (int row = 0; row < numRows; row++) {
       System.out.println("");
       for (int col = 0; col < numCols; col++) {
-        System.out.print(" "+myGrid.getCellState(row, col));
+        System.out.print(" "+myGrid.getCellStateName(row, col));
 //        assertEquals(expected[row][col], myGrid.getCellState(row, col), row +", "+col);
       }
     }

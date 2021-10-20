@@ -20,6 +20,8 @@ public class GridView {
   private static final Color ALIVE_CELL_COLOR = Color.BLUE;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final double GRID_LINE_SIZE = .04;
+  private static final String ALIVE_NAME = "Alive";
+  public static final String DEAD_NAME = "Dead";
 
   private int myNumGridCols;
   private int myNumGridRows;
@@ -89,8 +91,8 @@ public class GridView {
     for (int i = 0; i < myNumGridRows; i++) {
       for (int j = 0; j < myNumGridCols; j++) {
         //TODO allow for different colors based off simulation type
-        int cellState = myController.getCellState(i, j);
-        if(cellState == 1){
+        String cellState = myController.getCellStateName(i, j);
+        if(cellState.equals(ALIVE_NAME)){
           gc.setFill(ALIVE_CELL_COLOR);
         }
         else{

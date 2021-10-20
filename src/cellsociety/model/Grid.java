@@ -58,8 +58,8 @@ public class Grid {
     }
   }
 
-  public int getCellState (int i, int j) {
-    return myGrid[i][j].getState();
+  public String getCellStateName(int i, int j) {
+    return myGrid[i][j].getStateName();
   }
 
   public ModelCell getCell (int i, int j) {
@@ -68,7 +68,7 @@ public class Grid {
 
   private void setCell (int i, int j, int state) throws ClassNotFoundException {
     Class<?> clazz = Class.forName(myCellType);
-    ModelCell newCell = new ModelCell(i, j, state);
+    ModelCell newCell = new GameOfLifeCell(i, j, state);
     try {
       newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, int.class).newInstance(i, j, state);
     }

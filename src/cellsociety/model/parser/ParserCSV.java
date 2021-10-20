@@ -38,8 +38,8 @@ public class ParserCSV implements Parser{
   }
 
   private void findRowsCols(String[] nextLine) {
-    numRows = Integer.valueOf(nextLine[0]);
-    numCols = Integer.valueOf(nextLine[1]);
+    numCols = Integer.valueOf(nextLine[0]);
+    numRows = Integer.valueOf(nextLine[1]);
     startStates = new int[numRows][numCols];
   }
 

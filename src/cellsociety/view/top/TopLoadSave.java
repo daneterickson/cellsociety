@@ -35,6 +35,7 @@ public class TopLoadSave {
   private Node makeLoadSaveButtons() {
     HBox topLoadSave = new HBox(15);
     topLoadSave.getChildren().add(makeLoadCSVButton());
+    topLoadSave.getChildren().add(makeSaveCSVButton());
 //    topLoadSave.getChildren().add(makeLoadSIMButton());
     return topLoadSave;
   }
@@ -51,6 +52,11 @@ public class TopLoadSave {
     return loadButton;
   }
 
+  private Node makeSaveCSVButton() {
+    Button loadButton = new Button("Save CSV File");
+    loadButton.setOnAction(e -> saveCSVFile());
+    return loadButton;
+  }
 
   private void loadCSVFile() {
     FileChooser fileChooser = new FileChooser();
@@ -72,6 +78,10 @@ public class TopLoadSave {
       return;
     }
     myController.openSIMFile(selectedFile);
+  }
+
+  private void saveCSVFile() {
+    myController.saveCSVFile();
   }
 
   public Node getTopLoadSave() { return myTopLoadSave; }

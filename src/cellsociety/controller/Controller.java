@@ -6,6 +6,9 @@ import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.view.mainView.MainView;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javax.management.DescriptorAccess;
@@ -21,8 +24,8 @@ public class Controller {
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
-  private static final int DEFAULT_GRID_WIDTH = 20;
-  private static final int DEFAULT_GRID_HEIGHT = 20;
+  private static final int DEFAULT_GRID_WIDTH = 10;
+  private static final int DEFAULT_GRID_HEIGHT = 10;
   private static final String DEFAULT_TYPE = "GameOfLife";
   private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
   private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_TYPE);
@@ -66,5 +69,30 @@ public class Controller {
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
     myModel = new Model(this, currGrid, myParserSIM.getType());
     myMainView.updateView();
+  }
+
+  public void saveCSVFile() {
+    try {
+      PrintWriter csvFile = new PrintWriter(new File("data/game_of_life/simple.csv"));
+      csvFile.write(currGrid.getNumRows() + "," + currGrid.getNumCols() + "\n");
+      for (int i = 0; i < currGrid.getNumRows(); i++) {
+        StringBuilder rowCSV = new StringBuilder();
+        for (int j = 0; j < currGrid.getNumCols(); j++) {
+          if (j != currGrid.getNumCols() - 1) {
+            rowCSV.append(currGrid.getCellState(i, j) + ",");
+          }
+          else {
+            rowCSV.append(currGrid.getCellState(i, j) + "\n");
+          }
+        }
+        csvFile.write(rowCSV.toString());
+
+      }
+      csvFile.close();
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 }

@@ -2,6 +2,7 @@ package cellsociety.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cellsociety.model.cell.GameOfLifeCell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +28,15 @@ public class GridTest {
     for (int row=0; row<numRows; row++) {
       for (int col=0; col<numCols; col++) {
         assertEquals(myStates[row][col], myGrid.getCellState(row,col));
+      }
+    }
+  }
+
+  @Test
+  void testCellType () {
+    for (int row=0; row<numRows; row++) {
+      for (int col=0; col<numCols; col++) {
+        assertEquals(GameOfLifeCell.class, myGrid.getCell(row,col).getClass());
       }
     }
   }

@@ -1,17 +1,20 @@
 package cellsociety.controller;
 
+import cellsociety.model.Grid;
 import cellsociety.model.Model;
-import cellsociety.model.Parser;
+import cellsociety.model.parser.ParserCSV;
 import cellsociety.view.mainView.MainView;
 import java.io.File;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Controller {
+
   private Model myModel;
-  private Parser myParser;
+  private ParserCSV myParserCSV;
   private MainView myMainView;
   private Stage myStage;
+  private Grid currGrid;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
@@ -26,18 +29,20 @@ public class Controller {
   }
 
   public void openCSVFile(File csvFile) {
-    myParser = new Parser();
-    myParser.readCSV(csvFile);
-
-    myModel = new Model(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates());
+    myParserCSV = new ParserCSV();
+    myParserCSV.readFile(csvFile);
+    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates());
+    myModel = new Model(this, currGrid);
   }
 
   public void updateModel(){
-    myModel.iterateGrid();
+    myModel.iterateGrid(currGrid);
+    currGrid = myModel.getGrid();
+    myMainView.updateView();
   }
 
   public int getCellState(int i, int j){
-    return myModel.getNewGrid().getCellState(i, j);
+    return currGrid.getCellState(i, j);
   }
 
   public void openSIMFile(File simFile) {

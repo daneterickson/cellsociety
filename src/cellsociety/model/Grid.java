@@ -15,7 +15,7 @@ public class Grid {
   public Grid(int rows, int cols, int[][] startStates, String type) {
     myNumRows = rows;
     myNumCols = cols;
-    myCellType = type + "Cell";
+    myCellType = "cellsociety.model.cell." + type + "Cell";
     myGrid = new ModelCell[rows][cols];
     setStartStates(startStates);
   }
@@ -40,7 +40,7 @@ public class Grid {
   public Grid (int rows, int cols, ArrayList<ArrayList<Integer>> startStates, String type) {
     myNumRows = rows;
     myNumCols = cols;
-    myCellType = type + "Cell";
+    myCellType = "cellsociety.model.cell." + type + "Cell";
     myGrid = new ModelCell[rows][cols];
     setStartStates(startStates);
   }

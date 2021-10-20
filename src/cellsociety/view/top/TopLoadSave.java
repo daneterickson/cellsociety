@@ -34,7 +34,7 @@ public class TopLoadSave {
 
   private Node makeLoadSaveButtons() {
     HBox topLoadSave = new HBox(15);
-//    topLoadSave.getChildren().add(makeLoadCSVButton());
+    topLoadSave.getChildren().add(makeLoadCSVButton());
     topLoadSave.getChildren().add(makeLoadSIMButton());
     return topLoadSave;
   }

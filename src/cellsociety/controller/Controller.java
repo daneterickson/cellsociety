@@ -8,6 +8,7 @@ import cellsociety.view.mainView.MainView;
 import java.io.File;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.management.DescriptorAccess;
 
 public class Controller {
 
@@ -39,12 +40,11 @@ public class Controller {
     myParserSIM = new ParserSIM();
   }
 
-  public void openCSVFile(File simFile) {
-    myParserSIM.readFile(simFile);
-    File csvFile = new File(myParserSIM.getInitialStates());
+  public void openCSVFile(File csvFile) {
     myParserCSV.readFile(csvFile);
-    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
-    myModel = new Model(this, currGrid, myParserSIM.getType());
+    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
+        myParserCSV.getStartStates(), DEFAULT_TYPE);
+    myModel = new Model(this, currGrid, DEFAULT_TYPE);
     myMainView.updateView();
   }
 
@@ -59,6 +59,13 @@ public class Controller {
   }
 
   public void openSIMFile(File simFile) {
-
+    // TODO: Not working fix this
+    myParserSIM.readFile(simFile);
+    System.out.println(myParserSIM.getInitialStates().split("/")[1]);
+    File csvFile = new File(myParserSIM.getInitialStates().split("/")[1]);
+    myParserCSV.readFile(csvFile);
+    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
+    myModel = new Model(this, currGrid, myParserSIM.getType());
+    myMainView.updateView();
   }
 }

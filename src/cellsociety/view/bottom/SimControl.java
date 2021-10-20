@@ -4,10 +4,14 @@ import cellsociety.controller.Controller;
 import cellsociety.view.center.GridView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 /**
@@ -24,9 +28,16 @@ public class SimControl {
   private String RESOURCE = "cellsociety.view.bottom.";
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "SimControl.css";
   private String ICONS = "/" + RESOURCE.replace(".", "/") + "SimControlIcons/";
-  private static final double ANIMATION_DELAY = .1;
+  private static final int BUTTON_SPACING = 15;
+  private static final int BUTTON_SLIDER_SPACING = 15;
+  private static final int SLIDER_LENGTH = 200;
+  private static final double DELAY = .1;
+  private static final double MIN_SLIDER_VAL = .01;
+  private static final double MAX_SLIDER_VAL = 3;
+  private static final double INITIAL_RATE = 1;
 
-  private HBox mySimControl;
+  private double myAnimationRate;
+  private VBox mySimControl;
   private GridView myGridView;
   private Timeline myAnimation;
   private Controller myController;
@@ -38,9 +49,11 @@ public class SimControl {
   private ImageView stepIcon = new ImageView(ICONS + "step.png");
 
   public SimControl(GridView gridView, Controller controller) {
+    myAnimationRate = INITIAL_RATE;
     myGridView = gridView;
-    mySimControl = new HBox();
+    mySimControl = new VBox(BUTTON_SLIDER_SPACING);
     mySimControl.getChildren().add(makeControlButtons());
+    mySimControl.getChildren().add(makeSpeedSlider());
     myController = controller;
     setStyles();
   }
@@ -61,13 +74,31 @@ public class SimControl {
   }
 
   private Node makeControlButtons() {
-    HBox buttonHBox = new HBox(15);
-
+    HBox buttonHBox = new HBox(BUTTON_SPACING);
     buttonHBox.getChildren().add(makePlayPauseButton());
     buttonHBox.getChildren().add(makeStopButton());
     buttonHBox.getChildren().add(makeStepButton());
-
+    buttonHBox.getStyleClass().add("buttons");
     return buttonHBox;
+  }
+
+  private Node makeSpeedSlider(){
+    HBox sliderBox = new HBox();
+    Slider speedSlider = new Slider( MIN_SLIDER_VAL,MAX_SLIDER_VAL, INITIAL_RATE);
+    speedSlider.setPrefWidth(SLIDER_LENGTH);
+    speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+      @Override
+      public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+          Number newValue) {
+        myAnimationRate = speedSlider.getValue();
+        if(myAnimation!=null){
+          myAnimation.setRate(myAnimationRate);
+        }
+      }
+    });
+    sliderBox.getChildren().add(speedSlider);
+    sliderBox.getStyleClass().add("slider");
+    return sliderBox;
   }
 
   private Node makePlayPauseButton() {
@@ -93,8 +124,8 @@ public class SimControl {
     if (myAnimation == null) {
       myAnimation = new Timeline();
       myAnimation.setCycleCount(Timeline.INDEFINITE);
-      myAnimation.getKeyFrames()
-          .add(new KeyFrame(Duration.seconds(ANIMATION_DELAY), e -> step()));
+      myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(DELAY), e -> step()));
+      myAnimation.setRate(myAnimationRate);
       myAnimation.play();
       isPaused = false;
       playPauseButton.setGraphic(pauseIcon);

@@ -10,14 +10,13 @@ public class ParserSIM implements Parser {
   private File myFile;
   private Map<String, String> myInfoMap;
 
-  public ParserSIM (File file) {
+  public ParserSIM () {
     myInfoMap = new HashMap<>();
-    myFile = file;
   }
 
-  public void readFile() {
+  public void readFile(File file) {
     try {
-      Scanner s = new Scanner(myFile);
+      Scanner s = new Scanner(file);
       while (s.hasNextLine()) {
         String line = s.nextLine();
         String words[] = line.split("=");

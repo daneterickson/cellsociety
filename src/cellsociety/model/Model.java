@@ -22,7 +22,7 @@ public class Model {
   public void updateModel(Grid currGrid){
     this.currGrid = currGrid;
     iterateGrid();
-//    buildNewGrid();
+    myController.setHasUpdate(true);
   }
   /**
    * iterates through the grid until an exception, which determine when to go the next row/end. each
@@ -34,7 +34,7 @@ public class Model {
     int col = 0;
     while (true) {
       try {
-        addToNewGrid(row, col, currGrid.getCellState(row, col));
+        updateCell(row, col, currGrid.getCellState(row, col));
         col += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {
@@ -79,11 +79,11 @@ public class Model {
    * updates the current cell by calling the current Rule
    */
   // checks the rule to see if cell needs to change state
-  private Integer updateCell(int row, int col, int state) {
+  private void updateCell(int row, int col, int state) {
     //nearby: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
     int[] nearby = getNearby(row, col);
     int newState = currRule(state, nearby);
-    return newState;
+    currGrid.updateCell(row,col,newState);
   }
 
   /**
@@ -104,34 +104,4 @@ public class Model {
     }
     return DEAD_STATE;
   }
-
-  /**
-   * updates the current cell's state. then adds the new state to newGrid arraylist
-   */
-  private void addToNewGrid(int row, int col, int state) {
-    if (newGridArray.size() - 1 < row) {
-      newGridArray.add(row, new ArrayList<>());
-    }
-    state = updateCell(row, col, state);
-    currGrid.updateCell(row,col, state);
-  }
-
-  /**
-   * creates a new grid. If successful, replaces old grid
-   */
-  private void buildNewGrid() {
-    int numRows = newGridArray.size();
-    int numCols = newGridArray.get(0).size();
-    Grid GridBuffer = new Grid(numRows, numCols, newGridArray, myType);
-    currGrid = GridBuffer;
-  }
-
-  /**
-   * updates the grid in Controller with the current grid in model
-   */
-  public Grid getGrid() {
-    return currGrid;
-  }
-
-
 }

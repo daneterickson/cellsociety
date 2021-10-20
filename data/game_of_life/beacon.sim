@@ -1,5 +1,5 @@
 Type=GameOfLife
 Title=Beacon
 Author=Dane Erickson
-Description=Examples of a beach, two 2x2 blocks of alive cells where the adjacent cells die then are alive again each iteration
+Description=Examples of a beacon, two 2x2 blocks of alive cells where the adjacent cells die then are alive again each iteration
 InitialStates=game_of_life/beacon.csv

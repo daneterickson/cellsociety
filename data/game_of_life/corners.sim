@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=Corners
+Author=Dane Erickson
+Description=Places an alive cell in each corner, which all disappear after 1 iteration
+InitialStates=game_of_life/corners.csv

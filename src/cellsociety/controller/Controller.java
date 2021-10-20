@@ -30,4 +30,7 @@ public class Controller {
 
     myModel = new Model(myParser.getNumRows(), myParser.getNumCols(), myParser.getStartStates(),this);
   }
+  public void openSIMFile(File simFile) {
+
+  }
 }

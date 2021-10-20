@@ -21,6 +21,7 @@ public class Controller {
   private MainView myMainView;
   private Stage myStage;
   private Grid currGrid;
+  private boolean hasUpdate;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
@@ -51,7 +52,12 @@ public class Controller {
     myMainView.updateView();
   }
 
+  public void setHasUpdate(boolean hasUpdate) {
+    this.hasUpdate = hasUpdate;
+  }
+
   public void updateModel(){
+    hasUpdate = false;
     myModel.updateModel(currGrid);
     myMainView.updateView();
   }
@@ -93,6 +99,5 @@ public class Controller {
     catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 }

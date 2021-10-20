@@ -15,8 +15,6 @@ public class TopLoadSave {
 
   private HBox myTopLoadSave;
 
-  private File myCSVFile;
-
   private Stage myStage;
 
   private Controller myController;
@@ -62,8 +60,7 @@ public class TopLoadSave {
     if (selectedFile == null) {
       return;
     }
-    myCSVFile = selectedFile;
-    myController.openCSVFile(myCSVFile);
+    myController.openCSVFile(selectedFile);
   }
 
   private void loadSIMFile() {
@@ -75,9 +72,9 @@ public class TopLoadSave {
     if (selectedFile == null) {
       return;
     }
+    myController.openSIMFile(selectedFile);
   }
 
   public Node getTopLoadSave() { return myTopLoadSave; }
 
-  public File getMyCSVFile() { return myCSVFile; }
 }

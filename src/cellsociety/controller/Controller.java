@@ -66,8 +66,8 @@ public class Controller {
     myMainView.updateView();
   }
 
-  public String getCellStateName(int i, int j){
-    return currGrid.getCellStateName(i, j);
+  public int getCellStateNumber(int i, int j){
+    return currGrid.getCellStateNumber(i, j);
   }
 
   public void setCellState(int i, int j, int state){
@@ -101,10 +101,10 @@ public class Controller {
         StringBuilder rowCSV = new StringBuilder();
         for (int j = 0; j < currGrid.getNumCols(); j++) {
           if (j != currGrid.getNumCols() - 1) {
-            rowCSV.append(currGrid.getCellStateName(i, j) + ",");
+            rowCSV.append(currGrid.getCellStateNumber(i, j) + ",");
           }
           else {
-            rowCSV.append(currGrid.getCellStateName(i, j) + "\n");
+            rowCSV.append(currGrid.getCellStateNumber(i, j) + "\n");
           }
         }
         csvFile.write(rowCSV.toString());

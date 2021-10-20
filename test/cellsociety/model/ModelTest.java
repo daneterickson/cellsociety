@@ -93,7 +93,7 @@ public class ModelTest {
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
 
-    myModel.iterateGrid(myGrid);
+    myModel.updateModel(myGrid);
 
     Grid returnedGrid;
     try {

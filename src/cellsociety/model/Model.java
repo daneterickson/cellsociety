@@ -16,11 +16,16 @@ public class Model {
     currGrid = grid;
   }
 
+  public void updateModel(Grid currGrid){
+    this.currGrid = currGrid;
+    iterateGrid();
+    buildNewGrid();
+  }
   /**
    * iterates through the grid until an exception, which determine when to go the next row/end. each
    * cell in the grid is then processed and then used to call addToNewGrid
    */
-  public void iterateGrid(Grid currGrid) {
+  public void iterateGrid() {
 
     int row = 0;
     int col = 0;
@@ -38,8 +43,6 @@ public class Model {
         }
       }
     }
-
-    buildNewGrid();
   }
 
   /**

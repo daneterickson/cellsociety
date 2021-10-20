@@ -36,7 +36,7 @@ public class Controller {
   }
 
   public void updateModel(){
-    myModel.iterateGrid(currGrid);
+    myModel.updateModel(currGrid);
     currGrid = myModel.getGrid();
     myMainView.updateView();
   }

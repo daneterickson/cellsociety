@@ -1,5 +1,4 @@
 package cellsociety.model;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import cellsociety.model.cell.GameOfLifeCell;
@@ -12,34 +11,34 @@ public class ModelCellTest {
   private ModelCell myCell;
 
   @BeforeEach
-  void setUp() {
-    myCell = new GameOfLifeCell(0, 0, 0);
+  void setUp () {
+    myCell = new GameOfLifeCell(0,0,0);
   }
 
   @Test
-  void testChangeState() {
+  void testChangeState () {
     myCell.changeState(1);
     assertEquals(1, myCell.getStateNumber());
   }
 
   @Test
-  void testSetColor() {
+  void testSetColor () {
     assertEquals("c0c0c0", myCell.getStateColor());
   }
 
   @Test
-  void testChangeColor() {
+  void testChangeColor () {
     myCell.changeState(1);
     assertEquals("0000ff", myCell.getStateColor());
   }
 
   @Test
-  void testSetName() {
+  void testSetName () {
     assertEquals("Dead", myCell.getStateName());
   }
 
   @Test
-  void testChangeName() {
+  void testChangeName () {
     myCell.changeState(1);
     assertEquals("Alive", myCell.getStateName());
   }

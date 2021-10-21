@@ -82,14 +82,13 @@ public class Controller {
   }
 
   public void openSIMFile(File simFile) {
-    // TODO: Not working fix this
     try {
       myParserSIM.readFile(simFile);
     } catch (FileNotFoundException e) {
+      // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
-    System.out.println(myParserSIM.getInitialStates().split("/")[1]);
-    File csvFile = new File(myParserSIM.getInitialStates().split("/")[1]);
+    File csvFile = new File(String.format("data/%s", myParserSIM.getInitialStates()));
     try {
       myParserCSV.readFile(csvFile);
     } catch (CsvValidationException | IOException e) {

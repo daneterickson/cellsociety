@@ -52,7 +52,7 @@ public class ParserCSV implements Parser{
       }
       row++;
     }
-    if (row-1 != numRows) throw new IOException();
+    if (row-2 != numRows && row != 1) throw new IOException();
   }
 
   private void findRowsCols(String[] nextLine) {

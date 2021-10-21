@@ -51,6 +51,7 @@ public class Controller {
       myParserCSV.readFile(csvFile);
     } catch (CsvValidationException | IOException e) {
       e.printStackTrace();
+      //TODO: Handle Invalid File Exception with pop-up in view
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
         myParserCSV.getStartStates(), DEFAULT_TYPE);
@@ -86,6 +87,7 @@ public class Controller {
       myParserSIM.readFile(simFile);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
+      //TODO: Handle Invalid File Exception with pop-up in view
     }
     System.out.println(myParserSIM.getInitialStates().split("/")[1]);
     File csvFile = new File(myParserSIM.getInitialStates().split("/")[1]);

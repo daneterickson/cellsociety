@@ -6,7 +6,9 @@ import cellsociety.model.model.Model;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.view.mainView.MainView;
+import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javafx.scene.Scene;
@@ -48,8 +50,8 @@ public class Controller {
     try {
       myParserCSV.readFile(csvFile);
     } catch (CsvValidationException | IOException e) {
+      // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
-      //TODO: Handle Invalid File Exception with pop-up in view
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
         myParserCSV.getStartStates(), DEFAULT_TYPE);
@@ -85,11 +87,15 @@ public class Controller {
       myParserSIM.readFile(simFile);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
-      //TODO: Handle Invalid File Exception with pop-up in view
     }
     System.out.println(myParserSIM.getInitialStates().split("/")[1]);
     File csvFile = new File(myParserSIM.getInitialStates().split("/")[1]);
-    myParserCSV.readFile(csvFile);
+    try {
+      myParserCSV.readFile(csvFile);
+    } catch (CsvValidationException | IOException e) {
+      // TODO: handle the invalid file exception with pop-up in view
+      e.printStackTrace();
+    }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
     myModel = new GameOfLifeModel(this, currGrid);
     myMainView.initiateGridView();

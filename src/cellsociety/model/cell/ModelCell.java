@@ -10,7 +10,7 @@ public abstract class ModelCell {
   private String myStateColor;
   private String myStateName;
 
-  public ModelCell (int i, int j, int state) {
+  public ModelCell(int i, int j, int state) {
     myRow = i;
     myCol = j;
     myStateNumber = state;
@@ -19,16 +19,22 @@ public abstract class ModelCell {
 
   protected abstract void assignState(int state);
 
-  public void changeState (int newState) {
+  public void changeState(int newState) {
     myStateNumber = newState;
     assignState(newState);
   }
 
-  public int getStateNumber() { return myStateNumber; }
+  public int getStateNumber() {
+    return myStateNumber;
+  }
 
-  public String getStateName() { return myStateName; }
+  public String getStateName() {
+    return myStateName;
+  }
 
-  public String getStateColor() { return myStateColor; }
+  public String getStateColor() {
+    return myStateColor;
+  }
 
   protected void setStateColor(String color) {
     myStateColor = color;

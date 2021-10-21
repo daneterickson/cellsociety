@@ -15,7 +15,7 @@ public class Grid {
   public Grid(int rows, int cols, int[][] startStates, String type) {
     myNumRows = rows;
     myNumCols = cols;
-    myCellType = "cellsociety.model.cell." + type + "Cell";
+    myCellType = String.format("cellsociety.model.cell.%sCell", type);
     myGrid = new ModelCell[rows][cols];
     setStartStates(startStates);
   }

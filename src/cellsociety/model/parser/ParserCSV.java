@@ -32,9 +32,7 @@ public class ParserCSV implements Parser{
         row++;
       }
     }
-    catch (Exception e) {
-      System.out.println("Invalid File");
-    }
+    if (row-2 != numRows && row != 1) throw new IOException();
   }
 
   private void findRowsCols(String[] nextLine) {

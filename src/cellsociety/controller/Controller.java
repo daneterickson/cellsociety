@@ -45,7 +45,12 @@ public class Controller {
   }
 
   public void openCSVFile(File csvFile) {
-    myParserCSV.readFile(csvFile);
+    try {
+      myParserCSV.readFile(csvFile);
+    } catch (CsvValidationException | IOException e) {
+      e.printStackTrace();
+      //TODO: Handle Invalid File Exception with pop-up in view
+    }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
         myParserCSV.getStartStates(), DEFAULT_TYPE);
     myModel = new GameOfLifeModel(this, currGrid);
@@ -76,7 +81,12 @@ public class Controller {
 
   public void openSIMFile(File simFile) {
     // TODO: Not working fix this
-    myParserSIM.readFile(simFile);
+    try {
+      myParserSIM.readFile(simFile);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      //TODO: Handle Invalid File Exception with pop-up in view
+    }
     System.out.println(myParserSIM.getInitialStates().split("/")[1]);
     File csvFile = new File(myParserSIM.getInitialStates().split("/")[1]);
     myParserCSV.readFile(csvFile);

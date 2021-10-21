@@ -16,27 +16,18 @@ public class ParserSIM implements Parser {
     myStatesColorMap = new HashMap<>();
   }
 
-  public void readFile(File file) throws FileNotFoundException {
-//    try {
-//      Scanner s = new Scanner(file);
-//      while (s.hasNextLine()) {
-//        String line = s.nextLine();
-//        String words[] = line.split("=");
-//        myInfoMap.put(words[0], words[1]);
-//      }
-//      assignStateColors();
-//    }
-//    catch (FileNotFoundException e) {
-//      System.out.println("File not found");
-//    }
-    Scanner s = new Scanner(file);
-    while (s.hasNextLine()) {
-      String line = s.nextLine();
-      String words[] = line.split("=");
-      myInfoMap.put(words[0], words[1]);
-    }
-    if (myInfoMap.containsKey("StateColors")) {
+  public void readFile(File file) {
+    try {
+      Scanner s = new Scanner(file);
+      while (s.hasNextLine()) {
+        String line = s.nextLine();
+        String words[] = line.split("=");
+        myInfoMap.put(words[0], words[1]);
+      }
       assignStateColors();
+    }
+    catch (FileNotFoundException e) {
+      System.out.println("File not found");
     }
   }
 

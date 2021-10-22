@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+
 /**
  * SimControl - Simulation Control View
  * <p>
@@ -94,17 +95,12 @@ public class SimControl {
     HBox sliderBox = new HBox();
     Slider speedSlider = new Slider( MIN_SLIDER_VAL,MAX_SLIDER_VAL, INITIAL_RATE);
     speedSlider.setPrefWidth(SLIDER_LENGTH);
-    speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
-      @Override
-      public void changed(ObservableValue<? extends Number> observable, Number oldValue,
-          Number newValue) {
-        myAnimationRate = speedSlider.getValue();
-        if(myAnimation!=null){
-          myAnimation.setRate(myAnimationRate);
-        }
+    speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+      myAnimationRate = speedSlider.getValue();
+      if(myAnimation!=null){
+        myAnimation.setRate(myAnimationRate);
       }
     });
-
     sliderBox.getChildren().add(turtleIcon);
     sliderBox.getChildren().add(speedSlider);
     sliderBox.getChildren().add(rabbitIcon);

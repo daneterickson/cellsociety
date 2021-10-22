@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import javafx.geometry.HorizontalDirection;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -20,6 +22,7 @@ public class mainViewTest extends DukeApplicationTest {
 
   Button loadCSVButton;
   Button saveCSVButton;
+  Slider speedSlider;
 
   @Override
   public void start (Stage stage) {
@@ -51,4 +54,6 @@ public class mainViewTest extends DukeApplicationTest {
       e.printStackTrace();
     }
   }
+
+
 }

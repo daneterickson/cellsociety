@@ -3,8 +3,8 @@ package cellsociety.model.cell;
 public class GameOfLifeCell extends ModelCell {
 
   public static final String ALIVE_BLUE = "0000ff"; // for alive cells in Game of Life
-  public static final String DEAD_NAME = "Dead";
-  public static final String ALIVE_NAME = "Alive";
+  public static final String DEAD_NAME = "dead";
+  public static final String ALIVE_NAME = "alive";
 
   public GameOfLifeCell(int i, int j, int state) {
     super(i, j, state);

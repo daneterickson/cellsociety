@@ -1,4 +1,4 @@
-package cellsociety.model;
+package cellsociety.model.cell;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,13 +35,13 @@ public class ModelCellTest {
 
   @Test
   void testSetName() {
-    assertEquals("Dead", myCell.getStateName());
+    assertEquals("dead", myCell.getStateName());
   }
 
   @Test
   void testChangeName() {
     myCell.changeState(1);
-    assertEquals("Alive", myCell.getStateName());
+    assertEquals("alive", myCell.getStateName());
   }
 
 

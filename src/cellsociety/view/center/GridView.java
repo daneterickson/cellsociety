@@ -27,6 +27,7 @@ public class GridView {
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "GridView.css";
   private double myGridWidth;
   private double myGridHeight;
+  private Integer[] myMousePos;
 
   private Canvas myCanvas;
   private Affine myAffine;
@@ -36,6 +37,7 @@ public class GridView {
 
 
   public GridView(CellProperties cellProps, Controller controller) {
+    myMousePos = new Integer[2];
     myGridHolder = new HBox();
     myController = controller;
     myCellProperties = cellProps;
@@ -115,32 +117,36 @@ public class GridView {
 
 
   private void handleCellClicked(MouseEvent mouseEvent) {
-    double cursorX = mouseEvent.getX();
-    double cursorY = mouseEvent.getY();
-    try {
-      Point2D modelXY = myAffine.inverseTransform(cursorX, cursorY);
-      int i = (int) modelXY.getX();
-      int j = (int) modelXY.getY();
-      //TODO Update the modelGrid cell's state. (the clicked cell is cell[X][Y])
-      myCellProperties.updateCellCordLabel(i, j);
-      //myController.setCellState(i, j, call some method here that returns whatever the cells next state should be);
-      updateGrid();
-    } catch (NonInvertibleTransformException e) {
-      e.getMessage(); //It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
+    try{
+      getMousePosOnGrid(mouseEvent);
+    }catch(NonInvertibleTransformException e){
+      e.getMessage();
     }
+    //TODO Only works for simulations with two states currently. Need some way to know all possible states
+    int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
+    myController.setCellState(myMousePos[1], myMousePos[0], 1-currState);
+    updateGrid();
   }
 
-  //TODO eliminate this duplicated code between handleCellClicked and handleCellCovered
   private void handleCellHovered(MouseEvent mouseEvent) {
+    try{
+      getMousePosOnGrid(mouseEvent);
+    }catch(NonInvertibleTransformException e){
+      e.getMessage();
+    }
+    myCellProperties.updateCellCordLabel(myMousePos[1], myMousePos[0]);
+  }
+
+  private void getMousePosOnGrid(MouseEvent mouseEvent)
+      throws NonInvertibleTransformException {
     double cursorX = mouseEvent.getX();
     double cursorY = mouseEvent.getY();
-    try {
+    try{
       Point2D modelXY = myAffine.inverseTransform(cursorX, cursorY);
-      int modelX = (int) modelXY.getX();
-      int modelY = (int) modelXY.getY();
-      myCellProperties.updateCellCordLabel(modelX, modelY);
-    } catch (NonInvertibleTransformException e) {
-      e.getMessage(); //It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
+      myMousePos[0] = (int) modelXY.getX();
+      myMousePos[1] = (int) modelXY.getY();
+    }catch(NonInvertibleTransformException e){
+      e.getMessage();//It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
     }
   }
 

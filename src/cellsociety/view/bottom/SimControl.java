@@ -28,6 +28,8 @@ public class SimControl {
   private String RESOURCE = "cellsociety.view.bottom.";
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "SimControl.css";
   private String ICONS = "/" + RESOURCE.replace(".", "/") + "SimControlIcons/";
+  private String SLIDER_ICONS = "/" + RESOURCE.replace(".", "/") + "SliderIcons/";
+
   private static final int BUTTON_SPACING = 15;
   private static final int BUTTON_SLIDER_SPACING = 15;
   private static final int SLIDER_LENGTH = 200;
@@ -47,6 +49,9 @@ public class SimControl {
   private ImageView pauseIcon = new ImageView(ICONS + "pause.png");
   private ImageView stopIcon = new ImageView(ICONS + "stop.png");
   private ImageView stepIcon = new ImageView(ICONS + "step.png");
+  private ImageView turtleIcon = new ImageView(SLIDER_ICONS + "turtle.png");
+  private ImageView rabbitIcon = new ImageView(SLIDER_ICONS + "rabbit.png");
+
 
   public SimControl(GridView gridView, Controller controller) {
     myAnimationRate = INITIAL_RATE;
@@ -70,7 +75,10 @@ public class SimControl {
     stopIcon.setFitHeight(20);
     stepIcon.setFitWidth(20);
     stepIcon.setFitHeight(20);
-
+    turtleIcon.setFitWidth(20);
+    turtleIcon.setFitHeight(15);
+    rabbitIcon.setFitWidth(20);
+    rabbitIcon.setFitHeight(20);
   }
 
   private Node makeControlButtons() {
@@ -96,7 +104,10 @@ public class SimControl {
         }
       }
     });
+
+    sliderBox.getChildren().add(turtleIcon);
     sliderBox.getChildren().add(speedSlider);
+    sliderBox.getChildren().add(rabbitIcon);
     sliderBox.getStyleClass().add("slider");
     return sliderBox;
   }

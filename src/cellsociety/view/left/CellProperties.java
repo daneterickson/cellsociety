@@ -11,6 +11,7 @@ public class CellProperties {
   private final String CORD_TITLE = "Current Cell";
   private int myCurrentX;
   private int myCurrentY;
+  private String myCurrentState;
   private Label myCellCoordinatesLabel;
   private Label myCellStateLabel;
   private VBox myCellProperties;
@@ -61,7 +62,7 @@ public class CellProperties {
     title.getStyleClass().add("coordinateTitle");
     return title;
   }
-  /*private Node initializeCellStateLabel(){
+  /*private Node initializeCellStateLabel(myCurrentState){
     myCellStateLabel = new Label();
     return myCellStateLabel;
   }*/

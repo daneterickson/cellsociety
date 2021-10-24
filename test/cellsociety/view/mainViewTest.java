@@ -22,7 +22,6 @@ public class mainViewTest extends DukeApplicationTest {
 
   Button loadCSVButton;
   Button saveCSVButton;
-  Slider speedSlider;
 
   @Override
   public void start (Stage stage) {

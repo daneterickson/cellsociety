@@ -3,6 +3,7 @@ package cellsociety.model.model;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -55,7 +56,7 @@ public abstract class Model {
    * checks if cell state is changed. row,col, and newState are added to newUpdates if there is a change
    */
   protected void updateCell(int row, int col, int state) {
-    int[] nearby = getNearby(row,col);
+    List<Integer> nearby = getNearby(row,col);
     int newState = currRule(state,nearby);
     if (newState != state){
       addNewUpdates(row, col, newState);
@@ -85,10 +86,11 @@ public abstract class Model {
 
   /**
    * Methods that will be overridden based on model type
+   * @return
    */
 
-  protected abstract int[] getNearby(int row, int col);
+  protected abstract List<Integer> getNearby(int row, int col);
 
-  protected abstract Integer currRule(int state, int[] nearby);
+  protected abstract Integer currRule(int state, List<Integer> nearby);
 
 }

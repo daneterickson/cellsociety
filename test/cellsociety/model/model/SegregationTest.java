@@ -8,7 +8,10 @@ import cellsociety.model.model.Model;
 import cellsociety.model.model.SegregationModel;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +48,7 @@ public class SegregationTest {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
 
-    int[] neighbors = (int[]) getNearby.invoke(myModel, 2,2);
+    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2,2);
 
     int race1 = 0;
     int race2 = 0;
@@ -63,20 +66,23 @@ public class SegregationTest {
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int[].class);
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, List.class);
     currRule.setAccessible(true);
     int ret;
-
+    List<Integer> list;
     //empty cell
-    ret = (int) currRule.invoke(myModel, 0, new int[]{0,0,0,1,2,0,1,0});
+    list = Arrays.asList(new Integer[]{0,0,0,1,2,0,1,0});
+    ret = (int) currRule.invoke(myModel, 0, list);
     assertEquals(0,ret, "empty cell should remain empty(0). got: "+ret);
 
     //Over threshold
-    ret = (int) currRule.invoke(myModel, 1, new int[]{0,0,0,1,2,1,1,0});
+    list = Arrays.asList(new Integer[]{0,0,0,1,2,1,1,0});
+    ret = (int) currRule.invoke(myModel, 1, list);
     assertEquals(1,ret, "Cell state should stay the same. got: "+ret);
 
     //Under threshold
-    ret = (int) currRule.invoke(myModel, 1, new int[]{0,0,0,1,2,2,2,0});
+    list = Arrays.asList(new Integer[]{0,0,0,1,2,2,2,0});
+    ret = (int) currRule.invoke(myModel, 1, list);
     assertEquals(0,ret, "Cell should be vacated. got: "+ret);
   }
 

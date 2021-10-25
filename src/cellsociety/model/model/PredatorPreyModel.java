@@ -2,13 +2,15 @@ package cellsociety.model.model;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PredatorPreyModel extends Model{
 
   private final int EMPTY = 0;
-  private final int TREE = 1;
-  private final int BURNING = 2;
+  private final int FISH = 1;
+  private final int SHARK = 2;
   private int probCatch;
   private Random random;
 
@@ -21,20 +23,21 @@ public class PredatorPreyModel extends Model{
    * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
    * <p>
    * if the current point is an edge, it acts as if the edges are EMPTY
+   * @return
    */
   @Override
-  protected int[] getNearby(int row, int col) {
+  protected List<Integer> getNearby(int row, int col) {
     int[] x = {0, 0, 1, -1};
     int[] y = {1, -1, 0, 0};
-    int[] neighbors = new int[4];
+    ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
 
     while(idx<4){
       try {
-        neighbors[idx] = currGrid.getCellStateNumber(row + x[idx], col + y[idx]);
+        neighbors.add(idx,currGrid.getCellStateNumber(row + x[idx], col + y[idx]));
       } catch (IndexOutOfBoundsException e) {
         //handles edge cases
-        neighbors[idx] = EMPTY;
+        neighbors.add(idx,EMPTY);
       }
       idx++;
     }
@@ -45,8 +48,17 @@ public class PredatorPreyModel extends Model{
    * current rule for Spreading Of Fire. returns EMPTY/TREE/BURNING state
    */
   @Override
-  protected Integer currRule(int state, int[] nearby) {
+  protected Integer currRule(int state, List<Integer> nearby) {
+    if (state == EMPTY){
+      return EMPTY;
+    }
+
+    if (state == FISH){
+
+    }else {
+    }
     return 0;
   }
+
 
 }

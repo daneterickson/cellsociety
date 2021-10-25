@@ -3,6 +3,7 @@ package cellsociety.model.model;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SegregationModel extends Model{
@@ -31,12 +32,13 @@ public class SegregationModel extends Model{
    * finds 8 neighboring cells and returns them as a linear array: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
    * <p>
    * if the current point is an edge, it acts as if the edges are DEAD_STATES
+   * @return
    */
   @Override
-  protected int[] getNearby(int row, int col) {
+  protected List<Integer> getNearby(int row, int col) {
     int[] dx = {-1, 0, 1};
     int[] dy = {-1, 0, 1};
-    int[] neighbors = new int[8];
+    ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
 
     for (int x : dx) {
@@ -45,10 +47,10 @@ public class SegregationModel extends Model{
           continue;
         }
         try {
-          neighbors[idx] = currGrid.getCellStateNumber(row + x, col + y);
+          neighbors.add(idx,currGrid.getCellStateNumber(row + x, col + y));
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases
-          neighbors[idx] = EMPTY;
+          neighbors.add(idx, EMPTY);
         }
         idx++;
       }
@@ -59,7 +61,7 @@ public class SegregationModel extends Model{
   /**
    * current rule for Segregation. returns EMPTY/RACE1/RACE2 state
    */
-  protected Integer currRule(int state, int[] nearby) {
+  protected Integer currRule(int state, List<Integer> nearby) {
     if (state == EMPTY) {
       return EMPTY;
     }
@@ -81,7 +83,7 @@ public class SegregationModel extends Model{
     addNewUpdates(r,c,state);
   }
 
-  private double getAllyPercentage(int state, int[] nearby) {
+  private double getAllyPercentage(int state, List<Integer> nearby) {
     double totalNeighbors = 0;
     double allies = 0;
     for (int i : nearby) {

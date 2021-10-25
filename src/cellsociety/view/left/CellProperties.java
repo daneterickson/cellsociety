@@ -10,6 +10,7 @@ public class CellProperties {
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
   private final String CORD_TITLE = "Current Cell";
   private final String DEFAULT_SIM = "Game Of Life";
+  private final String STATE_COLOR_TITLE = "Color Key:";
   private int myCurrentX;
   private int myCurrentY;
   private String myCurrentState;
@@ -57,6 +58,7 @@ public class CellProperties {
     labelBox.getChildren().add(initializeSimTypeLabel());
     labelBox.getChildren().add(makeCellCordTitle());
     labelBox.getChildren().add(initializeCellCordLabel());
+    labelBox.getChildren().add(makeStateColorTitle());
 
     return labelBox;
   }
@@ -75,6 +77,12 @@ public class CellProperties {
   private Node initializeSimTypeLabel(){
     mySimTypeLabel = new Label(DEFAULT_SIM);
     return mySimTypeLabel;
+  }
+
+  private Node makeStateColorTitle(){
+    Label title = new Label(STATE_COLOR_TITLE);
+    title.getStyleClass().add("stateColorsTitle");
+    return title;
   }
   /*private Node initializeCellStateLabel(myCurrentState){
     myCellStateLabel = new Label();

@@ -10,7 +10,7 @@ public class SegregationModel extends Model{
   private final int EMPTY = 0;
   private final int RACE1 = 1;
   private final int RACE2 = 2;
-  private double threshold;
+  private double threshold = .50;
   private ArrayList<Integer> emptySpots;
   private Random random;
   private int numCols;
@@ -19,6 +19,7 @@ public class SegregationModel extends Model{
     super(controller,grid);
     numCols = grid.getNumCols();
     random = new Random();
+    emptySpots = new ArrayList<>();
     iterateGrid(row -> col -> {
       if (currGrid.getCellStateNumber(row,col) == EMPTY){
         emptySpots.add(row*numCols+col);
@@ -58,8 +59,7 @@ public class SegregationModel extends Model{
   /**
    * current rule for Segregation. returns EMPTY/RACE1/RACE2 state
    */
-  protected Integer currRule(int row, int col, int state) {
-    int[] nearby = getNearby(row, col);
+  protected Integer currRule(int state, int[] nearby) {
     if (state == EMPTY) {
       return EMPTY;
     }
@@ -67,24 +67,23 @@ public class SegregationModel extends Model{
     double allyPercentage = getAllyPercentage(state, nearby);
 
     if (allyPercentage < threshold){
-      relocate(row, col, state);
+      relocate(state);
       return EMPTY;
     }
     return state;
   }
 
-  private void relocate(int row, int col, int state) {
+  private void relocate(int state) {
     int idx = random.nextInt(emptySpots.size());
     int r = emptySpots.get(idx) / numCols;
     int c = emptySpots.get(idx) % numCols;
 
-    emptySpots.add(idx, r*numCols+c);
     addNewUpdates(r,c,state);
   }
 
   private double getAllyPercentage(int state, int[] nearby) {
-    int totalNeighbors = 0;
-    int allies = 0;
+    double totalNeighbors = 0;
+    double allies = 0;
     for (int i : nearby) {
       if (i != EMPTY) {
         totalNeighbors += 1;

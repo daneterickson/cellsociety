@@ -2,7 +2,6 @@ package cellsociety.model.model;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import java.util.ArrayList;
 
 public class GameOfLifeModel extends Model{
 
@@ -46,8 +45,7 @@ public class GameOfLifeModel extends Model{
    * current rule for Game of life. returns dead/live state
    */
   @Override
-  protected Integer currRule(int row, int col, int state) {
-    int[] nearby = getNearby(row, col);
+  protected Integer currRule(int state, int[] nearby) {
     int population = 0;
     for (int i : nearby) {
       if (i == LIVE_STATE) {

@@ -45,8 +45,7 @@ public class PredatorPreyModel extends Model{
    * current rule for Spreading Of Fire. returns EMPTY/TREE/BURNING state
    */
   @Override
-  protected Integer currRule(int row, int col, int state) {
-    int[] nearby = getNearby(row, col);
+  protected Integer currRule(int state, int[] nearby) {
     return 0;
   }
 

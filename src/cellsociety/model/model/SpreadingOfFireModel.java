@@ -9,7 +9,7 @@ public class SpreadingOfFireModel extends Model{
   private final int EMPTY = 0;
   private final int TREE = 1;
   private final int BURNING = 2;
-  private int probCatch;
+  private double probCatch = 0.5;
   private Random random;
 
   public SpreadingOfFireModel(Controller controller, Grid grid) {
@@ -45,9 +45,7 @@ public class SpreadingOfFireModel extends Model{
    * current rule for Spreading Of Fire. returns EMPTY/TREE/BURNING state
    */
   @Override
-  protected Integer currRule(int row, int col, int state) {
-    int[] nearby = getNearby(row, col);
-
+  protected Integer currRule(int state, int[] nearby) {
     if (state == EMPTY || state == BURNING){
       return EMPTY;
     }

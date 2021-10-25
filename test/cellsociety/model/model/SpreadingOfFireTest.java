@@ -1,9 +1,9 @@
-package cellsociety.model;
+package cellsociety.model.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
-import cellsociety.model.model.GameOfLifeModel;
+import cellsociety.model.Grid;
 import cellsociety.model.model.Model;
 import cellsociety.model.model.SpreadingOfFireModel;
 import java.lang.reflect.InvocationTargetException;

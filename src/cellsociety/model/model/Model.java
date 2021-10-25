@@ -55,7 +55,8 @@ public abstract class Model {
    * checks if cell state is changed. row,col, and newState are added to newUpdates if there is a change
    */
   protected void updateCell(int row, int col, int state) {
-    int newState = currRule(row,col,state);
+    int[] nearby = getNearby(row,col);
+    int newState = currRule(state,nearby);
     if (newState != state){
       addNewUpdates(row, col, newState);
     }
@@ -88,6 +89,6 @@ public abstract class Model {
 
   protected abstract int[] getNearby(int row, int col);
 
-  protected abstract Integer currRule(int row, int col, int state);
+  protected abstract Integer currRule(int state, int[] nearby);
 
 }

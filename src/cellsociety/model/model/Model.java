@@ -79,12 +79,8 @@ public abstract class Model {
    * Methods that will be overridden based on model type
    */
 
-  protected int[] getNearby(int row, int col) {
-    return new int[0];
-  }
+  protected abstract int[] getNearby(int row, int col);
 
-  protected Integer currRule(int state, int[] nearby) {
-    return 0;
-  }
+  protected abstract Integer currRule(int state, int[] nearby);
 
 }

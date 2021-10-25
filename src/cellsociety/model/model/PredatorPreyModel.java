@@ -4,7 +4,7 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.Random;
 
-public class SpreadingOfFireModel extends Model{
+public class PredatorPreyModel extends Model{
 
   private final int EMPTY = 0;
   private final int TREE = 1;
@@ -12,7 +12,7 @@ public class SpreadingOfFireModel extends Model{
   private int probCatch;
   private Random random;
 
-  public SpreadingOfFireModel(Controller controller, Grid grid) {
+  public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller,grid);
     random = new Random();
   }

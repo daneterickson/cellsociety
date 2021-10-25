@@ -103,10 +103,18 @@ public class Controller {
     myMainView.initiateGridView();
   }
 
+  /**
+   * Getter method that returns the number of columns in the model grid
+   * @return integer number of columns
+   */
   public int getNumGridCols(){
     return currGrid.getNumCols();
   }
 
+  /**
+   * Getter method that returns the number of rows in the model grid
+   * @return integer number of rows
+   */
   public int getNumGridRows(){
     return currGrid.getNumRows();
   }

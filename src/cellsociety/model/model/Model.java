@@ -3,6 +3,8 @@ package cellsociety.model.model;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class Model {
 
@@ -18,7 +20,9 @@ public abstract class Model {
 
   public void updateModel(Grid currGrid){
     this.currGrid = currGrid;
-    iterateGrid();
+    iterateGrid(row -> col -> {
+      updateCell(row,col,currGrid.getCellStateNumber(row, col));
+    });
     updateGrid();
     myController.setHasUpdate(true);
   }
@@ -27,12 +31,13 @@ public abstract class Model {
    * iterates through the grid until an exception, which determine when to go the next row/end. each
    * cell in the grid is then processed and then used to call addToNewGrid
    */
-  protected void iterateGrid(){
+  protected void iterateGrid(Function<Integer, Consumer<Integer>> gridIterationAction){
     int row = 0;
     int col = 0;
     while (true) {
       try {
-        updateCell(row, col, currGrid.getCellStateNumber(row, col));
+        currGrid.getCellStateNumber(row, col);
+        gridIterationAction.apply(row).accept(row);
         col += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {
@@ -44,6 +49,22 @@ public abstract class Model {
         }
       }
     }
+  }
+
+  /**
+   * checks if cell state is changed. row,col, and newState are added to newUpdates if there is a change
+   */
+  protected void updateCell(int row, int col, int state) {
+    int newState = currRule(row,col,state);
+    if (newState != state){
+      addNewUpdates(row, col, newState);
+    }
+  }
+
+  protected void addNewUpdates(int row, int col, int newState) {
+    newUpdates.add(row);
+    newUpdates.add(col);
+    newUpdates.add(newState);
   }
 
   /**
@@ -62,25 +83,11 @@ public abstract class Model {
   }
 
   /**
-   * checks if cell state is changed. row,col, and newState are added to newUpdates if there is a change
-   */
-  protected void updateCell(int row, int col, int state) {
-    //nearby: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
-    int[] nearby = getNearby(row, col);
-    int newState = currRule(state, nearby);
-    if (newState != state){
-      newUpdates.add(row);
-      newUpdates.add(col);
-      newUpdates.add(newState);
-    }
-  }
-
-  /**
    * Methods that will be overridden based on model type
    */
 
   protected abstract int[] getNearby(int row, int col);
 
-  protected abstract Integer currRule(int state, int[] nearby);
+  protected abstract Integer currRule(int row, int col, int state);
 
 }

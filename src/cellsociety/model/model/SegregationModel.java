@@ -2,6 +2,7 @@ package cellsociety.model.model;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SegregationModel extends Model{
@@ -9,12 +10,20 @@ public class SegregationModel extends Model{
   private final int EMPTY = 0;
   private final int RACE1 = 1;
   private final int RACE2 = 2;
-  private int tolerance;
+  private double threshold;
+  private ArrayList<Integer> emptySpots;
   private Random random;
+  private int numCols;
 
   public SegregationModel(Controller controller, Grid grid) {
     super(controller,grid);
+    numCols = grid.getNumCols();
     random = new Random();
+    iterateGrid(row -> col -> {
+      if (currGrid.getCellStateNumber(row,col) == EMPTY){
+        emptySpots.add(row*numCols+col);
+      }
+    });
   }
 
   /**
@@ -49,9 +58,42 @@ public class SegregationModel extends Model{
   /**
    * current rule for Segregation. returns EMPTY/RACE1/RACE2 state
    */
-  @Override
-  protected Integer currRule(int state, int[] nearby) {
-    return 0;
+  protected Integer currRule(int row, int col, int state) {
+    int[] nearby = getNearby(row, col);
+    if (state == EMPTY) {
+      return EMPTY;
+    }
+
+    double allyPercentage = getAllyPercentage(state, nearby);
+
+    if (allyPercentage < threshold){
+      relocate(row, col, state);
+      return EMPTY;
+    }
+    return state;
+  }
+
+  private void relocate(int row, int col, int state) {
+    int idx = random.nextInt(emptySpots.size());
+    int r = emptySpots.get(idx) / numCols;
+    int c = emptySpots.get(idx) % numCols;
+
+    emptySpots.add(idx, r*numCols+c);
+    addNewUpdates(r,c,state);
+  }
+
+  private double getAllyPercentage(int state, int[] nearby) {
+    int totalNeighbors = 0;
+    int allies = 0;
+    for (int i : nearby) {
+      if (i != EMPTY) {
+        totalNeighbors += 1;
+      }
+      if (i == state){
+        allies++;
+      }
+    }
+    return allies/totalNeighbors;
   }
 
 }

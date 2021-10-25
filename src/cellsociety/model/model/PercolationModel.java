@@ -45,20 +45,9 @@ public class PercolationModel extends Model{
    * current rule for Spreading Of Fire. returns EMPTY/TREE/BURNING state
    */
   @Override
-  protected Integer currRule(int state, int[] nearby) {
-    if (state == EMPTY || state == BURNING){
-      return EMPTY;
-    }
-
-    for (int neighborState : nearby){
-      if (neighborState == BURNING){
-        if (random.nextFloat() < probCatch){
-          return BURNING;
-        }
-        return TREE;
-      }
-    }
-    return TREE;
+  protected Integer currRule(int row, int col, int state) {
+    int[] nearby = getNearby(row, col);
+    return 0;
   }
 
 }

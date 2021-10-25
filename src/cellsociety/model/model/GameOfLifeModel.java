@@ -46,7 +46,8 @@ public class GameOfLifeModel extends Model{
    * current rule for Game of life. returns dead/live state
    */
   @Override
-  protected Integer currRule(int state, int[] nearby) {
+  protected Integer currRule(int row, int col, int state) {
+    int[] nearby = getNearby(row, col);
     int population = 0;
     for (int i : nearby) {
       if (i == LIVE_STATE) {

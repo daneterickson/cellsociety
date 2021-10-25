@@ -45,7 +45,9 @@ public class SpreadingOfFireModel extends Model{
    * current rule for Spreading Of Fire. returns EMPTY/TREE/BURNING state
    */
   @Override
-  protected Integer currRule(int state, int[] nearby) {
+  protected Integer currRule(int row, int col, int state) {
+    int[] nearby = getNearby(row, col);
+
     if (state == EMPTY || state == BURNING){
       return EMPTY;
     }

@@ -9,11 +9,13 @@ public class CellProperties {
   private String RESOURCE = "cellsociety.view.left.";
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
   private final String CORD_TITLE = "Current Cell";
+  private final String DEFAULT_SIM = "Game Of Life";
   private int myCurrentX;
   private int myCurrentY;
   private String myCurrentState;
   private Label myCellCoordinatesLabel;
   private Label myCellStateLabel;
+  private Label mySimTypeLabel;
   private VBox myCellProperties;
 
 
@@ -42,15 +44,22 @@ public class CellProperties {
     myCellCoordinatesLabel.setText("("+myCurrentX+", "+myCurrentY+")");
   }
 
+  /**
+   * Updates the label that displays the current simulation type
+   * @param simType The String representing the simulation type
+   */
+  public void updateSimTypeLabel(String simType){
+    mySimTypeLabel.setText(simType);
+  }
+
   private Node makeCellPropLabels(){
     VBox labelBox = new VBox();
+    labelBox.getChildren().add(initializeSimTypeLabel());
     labelBox.getChildren().add(makeCellCordTitle());
     labelBox.getChildren().add(initializeCellCordLabel());
 
     return labelBox;
   }
-
-
 
   private Node initializeCellCordLabel(){
     myCellCoordinatesLabel = new Label("("+myCurrentX+", "+myCurrentY+")");
@@ -62,6 +71,11 @@ public class CellProperties {
     title.getStyleClass().add("coordinateTitle");
     return title;
   }
+
+  private Node initializeSimTypeLabel(){
+    mySimTypeLabel = new Label(DEFAULT_SIM);
+    return mySimTypeLabel;
+  }
   /*private Node initializeCellStateLabel(myCurrentState){
     myCellStateLabel = new Label();
     return myCellStateLabel;
@@ -71,6 +85,7 @@ public class CellProperties {
     myCellProperties.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     myCellProperties.getStyleClass().add("root");
     myCellCoordinatesLabel.getStyleClass().add("coordinateLabel");
+    mySimTypeLabel.getStyleClass().add("simTypeLabel");
   }
 
 

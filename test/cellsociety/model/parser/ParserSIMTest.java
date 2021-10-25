@@ -41,6 +41,14 @@ public class ParserSIMTest {
   }
 
   @Test
+  void testGetParameter() throws FileNotFoundException {
+    myParser.readFile(new File("data/spreading_of_fire/single_flame.sim"));
+    double expected = 0.55;
+    double actual = myParser.getParameter();
+    assertEquals(expected, actual);
+  }
+
+  @Test
   void testStatesColorMap() throws FileNotFoundException {
     myParser.readFile(new File("data/percolation/long_pipe.sim"));
     String colors[] = {"FFFFFF","0000FF","000000"};
@@ -66,5 +74,6 @@ public class ParserSIMTest {
     assertEquals(null, myParser.getStateColorMap().get(0));
     assertEquals(null, myParser.getType());
   }
+
 
 }

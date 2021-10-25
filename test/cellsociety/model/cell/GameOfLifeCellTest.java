@@ -1,19 +1,21 @@
-package cellsociety.model;
+package cellsociety.model.cell;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import cellsociety.model.cell.GameOfLifeCell;
 import cellsociety.model.cell.ModelCell;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ModelCellTest {
+public class GameOfLifeCellTest {
 
   private ModelCell myCell;
+  private Map<Integer, String> myStartColors;
 
   @BeforeEach
   void setUp() {
-    myCell = new GameOfLifeCell(0, 0, 0);
+    myCell = new GameOfLifeCell(0, 0, myStartColors, 0);
   }
 
   @Test
@@ -35,13 +37,13 @@ public class ModelCellTest {
 
   @Test
   void testSetName() {
-    assertEquals("Dead", myCell.getStateName());
+    assertEquals("dead", myCell.getStateName());
   }
 
   @Test
   void testChangeName() {
     myCell.changeState(1);
-    assertEquals("Alive", myCell.getStateName());
+    assertEquals("alive", myCell.getStateName());
   }
 
 

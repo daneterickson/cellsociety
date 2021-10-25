@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -28,9 +30,10 @@ public class Controller {
   private static final int SCENE_HEIGHT = 500;
   private static final int DEFAULT_GRID_WIDTH = 10;
   private static final int DEFAULT_GRID_HEIGHT = 10;
+  public static final Map<Integer, String> DEFAULT_COLOR_MAP = new HashMap<>();
   private static final String DEFAULT_TYPE = "GameOfLife";
   private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
-  private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_TYPE);
+  private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_COLOR_MAP, DEFAULT_TYPE);
 
 
   public Controller(Stage stage) {
@@ -54,7 +57,7 @@ public class Controller {
       e.printStackTrace();
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
-        myParserCSV.getStartStates(), DEFAULT_TYPE);
+        myParserCSV.getStartStates(), DEFAULT_COLOR_MAP, DEFAULT_TYPE);
     myModel = new GameOfLifeModel(this, currGrid);
     myMainView.initiateGridView();
   }
@@ -95,7 +98,7 @@ public class Controller {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
-    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getType());
+    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getStateColorMap(), myParserSIM.getType());
     myModel = new GameOfLifeModel(this, currGrid);
     myMainView.initiateGridView();
   }

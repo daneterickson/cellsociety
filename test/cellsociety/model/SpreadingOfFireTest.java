@@ -8,6 +8,8 @@ import cellsociety.model.model.Model;
 import cellsociety.model.model.SpreadingOfFireModel;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +21,7 @@ public class SpreadingOfFireTest {
   private int numRows;
   private int numCols;
   private Controller myController;
+  private Map<Integer, String> myStartColors;
 
   @BeforeEach
   void setUp() {
@@ -30,8 +33,9 @@ public class SpreadingOfFireTest {
 
     numRows = 5;
     numCols = 5;
+    myStartColors = new HashMap<>();
     String type = "SpreadingOfFire";
-    myGrid = new Grid(numRows, numCols, myStates, type);
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, type);
     myModel = new SpreadingOfFireModel(myController, myGrid);
   }
 

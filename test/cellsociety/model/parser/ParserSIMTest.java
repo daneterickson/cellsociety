@@ -46,7 +46,7 @@ public class ParserSIMTest {
     String colors[] = {"FFFFFF","0000FF","000000"};
     for (int i=0; i<colors.length; i++) {
       String expected = colors[i];
-      String actual = myParser.getStateColor(i);
+      String actual = myParser.getStateColorMap().get(i);
       assertEquals(expected, actual);
     }
   }
@@ -63,7 +63,7 @@ public class ParserSIMTest {
     myParser.readFile(new File("data/game_of_life/empty.sim"));
     assertEquals(null, myParser.getInitialStates());
     assertEquals(null, myParser.getTitle());
-    assertEquals(null, myParser.getStateColor(0));
+    assertEquals(null, myParser.getStateColorMap().get(0));
     assertEquals(null, myParser.getType());
   }
 

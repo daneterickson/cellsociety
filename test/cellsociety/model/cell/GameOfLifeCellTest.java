@@ -4,16 +4,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import cellsociety.model.cell.GameOfLifeCell;
 import cellsociety.model.cell.ModelCell;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ModelCellTest {
+public class GameOfLifeCellTest {
 
   private ModelCell myCell;
+  private Map<Integer, String> myStartColors;
 
   @BeforeEach
   void setUp() {
-    myCell = new GameOfLifeCell(0, 0, 0);
+    myCell = new GameOfLifeCell(0, 0, myStartColors, 0);
   }
 
   @Test

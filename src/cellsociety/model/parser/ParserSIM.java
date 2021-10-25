@@ -47,7 +47,7 @@ public class ParserSIM implements Parser {
     }
   }
 
-  public String getStateColor(int stateNum) { return myStatesColorMap.get(stateNum); }
+  public Map<Integer, String> getStateColorMap() { return myStatesColorMap; }
 
   public String getType() {
     return myInfoMap.get("Type");

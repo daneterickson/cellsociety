@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import cellsociety.model.cell.GameOfLifeCell;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +18,7 @@ public class GridTest {
   private ArrayList<ArrayList<Integer>> myStatesList;
   private int numRows;
   private int numCols;
+  private Map<Integer, String> myStartColors;
 
   @BeforeEach
   void setUp() {
@@ -24,8 +27,9 @@ public class GridTest {
     myStatesList = new ArrayList<>();
     numRows = 5;
     numCols = 5;
+    myStartColors = new HashMap<>();
     String type = "GameOfLife";
-    myGrid = new Grid(numRows, numCols, myStates, type);
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, type);
 
   }
 

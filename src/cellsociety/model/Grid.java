@@ -4,6 +4,7 @@ import cellsociety.model.cell.GameOfLifeCell;
 import cellsociety.model.cell.ModelCell;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Grid {
 
@@ -11,10 +12,12 @@ public class Grid {
   private int myNumCols;
   private ModelCell myGrid[][];
   private String myCellType;
+  private Map<Integer, String> myStartColors;
 
-  public Grid(int rows, int cols, int[][] startStates, String type) {
+  public Grid(int rows, int cols, int[][] startStates, Map<Integer, String> startColors, String type) {
     myNumRows = rows;
     myNumCols = cols;
+    myStartColors = startColors;
     myCellType = String.format("cellsociety.model.cell.%sCell", type);
     myGrid = new ModelCell[rows][cols];
     setStartStates(startStates);
@@ -68,10 +71,10 @@ public class Grid {
 
   private void setCell(int i, int j, int state) throws ClassNotFoundException {
     Class<?> clazz = Class.forName(myCellType);
-    ModelCell newCell = new GameOfLifeCell(i, j, state);
+    ModelCell newCell = new GameOfLifeCell(i, j, myStartColors, state);
     try {
-      newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, int.class)
-          .newInstance(i, j, state);
+      newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, Map.class, int.class)
+          .newInstance(i, j, myStartColors, state);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
       System.out.println("Method Not Found");
       e.printStackTrace();

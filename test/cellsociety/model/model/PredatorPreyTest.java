@@ -14,7 +14,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SegregationTest {
+public class PredatorPreyTest {
 
   private Model myModel;
   private Grid myGrid;
@@ -35,9 +35,9 @@ public class SegregationTest {
     numRows = 5;
     numCols = 5;
     myStartColors = new HashMap<>();
-    String type = "Segregation";
+    String type = "PredatorPrey";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, type);
-    myModel = new SegregationModel(myController, myGrid);
+    myModel = new PredatorPreyModel(myController, myGrid);
   }
 
   @Test
@@ -46,19 +46,20 @@ public class SegregationTest {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
 
+
     ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2,2);
 
-    int race1 = 0;
-    int race2 = 0;
+    int empty = 0;
+    int fish = 0;
     for (int i : neighbors) {
-      if (i == 1) {
-        race1 += 1;
-      }else if (i == 2){
-        race2 += 1;
+      if (i == 0) {
+        empty += 1;
+      }else if (i == 1){
+        fish += 1;
       }
     }
-    assertEquals(4,race1,"(2,2) should have 4 race1 neighbors. got: " + race1 );
-    assertEquals(3,race2,"(2,2) should have 3 race2 neighbors. got: " + race2 );
+    assertEquals(1,empty,"(2,2) should have 1 empty neighbors. got: " + empty );
+    assertEquals(2,fish,"(2,2) should have 2 fish neighbors. got: " + fish );
   }
 
   @Test
@@ -70,21 +71,36 @@ public class SegregationTest {
     List<Integer> list;
     int currRow = 2;
     int currCol = 2;
-
     //empty cell
-    list = Arrays.asList(new Integer[]{0,0,0,1,2,0,1,0});
+    list = Arrays.asList(new Integer[]{0,0,0,1});
     ret = (int) currRule.invoke(myModel,currRow,currCol, 0, list);
     assertEquals(0,ret, "empty cell should remain empty(0). got: "+ret);
 
-    //Over threshold
-    list = Arrays.asList(new Integer[]{0,0,0,1,2,1,1,0});
+    //fish moving
+    list = Arrays.asList(new Integer[]{0,2,1,1});
     ret = (int) currRule.invoke(myModel, currRow,currCol,1, list);
-    assertEquals(1,ret, "Cell state should stay the same. got: "+ret);
+    assertEquals(0,ret, "fish should've moved. got: "+ret);
 
-    //Under threshold
-    list = Arrays.asList(new Integer[]{0,0,0,1,2,2,2,0});
+    //fish cant move
+    list = Arrays.asList(new Integer[]{1,2,1,1});
     ret = (int) currRule.invoke(myModel, currRow,currCol,1, list);
-    assertEquals(0,ret, "Cell should be vacated. got: "+ret);
+    assertEquals(1,ret, "fish shouldn't be able to move. got: "+ret);
+
+    //shark moving
+    list = Arrays.asList(new Integer[]{0,2,2,2});
+    ret = (int) currRule.invoke(myModel, currRow,currCol,2, list);
+    assertEquals(0,ret, "shark should move. got: "+ret);
+
+    //shark cant move
+    list = Arrays.asList(new Integer[]{2,2,2,2});
+    ret = (int) currRule.invoke(myModel, currRow,currCol,2, list);
+    assertEquals(2,ret, "shark shouldn't be able to move. got: "+ret);
+
+//    //Under threshold
+//    list = Arrays.asList(new Integer[]{0,0,0,1});
+//    ret = (int) currRule.invoke(myModel, 1, list);
+//    assertEquals(0,ret, "Cell should be vacated. got: "+ret);
+
   }
 
   @Test

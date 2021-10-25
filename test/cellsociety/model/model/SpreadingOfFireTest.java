@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.model.Model;
-import cellsociety.model.model.SpreadingOfFireModel;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -53,10 +51,10 @@ public class SpreadingOfFireTest {
     int burning = 0;
     int tree = 0;
     for (int i : neighbors) {
-      if (i == 2) {
-        burning += 1;
-      }else if (i == 1){
+      if (i == 1) {
         tree += 1;
+      }else if (i == 2){
+        burning += 1;
       }
     }
     assertEquals(1,burning,"(2,2) should have 1 burning neighbors. got: " + burning );
@@ -66,7 +64,7 @@ public class SpreadingOfFireTest {
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, List.class);
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class, List.class);
     currRule.setAccessible(true);
 //    No test here bc can't test random
 //    int newState;

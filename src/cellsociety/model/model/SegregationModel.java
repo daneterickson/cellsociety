@@ -61,7 +61,7 @@ public class SegregationModel extends Model{
   /**
    * current rule for Segregation. returns EMPTY/RACE1/RACE2 state
    */
-  protected Integer currRule(int state, List<Integer> nearby) {
+  protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
     if (state == EMPTY) {
       return EMPTY;
     }

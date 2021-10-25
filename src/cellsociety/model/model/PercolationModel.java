@@ -48,7 +48,7 @@ public class PercolationModel extends Model{
    * current rule for Spreading Of Fire. returns EMPTY/TREE/BURNING state
    */
   @Override
-  protected Integer currRule(int state, List<Integer> nearby) {
+  protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
     return 0;
   }
 

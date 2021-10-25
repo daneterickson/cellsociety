@@ -33,18 +33,18 @@ public abstract class Model {
    * cell in the grid is then processed and then used to call addToNewGrid
    */
   protected void iterateGrid(Function<Integer, Consumer<Integer>> gridIterationAction){
-    int row = 0;
-    int col = 0;
+    int currRow = 0;
+    int currCol = 0;
     while (true) {
       try {
-        currGrid.getCellStateNumber(row, col);
-        gridIterationAction.apply(row).accept(row);
-        col += 1;
+        currGrid.getCellStateNumber(currRow, currCol);
+        gridIterationAction.apply(currRow).accept(currRow);
+        currCol += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {
-          col = 0;
-          row += 1;
-          currGrid.getCellStateNumber(row, col);
+          currCol = 0;
+          currRow += 1;
+          currGrid.getCellStateNumber(currRow, currCol);
         } catch (IndexOutOfBoundsException yOutOfBounds) {
           break;
         }
@@ -57,7 +57,7 @@ public abstract class Model {
    */
   protected void updateCell(int row, int col, int state) {
     List<Integer> nearby = getNearby(row,col);
-    int newState = currRule(state,nearby);
+    int newState = currRule(row, col, state, nearby);
     if (newState != state){
       addNewUpdates(row, col, newState);
     }
@@ -91,6 +91,6 @@ public abstract class Model {
 
   protected abstract List<Integer> getNearby(int row, int col);
 
-  protected abstract Integer currRule(int state, List<Integer> nearby);
+  protected abstract Integer currRule(int currRow, int currCol, int state, List<Integer> nearby);
 
 }

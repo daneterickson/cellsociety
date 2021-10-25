@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.model.GameOfLifeModel;
-import cellsociety.model.model.Model;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -63,38 +61,40 @@ public class GameOfLifeModelTest {
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, List.class);
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class, List.class);
     currRule.setAccessible(true);
     int newState;
     List<Integer> list;
+    int currRow = 2;
+    int currCol = 2;
     //stable population
     list = Arrays.asList(new Integer[]{0,0,1,1,0,0,0,0});
-    newState = (int) currRule.invoke(myModel, 1,list);
+    newState = (int) currRule.invoke(myModel, currRow,currCol,1,list);
     assertEquals(1,newState,"New state should be 1. got: " + newState );
 
     //overpopulation
     list = Arrays.asList(new Integer[]{0,0,1,1,0,1,0,1});
-    newState = (int) currRule.invoke(myModel, 1, list);
+    newState = (int) currRule.invoke(myModel, currRow,currCol,1, list);
     assertEquals(0,newState,"New state should be 0. got: " + newState );
 
     //underpopulation
     list = Arrays.asList(new Integer[]{0,0,0,0,0,0,0,1});
-    newState = (int) currRule.invoke(myModel, 1,list);
+    newState = (int) currRule.invoke(myModel, currRow,currCol,1,list);
     assertEquals(0,newState,"New state should be 0. got: " + newState );
 
     //Failed reproduction
     list = Arrays.asList(new Integer[]{0,0,0,0,0,0,0,1});
-    newState = (int) currRule.invoke(myModel, 0,list);
+    newState = (int) currRule.invoke(myModel, currRow,currCol,0,list);
     assertEquals(0,newState,"New state should be 0. got: " + newState );
 
     //Failed reproduction
     list = Arrays.asList(new Integer[]{0,0,1,1,1,0,0,1});
-    newState = (int) currRule.invoke(myModel, 0,list);
+    newState = (int) currRule.invoke(myModel, currRow,currCol,0,list);
     assertEquals(0,newState,"New state should be 0. got: " + newState );
 
     //Successful reproduction
     list = Arrays.asList(new Integer[]{0,0,1,0,1,0,0,1});
-    newState = (int) currRule.invoke(myModel, 0,list);
+    newState = (int) currRule.invoke(myModel, currRow,currCol,0,list);
     assertEquals(1,newState,"New state should be 1. got: " + newState );
 
   }

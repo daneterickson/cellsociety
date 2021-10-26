@@ -22,6 +22,7 @@ public class mainViewTest extends DukeApplicationTest {
 
   Button loadCSVButton;
   Button saveCSVButton;
+  Slider speedSlider;
 
   @Override
   public void start (Stage stage) {
@@ -54,5 +55,10 @@ public class mainViewTest extends DukeApplicationTest {
     }
   }
 
+  @Test
+  void testAnimationSpeedSliderMaxSpeed(){
+    speedSlider = lookup("#speedSlider").query();
+    setValue(speedSlider, 3);
+  }
 
 }

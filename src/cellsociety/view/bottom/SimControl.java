@@ -101,10 +101,11 @@ public class SimControl {
         myAnimation.setRate(myAnimationRate);
       }
     });
+    speedSlider.setId("speedSlider");
     sliderBox.getChildren().add(turtleIcon);
     sliderBox.getChildren().add(speedSlider);
     sliderBox.getChildren().add(rabbitIcon);
-    sliderBox.getStyleClass().add("slider");
+    sliderBox.getStyleClass().add("speedSlider");
     return sliderBox;
   }
 

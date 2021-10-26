@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ParserSIM implements Parser {
+
   private File myFile;
   private Map<String, String> myInfoMap;
   private Map<Integer, String> myStatesColorMap;
 
-  public ParserSIM () {
+  public ParserSIM() {
     myInfoMap = new HashMap<>();
     myStatesColorMap = new HashMap<>();
   }
@@ -42,12 +43,14 @@ public class ParserSIM implements Parser {
 
   private void assignStateColors() {
     String colors[] = myInfoMap.get("StateColors").split(",");
-    for (int i=0; i<colors.length; i++) {
+    for (int i = 0; i < colors.length; i++) {
       myStatesColorMap.put(i, colors[i]);
     }
   }
 
-  public Map<Integer, String> getStateColorMap() { return myStatesColorMap; }
+  public Map<Integer, String> getStateColorMap() {
+    return myStatesColorMap;
+  }
 
   public String getType() {
     return myInfoMap.get("Type");
@@ -61,7 +64,9 @@ public class ParserSIM implements Parser {
     return myInfoMap.get("InitialStates");
   }
 
-
+  public double getParameter() {
+    return Double.valueOf(myInfoMap.get("Parameter"));
+  }
 
 
 }

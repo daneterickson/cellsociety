@@ -1,0 +1,6 @@
+Type=Segregation
+Title=Simple Flip
+Author=Dane Erickson
+Description=Cell constantly flips to the empty spot
+InitialStates=segregation/simple_flip.csv
+Parameter=0.5

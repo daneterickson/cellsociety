@@ -1,7 +1,5 @@
 package cellsociety.model.cell;
 
-import java.util.Map;
-
 public class SegregationCell extends ModelCell{
 
   public static final String RACE1_RED = "ff0000";
@@ -10,12 +8,14 @@ public class SegregationCell extends ModelCell{
   public static final String RACE2_NAME = "race2";
 
   private String myStartColors;
-  private String myParameters;
 
   public SegregationCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
     myStartColors = startColors;
-    myParameters = parameters;
+    if (parameters == null) {
+      parameters = "0.5"; // default 50% similarity threshold
+    }
+    setParameters(parameters);
   }
 
   @Override
@@ -31,6 +31,6 @@ public class SegregationCell extends ModelCell{
 
   @Override
   protected void setParameters(String parameters) {
-    setProperty("Threshold", parameters.split(",")[0]);
+    setCellParameter("Threshold", Double.valueOf(parameters.split(",")[0]));
   }
 }

@@ -20,7 +20,7 @@ public class ParserSIMTest {
   void testGetType() throws FileNotFoundException {
     myParser.readFile(new File("data/game_of_life/blinkers.sim"));
     String expected = "GameOfLife";
-    String actual = myParser.getType();
+    String actual = myParser.getInfo("Type");
     assertEquals(expected, actual);
   }
 
@@ -28,7 +28,7 @@ public class ParserSIMTest {
   void testGetTitle() throws FileNotFoundException {
     myParser.readFile(new File("data/game_of_life/blinkers.sim"));
     String expected = "Blinkers";
-    String actual = myParser.getTitle();
+    String actual = myParser.getInfo("Title");
     assertEquals(expected, actual);
   }
 
@@ -36,8 +36,24 @@ public class ParserSIMTest {
   void testGetInitialStates() throws FileNotFoundException {
     myParser.readFile(new File("data/game_of_life/blinkers.sim"));
     String expected = "game_of_life/blinkers.csv";
-    String actual = myParser.getInitialStates();
+    String actual = myParser.getInfo("InitialStates");
     assertEquals(expected, actual);
+  }
+
+  @Test
+  void testGetParameter() throws FileNotFoundException {
+    myParser.readFile(new File("data/spreading_of_fire/single_flame.sim"));
+    double expected = 0.55;
+    double actual = myParser.getParameters(0);
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void testGetMultipleParameters() throws FileNotFoundException {
+    myParser.readFile(new File("data/predator_prey/eat_forward.sim"));
+    assertEquals(10, myParser.getParameters(0));
+    assertEquals(11, myParser.getParameters(1));
+    assertEquals(12, myParser.getParameters(2));
   }
 
   @Test
@@ -46,7 +62,7 @@ public class ParserSIMTest {
     String colors[] = {"FFFFFF","0000FF","000000"};
     for (int i=0; i<colors.length; i++) {
       String expected = colors[i];
-      String actual = myParser.getStateColorMap().get(i);
+      String actual = myParser.getInfo("StateColors").split(",")[i];
       assertEquals(expected, actual);
     }
   }
@@ -61,10 +77,12 @@ public class ParserSIMTest {
   @Test
   void testEmptyFIle() throws FileNotFoundException {
     myParser.readFile(new File("data/game_of_life/empty.sim"));
-    assertEquals(null, myParser.getInitialStates());
-    assertEquals(null, myParser.getTitle());
-    assertEquals(null, myParser.getStateColorMap().get(0));
-    assertEquals(null, myParser.getType());
+    assertEquals(null, myParser.getInfo("Type"));
+    assertEquals(null, myParser.getInfo("Title"));
+    assertEquals(null, myParser.getInfo("InitialStates"));
+    assertEquals(null, myParser.getInfo("StateColors"));
+    assertEquals(null, myParser.getInfo("Parameters"));
   }
+
 
 }

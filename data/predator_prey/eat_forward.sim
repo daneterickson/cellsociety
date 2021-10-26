@@ -1,0 +1,6 @@
+Type=PredatorPrey
+Title=Eat Forward
+Author=Dane Erickson
+Description=Shark moves forward eating the line of fish until all fish are eaten and then moves around randomly
+InitialStates=predator_prey/eat_forward.csv
+Parameters=10,11,12

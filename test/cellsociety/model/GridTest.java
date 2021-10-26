@@ -18,7 +18,8 @@ public class GridTest {
   private ArrayList<ArrayList<Integer>> myStatesList;
   private int numRows;
   private int numCols;
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
   @BeforeEach
   void setUp() {
@@ -27,9 +28,8 @@ public class GridTest {
     myStatesList = new ArrayList<>();
     numRows = 5;
     numCols = 5;
-    myStartColors = new HashMap<>();
     String type = "GameOfLife";
-    myGrid = new Grid(numRows, numCols, myStates, myStartColors, type);
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
 
   }
 

@@ -22,7 +22,8 @@ public class GameOfLifeModelTest {
   private int numRows;
   private int numCols;
   private Controller myController;
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
   @BeforeEach
   void setUp() {
@@ -34,9 +35,8 @@ public class GameOfLifeModelTest {
 
     numRows = 5;
     numCols = 5;
-    myStartColors = new HashMap<>();
     String type = "GameOfLife";
-    myGrid = new Grid(numRows, numCols, myStates, myStartColors, type);
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new GameOfLifeModel(myController, myGrid);
   }
 

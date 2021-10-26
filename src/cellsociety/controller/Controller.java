@@ -30,10 +30,11 @@ public class Controller {
   private static final int SCENE_HEIGHT = 500;
   private static final int DEFAULT_GRID_WIDTH = 10;
   private static final int DEFAULT_GRID_HEIGHT = 10;
-  public static final Map<Integer, String> DEFAULT_COLOR_MAP = new HashMap<>();
+  public static final String DEFAULT_STATE_COLORS= "";
+  public static final String DEFAULT_PARAMETERS = "";
   private static final String DEFAULT_TYPE = "GameOfLife";
   private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
-  private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_COLOR_MAP, DEFAULT_TYPE);
+  private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
 
 
   public Controller(Stage stage) {
@@ -57,7 +58,7 @@ public class Controller {
       e.printStackTrace();
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
-        myParserCSV.getStartStates(), DEFAULT_COLOR_MAP, DEFAULT_TYPE);
+        myParserCSV.getStartStates(), DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
     myModel = new GameOfLifeModel(this, currGrid);
     myMainView.initiateGridView();
   }
@@ -91,14 +92,14 @@ public class Controller {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
-    File csvFile = new File(String.format("data/%s", myParserSIM.getInitialStates()));
+    File csvFile = new File(String.format("data/%s", myParserSIM.getInfo("InitialStates")));
     try {
       myParserCSV.readFile(csvFile);
     } catch (CsvValidationException | IOException e) {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
-    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getStateColorMap(), myParserSIM.getType());
+    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
     myModel = new GameOfLifeModel(this, currGrid);
     myMainView.initiateGridView();
   }

@@ -1,5 +1,6 @@
 package cellsociety.model.cell;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ModelCell {
@@ -9,16 +10,21 @@ public abstract class ModelCell {
 
   private int myRow;
   private int myCol;
+  private Map<String, String> myPropertiesMap;
   private int myStateNumber;
   private String myStateColor;
   private String myStateName;
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
-  public ModelCell(int i, int j, Map<Integer, String> startColors, int state) {
+  public ModelCell(int i, int j, String stateColors, String parameters, int state) {
     myRow = i;
     myCol = j;
-    myStartColors = startColors;
+    myPropertiesMap = new HashMap<>();
+    myStartColors = stateColors;
+    myParameters = parameters;
     myStateNumber = state;
+    myPropertiesMap.put("StateNumber", String.valueOf(state));
     assignState(state);
   }
 
@@ -56,27 +62,40 @@ public abstract class ModelCell {
 
   public void changeState(int newState) {
     myStateNumber = newState;
+    myPropertiesMap.put("StateNumber", String.valueOf(newState));
     assignState(newState);
   }
 
-  public int getStateNumber() {
-    return myStateNumber;
+  protected abstract void setParameters (String parameters);
+
+  public void setProperty(String key, String value) {
+    myPropertiesMap.put(key, value);
   }
 
-  public String getStateName() {
-    return myStateName;
+  public String getProperty(String property) { // catch for incorrect property
+    return myPropertiesMap.get(property);
   }
 
-  public String getStateColor() {
-    return myStateColor;
-  }
+//  public int getStateNumber() {
+//    return myStateNumber;
+//  }
+
+//  public String getStateName() {
+//    return myStateName;
+//  }
+
+//  public String getStateColor() {
+//    return myStateColor;
+//  }
 
   protected void setStateColor(String color) {
     myStateColor = color;
+    myPropertiesMap.put("StateColor", color);
   }
 
   protected void setStateName(String name) {
     myStateName = name;
+    myPropertiesMap.put("StateName", name);
   }
 
 }

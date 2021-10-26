@@ -120,9 +120,12 @@ public class Controller {
     return currGrid.getNumRows();
   }
 
+  /**
+   * Method to save the simulation grid to a CSV File
+   */
   public void saveCSVFile() {
     try {
-      PrintWriter csvFile = new PrintWriter(new File("data/game_of_life/simple.csv"));
+      PrintWriter csvFile = new PrintWriter(new File("data/game_of_life/saved_sim.csv"));
       csvFile.write(currGrid.getNumRows() + "," + currGrid.getNumCols() + "\n");
       for (int i = 0; i < currGrid.getNumRows(); i++) {
         StringBuilder rowCSV = new StringBuilder();

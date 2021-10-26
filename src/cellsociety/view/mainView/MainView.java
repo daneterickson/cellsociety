@@ -6,6 +6,7 @@ import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.top.TopLoadSave;
+import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ public class MainView {
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
   private Controller myController;
+  private ResourceBundle myResources;
 
   public MainView(Stage stage, Controller controller){
     myController = controller;

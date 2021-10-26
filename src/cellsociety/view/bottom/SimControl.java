@@ -68,24 +68,22 @@ public class SimControl {
     mySimControl.getStyleClass().add("root");
     mySimControl.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
 
-    playIcon.setFitWidth(20);
-    playIcon.setFitHeight(20);
-    pauseIcon.setFitWidth(20);
-    pauseIcon.setFitHeight(20);
-    stopIcon.setFitWidth(20);
-    stopIcon.setFitHeight(20);
-    stepIcon.setFitWidth(20);
-    stepIcon.setFitHeight(20);
-    turtleIcon.setFitWidth(20);
-    turtleIcon.setFitHeight(15);
-    rabbitIcon.setFitWidth(20);
-    rabbitIcon.setFitHeight(20);
+    setButtonIconSize(playIcon);
+    setButtonIconSize(pauseIcon);
+    setButtonIconSize(stepIcon);
+    setButtonIconSize(turtleIcon);
+    setButtonIconSize(rabbitIcon);
+  }
+
+  private void setButtonIconSize(ImageView img) {
+    img.setFitWidth(20);
+    img.setFitHeight(20);
   }
 
   private Node makeControlButtons() {
     HBox buttonHBox = new HBox(BUTTON_SPACING);
     buttonHBox.getChildren().add(makePlayPauseButton());
-    buttonHBox.getChildren().add(makeStopButton());
+//    buttonHBox.getChildren().add(makeStopButton());
     buttonHBox.getChildren().add(makeStepButton());
     buttonHBox.getStyleClass().add("buttons");
     return buttonHBox;

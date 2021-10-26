@@ -9,12 +9,10 @@ public class GameOfLifeCell extends ModelCell {
   public static final String ALIVE_NAME = "alive";
 
   private String myStartColors;
-  private String myParameters;
 
   public GameOfLifeCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
     myStartColors = startColors;
-    myParameters = parameters;
   }
 
   @Override

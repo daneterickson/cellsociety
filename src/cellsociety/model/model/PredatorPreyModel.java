@@ -3,20 +3,22 @@ package cellsociety.model.model;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 
-public class PredatorPreyModel extends Model{
+public class PredatorPreyModel extends Model {
 
   private final int EMPTY = 0;
   private final int FISH = 1;
   private final int SHARK = 2;
+  private int fishReproduction;
+  private int sharkReproduction;
+  private int sharkEnergy;
+  private int energyGain;
   private Random random;
-  private HashMap<Integer, Consumer<Integer>> IdxToDirection;
+
   public PredatorPreyModel(Controller controller, Grid grid) {
-    super(controller,grid);
+    super(controller, grid);
     random = new Random();
   }
 
@@ -24,6 +26,7 @@ public class PredatorPreyModel extends Model{
    * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
    * <p>
    * if the current point is an edge, it acts as if the edges are EMPTY
+   *
    * @return
    */
   @Override
@@ -33,12 +36,12 @@ public class PredatorPreyModel extends Model{
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
 
-    while(idx<4){
+    while (idx < 4) {
       try {
-        neighbors.add(idx,currGrid.getCellStateNumber(row + x[idx], col + y[idx]));
+        neighbors.add(idx, currGrid.getCellStateNumber(row + x[idx], col + y[idx]));
       } catch (IndexOutOfBoundsException e) {
         //handles edge cases
-        neighbors.add(idx,EMPTY);
+        neighbors.add(idx, EMPTY);
       }
       idx++;
     }
@@ -50,33 +53,85 @@ public class PredatorPreyModel extends Model{
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    if (state == EMPTY){
+    if (state == EMPTY) {
       return EMPTY;
     }
-    ArrayList<Integer> eligibleSpaces = new ArrayList<>();
-
-    if (state == FISH){
-      for(int idx = 0; idx < nearby.size(); idx++){
-        if (!inBounds(currRow,currCol,idx)){
-          continue;
-        }
-        if (nearby.get(idx) == EMPTY){
-          eligibleSpaces.add(idx);
-        }
-      }
-      if (eligibleSpaces.size() < 1){
-        return FISH;
-      }
-      move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state);
-      return EMPTY;
-
-    }else {
-
+    if (state == FISH) {
+      return fishRules(currRow, currCol, state, nearby);
+    } else {
+      return sharkRules(currRow, currCol, state, nearby);
     }
-    return 0;
   }
 
-  private void move(int currRow, int currCol, int idx, int state) {
+  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
+    ArrayList<Integer> eligibleSpaces;
+    int currEnergy = currGrid.getCell(currRow, currCol).getEnergy();
+    int currReproduction = currGrid.getCell(currRow, currCol).getReproduction();
+
+    currEnergy--;
+    if (currEnergy <= 0){
+      return EMPTY;
+    }
+    //try to eat fish
+    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, FISH);
+    //try to move
+    if (eligibleSpaces.size() >= 1) {
+      currEnergy += energyGain;
+    }else{
+      eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
+    }
+    //shark can't move
+    if (eligibleSpaces.size() < 1) {
+      return SHARK;
+    }
+    //move
+    move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction, currEnergy);
+    //reproduce
+    if (currReproduction == 0){
+      currGrid.getCell(currRow, currCol).setReproduction(sharkReproduction);
+      currGrid.getCell(currRow, currCol).setEnergy(sharkEnergy);
+      return SHARK;
+    }
+    return EMPTY;
+  }
+
+  private int fishRules(int currRow, int currCol, int state, List<Integer> nearby) {
+    ArrayList<Integer> eligibleSpaces;
+    int currReproduction;
+    currReproduction = currGrid.getCell(currRow, currCol).getReproduction();
+
+    //try to move
+    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
+    //fish can't move
+    if (eligibleSpaces.size() < 1) {
+      return FISH;
+    }
+    //move
+    move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction, -1);
+    if (currReproduction == 0){
+      currGrid.getCell(currRow, currCol).setReproduction(fishReproduction);
+      return FISH;
+    }
+    return EMPTY;
+  }
+
+  private ArrayList<Integer> getEligibleSpaces(int currRow, int currCol, List<Integer> nearby,int eligible) {
+    ArrayList<Integer> ret = new ArrayList<>();
+    for (int idx = 0; idx < nearby.size(); idx++) {
+      if (!inBounds(currRow, currCol, idx)) {
+        continue;
+      }
+      if (nearby.get(idx) == eligible) {
+        ret.add(idx);
+      }
+    }
+    return ret;
+  }
+
+  private void move(int currRow, int currCol, int idx, int state, int currReproduction, int currEnergy) {
+    if (currReproduction == 0){
+      currReproduction = sharkReproduction;
+    }
     int row = currRow;
     int col = currCol;
     switch (idx) {
@@ -85,6 +140,9 @@ public class PredatorPreyModel extends Model{
       case 2 -> col = currCol + 1;
       case 3 -> col = currCol - 1;
     }
+    currGrid.getCell(row,col).setReproduction(currReproduction);
+    currGrid.getCell(row,col).setEnergy(currEnergy);
+
     addNewUpdates(row, col, state);
   }
 

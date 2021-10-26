@@ -46,8 +46,7 @@ public class GameOfLifeModelTest {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
 
-
-    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 1,2);
+    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 1, 2);
 
     int population = 0;
     for (int i : neighbors) {
@@ -55,47 +54,48 @@ public class GameOfLifeModelTest {
         population += 1;
       }
     }
-    assertEquals(3,population,"(1,2) should have 3 live neighbors. got: " + population );
+    assertEquals(3, population, "(1,2) should have 3 live neighbors. got: " + population);
   }
 
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class, List.class);
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
+        List.class);
     currRule.setAccessible(true);
     int newState;
     List<Integer> list;
     int currRow = 2;
     int currCol = 2;
     //stable population
-    list = Arrays.asList(new Integer[]{0,0,1,1,0,0,0,0});
-    newState = (int) currRule.invoke(myModel, currRow,currCol,1,list);
-    assertEquals(1,newState,"New state should be 1. got: " + newState );
+    list = Arrays.asList(new Integer[]{0, 0, 1, 1, 0, 0, 0, 0});
+    newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
+    assertEquals(1, newState, "New state should be 1. got: " + newState);
 
     //overpopulation
-    list = Arrays.asList(new Integer[]{0,0,1,1,0,1,0,1});
-    newState = (int) currRule.invoke(myModel, currRow,currCol,1, list);
-    assertEquals(0,newState,"New state should be 0. got: " + newState );
+    list = Arrays.asList(new Integer[]{0, 0, 1, 1, 0, 1, 0, 1});
+    newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
+    assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //underpopulation
-    list = Arrays.asList(new Integer[]{0,0,0,0,0,0,0,1});
-    newState = (int) currRule.invoke(myModel, currRow,currCol,1,list);
-    assertEquals(0,newState,"New state should be 0. got: " + newState );
+    list = Arrays.asList(new Integer[]{0, 0, 0, 0, 0, 0, 0, 1});
+    newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
+    assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //Failed reproduction
-    list = Arrays.asList(new Integer[]{0,0,0,0,0,0,0,1});
-    newState = (int) currRule.invoke(myModel, currRow,currCol,0,list);
-    assertEquals(0,newState,"New state should be 0. got: " + newState );
+    list = Arrays.asList(new Integer[]{0, 0, 0, 0, 0, 0, 0, 1});
+    newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
+    assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //Failed reproduction
-    list = Arrays.asList(new Integer[]{0,0,1,1,1,0,0,1});
-    newState = (int) currRule.invoke(myModel, currRow,currCol,0,list);
-    assertEquals(0,newState,"New state should be 0. got: " + newState );
+    list = Arrays.asList(new Integer[]{0, 0, 1, 1, 1, 0, 0, 1});
+    newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
+    assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //Successful reproduction
-    list = Arrays.asList(new Integer[]{0,0,1,0,1,0,0,1});
-    newState = (int) currRule.invoke(myModel, currRow,currCol,0,list);
-    assertEquals(1,newState,"New state should be 1. got: " + newState );
+    list = Arrays.asList(new Integer[]{0, 0, 1, 0, 1, 0, 0, 1});
+    newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
+    assertEquals(1, newState, "New state should be 1. got: " + newState);
 
   }
 
@@ -106,15 +106,15 @@ public class GameOfLifeModelTest {
         {0, 0, 1, 0, 0},
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
-    try{
+    try {
       myModel.updateModel(myGrid);
-    }catch (NullPointerException e){
+    } catch (NullPointerException e) {
 
     }
     for (int row = 0; row < numRows; row++) {
       System.out.println("");
       for (int col = 0; col < numCols; col++) {
-        System.out.print(" "+myGrid.getCellStateNumber(row, col));
+        System.out.print(" " + myGrid.getCellStateNumber(row, col));
 //        assertEquals(expected[row][col], myGrid.getCellState(row, col), row +", "+col);
       }
     }

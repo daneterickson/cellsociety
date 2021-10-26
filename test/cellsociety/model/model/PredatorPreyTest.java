@@ -46,60 +46,65 @@ public class PredatorPreyTest {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
 
-
-    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2,2);
+    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2, 2);
 
     int empty = 0;
     int fish = 0;
     for (int i : neighbors) {
       if (i == 0) {
         empty += 1;
-      }else if (i == 1){
+      } else if (i == 1) {
         fish += 1;
       }
     }
-    assertEquals(1,empty,"(2,2) should have 1 empty neighbors. got: " + empty );
-    assertEquals(2,fish,"(2,2) should have 2 fish neighbors. got: " + fish );
+    assertEquals(1, empty, "(2,2) should have 1 empty neighbors. got: " + empty);
+    assertEquals(2, fish, "(2,2) should have 2 fish neighbors. got: " + fish);
   }
 
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class, List.class);
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
+        List.class);
     currRule.setAccessible(true);
     int ret;
     List<Integer> list;
     int currRow = 2;
     int currCol = 2;
     //empty cell
-    list = Arrays.asList(new Integer[]{0,0,0,1});
-    ret = (int) currRule.invoke(myModel,currRow,currCol, 0, list);
-    assertEquals(0,ret, "empty cell should remain empty(0). got: "+ret);
+    list = Arrays.asList(new Integer[]{0, 0, 0, 1});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
+    assertEquals(0, ret, "empty cell should remain empty(0). got: " + ret);
 
     //fish moving
-    list = Arrays.asList(new Integer[]{0,2,1,1});
-    ret = (int) currRule.invoke(myModel, currRow,currCol,1, list);
-    assertEquals(0,ret, "fish should've moved. got: "+ret);
+    list = Arrays.asList(new Integer[]{0, 2, 1, 1});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
+    assertEquals(0, ret, "fish should've moved. got: " + ret);
 
     //fish cant move
-    list = Arrays.asList(new Integer[]{1,2,1,1});
-    ret = (int) currRule.invoke(myModel, currRow,currCol,1, list);
-    assertEquals(1,ret, "fish shouldn't be able to move. got: "+ret);
+    list = Arrays.asList(new Integer[]{1, 2, 1, 1});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
+    assertEquals(1, ret, "fish shouldn't be able to move. got: " + ret);
 
     //shark moving
-    list = Arrays.asList(new Integer[]{0,2,2,2});
-    ret = (int) currRule.invoke(myModel, currRow,currCol,2, list);
-    assertEquals(0,ret, "shark should move. got: "+ret);
+    list = Arrays.asList(new Integer[]{0, 2, 2, 2});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 2, list);
+    assertEquals(0, ret, "shark should move. got: " + ret);
+
+    //shark eating
+    list = Arrays.asList(new Integer[]{1, 2, 2, 2});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 2, list);
+    assertEquals(0, ret, "shark should move. got: " + ret);
 
     //shark cant move
-    list = Arrays.asList(new Integer[]{2,2,2,2});
-    ret = (int) currRule.invoke(myModel, currRow,currCol,2, list);
-    assertEquals(2,ret, "shark shouldn't be able to move. got: "+ret);
+    list = Arrays.asList(new Integer[]{2, 2, 2, 2});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 2, list);
+    assertEquals(2, ret, "shark shouldn't be able to move. got: " + ret);
 
-//    //Under threshold
-//    list = Arrays.asList(new Integer[]{0,0,0,1});
-//    ret = (int) currRule.invoke(myModel, 1, list);
-//    assertEquals(0,ret, "Cell should be vacated. got: "+ret);
+    //shark cant move edge
+    list = Arrays.asList(new Integer[]{0, 2, 2, 2});
+    ret = (int) currRule.invoke(myModel, 0, currCol, 2, list);
+    assertEquals(2, ret, "shark shouldn't be able to move. got: " + ret);
 
   }
 

@@ -46,25 +46,26 @@ public class SegregationTest {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
 
-    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2,2);
+    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2, 2);
 
     int race1 = 0;
     int race2 = 0;
     for (int i : neighbors) {
       if (i == 1) {
         race1 += 1;
-      }else if (i == 2){
+      } else if (i == 2) {
         race2 += 1;
       }
     }
-    assertEquals(4,race1,"(2,2) should have 4 race1 neighbors. got: " + race1 );
-    assertEquals(3,race2,"(2,2) should have 3 race2 neighbors. got: " + race2 );
+    assertEquals(4, race1, "(2,2) should have 4 race1 neighbors. got: " + race1);
+    assertEquals(3, race2, "(2,2) should have 3 race2 neighbors. got: " + race2);
   }
 
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class, List.class);
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
+        List.class);
     currRule.setAccessible(true);
     int ret;
     List<Integer> list;
@@ -72,19 +73,19 @@ public class SegregationTest {
     int currCol = 2;
 
     //empty cell
-    list = Arrays.asList(new Integer[]{0,0,0,1,2,0,1,0});
-    ret = (int) currRule.invoke(myModel,currRow,currCol, 0, list);
-    assertEquals(0,ret, "empty cell should remain empty(0). got: "+ret);
+    list = Arrays.asList(new Integer[]{0, 0, 0, 1, 2, 0, 1, 0});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
+    assertEquals(0, ret, "empty cell should remain empty(0). got: " + ret);
 
     //Over threshold
-    list = Arrays.asList(new Integer[]{0,0,0,1,2,1,1,0});
-    ret = (int) currRule.invoke(myModel, currRow,currCol,1, list);
-    assertEquals(1,ret, "Cell state should stay the same. got: "+ret);
+    list = Arrays.asList(new Integer[]{0, 0, 0, 1, 2, 1, 1, 0});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
+    assertEquals(1, ret, "Cell state should stay the same. got: " + ret);
 
     //Under threshold
-    list = Arrays.asList(new Integer[]{0,0,0,1,2,2,2,0});
-    ret = (int) currRule.invoke(myModel, currRow,currCol,1, list);
-    assertEquals(0,ret, "Cell should be vacated. got: "+ret);
+    list = Arrays.asList(new Integer[]{0, 0, 0, 1, 2, 2, 2, 0});
+    ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
+    assertEquals(0, ret, "Cell should be vacated. got: " + ret);
   }
 
   @Test

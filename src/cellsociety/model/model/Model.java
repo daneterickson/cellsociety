@@ -19,10 +19,10 @@ public abstract class Model {
     currGrid = grid;
   }
 
-  public void updateModel(Grid currGrid){
+  public void updateModel(Grid currGrid) {
     this.currGrid = currGrid;
     iterateGrid(row -> col -> {
-      updateCell(row,col,currGrid.getCellStateNumber(row, col));
+      updateCell(row, col, currGrid.getCellStateNumber(row, col));
     });
     updateGrid();
     myController.setHasUpdate(true);
@@ -32,7 +32,7 @@ public abstract class Model {
    * iterates through the grid until an exception, which determine when to go the next row/end. each
    * cell in the grid is then processed and then used to call addToNewGrid
    */
-  protected void iterateGrid(Function<Integer, Consumer<Integer>> gridIterationAction){
+  protected void iterateGrid(Function<Integer, Consumer<Integer>> gridIterationAction) {
     int currRow = 0;
     int currCol = 0;
     while (true) {
@@ -53,12 +53,13 @@ public abstract class Model {
   }
 
   /**
-   * checks if cell state is changed. row,col, and newState are added to newUpdates if there is a change
+   * checks if cell state is changed. row,col, and newState are added to newUpdates if there is a
+   * change
    */
   protected void updateCell(int row, int col, int state) {
-    List<Integer> nearby = getNearby(row,col);
+    List<Integer> nearby = getNearby(row, col);
     int newState = currRule(row, col, state, nearby);
-    if (newState != state){
+    if (newState != state) {
       addNewUpdates(row, col, newState);
     }
   }
@@ -76,16 +77,17 @@ public abstract class Model {
     int row;
     int col;
     int newState;
-    for(int idx = 0; idx < newUpdates.size();idx+=3){
+    for (int idx = 0; idx < newUpdates.size(); idx += 3) {
       row = newUpdates.get(idx);
-      col = newUpdates.get(idx+1);
-      newState = newUpdates.get(idx+2);
-      currGrid.updateCell(row,col,newState);
+      col = newUpdates.get(idx + 1);
+      newState = newUpdates.get(idx + 2);
+      currGrid.updateCell(row, col, newState);
     }
   }
 
   /**
    * Methods that will be overridden based on model type
+   *
    * @return
    */
 

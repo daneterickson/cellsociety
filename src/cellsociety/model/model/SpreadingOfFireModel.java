@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SpreadingOfFireModel extends Model{
+public class SpreadingOfFireModel extends Model {
 
   private final int EMPTY = 0;
   private final int TREE = 1;
@@ -15,7 +15,7 @@ public class SpreadingOfFireModel extends Model{
   private Random random;
 
   public SpreadingOfFireModel(Controller controller, Grid grid) {
-    super(controller,grid);
+    super(controller, grid);
     random = new Random();
   }
 
@@ -23,6 +23,7 @@ public class SpreadingOfFireModel extends Model{
    * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
    * <p>
    * if the current point is an edge, it acts as if the edges are EMPTY
+   *
    * @return
    */
   @Override
@@ -32,12 +33,12 @@ public class SpreadingOfFireModel extends Model{
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
 
-    while(idx<4){
+    while (idx < 4) {
       try {
         neighbors.add(idx, currGrid.getCellStateNumber(row + x[idx], col + y[idx]));
       } catch (IndexOutOfBoundsException e) {
         //handles edge cases
-        neighbors.add(idx,EMPTY);
+        neighbors.add(idx, EMPTY);
       }
       idx++;
     }
@@ -49,13 +50,13 @@ public class SpreadingOfFireModel extends Model{
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    if (state == EMPTY || state == BURNING){
+    if (state == EMPTY || state == BURNING) {
       return EMPTY;
     }
 
-    for (int neighborState : nearby){
-      if (neighborState == BURNING){
-        if (random.nextFloat() < probCatch){
+    for (int neighborState : nearby) {
+      if (neighborState == BURNING) {
+        if (random.nextFloat() < probCatch) {
           return BURNING;
         }
         return TREE;

@@ -25,4 +25,5 @@ public class PredatorPreyCell extends ModelCell{
       assignThreeCases(state, EMPTY_NAME, myStartColors.get(0), FISH_NAME, myStartColors.get(1), SHARK_NAME, myStartColors.get(2));
     }
   }
+
 }

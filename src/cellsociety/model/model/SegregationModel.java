@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SegregationModel extends Model{
+public class SegregationModel extends Model {
 
   private final int EMPTY = 0;
   private final int RACE1 = 1;
@@ -17,13 +17,13 @@ public class SegregationModel extends Model{
   private int numCols;
 
   public SegregationModel(Controller controller, Grid grid) {
-    super(controller,grid);
+    super(controller, grid);
     numCols = grid.getNumCols();
     random = new Random();
     emptySpots = new ArrayList<>();
     iterateGrid(row -> col -> {
-      if (currGrid.getCellStateNumber(row,col) == EMPTY){
-        emptySpots.add(row*numCols+col);
+      if (currGrid.getCellStateNumber(row, col) == EMPTY) {
+        emptySpots.add(row * numCols + col);
       }
     });
   }
@@ -32,6 +32,7 @@ public class SegregationModel extends Model{
    * finds 8 neighboring cells and returns them as a linear array: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
    * <p>
    * if the current point is an edge, it acts as if the edges are DEAD_STATES
+   *
    * @return
    */
   @Override
@@ -47,7 +48,7 @@ public class SegregationModel extends Model{
           continue;
         }
         try {
-          neighbors.add(idx,currGrid.getCellStateNumber(row + x, col + y));
+          neighbors.add(idx, currGrid.getCellStateNumber(row + x, col + y));
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases
           neighbors.add(idx, EMPTY);
@@ -68,7 +69,7 @@ public class SegregationModel extends Model{
 
     double allyPercentage = getAllyPercentage(state, nearby);
 
-    if (allyPercentage < threshold){
+    if (allyPercentage < threshold) {
       relocate(state);
       return EMPTY;
     }
@@ -80,7 +81,7 @@ public class SegregationModel extends Model{
     int r = emptySpots.get(idx) / numCols;
     int c = emptySpots.get(idx) % numCols;
 
-    addNewUpdates(r,c,state);
+    addNewUpdates(r, c, state);
   }
 
   private double getAllyPercentage(int state, List<Integer> nearby) {
@@ -90,11 +91,11 @@ public class SegregationModel extends Model{
       if (i != EMPTY) {
         totalNeighbors += 1;
       }
-      if (i == state){
+      if (i == state) {
         allies++;
       }
     }
-    return allies/totalNeighbors;
+    return allies / totalNeighbors;
   }
 
 }

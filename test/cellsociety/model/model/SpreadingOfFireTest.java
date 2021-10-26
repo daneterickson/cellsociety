@@ -45,26 +45,26 @@ public class SpreadingOfFireTest {
     Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
     getNearby.setAccessible(true);
 
-
-    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2,2);
+    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2, 2);
 
     int burning = 0;
     int tree = 0;
     for (int i : neighbors) {
       if (i == 1) {
         tree += 1;
-      }else if (i == 2){
+      } else if (i == 2) {
         burning += 1;
       }
     }
-    assertEquals(1,burning,"(2,2) should have 1 burning neighbors. got: " + burning );
-    assertEquals(2,tree,"(2,2) should have 2 tree neighbors. got: " + tree );
+    assertEquals(1, burning, "(2,2) should have 1 burning neighbors. got: " + burning);
+    assertEquals(2, tree, "(2,2) should have 2 tree neighbors. got: " + tree);
   }
 
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class, List.class);
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
+        List.class);
     currRule.setAccessible(true);
 //    No test here bc can't test random
 //    int newState;

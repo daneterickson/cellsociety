@@ -5,19 +5,20 @@ import cellsociety.model.Grid;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameOfLifeModel extends Model{
+public class GameOfLifeModel extends Model {
 
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
 
   public GameOfLifeModel(Controller controller, Grid grid) {
-    super(controller,grid);
+    super(controller, grid);
   }
 
   /**
    * finds 8 neighboring cells and returns them as a linear array: [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
    * <p>
    * if the current point is an edge, it acts as if the edges are DEAD_STATES
+   *
    * @return
    */
   @Override
@@ -33,7 +34,7 @@ public class GameOfLifeModel extends Model{
           continue;
         }
         try {
-          neighbors.add(idx,currGrid.getCellStateNumber(row + x, col + y));
+          neighbors.add(idx, currGrid.getCellStateNumber(row + x, col + y));
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases
           neighbors.add(idx, DEAD_STATE);

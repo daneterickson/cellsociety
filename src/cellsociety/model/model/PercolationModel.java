@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PercolationModel extends Model{
+public class PercolationModel extends Model {
 
   private final int EMPTY = 0;
   private final int TREE = 1;
@@ -15,7 +15,7 @@ public class PercolationModel extends Model{
   private Random random;
 
   public PercolationModel(Controller controller, Grid grid) {
-    super(controller,grid);
+    super(controller, grid);
     random = new Random();
   }
 
@@ -23,6 +23,7 @@ public class PercolationModel extends Model{
    * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
    * <p>
    * if the current point is an edge, it acts as if the edges are EMPTY
+   *
    * @return
    */
   @Override
@@ -32,7 +33,7 @@ public class PercolationModel extends Model{
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
 
-    while(idx<4){
+    while (idx < 4) {
       try {
         neighbors.add(idx, currGrid.getCellStateNumber(row + x[idx], col + y[idx]));
       } catch (IndexOutOfBoundsException e) {

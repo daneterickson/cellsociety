@@ -8,20 +8,26 @@ public class GameOfLifeCell extends ModelCell {
   public static final String DEAD_NAME = "dead";
   public static final String ALIVE_NAME = "alive";
 
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
-  public GameOfLifeCell(int i, int j, Map<Integer, String> startColors, int state) {
-    super(i, j, startColors, state);
+  public GameOfLifeCell(int i, int j, String startColors, String parameters, int state) {
+    super(i, j, startColors, parameters, state);
     myStartColors = startColors;
+    myParameters = parameters;
   }
 
   @Override
   protected void assignState(int state) {
-    if (myStartColors == null || myStartColors.keySet().size() != 2) {
+    if (myStartColors == null || myStartColors.split(",").length != 2) {
       assignTwoCases(state, DEAD_NAME, DEFAULT_GREY, ALIVE_NAME, ALIVE_BLUE);
     }
     else {
-      assignTwoCases(state, DEAD_NAME, myStartColors.get(0), ALIVE_NAME, myStartColors.get(1));
+      String stateColors[] = myStartColors.split(",");
+      assignTwoCases(state, DEAD_NAME, stateColors[0], ALIVE_NAME, stateColors[1]);
     }
   }
+
+  @Override
+  protected void setParameters(String parameters) {}
 }

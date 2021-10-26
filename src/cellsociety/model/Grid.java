@@ -3,7 +3,6 @@ package cellsociety.model;
 import cellsociety.model.cell.GameOfLifeCell;
 import cellsociety.model.cell.ModelCell;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class Grid {
@@ -12,12 +11,14 @@ public class Grid {
   private int myNumCols;
   private ModelCell myGrid[][];
   private String myCellType;
-  private Map<Integer, String> myStartColors;
+  private String myStateColors;
+  private String myParameters;
 
-  public Grid(int rows, int cols, int[][] startStates, Map<Integer, String> startColors, String type) {
+  public Grid(int rows, int cols, int[][] startStates, String stateColors, String parameters, String type) {
     myNumRows = rows;
     myNumCols = cols;
-    myStartColors = startColors;
+    myStateColors = stateColors;
+    myParameters = parameters;
     myCellType = String.format("cellsociety.model.cell.%sCell", type);
     myGrid = new ModelCell[rows][cols];
     setStartStates(startStates);
@@ -61,7 +62,7 @@ public class Grid {
 //  }
 
   public int getCellStateNumber(int i, int j) {
-    return myGrid[i][j].getStateNumber();
+    return Integer.valueOf(myGrid[i][j].getProperty("StateNumber"));
   }
 
   // Probably can delete this method since it only is used to test Reflection. Need another way to test reflection
@@ -71,10 +72,10 @@ public class Grid {
 
   private void setCell(int i, int j, int state) throws ClassNotFoundException {
     Class<?> clazz = Class.forName(myCellType);
-    ModelCell newCell = new GameOfLifeCell(i, j, myStartColors, state);
+    ModelCell newCell = new GameOfLifeCell(i, j, myStateColors, myParameters, state);
     try {
-      newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, Map.class, int.class)
-          .newInstance(i, j, myStartColors, state);
+      newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, String.class, String.class, int.class)
+          .newInstance(i, j, myStateColors, myParameters, state);
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
       System.out.println("Method Not Found");
       e.printStackTrace();

@@ -3,4 +3,4 @@ Title=Single Flame
 Author=Dane Erickson
 Description=A single flame in the middle of a screen of trees with empty cells along outer the border
 InitialStates=spreading_of_fire/single_flame.csv
-Parameter=0.55
+Parameters=0.55

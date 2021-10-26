@@ -10,20 +10,28 @@ public class SpreadingOfFireCell extends ModelCell{
   public static final String BURN_COLOR = "ff0000";
   public static final String BURN_NAME = "burn";
 
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
-  public SpreadingOfFireCell(int i, int j, Map<Integer, String> startColors, int state) {
-    super(i, j, startColors, state);
+  public SpreadingOfFireCell(int i, int j, String startColors, String parameters, int state) {
+    super(i, j, startColors, parameters, state);
     myStartColors = startColors;
+    myParameters = parameters;
   }
 
   @Override
   protected void assignState(int state) {
-    if (myStartColors == null || myStartColors.keySet().size() != 3) {
+    if (myStartColors == null || myStartColors.split(",").length != 3) {
       assignThreeCases(state, EMPTY_NAME, EMPTY_COLOR, TREE_NAME, TREE_COLOR, BURN_NAME, BURN_COLOR);
     }
     else {
-      assignThreeCases(state, EMPTY_NAME, myStartColors.get(0), TREE_NAME, myStartColors.get(1), BURN_NAME, myStartColors.get(2));
+      String stateColors[] = myStartColors.split(",");
+      assignThreeCases(state, EMPTY_NAME, stateColors[0], TREE_NAME, stateColors[1], BURN_NAME, stateColors[2]);
     }
+  }
+
+  @Override
+  protected void setParameters(String parameters) {
+    setProperty("ProbCatch", parameters.split(",")[0]);
   }
 }

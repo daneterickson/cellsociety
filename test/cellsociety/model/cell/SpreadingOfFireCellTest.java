@@ -9,45 +9,46 @@ import org.junit.jupiter.api.Test;
 public class SpreadingOfFireCellTest {
 
   private ModelCell myCell;
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
   @BeforeEach
   void setUp() {
-    myCell = new SpreadingOfFireCell(0, 0, myStartColors, 0);
+    myCell = new SpreadingOfFireCell(0, 0, myStartColors, myParameters, 0);
   }
 
   @Test
   void testChangeState() {
     myCell.changeState(1);
-    assertEquals(1, myCell.getStateNumber());
+    assertEquals(1, Integer.valueOf(myCell.getProperty("StateNumber")));
     myCell.changeState(2);
-    assertEquals(2, myCell.getStateNumber());
+    assertEquals(2, Integer.valueOf(myCell.getProperty("StateNumber")));
   }
 
   @Test
   void testSetColor() {
-    assertEquals("ffff00", myCell.getStateColor());
+    assertEquals("ffff00", myCell.getProperty("StateColor"));
   }
 
   @Test
   void testChangeColor() {
     myCell.changeState(1);
-    assertEquals("00ff00", myCell.getStateColor());
+    assertEquals("00ff00", myCell.getProperty("StateColor"));
     myCell.changeState(2);
-    assertEquals("ff0000", myCell.getStateColor());
+    assertEquals("ff0000", myCell.getProperty("StateColor"));
   }
 
   @Test
   void testSetName() {
-    assertEquals("empty", myCell.getStateName());
+    assertEquals("empty", myCell.getProperty("StateName"));
   }
 
   @Test
   void testChangeName() {
     myCell.changeState(1);
-    assertEquals("tree", myCell.getStateName());
+    assertEquals("tree", myCell.getProperty("StateName"));
     myCell.changeState(2);
-    assertEquals("burn", myCell.getStateName());
+    assertEquals("burn", myCell.getProperty("StateName"));
   }
 
 

@@ -14,13 +14,15 @@ public abstract class ModelCell {
   private int myStateNumber;
   private String myStateColor;
   private String myStateName;
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
-  public ModelCell(int i, int j, Map<Integer, String> startColors, int state) {
+  public ModelCell(int i, int j, String stateColors, String parameters, int state) {
     myRow = i;
     myCol = j;
     myPropertiesMap = new HashMap<>();
-    myStartColors = startColors;
+    myStartColors = stateColors;
+    myParameters = parameters;
     myStateNumber = state;
     myPropertiesMap.put("StateNumber", String.valueOf(state));
     assignState(state);
@@ -60,24 +62,31 @@ public abstract class ModelCell {
 
   public void changeState(int newState) {
     myStateNumber = newState;
+    myPropertiesMap.put("StateNumber", String.valueOf(newState));
     assignState(newState);
   }
 
-  public String getProperty(String property) {
+  protected abstract void setParameters (String parameters);
+
+  public void setProperty(String key, String value) {
+    myPropertiesMap.put(key, value);
+  }
+
+  public String getProperty(String property) { // catch for incorrect property
     return myPropertiesMap.get(property);
   }
 
-  public int getStateNumber() {
-    return myStateNumber;
-  }
+//  public int getStateNumber() {
+//    return myStateNumber;
+//  }
 
-  public String getStateName() {
-    return myStateName;
-  }
+//  public String getStateName() {
+//    return myStateName;
+//  }
 
-  public String getStateColor() {
-    return myStateColor;
-  }
+//  public String getStateColor() {
+//    return myStateColor;
+//  }
 
   protected void setStateColor(String color) {
     myStateColor = color;

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import javax.print.DocFlavor.READER;
 
 public class ParserSIM implements Parser {
 
@@ -38,28 +39,30 @@ public class ParserSIM implements Parser {
       String words[] = line.split("=");
       myInfoMap.put(words[0], words[1]);
     }
+//    assignColorMap();
   }
 
-  public Map<Integer, String> getStateColorMap() {
-    if (myInfoMap.get("StateColors") == null) return null;
+  public void assignColorMap() {
+    if (myInfoMap.get("StateColors") == null) return;
     String colors[] = myInfoMap.get("StateColors").split(",");
     for (int i = 0; i < colors.length; i++) {
       myStatesColorMap.put(i, colors[i]);
     }
-    return myStatesColorMap;
   }
 
-  public String getType() {
-    return myInfoMap.get("Type");
-  }
+  public String getInfo (String key) { return myInfoMap.get(key); }
 
-  public String getTitle() {
-    return myInfoMap.get("Title");
-  }
-
-  public String getInitialStates() {
-    return myInfoMap.get("InitialStates");
-  }
+//  public String getType() {
+//    return myInfoMap.get("Type");
+//  }
+//
+//  public String getTitle() {
+//    return myInfoMap.get("Title");
+//  }
+//
+//  public String getInitialStates() {
+//    return myInfoMap.get("InitialStates");
+//  }
 
   // Assume parameters for PredatorPrey go fish reproduction time, shark reproduction time, shark energy level
   public double getParameters(int index) {

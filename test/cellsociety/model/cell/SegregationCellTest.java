@@ -10,57 +10,56 @@ import org.junit.jupiter.api.Test;
 public class SegregationCellTest {
 
   private ModelCell myCell;
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
   @BeforeEach
   void setUp() {
-    myStartColors = new HashMap<>();
-    myCell = new SegregationCell(0, 0, myStartColors, 0);
+    myCell = new SegregationCell(0, 0, myStartColors, myParameters, 0);
   }
 
   @Test
   void testChangeState() {
     myCell.changeState(1);
-    assertEquals(1, myCell.getStateNumber());
+    assertEquals(1, Integer.valueOf(myCell.getProperty("StateNumber")));
     myCell.changeState(2);
-    assertEquals(2, myCell.getStateNumber());
+    assertEquals(2, Integer.valueOf(myCell.getProperty("StateNumber")));
   }
 
   @Test
   void testSetColor() {
-    assertEquals("c0c0c0", myCell.getStateColor());
+    assertEquals("c0c0c0", myCell.getProperty("StateColor"));
   }
 
   @Test
   void testChangeColor() {
     myCell.changeState(1);
-    assertEquals("ff0000", myCell.getStateColor());
+    assertEquals("ff0000", myCell.getProperty("StateColor"));
     myCell.changeState(2);
-    assertEquals("0000ff", myCell.getStateColor());
+    assertEquals("0000ff", myCell.getProperty("StateColor"));
   }
 
   @Test
   void testSetName() {
-    assertEquals("empty", myCell.getStateName());
+    assertEquals("empty", myCell.getProperty("StateName"));
   }
 
   @Test
   void testChangeName() {
     myCell.changeState(1);
-    assertEquals("race1", myCell.getStateName());
+    assertEquals("race1", myCell.getProperty("StateName"));
     myCell.changeState(2);
-    assertEquals("race2", myCell.getStateName());
+    assertEquals("race2", myCell.getProperty("StateName"));
   }
 
   @Test
   void testInitialColorStates() {
-    myStartColors.put(0, "000000");
-    myStartColors.put(1, "111111");
-    myStartColors.put(2, "222222");
+    myStartColors = "000000,111111,222222";
+    myCell = new SegregationCell(0, 0, myStartColors, myParameters, 0);
     myCell.changeState(1);
-    assertEquals("111111", myCell.getStateColor());
+    assertEquals("111111", myCell.getProperty("StateColor"));
     myCell.changeState(2);
-    assertEquals("222222", myCell.getStateColor());
+    assertEquals("222222", myCell.getProperty("StateColor"));
   }
 
 

@@ -108,28 +108,6 @@ public class PredatorPreyTest {
 
   }
 
-  @Test
-  void testGameOfLife() {
-//    no test here bc can't test random
-//    int[][] expected = new int[][]{{0, 0, 0, 0, 0},
-//        {0, 0, 1, 0, 0},
-//        {0, 0, 1, 0, 0},
-//        {0, 0, 1, 0, 0},
-//        {0, 0, 0, 0, 0}};
-//    try{
-//      myModel.updateModel(myGrid);
-//    }catch (NullPointerException e){
-//
-//    }
-//    for (int row = 0; row < numRows; row++) {
-//      System.out.println("");
-//      for (int col = 0; col < numCols; col++) {
-//        System.out.print(" "+myGrid.getCellState(row, col));
-////        assertEquals(expected[row][col], myGrid.getCellState(row, col), row +", "+col);
-//      }
-//    }
-
-  }
 
 
 }

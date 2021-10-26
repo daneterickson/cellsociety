@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class Model {
+public abstract class Model{ // implements baseModel{
 
   protected Grid currGrid;
   protected ArrayList<Integer> newUpdates;
   protected Controller myController;
-
+  protected cellsociety.model.model.gridIterator gridIterator;
   public Model(Controller controller, Grid grid) {
     newUpdates = new ArrayList<>();
     myController = controller;
     currGrid = grid;
+    gridIterator = new gridIterator();
   }
 
   public void updateModel(Grid currGrid) {

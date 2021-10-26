@@ -19,30 +19,9 @@ public class SpreadingOfFireModel extends Model {
     random = new Random();
   }
 
-  /**
-   * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
-   * <p>
-   * if the current point is an edge, it acts as if the edges are EMPTY
-   *
-   * @return
-   */
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    int[] x = {0, 0, 1, -1};
-    int[] y = {1, -1, 0, 0};
-    ArrayList<Integer> neighbors = new ArrayList<>();
-    int idx = 0;
-
-    while (idx < 4) {
-      try {
-        neighbors.add(idx, currGrid.getCellStateNumber(row + x[idx], col + y[idx]));
-      } catch (IndexOutOfBoundsException e) {
-        //handles edge cases
-        neighbors.add(idx, EMPTY);
-      }
-      idx++;
-    }
-    return neighbors;
+    return gridIterator.get4Nearby(row, col, currGrid, EMPTY);
   }
 
   /**

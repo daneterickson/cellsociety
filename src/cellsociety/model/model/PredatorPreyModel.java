@@ -20,32 +20,26 @@ public class PredatorPreyModel extends Model {
   public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller, grid);
     random = new Random();
+    setReproductionEnergy();
   }
 
   /**
-   * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
-   * <p>
-   * if the current point is an edge, it acts as if the edges are EMPTY
-   *
-   * @return
+   * sets the reproduction and energy values in grid for each model cell
    */
+  private void setReproductionEnergy() {
+    iterateGrid(row -> col -> {
+      if (currGrid.getCell(row, col).getStateNumber() == FISH) {
+        currGrid.getCell(row, col).setReproduction(fishReproduction);
+      } else if (currGrid.getCell(row, col).getStateNumber() == SHARK) {
+        currGrid.getCell(row, col).setReproduction(sharkReproduction);
+        currGrid.getCell(row, col).setEnergy(sharkEnergy);
+      }
+    });
+  }
+
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    int[] x = {0, 0, 1, -1};
-    int[] y = {1, -1, 0, 0};
-    ArrayList<Integer> neighbors = new ArrayList<>();
-    int idx = 0;
-
-    while (idx < 4) {
-      try {
-        neighbors.add(idx, currGrid.getCellStateNumber(row + x[idx], col + y[idx]));
-      } catch (IndexOutOfBoundsException e) {
-        //handles edge cases
-        neighbors.add(idx, EMPTY);
-      }
-      idx++;
-    }
-    return neighbors;
+    return gridIterator.get4Nearby(row,col,currGrid,EMPTY);
   }
 
   /**
@@ -62,39 +56,6 @@ public class PredatorPreyModel extends Model {
       return sharkRules(currRow, currCol, state, nearby);
     }
   }
-
-  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
-    ArrayList<Integer> eligibleSpaces;
-    int currEnergy = currGrid.getCell(currRow, currCol).getEnergy();
-    int currReproduction = currGrid.getCell(currRow, currCol).getReproduction();
-
-    currEnergy--;
-    if (currEnergy <= 0){
-      return EMPTY;
-    }
-    //try to eat fish
-    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, FISH);
-    //try to move
-    if (eligibleSpaces.size() >= 1) {
-      currEnergy += energyGain;
-    }else{
-      eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
-    }
-    //shark can't move
-    if (eligibleSpaces.size() < 1) {
-      return SHARK;
-    }
-    //move
-    move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction, currEnergy);
-    //reproduce
-    if (currReproduction == 0){
-      currGrid.getCell(currRow, currCol).setReproduction(sharkReproduction);
-      currGrid.getCell(currRow, currCol).setEnergy(sharkEnergy);
-      return SHARK;
-    }
-    return EMPTY;
-  }
-
   private int fishRules(int currRow, int currCol, int state, List<Integer> nearby) {
     ArrayList<Integer> eligibleSpaces;
     int currReproduction;
@@ -108,14 +69,58 @@ public class PredatorPreyModel extends Model {
     }
     //move
     move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction, -1);
-    if (currReproduction == 0){
+    if (currReproduction == 0) {
       currGrid.getCell(currRow, currCol).setReproduction(fishReproduction);
       return FISH;
     }
+    setPropertiesNull(currRow,currCol);
     return EMPTY;
   }
 
-  private ArrayList<Integer> getEligibleSpaces(int currRow, int currCol, List<Integer> nearby,int eligible) {
+  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
+    ArrayList<Integer> eligibleSpaces;
+    int currEnergy = currGrid.getCell(currRow, currCol).getEnergy();
+    int currReproduction = currGrid.getCell(currRow, currCol).getReproduction();
+
+    currEnergy--;
+    if (currEnergy <= 0) {
+      setPropertiesNull(currRow,currCol);
+      return EMPTY;
+    }
+    //try to eat fish
+    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, FISH);
+    //try to move
+    if (eligibleSpaces.size() >= 1) {
+      currEnergy += energyGain;
+    } else {
+      eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
+    }
+    //shark can't move
+    if (eligibleSpaces.size() < 1) {
+      return SHARK;
+    }
+    //move
+    move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction,
+        currEnergy);
+    //reproduce
+    if (currReproduction == 0) {
+      currGrid.getCell(currRow, currCol).setReproduction(sharkReproduction);
+      currGrid.getCell(currRow, currCol).setEnergy(sharkEnergy);
+      return SHARK;
+    }
+    setPropertiesNull(currRow,currCol);
+    return EMPTY;
+  }
+
+  private void setPropertiesNull(int currRow, int currCol) {
+    currGrid.getCell(currRow, currCol).setReproduction(-1);
+    currGrid.getCell(currRow, currCol).setReproduction(-1);
+
+  }
+
+
+  private ArrayList<Integer> getEligibleSpaces(int currRow, int currCol, List<Integer> nearby,
+      int eligible) {
     ArrayList<Integer> ret = new ArrayList<>();
     for (int idx = 0; idx < nearby.size(); idx++) {
       if (!inBounds(currRow, currCol, idx)) {
@@ -128,22 +133,23 @@ public class PredatorPreyModel extends Model {
     return ret;
   }
 
-  private void move(int currRow, int currCol, int idx, int state, int currReproduction, int currEnergy) {
-    if (currReproduction == 0){
+  private void move(int currRow, int currCol, int idx, int state, int currReproduction,
+      int currEnergy) {
+    if (currReproduction == 0) {
       currReproduction = sharkReproduction;
     }
-    int row = currRow;
-    int col = currCol;
+    int newRow = currRow;
+    int newCol = currCol;
     switch (idx) {
-      case 0 -> row = currRow - 1;
-      case 1 -> row = currRow + 1;
-      case 2 -> col = currCol + 1;
-      case 3 -> col = currCol - 1;
+      case 0 -> newRow = currRow - 1;
+      case 1 -> newRow = currRow + 1;
+      case 2 -> newCol = currCol + 1;
+      case 3 -> newCol = currCol - 1;
     }
-    currGrid.getCell(row,col).setReproduction(currReproduction);
-    currGrid.getCell(row,col).setEnergy(currEnergy);
+    currGrid.getCell(newRow, newCol).setReproduction(currReproduction);
+    currGrid.getCell(newRow, newCol).setEnergy(currEnergy);
 
-    addNewUpdates(row, col, state);
+    addNewUpdates(newRow, newCol, state);
   }
 
   private boolean inBounds(int currRow, int currCol, int idx) {

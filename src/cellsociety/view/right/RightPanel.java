@@ -38,4 +38,5 @@ public abstract class RightPanel {
   protected Node getTheRightPanel() {
     return theRightPanel;
   }
+
 }

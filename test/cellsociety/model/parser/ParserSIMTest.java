@@ -44,8 +44,16 @@ public class ParserSIMTest {
   void testGetParameter() throws FileNotFoundException {
     myParser.readFile(new File("data/spreading_of_fire/single_flame.sim"));
     double expected = 0.55;
-    double actual = myParser.getParameter();
+    double actual = myParser.getParameters(0);
     assertEquals(expected, actual);
+  }
+
+  @Test
+  void testGetMultipleParameters() throws FileNotFoundException {
+    myParser.readFile(new File("data/predator_prey/eat_forward.sim"));
+    assertEquals(10, myParser.getParameters(0));
+    assertEquals(11, myParser.getParameters(1));
+    assertEquals(12, myParser.getParameters(2));
   }
 
   @Test
@@ -71,8 +79,9 @@ public class ParserSIMTest {
     myParser.readFile(new File("data/game_of_life/empty.sim"));
     assertEquals(null, myParser.getInitialStates());
     assertEquals(null, myParser.getTitle());
-    assertEquals(null, myParser.getStateColorMap().get(0));
+    assertEquals(null, myParser.getStateColorMap());
     assertEquals(null, myParser.getType());
+    assertEquals(0.0, myParser.getParameters(0));
   }
 
 

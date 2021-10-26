@@ -2,7 +2,9 @@ package cellsociety.model.parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -36,19 +38,14 @@ public class ParserSIM implements Parser {
       String words[] = line.split("=");
       myInfoMap.put(words[0], words[1]);
     }
-    if (myInfoMap.containsKey("StateColors")) {
-      assignStateColors();
-    }
   }
 
-  private void assignStateColors() {
+  public Map<Integer, String> getStateColorMap() {
+    if (myInfoMap.get("StateColors") == null) return null;
     String colors[] = myInfoMap.get("StateColors").split(",");
     for (int i = 0; i < colors.length; i++) {
       myStatesColorMap.put(i, colors[i]);
     }
-  }
-
-  public Map<Integer, String> getStateColorMap() {
     return myStatesColorMap;
   }
 
@@ -64,8 +61,15 @@ public class ParserSIM implements Parser {
     return myInfoMap.get("InitialStates");
   }
 
-  public double getParameter() {
-    return Double.valueOf(myInfoMap.get("Parameter"));
+  // Assume parameters for PredatorPrey go fish reproduction time, shark reproduction time, shark energy level
+  public double getParameters(int index) {
+    if (myInfoMap.get("Parameters") == null) return 0.0;
+//    List<Double> parameters = new ArrayList<>();
+//    for (String num : myInfoMap.get("Parameters").split(",")) {
+//      parameters.add(Double.valueOf(num));
+//    }
+//    return parameters.get(index);
+    return Double.valueOf(myInfoMap.get("Parameters").split(",")[index]);
   }
 
 

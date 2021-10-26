@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class PredatorPreyCellTest {
 
-  private ModelCell myCell;
+  private PredatorPreyCell myCell;
   private Map<Integer, String> myStartColors;
 
   @BeforeEach
@@ -50,6 +50,14 @@ public class PredatorPreyCellTest {
     assertEquals("fish", myCell.getStateName());
     myCell.changeState(2);
     assertEquals("shark", myCell.getStateName());
+  }
+
+  @Test
+  void testSetParameters() {
+    myCell.setParameters(1,2,3);
+    assertEquals(1, myCell.getSharkEnergy());
+    assertEquals(2, myCell.getSharkReproduction());
+    assertEquals(3, myCell.getFishReproduction());
   }
 
   @Test

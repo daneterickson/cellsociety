@@ -1,5 +1,6 @@
 package cellsociety.model.cell;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ModelCell {
@@ -9,6 +10,7 @@ public abstract class ModelCell {
 
   private int myRow;
   private int myCol;
+  private Map<String, String> myPropertiesMap;
   private int myStateNumber;
   private String myStateColor;
   private String myStateName;
@@ -17,8 +19,10 @@ public abstract class ModelCell {
   public ModelCell(int i, int j, Map<Integer, String> startColors, int state) {
     myRow = i;
     myCol = j;
+    myPropertiesMap = new HashMap<>();
     myStartColors = startColors;
     myStateNumber = state;
+    myPropertiesMap.put("StateNumber", String.valueOf(state));
     assignState(state);
   }
 
@@ -59,6 +63,10 @@ public abstract class ModelCell {
     assignState(newState);
   }
 
+  public String getProperty(String property) {
+    return myPropertiesMap.get(property);
+  }
+
   public int getStateNumber() {
     return myStateNumber;
   }
@@ -73,10 +81,12 @@ public abstract class ModelCell {
 
   protected void setStateColor(String color) {
     myStateColor = color;
+    myPropertiesMap.put("StateColor", color);
   }
 
   protected void setStateName(String name) {
     myStateName = name;
+    myPropertiesMap.put("StateName", name);
   }
 
 }

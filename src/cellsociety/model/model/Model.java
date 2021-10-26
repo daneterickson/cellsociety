@@ -13,6 +13,8 @@ public abstract class Model{ // implements baseModel{
   protected ArrayList<Integer> newUpdates;
   protected Controller myController;
   protected cellsociety.model.model.gridIterator gridIterator;
+  protected int numUpdates = 3;
+
   public Model(Controller controller, Grid grid) {
     newUpdates = new ArrayList<>();
     myController = controller;
@@ -78,7 +80,7 @@ public abstract class Model{ // implements baseModel{
     int row;
     int col;
     int newState;
-    for (int idx = 0; idx < newUpdates.size(); idx += 3) {
+    for (int idx = 0; idx < newUpdates.size(); idx += numUpdates) {
       row = newUpdates.get(idx);
       col = newUpdates.get(idx + 1);
       newState = newUpdates.get(idx + 2);

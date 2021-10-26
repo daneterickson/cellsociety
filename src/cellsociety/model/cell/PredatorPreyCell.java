@@ -1,7 +1,5 @@
 package cellsociety.model.cell;
 
-import java.util.Map;
-
 public class PredatorPreyCell extends ModelCell {
 
   public static final String FISH_NAME = "fish";
@@ -9,18 +7,15 @@ public class PredatorPreyCell extends ModelCell {
   public static final String SHARK_NAME = "shark";
   public static final String SHARK_COLOR = "0000ff";
 
-  private double mySharkEnergy;
-  private double mySharkReproduction;
-  private double myFishReproduction;
-
   private String myStartColors;
-  private String myParameters;
 
   public PredatorPreyCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
     myStartColors = startColors;
-    myParameters = parameters;
-    if (parameters != null) setParameters(parameters);
+    if (parameters == null) {
+      parameters = "10,10,10"; // default is fish reproduction, shark reproduction, and shark energy are all 10
+    }
+    setParameters(parameters);
   }
 
   @Override
@@ -38,9 +33,9 @@ public class PredatorPreyCell extends ModelCell {
 
   @Override
   protected void setParameters(String parameters) {
-    setProperty("FishReproduction", parameters.split(",")[0]);
-    setProperty("SharkReproduction", parameters.split(",")[1]);
-    setProperty("SharkEnergy", parameters.split(",")[2]);
+    setCellParameter("FishReproduction", Double.valueOf(parameters.split(",")[0]));
+    setCellParameter("SharkReproduction", Double.valueOf(parameters.split(",")[1]));
+    setCellParameter("SharkEnergy", Double.valueOf(parameters.split(",")[2]));
   }
 
 //  public double getSharkEnergy () {

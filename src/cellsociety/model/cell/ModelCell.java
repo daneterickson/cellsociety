@@ -10,27 +10,28 @@ public abstract class ModelCell {
 
   private int myRow;
   private int myCol;
-  private Map<String, String> myPropertiesMap;
+  private Map<String, String> myCellProperties;
+  private Map<String, Double> myCellParameters;
   private int myStateNumber;
   private String myStateColor;
   private String myStateName;
   private String myStartColors;
-  private String myParameters;
 
   public ModelCell(int i, int j, String stateColors, String parameters, int state) {
     myRow = i;
     myCol = j;
-    myPropertiesMap = new HashMap<>();
+    myCellProperties = new HashMap<>();
+    myCellParameters = new HashMap<>();
     myStartColors = stateColors;
-    myParameters = parameters;
     myStateNumber = state;
-    myPropertiesMap.put("StateNumber", String.valueOf(state));
+    myCellProperties.put("StateNumber", String.valueOf(state));
     assignState(state);
   }
 
   protected abstract void assignState(int state);
 
   protected void assignThreeCases (int state, String name0, String color0, String name1, String color1, String name2, String color2) {
+    myCellProperties.put("NumCases", "3");
     switch (state) {
       case 0 -> {
         setStateColor(color0);
@@ -48,6 +49,7 @@ public abstract class ModelCell {
   }
 
   protected void assignTwoCases (int state, String name0, String color0, String name1, String color1) {
+    myCellProperties.put("NumCases", "2");
     switch (state) {
       case 0 -> {
         setStateColor(color0);
@@ -62,18 +64,22 @@ public abstract class ModelCell {
 
   public void changeState(int newState) {
     myStateNumber = newState;
-    myPropertiesMap.put("StateNumber", String.valueOf(newState));
+    myCellProperties.put("StateNumber", String.valueOf(newState));
     assignState(newState);
   }
 
   protected abstract void setParameters (String parameters);
 
-  public void setProperty(String key, String value) {
-    myPropertiesMap.put(key, value);
+  public void setCellParameter(String key, Double value) {
+    myCellParameters.put(key, value);
   }
 
-  public String getProperty(String property) { // catch for incorrect property
-    return myPropertiesMap.get(property);
+  public Double getCellParameter(String parameter) { // catch for incorrect property
+    return myCellParameters.get(parameter);
+  }
+
+  public String getCellProperty(String property) { // catch for incorrect property
+    return myCellProperties.get(property);
   }
 
 //  public int getStateNumber() {
@@ -90,12 +96,12 @@ public abstract class ModelCell {
 
   protected void setStateColor(String color) {
     myStateColor = color;
-    myPropertiesMap.put("StateColor", color);
+    myCellProperties.put("StateColor", color);
   }
 
   protected void setStateName(String name) {
     myStateName = name;
-    myPropertiesMap.put("StateName", name);
+    myCellProperties.put("StateName", name);
   }
 
 }

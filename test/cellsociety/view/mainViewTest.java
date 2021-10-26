@@ -61,4 +61,10 @@ public class mainViewTest extends DukeApplicationTest {
     setValue(speedSlider, 3);
   }
 
+  @Test
+  void testAnimationSpeedSliderMinSpeed(){
+    speedSlider = lookup("#speedSlider").query();
+    setValue(speedSlider, .01);
+  }
+
 }

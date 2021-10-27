@@ -38,3 +38,4 @@ Not very fully flexible for new changes. We also have a couple very large classe
 
 
  * Issue chosen: Fix and Alternatives
+   * Created a hierarchy for each rule instead of having it all in the model. This improved our encapsulation in the model package.

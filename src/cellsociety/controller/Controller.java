@@ -8,11 +8,14 @@ import cellsociety.model.model.SpreadingOfFireModel;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.view.mainView.MainView;
+import cellsociety.view.right.RightPanel;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Scene;
@@ -114,6 +117,17 @@ public class Controller {
     else {
       myModel = new GameOfLifeModel(this, currGrid);
     }
+
+    try {
+      Object rightPanel = Class.forName("cellsociety.view.right." + simProperties.get("Type") + "Settings").getConstructor().newInstance();
+      myMainView.myRightPanel = (RightPanel) rightPanel;
+      myMainView.updateRightPanel();
+    }
+    catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+      e.printStackTrace();
+    }
+
+
 
     myMainView.initiateGridView();
   }

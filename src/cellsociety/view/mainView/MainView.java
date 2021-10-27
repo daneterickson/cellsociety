@@ -5,9 +5,9 @@ import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.left.CellProperties;
-import cellsociety.view.right.FireSettings;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
+import cellsociety.view.right.SpreadingOfFireSettings;
 import cellsociety.view.top.TopLoadSave;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
@@ -22,9 +22,10 @@ public class MainView {
   private GridView myGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
-  private RightPanel myRightPanel;
+  public RightPanel myRightPanel;
   private Controller myController;
   private ResourceBundle myResources;
+  private BorderPane root;
 
   public MainView(Stage stage, Controller controller){
     myCellProperties = new CellProperties();
@@ -37,7 +38,7 @@ public class MainView {
   }
 
   public Scene makeScene(int width, int height) {
-    BorderPane root = new BorderPane();
+    root = new BorderPane();
     root.setCenter(myGridView.getGridBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
@@ -55,6 +56,8 @@ public class MainView {
   public void updateView() {
     myGridView.updateGrid();
   }
+
+  public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.

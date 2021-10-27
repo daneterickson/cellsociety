@@ -5,12 +5,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
-public class FireSettings extends RightPanel{
+public class SpreadingOfFireSettings extends RightPanel{
   private double MIN_PROB = 0;
   private double MAX_PROB = 1;
   private double STARTING_PROB = .5;
 
-  public FireSettings(){
+  public SpreadingOfFireSettings(){
     super();
   }
 

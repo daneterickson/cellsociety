@@ -2,6 +2,7 @@ package cellsociety.view.top;
 
 import cellsociety.controller.Controller;
 import java.io.File;
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -14,9 +15,7 @@ public class TopLoadSave {
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"TopLoadSave.css";
 
   private HBox myTopLoadSave;
-
   private Stage myStage;
-
   private Controller myController;
 
   public TopLoadSave(Stage stage, Controller controller) {

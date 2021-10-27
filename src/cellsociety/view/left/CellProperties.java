@@ -1,5 +1,6 @@
 package cellsociety.view.left;
 
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -8,7 +9,7 @@ public class CellProperties {
 
   private String RESOURCE = "cellsociety.view.left.";
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
-  private final String CORD_TITLE = "Current Cell";
+
   private final String DEFAULT_SIM = "Game Of Life";
   private final String STATE_COLOR_TITLE = "Color Key:";
   private int myCurrentX;
@@ -18,9 +19,11 @@ public class CellProperties {
   private Label myCellStateLabel;
   private Label mySimTypeLabel;
   private VBox myCellProperties;
+  private ResourceBundle myResource;
 
 
-  public CellProperties(){
+  public CellProperties(ResourceBundle resource){
+    myResource = resource;
     myCellProperties = new VBox();
     myCellProperties.getChildren().add(makeCellPropLabels());
     setStyles();
@@ -69,7 +72,7 @@ public class CellProperties {
   }
 
   private Node makeCellCordTitle(){
-    Label title = new Label(CORD_TITLE);
+    Label title = new Label(myResource.getString("CoordinateTitle"));
     title.getStyleClass().add("coordinateTitle");
     return title;
   }

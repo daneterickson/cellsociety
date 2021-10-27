@@ -1,6 +1,7 @@
 package cellsociety.view.right;
 
 
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -11,9 +12,12 @@ public abstract class RightPanel {
   protected static final String RESOURCE = "cellsociety.view.right.";
   protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "RightSettings.css";
 
-  public RightPanel() {
-     theRightPanel = new VBox();
-     makeSettingsPanel(theRightPanel);
+  private ResourceBundle myResource;
+
+  public RightPanel(ResourceBundle bundle) {
+    myResource = bundle;
+    theRightPanel = new VBox();
+    makeSettingsPanel(theRightPanel);
   }
 
   protected abstract void makeSettingsPanel(VBox rightPanel);

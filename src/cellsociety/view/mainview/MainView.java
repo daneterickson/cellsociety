@@ -1,4 +1,4 @@
-package cellsociety.view.mainView;
+package cellsociety.view.mainview;
 
 
 import cellsociety.controller.Controller;
@@ -8,6 +8,7 @@ import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
 import cellsociety.view.top.TopLoadSave;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -27,13 +28,16 @@ public class MainView {
   private BorderPane root;
 
   public MainView(Stage stage, Controller controller){
-    myCellProperties = new CellProperties();
+    myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
+
     myController = controller;
     myStage = stage;
-    myTopLoadSave = new TopLoadSave(myStage, myController);
+    myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
     myGridView = new GridView(myCellProperties, myController);
+    myCellProperties = new CellProperties(myResources);
+    myRightPanel = new GameOfLifeSettings(myResources);
     mySimControl = new SimControl(myGridView, myController);
-    myRightPanel = new GameOfLifeSettings();      //(default)
+
   }
 
   public Scene makeScene(int width, int height) {

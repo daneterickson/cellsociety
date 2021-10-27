@@ -6,7 +6,7 @@ import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
-import cellsociety.view.mainView.MainView;
+import cellsociety.view.mainview.MainView;
 import cellsociety.view.right.RightPanel;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
@@ -23,6 +23,7 @@ public class Controller {
   private ParserCSV myParserCSV;
   private ParserSIM myParserSIM;
   private MainView myMainView;
+  private Stage myStage;
   private Grid currGrid;
   private boolean hasUpdate;
   private boolean stopAnimation;
@@ -90,31 +91,19 @@ public class Controller {
   }
 
   public void openSIMFile(File simFile) {
-    try {
-      myParserSIM.readFile(simFile);
-    } catch (FileNotFoundException | NoSuchFieldException e) {
-      // TODO: handle the invalid file exception with pop-up in view
-      e.printStackTrace();
-    }
-    File csvFile = new File(String.format("data/%s", myParserSIM.getInfo("InitialStates")));
-    try {
-      myParserCSV.readFile(csvFile);
-    } catch (CsvValidationException | IOException e) {
-      // TODO: handle the invalid file exception with pop-up in view
-      e.printStackTrace();
-    }
-    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
-    simProperties = myParserSIM.getMap();
+    readSIMFile(simFile);
+    readCSVFile();
+    makeNewSimulation();
+  }
 
-    try {
-      Class<?> clazz = Class.forName("cellsociety.model.model." + simProperties.get("Type") + "Model");
-      Object modell = clazz.getDeclaredConstructor(Controller.class, Grid.class).newInstance(this, currGrid);
-      myModel = (Model) modell;
-    }
-    catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-      e.printStackTrace();
-    }
+  private void makeNewSimulation() {
+    makeNewModel();
 
+    makeNewRightPanel();
+    myMainView.initiateGridView();
+  }
+
+  private void makeNewRightPanel() {
     try {
       Object rightPanel = Class.forName("cellsociety.view.right." + simProperties.get("Type") + "Settings").getConstructor().newInstance();
       myMainView.myRightPanel = (RightPanel) rightPanel;
@@ -123,8 +112,39 @@ public class Controller {
     catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
       e.printStackTrace();
     }
+  }
 
-    myMainView.initiateGridView();
+  private void makeNewModel() {
+    try {
+      Class<?> clazz = Class.forName("cellsociety.model.model." + simProperties.get("Type") + "Model");
+      Object modell = clazz.getDeclaredConstructor(Controller.class, Grid.class).newInstance(this, currGrid);
+      myModel = (Model) modell;
+    }
+    catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void readCSVFile() {
+    File csvFile = new File(String.format("data/%s", myParserSIM.getInfo("InitialStates")));
+    try {
+      myParserCSV.readFile(csvFile);
+    } catch (CsvValidationException | IOException e) {
+      // TODO: handle the invalid file exception with pop-up in view
+      e.printStackTrace();
+    }
+    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
+
+  }
+
+  private void readSIMFile(File simFile) {
+    try {
+      myParserSIM.readFile(simFile);
+      simProperties = myParserSIM.getMap();
+    } catch (FileNotFoundException | NoSuchFieldException e) {
+      // TODO: handle the invalid file exception with pop-up in view
+      e.printStackTrace();
+    }
   }
 
   /**

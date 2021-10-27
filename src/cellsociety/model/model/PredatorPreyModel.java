@@ -4,6 +4,7 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -44,7 +45,13 @@ public class PredatorPreyModel extends Model {
   }
   private void iterateSharks(Grid currGrid) {
     iterateGrid(row -> col -> {
-      String currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+      String currState = null;
+      try {
+        currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+      } catch (KeyNotFoundException e) {
+        // TODO: handle exception
+        System.out.println("Invalid Property");
+      }
       int stateAsInt = parseInt(currState);
       if (stateAsInt == SHARK){
         updateCell(row, col, stateAsInt);
@@ -54,7 +61,13 @@ public class PredatorPreyModel extends Model {
 
   private void iterateOthers(Grid currGrid) {
     iterateGrid(row -> col -> {
-      String currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+      String currState = null;
+      try {
+        currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+      } catch (KeyNotFoundException e) {
+        // TODO: handle exception
+        System.out.println("Invalid Property");
+      }
       int stateAsInt = parseInt(currState);
       if (stateAsInt != SHARK){
         if (sharkAttacks.contains(row*numCols+col)){
@@ -67,11 +80,26 @@ public class PredatorPreyModel extends Model {
   }
 
   private void getBaseParameters() {
-    fishReproduction = (int) Math.round(
-        currGrid.getCell(0, 0).getCellParameter(FishReproduction));
-    sharkReproduction = (int) Math.round(
-        currGrid.getCell(0, 0).getCellParameter(SharkReproduction));
-    sharkEnergy = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergy));
+    try {
+      fishReproduction = (int) Math.round(
+          currGrid.getCell(0, 0).getCellParameter(FishReproduction));
+    } catch (KeyNotFoundException e) {
+      // TODO: handle exception
+      System.out.println("Invalid Parameter");
+    }
+    try {
+      sharkReproduction = (int) Math.round(
+          currGrid.getCell(0, 0).getCellParameter(SharkReproduction));
+    } catch (KeyNotFoundException e) {
+      // TODO: handle exception
+      System.out.println("Invalid Parameter");
+    }
+    try {
+      sharkEnergy = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergy));
+    } catch (KeyNotFoundException e) {
+      // TODO: handle exception
+      System.out.println("Invalid Parameter");
+    }
     energyGain = 10;
 //    energyGain = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergyGain));
   }
@@ -141,8 +169,14 @@ public class PredatorPreyModel extends Model {
 
   private int fishRules(int currRow, int currCol, int state, List<Integer> nearby) {
     ArrayList<Integer> eligibleSpaces;
-    int currReproduction = (int) Math.round(
-        currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
+    int currReproduction = 0;
+    try {
+      currReproduction = (int) Math.round(
+          currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
+    } catch (KeyNotFoundException e) {
+      // TODO: handle exception
+      System.out.println("Invalid Parameter");
+    }
     int fishEnergy = -1; //fish don't have energy level
 
     eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
@@ -180,11 +214,23 @@ public class PredatorPreyModel extends Model {
     System.out.println(
         sharkEnergy + " " + sharkReproduction + " " + fishReproduction + " " + energyGain);
     ArrayList<Integer> eligibleSpaces;
+    int currReproduction = 0;
     boolean attack = false;
-    int currReproduction = (int) Math.round(
-        currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
-    int currEnergy = (int) Math.round(
-        currGrid.getCell(currRow, currCol).getCellParameter(SharkEnergy));
+    try {
+      currReproduction = (int) Math.round(
+          currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
+    } catch (KeyNotFoundException e) {
+      // TODO: handle exception
+      System.out.println("Invalid Parameter");
+    }
+    int currEnergy = 0;
+    try {
+      currEnergy = (int) Math.round(
+          currGrid.getCell(currRow, currCol).getCellParameter(SharkEnergy));
+    } catch (KeyNotFoundException e) {
+      // TODO: handle exception
+      System.out.println("Invalid Parameter");
+    }
 
     currEnergy--;
     //update reproduction value

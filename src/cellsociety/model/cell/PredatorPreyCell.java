@@ -45,14 +45,8 @@ public class PredatorPreyCell extends ModelCell {
   @Override
   protected void assignState(
       int state) { // Assume fish (prey) is 1 and shark (predator) is 2 on initial states
-    if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
-      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, fishName, fishColor, sharkName,
-          sharkColor);
-    } else {
-      String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
-      assignThreeCases(state, EMPTY_NAME, stateColors[0], fishName, stateColors[1],
-          sharkName, stateColors[2]);
-    }
+    assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, fishName, fishColor, sharkName,
+        sharkColor);
   }
 
   @Override

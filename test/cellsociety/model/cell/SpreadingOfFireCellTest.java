@@ -2,6 +2,7 @@ package cellsociety.model.cell;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cellsociety.model.exceptions.KeyNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class SpreadingOfFireCellTest {
   }
 
   @Test
-  void testChangeState() {
+  void testChangeState() throws KeyNotFoundException {
     myCell.changeState(1);
     assertEquals(1, Integer.valueOf(myCell.getCellProperty("StateNumber")));
     myCell.changeState(2);
@@ -25,12 +26,12 @@ public class SpreadingOfFireCellTest {
   }
 
   @Test
-  void testSetColor() {
+  void testSetColor() throws KeyNotFoundException {
     assertEquals("ffff00", myCell.getCellProperty("StateColor"));
   }
 
   @Test
-  void testChangeColor() {
+  void testChangeColor() throws KeyNotFoundException {
     myCell.changeState(1);
     assertEquals("00ff00", myCell.getCellProperty("StateColor"));
     myCell.changeState(2);
@@ -38,12 +39,12 @@ public class SpreadingOfFireCellTest {
   }
 
   @Test
-  void testSetName() {
+  void testSetName() throws KeyNotFoundException {
     assertEquals("empty", myCell.getCellProperty("StateName"));
   }
 
   @Test
-  void testChangeName() {
+  void testChangeName() throws KeyNotFoundException {
     myCell.changeState(1);
     assertEquals("tree", myCell.getCellProperty("StateName"));
     myCell.changeState(2);

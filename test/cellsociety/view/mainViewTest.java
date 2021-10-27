@@ -30,31 +30,31 @@ public class mainViewTest extends DukeApplicationTest {
     myController = new Controller(stage);
   }
 
-  @Test
-  void testLoadCSV() {
-    loadCSVButton = lookup("#LoadCSVButton").query();
-    clickOn(loadCSVButton);
-  }
+//  @Test
+//  void testLoadCSV() {
+//    loadCSVButton = lookup("#LoadCSVButton").query();
+//    clickOn(loadCSVButton);
+//  }
 
-  @Test
-  void testSaveCSV() {
-    saveCSVButton = lookup("#SaveCSVButton").query();
-    clickOn(saveCSVButton);
-    File file = new File("data/game_of_life/blank.csv");
-    File filetwo = new File("data/game_of_life/simple.csv");
-    // Bytes diff
-    byte[] b1, b2;
-    try {
-      b1 = Files.readAllBytes(file.toPath());
-      b2 = Files.readAllBytes(filetwo.toPath());
-      boolean equals = Arrays.equals(b1, b2);
-      assertTrue(equals);
-
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+//  @Test
+//  void testSaveCSV() {
+//    saveCSVButton = lookup("#SaveCSVButton").query();
+//    clickOn(saveCSVButton);
+//    File file = new File("data/game_of_life/blank.csv");
+//    File filetwo = new File("data/game_of_life/simple.csv");
+//    // Bytes diff
+//    byte[] b1, b2;
+//    try {
+//      b1 = Files.readAllBytes(file.toPath());
+//      b2 = Files.readAllBytes(filetwo.toPath());
+//      boolean equals = Arrays.equals(b1, b2);
+//      assertTrue(equals);
+//
+//    }
+//    catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//  }
 
   @Test
   void testAnimationSpeedSliderMaxSpeed(){

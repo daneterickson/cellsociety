@@ -1,5 +1,6 @@
 package cellsociety.model.cell;
 
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -14,6 +15,7 @@ public abstract class ModelCell {
   private String myStateColor;
   private String myStateName;
   private String myStartColors;
+  private int numCases;
   private ResourceBundle myResources = ResourceBundle.getBundle(
       String.format("%s%s", DEFAULT_RESOURCES, RESOURCES_LANGUAGE));
 
@@ -49,7 +51,19 @@ public abstract class ModelCell {
 
   protected void assignThreeCases(int state, String name0, String color0, String name1,
       String color1, String name2, String color2) {
+    numCases = 3;
     myCellProperties.put(NUMBER_CASES_KEY, THREE_CASES);
+    if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
+      switchThreeCases(state, name0, color0, name1, color1, name2, color2);
+    }
+    else {
+      String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
+      switchThreeCases(state, name0, stateColors[0], name1, stateColors[1], name2, stateColors[2]);
+    }
+  }
+
+  private void switchThreeCases(int state, String name0, String color0, String name1, String color1,
+      String name2, String color2) {
     switch (state) {
       case 0 -> {
         setStateColor(color0);
@@ -68,6 +82,7 @@ public abstract class ModelCell {
 
   protected void assignTwoCases(int state, String name0, String color0, String name1,
       String color1) {
+    numCases = 2;
     myCellProperties.put(NUMBER_CASES_KEY, TWO_CASES);
     switch (state) {
       case 0 -> {
@@ -82,6 +97,7 @@ public abstract class ModelCell {
   }
 
   public void changeState(int newState) {
+    if (newState >= numCases) throw new IndexOutOfBoundsException();
     myStateNumber = newState;
     myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(newState));
     assignState(newState);
@@ -93,11 +109,13 @@ public abstract class ModelCell {
     myCellParameters.put(key, value);
   }
 
-  public Double getCellParameter(String parameter) { // catch for incorrect property
+  public Double getCellParameter(String parameter) throws KeyNotFoundException {
+    if (!myCellParameters.containsKey(parameter)) throw new KeyNotFoundException("Invalid Parameter");
     return myCellParameters.get(parameter);
   }
 
-  public String getCellProperty(String property) { // catch for incorrect property
+  public String getCellProperty(String property) throws KeyNotFoundException {
+    if (!myCellProperties.containsKey(property)) throw new KeyNotFoundException("Invalid Property");
     return myCellProperties.get(property);
   }
 

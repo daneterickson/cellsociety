@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class PredatorPreyTest {
 
   @Test
   void testCurrRuleReproducing()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, KeyNotFoundException {
     myStates = new int[][]{{1, 1, 1, 1, 2},
         {1, 1, 1, 1, 0},
         {1, 1, 1, 1, 1},
@@ -144,7 +145,7 @@ public class PredatorPreyTest {
 
   @Test
   void testCurrRuleEating()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, KeyNotFoundException {
     myStates = new int[][]{{0, 0, 0, 1, 2},
         {0, 0, 0, 1, 0},
         {0, 0, 0, 0, 0},
@@ -160,7 +161,11 @@ public class PredatorPreyTest {
     } catch (NullPointerException e) {
 
     }
-    printgrid();
+    try {
+      printgrid();
+    } catch (KeyNotFoundException e) {
+      System.out.println("Cannot print grid - Exception reached");
+    }
 
     int shark = parseInt(myGrid.getCell(0,3).getCellProperty("StateNumber"));
     assertEquals(2, shark, "at (0,3) should be shark. got: " + shark);
@@ -173,7 +178,7 @@ public class PredatorPreyTest {
 
   }
 
-  private void printgrid(){
+  private void printgrid() throws KeyNotFoundException {
     for (int r = 0; r< myGrid.getNumRows();r++){
       System.out.println(" ");
       for (int c = 0; c< myGrid.getNumRows();c++){

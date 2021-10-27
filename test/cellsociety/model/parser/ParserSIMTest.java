@@ -17,7 +17,7 @@ public class ParserSIMTest {
   }
 
   @Test
-  void testGetType() throws FileNotFoundException {
+  void testGetType() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/game_of_life/blinkers.sim"));
     String expected = "GameOfLife";
     String actual = myParser.getInfo("Type");
@@ -25,7 +25,7 @@ public class ParserSIMTest {
   }
 
   @Test
-  void testGetTitle() throws FileNotFoundException {
+  void testGetTitle() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/game_of_life/blinkers.sim"));
     String expected = "Blinkers";
     String actual = myParser.getInfo("Title");
@@ -33,7 +33,7 @@ public class ParserSIMTest {
   }
 
   @Test
-  void testGetInitialStates() throws FileNotFoundException {
+  void testGetInitialStates() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/game_of_life/blinkers.sim"));
     String expected = "game_of_life/blinkers.csv";
     String actual = myParser.getInfo("InitialStates");
@@ -41,7 +41,7 @@ public class ParserSIMTest {
   }
 
   @Test
-  void testGetParameter() throws FileNotFoundException {
+  void testGetParameter() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/spreading_of_fire/single_flame.sim"));
     double expected = 0.55;
     double actual = Double.valueOf(myParser.getInfo("Parameters").split(",")[0]);
@@ -49,7 +49,7 @@ public class ParserSIMTest {
   }
 
   @Test
-  void testGetMultipleParameters() throws FileNotFoundException {
+  void testGetMultipleParameters() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/predator_prey/eat_forward.sim"));
     Double actual = Double.valueOf(myParser.getInfo("Parameters").split(",")[0]);
     assertEquals(10, actual);
@@ -60,7 +60,7 @@ public class ParserSIMTest {
   }
 
   @Test
-  void testStatesColorMap() throws FileNotFoundException {
+  void testStatesColorMap() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/percolation/long_pipe.sim"));
     String colors[] = {"FFFFFF","0000FF","000000"};
     for (int i=0; i<colors.length; i++) {
@@ -78,7 +78,7 @@ public class ParserSIMTest {
   }
 
   @Test
-  void testEmptyFIle() throws FileNotFoundException {
+  void testEmptyFIle() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/game_of_life/empty.sim"));
     assertEquals(null, myParser.getInfo("Type"));
     assertEquals(null, myParser.getInfo("Title"));

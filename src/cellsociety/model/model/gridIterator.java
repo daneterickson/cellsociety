@@ -3,6 +3,7 @@ package cellsociety.model.model;
 import static java.lang.Integer.parseInt;
 
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class gridIterator {
       try {
         state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
         neighbors.add(idx, state);
-      } catch (IndexOutOfBoundsException e) {
+      } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
         neighbors.add(idx, edgeValue);
       }
       idx++;
@@ -54,7 +55,7 @@ public class gridIterator {
         try {
           state = parseInt(grid.getCell(row + y, col + x).getCellProperty("StateNumber"));
           neighbors.add(idx, state);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
           //handles edge cases
           neighbors.add(idx, edgeValue);
         }

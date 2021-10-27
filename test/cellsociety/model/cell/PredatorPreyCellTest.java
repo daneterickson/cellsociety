@@ -2,6 +2,7 @@ package cellsociety.model.cell;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import cellsociety.model.exceptions.KeyNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class PredatorPreyCellTest {
   }
 
   @Test
-  void testChangeState() {
+  void testChangeState() throws KeyNotFoundException {
     myCell.changeState(1);
     assertEquals(1, Integer.valueOf(myCell.getCellProperty("StateNumber")));
     myCell.changeState(2);
@@ -25,12 +26,12 @@ public class PredatorPreyCellTest {
   }
 
   @Test
-  void testSetColor() {
+  void testSetColor() throws KeyNotFoundException {
     assertEquals("c0c0c0", myCell.getCellProperty("StateColor"));
   }
 
   @Test
-  void testChangeColor() {
+  void testChangeColor() throws KeyNotFoundException {
     myCell.changeState(1);
     assertEquals("00ff00", myCell.getCellProperty("StateColor"));
     myCell.changeState(2);
@@ -38,12 +39,12 @@ public class PredatorPreyCellTest {
   }
 
   @Test
-  void testSetName() {
+  void testSetName() throws KeyNotFoundException {
     assertEquals("empty", myCell.getCellProperty("StateName"));
   }
 
   @Test
-  void testChangeName() {
+  void testChangeName() throws KeyNotFoundException {
     myCell.changeState(1);
     assertEquals("fish", myCell.getCellProperty("StateName"));
     myCell.changeState(2);
@@ -51,7 +52,7 @@ public class PredatorPreyCellTest {
   }
 
   @Test
-  void testSetParameters() {
+  void testSetParameters() throws KeyNotFoundException {
     myParameters = "1,2,3,4";
     myCell = new PredatorPreyCell(0, 0, myStartColors, myParameters, 0);
     assertEquals(1.0, myCell.getCellParameter("FishReproduction"));
@@ -61,7 +62,7 @@ public class PredatorPreyCellTest {
   }
 
   @Test
-  void testInitialColorStates() {
+  void testInitialColorStates() throws KeyNotFoundException {
     myStartColors = "000000,111111,222222";
     myCell = new PredatorPreyCell(0, 0, myStartColors, myParameters, 0);
     myCell.changeState(1);

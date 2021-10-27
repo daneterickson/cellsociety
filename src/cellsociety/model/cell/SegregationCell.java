@@ -38,14 +38,8 @@ public class SegregationCell extends ModelCell{
 
   @Override
   protected void assignState(int state) {
-    if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
-      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, race1Name, race1Color, race2Name,
-          race2Color);
-    }
-    else {
-      String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
-      assignThreeCases(state, EMPTY_NAME, stateColors[0], race1Name, stateColors[1], race2Name, stateColors[2]);
-    }
+    assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, race1Name, race1Color, race2Name,
+        race2Color);
   }
 
   @Override

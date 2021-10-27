@@ -4,6 +4,7 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.List;
 
 public class PercolationModel extends Model {
@@ -21,19 +22,24 @@ public class PercolationModel extends Model {
 
   private String getEndEdge() {
     iterateGrid(row-> col -> {
-      if (parseInt(currGrid.getCell(row,col).getCellProperty("StateNumber")) == WATER){
-        if (row == 0){
-          endEdge = "bottom";
+      try {
+        if (parseInt(currGrid.getCell(row,col).getCellProperty("StateNumber")) == WATER){
+          if (row == 0){
+            endEdge = "bottom";
+          }
+          if (row == currGrid.getNumRows()-1){
+            endEdge = "top";
+          }
+          if (col == 0){
+            endEdge = "right";
+          }
+          if (col == currGrid.getNumCols()-1){
+            endEdge = "left";
+          }
         }
-        if (row == currGrid.getNumRows()-1){
-          endEdge = "top";
-        }
-        if (col == 0){
-          endEdge = "right";
-        }
-        if (col == currGrid.getNumCols()-1){
-          endEdge = "left";
-        }
+      } catch (KeyNotFoundException e) {
+        //TODO: handle exception
+        System.out.println("Invalid Property");
       }
     });
     return endEdge;
@@ -52,32 +58,52 @@ public class PercolationModel extends Model {
       case "top" -> {
         int r = 0;
         for (int c = 0; c < currGrid.getNumCols();c++){
-          if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
-            return true;
+          try {
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+              return true;
+            }
+          } catch (KeyNotFoundException e) {
+            //TODO: handle exception
+            System.out.println("Invalid Property");
           }
         }
       }
       case "bottom" -> {
         int r = currGrid.getNumRows() - 1;
         for (int c = 0; c < currGrid.getNumCols();c++){
-          if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
-            return true;
+          try {
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+              return true;
+            }
+          } catch (KeyNotFoundException e) {
+            //TODO: handle exception
+            System.out.println("Invalid Property");
           }
         }
       }
       case "left" -> {
         int c = 0;
         for (int r = 0; r < currGrid.getNumRows();r++){
-          if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
-            return true;
+          try {
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+              return true;
+            }
+          } catch (KeyNotFoundException e) {
+            //TODO: handle exception
+            System.out.println("Invalid Property");
           }
         }
       }
       case "right" -> {
         int c = currGrid.getNumCols() - 1;
         for (int r = 0; r < currGrid.getNumRows();r++){
-          if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
-            return true;
+          try {
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+              return true;
+            }
+          } catch (KeyNotFoundException e) {
+            //TODO: handle exception
+            System.out.println("Invalid Property");
           }
         }
       }

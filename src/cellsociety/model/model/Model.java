@@ -3,6 +3,7 @@ package cellsociety.model.model;
 import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -28,7 +29,13 @@ public abstract class Model{ // implements baseModel{
   public void updateModel(Grid currGrid) {
     this.currGrid = currGrid;
     iterateGrid(row -> col -> {
-      String currState = currGrid.getCell(row, col).getCellProperty(StateNumber);
+      String currState = null;
+      try {
+        currState = currGrid.getCell(row, col).getCellProperty(StateNumber);
+      } catch (KeyNotFoundException e) {
+        //TODO: handle exception
+        System.out.println("Invalid Property");
+      }
       int stateAsInt = parseInt(currState);
       updateCell(row, col, stateAsInt);
     });
@@ -48,12 +55,12 @@ public abstract class Model{ // implements baseModel{
         currGrid.getCell(currRow, currCol).getCellProperty(StateNumber);
         gridIterationAction.apply(currRow).accept(currCol);
         currCol += 1;
-      } catch (IndexOutOfBoundsException xOutOfBounds) {
+      } catch (IndexOutOfBoundsException | KeyNotFoundException xOutOfBounds) {
         try {
           currCol = 0;
           currRow += 1;
           currGrid.getCell(currRow, currCol).getCellProperty(StateNumber);
-        } catch (IndexOutOfBoundsException yOutOfBounds) {
+        } catch (IndexOutOfBoundsException | KeyNotFoundException yOutOfBounds) {
           break;
         }
       }

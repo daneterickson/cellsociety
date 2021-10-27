@@ -2,6 +2,7 @@ package cellsociety.controller;
 
 import cellsociety.model.Grid;
 import cellsociety.model.cell.ModelCell;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
 import cellsociety.model.model.SpreadingOfFireModel;
@@ -98,7 +99,13 @@ public class Controller {
   }
 
   public String getCellColor(int i, int j){
-    return currGrid.getCell(i, j).getCellProperty("StateColor");
+    try {
+      return currGrid.getCell(i, j).getCellProperty("StateColor");
+    } catch (KeyNotFoundException e) {
+      //TODO: handle exception
+      System.out.println("Invalid Property");
+      return "000000"; // default black
+    }
   }
 
   public void openSIMFile(File simFile) {

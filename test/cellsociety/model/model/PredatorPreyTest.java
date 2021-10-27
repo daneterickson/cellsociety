@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class PredatorPreyTest {
 
   @Test
   void testCurrRuleReproducing()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, KeyNotFoundException {
     myStates = new int[][]{{1, 1, 1, 1, 2},
         {1, 1, 1, 1, 0},
         {1, 1, 1, 1, 1},
@@ -141,7 +142,7 @@ public class PredatorPreyTest {
     assertEquals(1, childFish, "at (1,4), should be fish. got: " + childFish);
 
   }
-  private void printgrid(){
+  private void printgrid() throws KeyNotFoundException {
     for (int r = 0; r< myGrid.getNumRows();r++){
       System.out.println(" ");
       for (int c = 0; c< myGrid.getNumRows();c++){

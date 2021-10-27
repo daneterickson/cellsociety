@@ -23,13 +23,60 @@ public class PredatorPreyModel extends Model {
   private final String SharkReproduction = "SharkReproduction";
   private final String SharkEnergy = "SharkEnergyStart";
   private final String SharkEnergyGain = "SharkEnergyGain";
+  private ArrayList<Integer> sharkAttacks;
+  private int numCols;
 
   public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller, grid);
     random = new Random();
-//    setReproductionEnergy();
     numUpdates = 5;
+    sharkAttacks = new ArrayList<>();
+    numCols = currGrid.getNumCols();
     getBaseParameters();
+  }
+
+  @Override
+  public void updateModel(Grid currGrid) {
+    this.currGrid = currGrid;
+    iterateSharks(currGrid);
+    iterateOthers(currGrid);
+    updateGrid();
+    myController.setHasUpdate(true);
+  }
+  private void iterateSharks(Grid currGrid) {
+    iterateGrid(row -> col -> {
+      String currState = null;
+      try {
+        currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+      } catch (KeyNotFoundException e) {
+        // TODO: handle exception
+        System.out.println("Invalid Property");
+      }
+      int stateAsInt = parseInt(currState);
+      if (stateAsInt == SHARK){
+        updateCell(row, col, stateAsInt);
+      }
+    });
+  }
+
+  private void iterateOthers(Grid currGrid) {
+    iterateGrid(row -> col -> {
+      String currState = null;
+      try {
+        currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+      } catch (KeyNotFoundException e) {
+        // TODO: handle exception
+        System.out.println("Invalid Property");
+      }
+      int stateAsInt = parseInt(currState);
+      if (stateAsInt != SHARK){
+        if (sharkAttacks.contains(row*numCols+col)){
+          sharkAttacks.remove(row*numCols+col);
+        }else{
+          updateCell(row, col, stateAsInt);
+        }
+      }
+    });
   }
 
   private void getBaseParameters() {
@@ -148,7 +195,8 @@ public class PredatorPreyModel extends Model {
     //reproduce and move
     if (currReproduction == 0) {
 //      System.out.println("fish reproduce");
-      move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state, currReproduction, -1);
+      move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
+          currReproduction, -1, false);
       addNewUpdates(currRow, currCol, FISH, fishReproduction, -1);
       return FISH;
     }
@@ -156,14 +204,18 @@ public class PredatorPreyModel extends Model {
     //move
 //    System.out.println("fish move");
 
-    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state, currReproduction, -1);
+    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
+        currReproduction, -1, false);
     addNewUpdates(currRow, currCol, EMPTY, -1, -1);
     return EMPTY;
   }
 
   private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
+    System.out.println(
+        sharkEnergy + " " + sharkReproduction + " " + fishReproduction + " " + energyGain);
     ArrayList<Integer> eligibleSpaces;
     int currReproduction = 0;
+    boolean attack = false;
     try {
       currReproduction = (int) Math.round(
           currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
@@ -187,7 +239,7 @@ public class PredatorPreyModel extends Model {
     }
     //dead
     if (currEnergy <= 0) {
-//      System.out.println("shark dead");
+      System.out.println("shark dead");
 
       addNewUpdates(currRow, currCol, EMPTY, -1, -1);
       return EMPTY;
@@ -197,33 +249,40 @@ public class PredatorPreyModel extends Model {
 
     //try to eat
     if (eligibleSpaces.size() >= 1) {
+      System.out.println("shark eating");
       currEnergy += energyGain;
+      attack = true;
     } else {
       eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
     }
 
     //shark can't move
     if (eligibleSpaces.size() < 1) {
+      System.out.println("shark can't move");
+
 //      System.out.println("shark can't move");
 
       addNewUpdates(currRow, currCol, SHARK, currReproduction, currEnergy);
       return SHARK;
     }
-
-    //reproduce and move
-    if (currReproduction == 0) {
-//      System.out.println("shark reproduce");
-      move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state, currReproduction,
-          currEnergy);
-      addNewUpdates(currRow, currCol, SHARK, sharkReproduction, sharkEnergy);
-      return SHARK;
-    }
+    System.out.println("curr params: "+ currReproduction +" " + currEnergy);
 
     //move
-//    System.out.println("shark move");
+    System.out.println("shark move");
+    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), SHARK,
+        currReproduction,
+        currEnergy, attack);
 
-    addNewUpdates(currRow, currCol, EMPTY, -1, -1);
-    return EMPTY;
+    if (currReproduction == 0) {
+      System.out.println("shark reproduce");
+      addNewUpdates(currRow, currCol, SHARK, sharkReproduction, sharkEnergy);
+      return SHARK;
+    }else{
+      addNewUpdates(currRow, currCol, EMPTY, -1, -1);
+      return EMPTY;
+    }
+
+
   }
 
   /**
@@ -250,11 +309,10 @@ public class PredatorPreyModel extends Model {
    * moves the current cell to a new location and then adds the new properties to newUpdates
    */
   private void move(int currRow, int currCol, int idx, int state, int currReproduction,
-      int currEnergy) {
+      int currEnergy, boolean attack) {
     if (currReproduction == 0) {
       currReproduction = sharkReproduction;
     }
-
     int newRow = currRow;
     int newCol = currCol;
     switch (idx) {
@@ -263,7 +321,9 @@ public class PredatorPreyModel extends Model {
       case 2 -> newCol += 1;
       case 3 -> newCol -= 1;
     }
-
+    if (attack){
+      sharkAttacks.add(newRow*numCols + newCol);
+    }
     addNewUpdates(newRow, newCol, state, currReproduction, currEnergy);
   }
 

@@ -61,6 +61,7 @@ public class SegregationModel extends Model {
 
     if (allyPercentage < threshold) {
       relocate(state);
+      emptySpots.add(currRow*numCols + currCol);
       return EMPTY;
     }
     return state;
@@ -70,7 +71,7 @@ public class SegregationModel extends Model {
     int idx = random.nextInt(emptySpots.size());
     int r = emptySpots.get(idx) / numCols;
     int c = emptySpots.get(idx) % numCols;
-
+    emptySpots.remove(idx);
     addNewUpdates(r, c, state);
   }
 

@@ -2,6 +2,7 @@ package cellsociety.model;
 
 import cellsociety.model.cell.GameOfLifeCell;
 import cellsociety.model.cell.ModelCell;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
 public class Grid {
@@ -61,7 +62,12 @@ public class Grid {
 //  }
 
   public int getCellStateNumber(int i, int j) {
-    return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
+    try {
+      return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
+    } catch (KeyNotFoundException e) {
+      System.out.println("Invalid Property");
+      return 0;
+    }
   }
 
 

@@ -30,6 +30,7 @@ public class Controller {
   private Stage myStage;
   private Grid currGrid;
   private boolean hasUpdate;
+  private boolean stopAnimation;
   private Map<String, String> simProperties;
 
   private static final int SCENE_WIDTH = 500;
@@ -54,6 +55,11 @@ public class Controller {
     myParserCSV = new ParserCSV();
     myParserSIM = new ParserSIM();
     hasUpdate = true;
+    stopAnimation = false;
+  }
+
+  public void setStopAnimation(boolean animationState) {
+    stopAnimation = animationState;
   }
 
 //  public void openCSVFile(File csvFile) {

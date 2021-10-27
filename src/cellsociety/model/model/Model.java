@@ -1,6 +1,7 @@
 package cellsociety.model.model;
 
 import static java.lang.Integer.parseInt;
+
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
@@ -9,21 +10,41 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class Model{ // implements baseModel{
+public abstract class Model { // implements baseModel{
 
-  protected Grid currGrid;
-  protected ArrayList<Integer> newUpdates;
-  protected Controller myController;
-  protected gridIterator gridIterator;
-  protected int numUpdates = 3;
-  private final String StateNumber = "StateNumber";
-
+  private Grid currGrid;
+  private ArrayList<Integer> newUpdates;
+  private Controller myController;
+  private GridIterator gridIterator;
+  private Integer numUpdates;
+  private final String stateNumber = "StateNumber";
 
   public Model(Controller controller, Grid grid) {
     newUpdates = new ArrayList<>();
     myController = controller;
     currGrid = grid;
-    gridIterator = new gridIterator();
+    gridIterator = new GridIterator();
+    numUpdates = 3;
+  }
+
+  protected Grid getCurrGrid() {
+    return currGrid;
+  }
+
+  protected ArrayList<Integer> getNewUpdates() {
+    return newUpdates;
+  }
+
+  protected Integer getNumUpdates() {
+    return numUpdates;
+  }
+
+  protected GridIterator getGridIterator() {
+    return gridIterator;
+  }
+
+  protected Controller getMyController() {
+    return myController;
   }
 
   public void updateModel(Grid currGrid) {
@@ -31,7 +52,7 @@ public abstract class Model{ // implements baseModel{
     iterateGrid(row -> col -> {
       String currState = null;
       try {
-        currState = currGrid.getCell(row, col).getCellProperty(StateNumber);
+        currState = currGrid.getCell(row, col).getCellProperty(stateNumber);
       } catch (KeyNotFoundException e) {
         //TODO: handle exception
         System.out.println("Invalid Property");
@@ -52,14 +73,14 @@ public abstract class Model{ // implements baseModel{
     int currCol = 0;
     while (true) {
       try {
-        currGrid.getCell(currRow, currCol).getCellProperty(StateNumber);
+        currGrid.getCell(currRow, currCol).getCellProperty(stateNumber);
         gridIterationAction.apply(currRow).accept(currCol);
         currCol += 1;
       } catch (IndexOutOfBoundsException | KeyNotFoundException xOutOfBounds) {
         try {
           currCol = 0;
           currRow += 1;
-          currGrid.getCell(currRow, currCol).getCellProperty(StateNumber);
+          currGrid.getCell(currRow, currCol).getCellProperty(stateNumber);
         } catch (IndexOutOfBoundsException | KeyNotFoundException yOutOfBounds) {
           break;
         }

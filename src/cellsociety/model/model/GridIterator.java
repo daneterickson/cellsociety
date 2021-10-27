@@ -7,9 +7,9 @@ import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class gridIterator {
+public class GridIterator {
 
-  public gridIterator(){}
+  public GridIterator(){}
 
   /**
    * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]

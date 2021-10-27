@@ -35,7 +35,7 @@ public class PredatorPreyTest {
         {0, 0, 1, 2, 0},
         {0, 1, 1, 1, 0},
         {0, 0, 0, 0, 0}};
-    myParameters = "3,3,3";
+    myParameters = "3,3,3,3";
     numRows = 5;
     numCols = 5;
     type = "PredatorPrey";
@@ -121,7 +121,7 @@ public class PredatorPreyTest {
         {1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1}};
-    myParameters = "1,1,2";
+    myParameters = "1,1,2,3";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PredatorPreyModel(myController, myGrid);
 
@@ -141,6 +141,38 @@ public class PredatorPreyTest {
     assertEquals(1, childFish, "at (1,4), should be fish. got: " + childFish);
 
   }
+
+  @Test
+  void testCurrRuleEating()
+      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    myStates = new int[][]{{0, 0, 0, 1, 2},
+        {0, 0, 0, 1, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0}};
+    //fishrepro=2, sharkrepro=2, sharkenergy=2, energy gain=2
+    myParameters = "2,2,2,2";
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
+    myModel = new PredatorPreyModel(myController, myGrid);
+
+    try{
+      myModel.updateModel(myGrid);
+    } catch (NullPointerException e) {
+
+    }
+    printgrid();
+
+    int shark = parseInt(myGrid.getCell(0,3).getCellProperty("StateNumber"));
+    assertEquals(2, shark, "at (0,3) should be shark. got: " + shark);
+    int PossibleFish1 = parseInt(myGrid.getCell(0,2).getCellProperty("StateNumber"));
+    int PossibleFish2 = parseInt(myGrid.getCell(1,3).getCellProperty("StateNumber"));
+
+    assertEquals(0, PossibleFish1, "fish should be dead. got: " + PossibleFish1);
+    assertEquals(0, PossibleFish2, "fish should be dead. got: " + PossibleFish2);
+
+
+  }
+
   private void printgrid(){
     for (int r = 0; r< myGrid.getNumRows();r++){
       System.out.println(" ");

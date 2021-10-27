@@ -5,6 +5,7 @@ import cellsociety.model.Grid;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -19,9 +20,7 @@ public class TopLoadSave {
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "TopLoadSave.css";
 
   private HBox myTopLoadSave;
-
   private Stage myStage;
-
   private Controller myController;
 
   public TopLoadSave(Stage stage, Controller controller) {

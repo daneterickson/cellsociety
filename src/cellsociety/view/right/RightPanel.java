@@ -3,6 +3,7 @@ package cellsociety.view.right;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public abstract class RightPanel {
@@ -19,7 +20,8 @@ public abstract class RightPanel {
 
   protected abstract Node makeTextBox();
 
-  public Node makeAButton(String className, String buttonAction, String label) {
+
+  protected Node makeAButton(String className, String buttonAction, String label) {
     Button theButton = new Button(label);
     theButton.setOnAction(value -> {
       try {
@@ -33,7 +35,9 @@ public abstract class RightPanel {
     return theButton;
   }
 
-  protected Node getTheRightPanel() {
+
+  protected VBox getTheRightPanel() {
     return theRightPanel;
   }
+
 }

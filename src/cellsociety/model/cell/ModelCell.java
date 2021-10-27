@@ -41,6 +41,8 @@ public abstract class ModelCell {
     assignState(state);
   }
 
+  protected abstract void assignConstants();
+
   protected ResourceBundle getMyResources () { return myResources; }
 
   protected abstract void assignState(int state);

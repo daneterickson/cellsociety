@@ -7,36 +7,49 @@ public class SpreadingOfFireCell extends ModelCell{
   private String myStartColors;
   private ResourceBundle myResources;
 
-  private final String EMPTY_COLOR = myResources.getString("EmptyColor");
-  private final String TREE_COLOR = myResources.getString("TreeColor");
-  private final String TREE_NAME = myResources.getString("TreeName");
-  private final String BURN_COLOR = myResources.getString("BurnColor");
-  private final String BURN_NAME = myResources.getString("BurnName");
-  private final String DEFAULT_PROB_CATCH = myResources.getString("DefaultProbCatch");
-  private final String PROB_CATCH_KEY = myResources.getString("ProbCatch");
+  private String emptyColor;
+  private String treeColor;
+  private String treeName;
+  private String burnColor;
+  private String burnName;
+  private String defaultProbCatch;
+  private String probCatchKey;
 
   public SpreadingOfFireCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
     myResources = getMyResources();
+    assignConstants();
     myStartColors = startColors;
     if (parameters == null) {
-      parameters = DEFAULT_PROB_CATCH; // default 50% probCatch
+      parameters = defaultProbCatch; // default 50% probCatch
     }
-    setParameters(parameters);  }
+    setParameters(parameters);
+  }
+
+  @Override
+  protected void assignConstants() {
+    emptyColor = myResources.getString("EmptyColor");
+    treeColor = myResources.getString("TreeColor");
+    treeName = myResources.getString("TreeName");
+    burnColor = myResources.getString("BurnColor");
+    burnName = myResources.getString("BurnName");
+    defaultProbCatch = myResources.getString("DefaultProbCatch");
+    probCatchKey = myResources.getString("ProbCatch");
+  }
 
   @Override
   protected void assignState(int state) {
     if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
-      assignThreeCases(state, EMPTY_NAME, EMPTY_COLOR, TREE_NAME, TREE_COLOR, BURN_NAME, BURN_COLOR);
+      assignThreeCases(state, EMPTY_NAME, emptyColor, treeName, treeColor, burnName, burnColor);
     }
     else {
       String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
-      assignThreeCases(state, EMPTY_NAME, stateColors[0], TREE_NAME, stateColors[1], BURN_NAME, stateColors[2]);
+      assignThreeCases(state, EMPTY_NAME, stateColors[0], treeName, stateColors[1], burnName, stateColors[2]);
     }
   }
 
   @Override
   protected void setParameters(String parameters) {
-    setCellParameter(PROB_CATCH_KEY, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
+    setCellParameter(probCatchKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
   }
 }

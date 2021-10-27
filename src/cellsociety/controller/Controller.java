@@ -104,7 +104,7 @@ public class Controller {
   public void openSIMFile(File simFile) {
     try {
       myParserSIM.readFile(simFile);
-    } catch (FileNotFoundException e) {
+    } catch (FileNotFoundException | NoSuchFieldException e) {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }

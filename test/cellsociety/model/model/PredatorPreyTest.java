@@ -35,7 +35,7 @@ public class PredatorPreyTest {
         {0, 0, 1, 2, 0},
         {0, 1, 1, 1, 0},
         {0, 0, 0, 0, 0}};
-    myParameters = "3,3,3";
+    myParameters = "3,3,3,3";
     numRows = 5;
     numCols = 5;
     type = "PredatorPrey";
@@ -121,7 +121,7 @@ public class PredatorPreyTest {
         {1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1}};
-    myParameters = "1,1,2";
+    myParameters = "1,1,2,1";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PredatorPreyModel(myController, myGrid);
 

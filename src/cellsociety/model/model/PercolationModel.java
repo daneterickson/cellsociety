@@ -58,7 +58,7 @@ public class PercolationModel extends Model {
         }
       }
       case "bottom" -> {
-        int r = currGrid.getNumRows();
+        int r = currGrid.getNumRows() - 1;
         for (int c = 0; c < currGrid.getNumCols();c++){
           if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
             return true;
@@ -74,7 +74,7 @@ public class PercolationModel extends Model {
         }
       }
       case "right" -> {
-        int c = currGrid.getNumCols();
+        int c = currGrid.getNumCols() - 1;
         for (int r = 0; r < currGrid.getNumRows();r++){
           if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
             return true;

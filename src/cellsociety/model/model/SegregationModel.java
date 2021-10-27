@@ -4,6 +4,7 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,7 +25,13 @@ public class SegregationModel extends Model {
     random = new Random();
     emptySpots = new ArrayList<>();
     iterateGrid(row -> col -> {
-      int state = parseInt(grid.getCell(row, col).getCellProperty("StateNumber"));
+      int state = 0;
+      try {
+        state = parseInt(grid.getCell(row, col).getCellProperty("StateNumber"));
+      } catch (KeyNotFoundException e) {
+        // TODO: handle exception
+        System.out.println("Invalid Property");
+      }
       if (state == EMPTY) {
         emptySpots.add(row * numCols + col);
       }

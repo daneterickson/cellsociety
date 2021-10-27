@@ -2,12 +2,14 @@ package cellsociety.model.parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class ParserSIM implements Parser {
 
+  private static final String keys[] = {"Type","Title","Author","Description","InitialStates","Parameters","StateColors"};
   private File myFile;
   private Map<String, String> mySimulationProperties;
 //  private Map<Integer, String> myStatesColorMap;
@@ -17,7 +19,7 @@ public class ParserSIM implements Parser {
 //    myStatesColorMap = new HashMap<>();
   }
 
-  public void readFile(File file) throws FileNotFoundException {
+  public void readFile(File file) throws FileNotFoundException, NoSuchFieldException {
 //    try {
 //      Scanner s = new Scanner(file);
 //      while (s.hasNextLine()) {
@@ -35,6 +37,7 @@ public class ParserSIM implements Parser {
       String line = s.nextLine();
       String words[] = line.split("=");
       mySimulationProperties.put(words[0], words[1]);
+      if (!Arrays.asList(keys).contains(words[0])) throw new NoSuchFieldException("Invalid Key");
     }
 //    assignColorMap();
   }

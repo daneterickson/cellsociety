@@ -1,5 +1,6 @@
 package cellsociety.model.cell;
 
+import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -108,11 +109,13 @@ public abstract class ModelCell {
     myCellParameters.put(key, value);
   }
 
-  public Double getCellParameter(String parameter) { // catch for incorrect property
+  public Double getCellParameter(String parameter) throws KeyNotFoundException {
+    if (!myCellParameters.containsKey(parameter)) throw new KeyNotFoundException("Invalid Parameter");
     return myCellParameters.get(parameter);
   }
 
-  public String getCellProperty(String property) { // catch for incorrect property
+  public String getCellProperty(String property) throws KeyNotFoundException {
+    if (!myCellProperties.containsKey(property)) throw new KeyNotFoundException("Invalid Property");
     return myCellProperties.get(property);
   }
 

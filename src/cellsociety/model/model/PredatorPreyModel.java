@@ -6,6 +6,8 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -17,18 +19,21 @@ public class PredatorPreyModel extends Model {
   private GridIterator gridIterator;
   private int numUpdates;
 
+  //constants
   private final int EMPTY = 0;
   private final int FISH = 1;
   private final int SHARK = 2;
-  private int fishReproduction;
-  private int sharkReproduction;
-  private int sharkEnergy;
-  private int energyGain;
   private final Random random;
   private final String FishReproduction = "FishReproduction";
   private final String SharkReproduction = "SharkReproduction";
   private final String SharkEnergy = "SharkEnergyStart";
   private final String SharkEnergyGain = "SharkEnergyGain";
+
+  //runtime variables
+  private int fishReproduction;
+  private int sharkReproduction;
+  private int sharkEnergy;
+  private int energyGain;
   private ArrayList<Integer> sharkAttacks;
   private int numCols;
 
@@ -96,25 +101,14 @@ public class PredatorPreyModel extends Model {
     try {
       fishReproduction = (int) Math.round(
           currGrid.getCell(0, 0).getCellParameter(FishReproduction));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
-    try {
       sharkReproduction = (int) Math.round(
           currGrid.getCell(0, 0).getCellParameter(SharkReproduction));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
-    try {
       sharkEnergy = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergy));
+      energyGain = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergyGain));
     } catch (KeyNotFoundException e) {
       // TODO: handle exception
       System.out.println("Invalid Parameter");
     }
-    energyGain = 10;
-//    energyGain = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergyGain));
   }
 
   @Override
@@ -357,22 +351,22 @@ public class PredatorPreyModel extends Model {
   }
 
   private boolean occupiedSpace(int currRow, int currCol, int idx) {
-    //nearby = [north,south,east,west]
-    switch (idx) {
-      case 0 -> currRow--;
-      case 1 -> currRow++;
-      case 2 -> currCol++;
-      case 3 -> currCol--;
-      default -> throw new IllegalStateException("Unexpected value: " + idx);
-    }
-
-    for (int i = 0; i < newUpdates.size(); i += numUpdates) {
-      if (newUpdates.get(i) == currRow && newUpdates.get(i + 1) == currCol) {
-        return false;
-      }
-    }
-    return false;
+  //nearby = [north,south,east,west]
+  switch (idx) {
+    case 0 -> currRow--;
+    case 1 -> currRow++;
+    case 2 -> currCol++;
+    case 3 -> currCol--;
+    default -> throw new IllegalStateException("Unexpected value: " + idx);
   }
+
+  for (int i = 0; i < newUpdates.size(); i += numUpdates) {
+    if (newUpdates.get(i) == currRow && newUpdates.get(i + 1) == currCol) {
+      return false;
+    }
+  }
+  return false;
+}
 }
 
 

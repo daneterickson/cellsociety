@@ -110,7 +110,6 @@ public class GridView {
     }catch(NonInvertibleTransformException e){
       e.getMessage();
     }
-    //TODO May work AFTER exception throwing in backend is added
     int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
     try {
       myController.setCellState(myMousePos[1], myMousePos[0], currState + 1);
@@ -175,6 +174,7 @@ public class GridView {
     myCanvas = new Canvas(myGridWidth, myGridHeight);
     myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
     myCanvas.setOnMouseMoved(e -> handleCellHovered(e));
+    myCanvas.setId("canvas");
   }
 
 

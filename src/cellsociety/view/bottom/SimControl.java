@@ -4,8 +4,6 @@ import cellsociety.controller.Controller;
 import cellsociety.view.center.GridView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -83,7 +81,6 @@ public class SimControl {
   private Node makeControlButtons() {
     HBox buttonHBox = new HBox(BUTTON_SPACING);
     buttonHBox.getChildren().add(makePlayPauseButton());
-//    buttonHBox.getChildren().add(makeStopButton());
     buttonHBox.getChildren().add(makeStepButton());
     buttonHBox.getStyleClass().add("buttons");
     return buttonHBox;
@@ -109,15 +106,8 @@ public class SimControl {
 
   private Node makePlayPauseButton() {
     Button playPauseButton = new Button("", playIcon);
-    playPauseButton.setOnAction(value -> play(playPauseButton));
+    playPauseButton.setOnAction(value -> playPause(playPauseButton));
     return playPauseButton;
-  }
-
-
-  private Node makeStopButton() {
-    Button stopButton = new Button("", stopIcon);
-    stopButton.setOnAction(value -> stop());
-    return stopButton;
   }
 
   private Node makeStepButton() {
@@ -126,7 +116,7 @@ public class SimControl {
     return stepButton;
   }
 
-  private void play(Button playPauseButton) {
+  private void playPause(Button playPauseButton) {
     if (myAnimation == null) {
       myAnimation = new Timeline();
       myAnimation.setCycleCount(Timeline.INDEFINITE);
@@ -147,21 +137,6 @@ public class SimControl {
       playPauseButton.setGraphic(playIcon);
     }
 
-  }
-
-  private void pause() {
-    if (isPaused) {
-      myAnimation.play();
-    } else {
-      myAnimation.pause();
-    }
-    isPaused = !isPaused;
-  }
-
-  private void stop() {
-    if (myAnimation != null) {
-      myAnimation.stop();
-    }
   }
 
   private void step() {

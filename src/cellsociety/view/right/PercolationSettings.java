@@ -1,19 +1,17 @@
 package cellsociety.view.right;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
-public class GameOfLifeSettings extends RightPanel{
+public class PercolationSettings extends RightPanel{
 
 
-  public GameOfLifeSettings(){
+  public PercolationSettings(){
     super();
   }
 
   @Override
-  protected void makeSettingsPanel(VBox rightPanel){}
+  public void makeSettingsPanel(VBox rightPanel){}
 
   @Override
   protected Node makeButtons(){

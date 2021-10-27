@@ -6,7 +6,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public class SegregationSettings extends RightPanel{
-  private VBox myRightPanel;
   private final double MIN_SIMILARITY = 0;
   private final double MAX_SIMILARITY = 1;
   private final double STARTING_SIMILARITY = .5;
@@ -14,12 +13,11 @@ public class SegregationSettings extends RightPanel{
 
   public SegregationSettings(){
     super();
-    myRightPanel = getTheRightPanel();
   }
 
   @Override
-  public void makeSettingsPanel(){
-    myRightPanel.getChildren().addAll(makeSliders());
+  protected void makeSettingsPanel(VBox rightPanel){
+    rightPanel.getChildren().addAll(makeSliders());
   }
 
   @Override
@@ -30,7 +28,7 @@ public class SegregationSettings extends RightPanel{
   @Override
   protected Node makeSliders(){
     Group sliderGroup = new Group();
-    Slider similaritySlider = makeASlider(MIN_SIMILARITY,MAX_SIMILARITY,STARTING_SIMILARITY, "similaritySlider");
+    Slider similaritySlider = makeASlider(MIN_SIMILARITY,MAX_SIMILARITY,STARTING_SIMILARITY, "similaritySlider", true);
     sliderGroup.getChildren().add(similaritySlider);
     return sliderGroup;
   }

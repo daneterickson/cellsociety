@@ -13,7 +13,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLOutput;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -145,6 +148,17 @@ public class Controller {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
+  }
+
+  public void setLang(String langString) {
+    ResourceBundle bundle;
+    if (langString.equals("EN")) {
+      bundle = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
+    }
+    else {
+      bundle = ResourceBundle.getBundle("lang.Spanish", new Locale("es", "ES"));
+    }
+    myMainView.updateLeftPanel(bundle);
   }
 
   /**

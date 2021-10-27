@@ -17,7 +17,7 @@ public class FireSettings extends RightPanel{
   }
 
   @Override
-  public void makeSettingsPanel(){}
+  public void makeSettingsPanel(){myRightPanel.getChildren().add(makeSliders());}
 
   @Override
   protected Node makeButtons(){
@@ -27,7 +27,7 @@ public class FireSettings extends RightPanel{
   @Override
   protected Node makeSliders(){
     Group sliderGroup = new Group();
-    Slider probSlider = makeASlider(MIN_PROB,MAX_PROB,STARTING_PROB,"probSlider");
+    Slider probSlider = makeASlider(MIN_PROB,MAX_PROB,STARTING_PROB,"probSlider", true);
     sliderGroup.getChildren().add(probSlider);
     return sliderGroup;}
 

@@ -25,6 +25,7 @@ public class Controller {
   private Stage myStage;
   private Grid currGrid;
   private boolean hasUpdate;
+  private Map<String, String> simProperties;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
@@ -101,6 +102,7 @@ public class Controller {
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
     myModel = new GameOfLifeModel(this, currGrid);
+    simProperties = myParserSIM.getMap();
     myMainView.initiateGridView();
   }
 
@@ -125,5 +127,9 @@ public class Controller {
    */
   public Grid getGrid() {
     return currGrid;
+  }
+
+  public Map getMap() {
+    return simProperties;
   }
 }

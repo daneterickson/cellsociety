@@ -1,5 +1,6 @@
 package cellsociety.view.right;
 
+import java.util.ResourceBundle;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
@@ -22,8 +23,8 @@ public class PredatorPreySettings extends RightPanel{
 
 
 
-  public PredatorPreySettings(){
-    super();
+  public PredatorPreySettings(ResourceBundle bundle){
+    super(bundle);
   }
 
   @Override

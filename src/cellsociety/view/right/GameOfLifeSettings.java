@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 public class GameOfLifeSettings extends RightPanel{
   private VBox myRightPanel;
 
+
   public GameOfLifeSettings(){
     super();
     myRightPanel = getTheRightPanel();

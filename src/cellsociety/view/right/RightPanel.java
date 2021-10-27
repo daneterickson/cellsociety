@@ -10,6 +10,9 @@ import org.apache.commons.lang3.ObjectUtils.Null;
 
 public abstract class RightPanel {
   private VBox theRightPanel;
+  protected static final String RESOURCE = "cellsociety.view.right.";
+  protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "RightSettings.css";
+
   public RightPanel() {
      theRightPanel = new VBox();
   }
@@ -37,6 +40,12 @@ public abstract class RightPanel {
     return theButton;
   }
 
+  protected Slider makeASlider(double min, double max, double start, String cssLabel){
+    Slider theSlider = new Slider(min, max, start);
+    theSlider.getStyleClass().add(cssLabel);
+    theSlider.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    return theSlider;
+  }
 
   public VBox getTheRightPanel() {
     return theRightPanel;

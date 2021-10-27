@@ -11,7 +11,9 @@ import cellsociety.view.top.TopLoadSave;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
@@ -29,15 +31,13 @@ public class MainView {
 
   public MainView(Stage stage, Controller controller){
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
-
     myController = controller;
     myStage = stage;
+    myCellProperties = new CellProperties(myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
     myGridView = new GridView(myCellProperties, myController);
-    myCellProperties = new CellProperties(myResources);
     myRightPanel = new GameOfLifeSettings(myResources);
     mySimControl = new SimControl(myGridView, myController);
-
   }
 
   public Scene makeScene(int width, int height) {
@@ -50,7 +50,6 @@ public class MainView {
     Scene scene = new Scene(root, width, height);
     return scene;
   }
-
 
   /**
    * Updates the canvas (grid) in the view.

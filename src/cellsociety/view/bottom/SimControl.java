@@ -58,6 +58,7 @@ public class SimControl {
     mySimControl = new VBox(BUTTON_SLIDER_SPACING);
     mySimControl.getChildren().add(makeControlButtons());
     mySimControl.getChildren().add(makeSpeedSlider());
+    mySimControl.getChildren().add(makeLangButton());
     myController = controller;
     setStyles();
   }
@@ -143,6 +144,25 @@ public class SimControl {
     if(myController.getHasUpdate()){
       myController.updateModel();
       myGridView.updateGrid();
+    }
+  }
+
+
+  private Node makeLangButton() {
+    HBox langHBox = new HBox();
+    Button langButton = new Button("EN");
+    langButton.setOnAction(e -> toggleLanguage(langButton));
+    langHBox.getChildren().add(langButton);
+
+    return langHBox;
+  }
+
+  private void toggleLanguage(Button langButton) {
+    if (langButton.getText().equals("EN")) {
+      langButton.setText("ES");
+    }
+    else {
+      langButton.setText("EN");
     }
   }
 

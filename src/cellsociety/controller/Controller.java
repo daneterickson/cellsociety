@@ -1,11 +1,9 @@
 package cellsociety.controller;
 
 import cellsociety.model.Grid;
-import cellsociety.model.cell.ModelCell;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
-import cellsociety.model.model.SpreadingOfFireModel;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.view.mainView.MainView;
@@ -14,10 +12,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -28,7 +23,6 @@ public class Controller {
   private ParserCSV myParserCSV;
   private ParserSIM myParserSIM;
   private MainView myMainView;
-  private Stage myStage;
   private Grid currGrid;
   private boolean hasUpdate;
   private boolean stopAnimation;
@@ -62,19 +56,6 @@ public class Controller {
   public void setStopAnimation(boolean animationState) {
     stopAnimation = animationState;
   }
-
-//  public void openCSVFile(File csvFile) {
-//    try {
-//      myParserCSV.readFile(csvFile);
-//    } catch (CsvValidationException | IOException e) {
-//      // TODO: handle the invalid file exception with pop-up in view
-//      e.printStackTrace();
-//    }
-//    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
-//        myParserCSV.getStartStates(), DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
-//    myModel = new GameOfLifeModel(this, currGrid);
-//    myMainView.initiateGridView();
-//  }
 
   public void setHasUpdate(boolean hasUpdate) {
     this.hasUpdate = hasUpdate;
@@ -142,8 +123,6 @@ public class Controller {
     catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
       e.printStackTrace();
     }
-
-
 
     myMainView.initiateGridView();
   }

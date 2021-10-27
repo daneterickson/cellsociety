@@ -10,6 +10,7 @@ import cellsociety.view.right.RightPanel;
 import cellsociety.view.top.TopLoadSave;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -59,6 +60,7 @@ public class MainView {
   }
 
   public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }
+  public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.
@@ -67,7 +69,7 @@ public class MainView {
     myGridView.initiateGrid();
   }
 
-
+  public CellProperties getMyCellProperties() { return myCellProperties; }
   public TopLoadSave getTopLoadSave() {
     return myTopLoadSave;
   }

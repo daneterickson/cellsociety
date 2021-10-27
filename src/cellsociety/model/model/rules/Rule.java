@@ -9,11 +9,8 @@ public abstract class Rule {
   private int myState;
   private List<Integer> myNeighbors;
 
-  public Rule(int currRow, int currCol, int state, List<Integer> nearby) {
-    myRow = currRow;
-    myCol = currCol;
-    myState = state;
-    myNeighbors = nearby;
+  public Rule() {
+
   }
 
   public abstract int determineState(int currRow, int currCol, int state, List<Integer> nearby);

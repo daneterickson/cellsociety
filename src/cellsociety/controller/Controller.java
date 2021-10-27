@@ -13,7 +13,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLOutput;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -28,6 +31,7 @@ public class Controller {
   private boolean hasUpdate;
   private boolean stopAnimation;
   private Map<String, String> simProperties;
+  private ResourceBundle myResources;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
@@ -41,6 +45,7 @@ public class Controller {
 
 
   public Controller(Stage stage) {
+    myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     currGrid = DEFAULT_GRID;
     myModel = new GameOfLifeModel(this, currGrid);
     myMainView = new MainView(stage, this);
@@ -105,7 +110,7 @@ public class Controller {
 
   private void makeNewRightPanel() {
     try {
-      Object rightPanel = Class.forName("cellsociety.view.right." + simProperties.get("Type") + "Settings").getConstructor().newInstance();
+      Object rightPanel = Class.forName("cellsociety.view.right." + simProperties.get("Type") + "Settings").getDeclaredConstructor(ResourceBundle.class).newInstance(myResources);
       myMainView.myRightPanel = (RightPanel) rightPanel;
       myMainView.updateRightPanel();
     }
@@ -145,6 +150,17 @@ public class Controller {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
+  }
+
+  public void setLang(String langString) {
+    ResourceBundle bundle;
+    if (langString.equals("EN")) {
+      bundle = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
+    }
+    else {
+      bundle = ResourceBundle.getBundle("lang.Spanish", new Locale("es", "ES"));
+    }
+    myMainView.updateLeftPanel(bundle);
   }
 
   /**

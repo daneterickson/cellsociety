@@ -5,9 +5,16 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PercolationModel extends Model {
+  //base class variables
+  private Grid currGrid;
+  private ArrayList<Integer> newUpdates;
+  private Controller myController;
+  private GridIterator gridIterator;
+  private int numUpdates;
 
   private final int EMPTY = 0;
   private final int WATER = 1;
@@ -17,9 +24,16 @@ public class PercolationModel extends Model {
 
   public PercolationModel(Controller controller, Grid grid) {
     super(controller, grid);
+    getBaseInstanceVariables();
     getEndEdge();
   }
-
+  private void getBaseInstanceVariables() {
+    currGrid = getCurrGrid();
+    newUpdates = getNewUpdates();
+    myController = getMyController();
+    gridIterator = getGridIterator();
+    numUpdates = getNumUpdates();
+  }
   private String getEndEdge() {
     iterateGrid(row-> col -> {
       try {

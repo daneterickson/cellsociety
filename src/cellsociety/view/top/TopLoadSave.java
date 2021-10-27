@@ -24,13 +24,15 @@ public class TopLoadSave {
   private HBox myTopLoadSave;
   private Stage myStage;
   private Controller myController;
+  private ResourceBundle myResources;
 
-  public TopLoadSave(Stage stage, Controller controller) {
+  public TopLoadSave(Stage stage, Controller controller, ResourceBundle resources) {
     myStage = stage;
     myTopLoadSave = new HBox();
     myTopLoadSave.getChildren().add(makeLoadSaveButtons());
     setStyles();
     myController = controller;
+    myResources = resources;
   }
 
   private void setStyles() {

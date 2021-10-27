@@ -1,5 +1,6 @@
 package cellsociety.view.right;
 
+import java.util.ResourceBundle;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
@@ -10,8 +11,8 @@ public class SpreadingOfFireSettings extends RightPanel{
   private double MAX_PROB = 1;
   private double STARTING_PROB = .5;
 
-  public SpreadingOfFireSettings(){
-    super();
+  public SpreadingOfFireSettings(ResourceBundle bundle){
+    super(bundle);
   }
 
   @Override

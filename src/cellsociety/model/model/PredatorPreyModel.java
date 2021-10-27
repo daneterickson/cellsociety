@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.Random;
 
 public class PredatorPreyModel extends Model {
+  //base class variables
+  private Grid currGrid;
+  private ArrayList<Integer> newUpdates;
+  private Controller myController;
+  private GridIterator gridIterator;
+  private int numUpdates;
 
   private final int EMPTY = 0;
   private final int FISH = 1;
@@ -28,13 +34,20 @@ public class PredatorPreyModel extends Model {
 
   public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller, grid);
+    getBaseInstanceVariables();
     random = new Random();
     numUpdates = 5;
     sharkAttacks = new ArrayList<>();
     numCols = currGrid.getNumCols();
     getBaseParameters();
   }
-
+  private void getBaseInstanceVariables() {
+    currGrid = getCurrGrid();
+    newUpdates = getNewUpdates();
+    myController = getMyController();
+    gridIterator = getGridIterator();
+    numUpdates = getNumUpdates();
+  }
   @Override
   public void updateModel(Grid currGrid) {
     this.currGrid = currGrid;

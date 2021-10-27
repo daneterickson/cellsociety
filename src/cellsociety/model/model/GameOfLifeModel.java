@@ -6,12 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameOfLifeModel extends Model {
+  //base class variables
+  private Grid currGrid;
+  private ArrayList<Integer> newUpdates;
+  private Controller myController;
+  private GridIterator gridIterator;
+  private int numUpdates;
 
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;
 
   public GameOfLifeModel(Controller controller, Grid grid) {
     super(controller, grid);
+    getBaseInstanceVariables();
+
+  }
+  private void getBaseInstanceVariables() {
+    currGrid = getCurrGrid();
+    newUpdates = getNewUpdates();
+    myController = getMyController();
+    gridIterator = getGridIterator();
+    numUpdates = getNumUpdates();
   }
 
   @Override

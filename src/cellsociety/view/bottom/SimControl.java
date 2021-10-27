@@ -114,6 +114,7 @@ public class SimControl {
   private Node makeStepButton() {
     Button stepButton = new Button("", stepIcon);
     stepButton.setOnAction(value -> step());
+    stepButton.setId("stepButton");
     return stepButton;
   }
 

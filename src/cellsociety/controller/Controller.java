@@ -31,6 +31,7 @@ public class Controller {
   private boolean hasUpdate;
   private boolean stopAnimation;
   private Map<String, String> simProperties;
+  private ResourceBundle myResources;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
@@ -44,6 +45,7 @@ public class Controller {
 
 
   public Controller(Stage stage) {
+    myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     currGrid = DEFAULT_GRID;
     myModel = new GameOfLifeModel(this, currGrid);
     myMainView = new MainView(stage, this);
@@ -108,7 +110,7 @@ public class Controller {
 
   private void makeNewRightPanel() {
     try {
-      Object rightPanel = Class.forName("cellsociety.view.right." + simProperties.get("Type") + "Settings").getConstructor().newInstance();
+      Object rightPanel = Class.forName("cellsociety.view.right." + simProperties.get("Type") + "Settings").getDeclaredConstructor(ResourceBundle.class).newInstance(myResources);
       myMainView.myRightPanel = (RightPanel) rightPanel;
       myMainView.updateRightPanel();
     }

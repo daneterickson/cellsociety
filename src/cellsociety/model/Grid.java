@@ -3,7 +3,6 @@ package cellsociety.model;
 import cellsociety.model.cell.GameOfLifeCell;
 import cellsociety.model.cell.ModelCell;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 public class Grid {
 
@@ -62,7 +61,7 @@ public class Grid {
 //  }
 
   public int getCellStateNumber(int i, int j) {
-    return Integer.valueOf(myGrid[i][j].getProperty("StateNumber"));
+    return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
   }
 
   // Probably can delete this method since it only is used to test Reflection. Need another way to test reflection

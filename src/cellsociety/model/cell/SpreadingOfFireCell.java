@@ -1,7 +1,5 @@
 package cellsociety.model.cell;
 
-import java.util.Map;
-
 public class SpreadingOfFireCell extends ModelCell{
 
   public static final String EMPTY_COLOR = "ffff00";
@@ -11,13 +9,14 @@ public class SpreadingOfFireCell extends ModelCell{
   public static final String BURN_NAME = "burn";
 
   private String myStartColors;
-  private String myParameters;
 
   public SpreadingOfFireCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
     myStartColors = startColors;
-    myParameters = parameters;
-  }
+    if (parameters == null) {
+      parameters = "0.5"; // default 50% probCatch
+    }
+    setParameters(parameters);  }
 
   @Override
   protected void assignState(int state) {
@@ -32,6 +31,6 @@ public class SpreadingOfFireCell extends ModelCell{
 
   @Override
   protected void setParameters(String parameters) {
-    setProperty("ProbCatch", parameters.split(",")[0]);
+    setCellParameter("ProbCatch", Double.valueOf(parameters.split(",")[0]));
   }
 }

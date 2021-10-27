@@ -2,11 +2,9 @@ package cellsociety.model.cell;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public abstract class ModelCell {
-
-  public static final String DEFAULT_GREY = "c0c0c0"; // light grey for blank cells
-  public static final String EMPTY_NAME = "empty";
 
   private int myRow;
   private int myCol;
@@ -16,6 +14,21 @@ public abstract class ModelCell {
   private String myStateColor;
   private String myStateName;
   private String myStartColors;
+  private ResourceBundle myResources = ResourceBundle.getBundle(
+      String.format("%s%s", DEFAULT_RESOURCES, RESOURCES_LANGUAGE));
+
+  private static final String THREE_CASES = "3";
+  private static final String TWO_CASES = "2";
+  private static final String DEFAULT_RESOURCES = "cellsociety.model.resources.";
+  private static final String RESOURCES_LANGUAGE = "English";
+  private final String STATE_NUMBER_KEY = myResources.getString("StateNumber");
+  private final String STATE_NAME_KEY = myResources.getString("StateName");
+  private final String STATE_COLOR_KEY = myResources.getString("StateColor");
+  private final String NUMBER_CASES_KEY = myResources.getString("NumCases");
+  public final String DEFAULT_GREY = myResources.getString("DefaultGrey");
+  public final String EMPTY_NAME = myResources.getString("EmptyName");
+  public final String PARAMETER_DELIMINATOR = myResources.getString("ParameterDeliminator");
+
 
   public ModelCell(int i, int j, String stateColors, String parameters, int state) {
     myRow = i;
@@ -24,14 +37,19 @@ public abstract class ModelCell {
     myCellParameters = new HashMap<>();
     myStartColors = stateColors;
     myStateNumber = state;
-    myCellProperties.put("StateNumber", String.valueOf(state));
-    assignState(state);
+    myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(state));
+//    assignState(state);
   }
+
+  protected abstract void assignConstants();
+
+  protected ResourceBundle getMyResources () { return myResources; }
 
   protected abstract void assignState(int state);
 
-  protected void assignThreeCases (int state, String name0, String color0, String name1, String color1, String name2, String color2) {
-    myCellProperties.put("NumCases", "3");
+  protected void assignThreeCases(int state, String name0, String color0, String name1,
+      String color1, String name2, String color2) {
+    myCellProperties.put(NUMBER_CASES_KEY, THREE_CASES);
     switch (state) {
       case 0 -> {
         setStateColor(color0);
@@ -48,8 +66,9 @@ public abstract class ModelCell {
     }
   }
 
-  protected void assignTwoCases (int state, String name0, String color0, String name1, String color1) {
-    myCellProperties.put("NumCases", "2");
+  protected void assignTwoCases(int state, String name0, String color0, String name1,
+      String color1) {
+    myCellProperties.put(NUMBER_CASES_KEY, TWO_CASES);
     switch (state) {
       case 0 -> {
         setStateColor(color0);
@@ -64,11 +83,11 @@ public abstract class ModelCell {
 
   public void changeState(int newState) {
     myStateNumber = newState;
-    myCellProperties.put("StateNumber", String.valueOf(newState));
+    myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(newState));
     assignState(newState);
   }
 
-  protected abstract void setParameters (String parameters);
+  protected abstract void setParameters(String parameters);
 
   public void setCellParameter(String key, Double value) {
     myCellParameters.put(key, value);
@@ -96,12 +115,12 @@ public abstract class ModelCell {
 
   protected void setStateColor(String color) {
     myStateColor = color;
-    myCellProperties.put("StateColor", color);
+    myCellProperties.put(STATE_COLOR_KEY, color);
   }
 
   protected void setStateName(String name) {
     myStateName = name;
-    myCellProperties.put("StateName", name);
+    myCellProperties.put(STATE_NAME_KEY, name);
   }
 
 }

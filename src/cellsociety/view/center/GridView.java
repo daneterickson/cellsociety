@@ -112,9 +112,13 @@ public class GridView {
     }catch(NonInvertibleTransformException e){
       e.getMessage();
     }
-    //TODO Only works for simulations with two states currently. Need some way to know all possible states
+    //TODO May work AFTER exception throwing in backend is added
     int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
-    myController.setCellState(myMousePos[1], myMousePos[0], 1-currState);
+    try {
+      myController.setCellState(myMousePos[1], myMousePos[0], currState + 1);
+    }catch(IndexOutOfBoundsException e){
+      myController.setCellState(myMousePos[1], myMousePos[0], 0);
+    }
     updateGrid();
   }
 

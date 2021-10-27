@@ -15,9 +15,10 @@ public abstract class RightPanel {
 
   public RightPanel() {
      theRightPanel = new VBox();
+     makeSettingsPanel(theRightPanel);
   }
 
-  protected abstract void makeSettingsPanel();
+  protected abstract void makeSettingsPanel(VBox rightPanel);
 
   protected abstract Node makeButtons();
 

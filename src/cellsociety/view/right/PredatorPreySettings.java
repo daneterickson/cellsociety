@@ -6,7 +6,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public class PredatorPreySettings extends RightPanel{
-  private VBox myRightPanel;
   private static final int MIN_FISH_REP = 1;
   private static final int MAX_FISH_REP = 20;
   private static final int START_FISH_REP = 5;
@@ -25,11 +24,10 @@ public class PredatorPreySettings extends RightPanel{
 
   public PredatorPreySettings(){
     super();
-    myRightPanel = getTheRightPanel();
   }
 
   @Override
-  public void makeSettingsPanel(){}
+  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeSliders());}
 
   @Override
   protected Node makeButtons(){

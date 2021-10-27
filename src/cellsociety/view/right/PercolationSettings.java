@@ -4,16 +4,14 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 public class PercolationSettings extends RightPanel{
-  private VBox myRightPanel;
 
 
   public PercolationSettings(){
     super();
-    myRightPanel = getTheRightPanel();
   }
 
   @Override
-  public void makeSettingsPanel(){}
+  public void makeSettingsPanel(VBox rightPanel){}
 
   @Override
   protected Node makeButtons(){

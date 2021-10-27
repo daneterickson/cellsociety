@@ -6,18 +6,16 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public class FireSettings extends RightPanel{
-  private VBox myRightPanel;
   private double MIN_PROB = 0;
   private double MAX_PROB = 1;
   private double STARTING_PROB = .5;
 
   public FireSettings(){
     super();
-    myRightPanel = getTheRightPanel();
   }
 
   @Override
-  public void makeSettingsPanel(){myRightPanel.getChildren().add(makeSliders());}
+  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().add(makeSliders());}
 
   @Override
   protected Node makeButtons(){

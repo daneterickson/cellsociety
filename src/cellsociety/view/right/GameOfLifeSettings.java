@@ -6,16 +6,14 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public class GameOfLifeSettings extends RightPanel{
-  private VBox myRightPanel;
 
 
   public GameOfLifeSettings(){
     super();
-    myRightPanel = getTheRightPanel();
   }
 
   @Override
-  public void makeSettingsPanel(){}
+  protected void makeSettingsPanel(VBox rightPanel){}
 
   @Override
   protected Node makeButtons(){

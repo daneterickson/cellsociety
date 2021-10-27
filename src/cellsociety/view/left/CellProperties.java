@@ -99,6 +99,11 @@ public class CellProperties {
     mySimTypeLabel.getStyleClass().add("simTypeLabel");
   }
 
+  public Node setResource(ResourceBundle bundle) {
+    myResource = bundle;
+    return makeCellPropLabels();
+  }
+
 
 
 }

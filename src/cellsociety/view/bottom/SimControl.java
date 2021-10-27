@@ -160,9 +160,11 @@ public class SimControl {
   private void toggleLanguage(Button langButton) {
     if (langButton.getText().equals("EN")) {
       langButton.setText("ES");
+      myController.setLang("ES");
     }
     else {
       langButton.setText("EN");
+      myController.setLang("EN");
     }
   }
 

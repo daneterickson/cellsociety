@@ -33,7 +33,7 @@ public class MainView {
     myTopLoadSave = new TopLoadSave(myStage, myController);
     myGridView = new GridView(myCellProperties, myController);
     mySimControl = new SimControl(myGridView, myController);
-    myRightPanel = new FireSettings();      //(default)
+    myRightPanel = new GameOfLifeSettings();      //(default)
   }
 
   public Scene makeScene(int width, int height) {

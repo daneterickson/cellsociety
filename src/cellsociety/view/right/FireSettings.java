@@ -6,18 +6,16 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public class FireSettings extends RightPanel{
-  private VBox myRightPanel;
   private double MIN_PROB = 0;
   private double MAX_PROB = 1;
   private double STARTING_PROB = .5;
 
   public FireSettings(){
     super();
-    myRightPanel = getTheRightPanel();
   }
 
   @Override
-  public void makeSettingsPanel(){}
+  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().add(makeSliders());}
 
   @Override
   protected Node makeButtons(){
@@ -27,7 +25,7 @@ public class FireSettings extends RightPanel{
   @Override
   protected Node makeSliders(){
     Group sliderGroup = new Group();
-    Slider probSlider = makeASlider(MIN_PROB,MAX_PROB,STARTING_PROB,"probSlider");
+    Slider probSlider = makeASlider(MIN_PROB,MAX_PROB,STARTING_PROB,"probSlider", true);
     sliderGroup.getChildren().add(probSlider);
     return sliderGroup;}
 

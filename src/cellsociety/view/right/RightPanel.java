@@ -13,9 +13,10 @@ public abstract class RightPanel {
 
   public RightPanel() {
      theRightPanel = new VBox();
+     makeSettingsPanel(theRightPanel);
   }
 
-  protected abstract void makeSettingsPanel();
+  protected abstract void makeSettingsPanel(VBox rightPanel);
 
   protected abstract Node makeButtons();
 
@@ -38,8 +39,10 @@ public abstract class RightPanel {
     return theButton;
   }
 
-  protected Slider makeASlider(double min, double max, double start, String cssLabel){
+  protected Slider makeASlider(double min, double max, double start, String cssLabel, boolean ticks){
     Slider theSlider = new Slider(min, max, start);
+    theSlider.setShowTickLabels(ticks);
+    theSlider.setShowTickMarks(ticks);
     theSlider.getStyleClass().add(cssLabel);
     theSlider.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return theSlider;

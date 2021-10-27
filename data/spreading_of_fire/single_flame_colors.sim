@@ -1,0 +1,7 @@
+Type=SpreadingOfFire
+Title=Single Flame Colored
+Author=Aaric Han
+Description=A single flame in the middle of a screen of trees with empty cells along outer the border
+InitialStates=spreading_of_fire/single_flame.csv
+StateColors=FF0000,00FF00,0000BB
+Parameters=0.55

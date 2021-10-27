@@ -1,41 +1,66 @@
 package cellsociety.model.cell;
 
+import java.util.ResourceBundle;
+
 public class PredatorPreyCell extends ModelCell {
 
-  public static final String FISH_NAME = "fish";
-  public static final String FISH_COLOR = "00ff00";
-  public static final String SHARK_NAME = "shark";
-  public static final String SHARK_COLOR = "0000ff";
-
   private String myStartColors;
+  private ResourceBundle myResources;
+
+  private String fishName;
+  private String fishColor;
+  private String sharkName;
+  private String sharkColor;
+  private String defaultParameters;
+  private String fishReproductionKey;
+  private String sharkReproductionKey;
+  private String sharkEnergyStartKey;
+  private String sharkEnergyGainKey;
 
   public PredatorPreyCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
+    myResources = getMyResources();
+    assignConstants();
     myStartColors = startColors;
     if (parameters == null) {
-      parameters = "10,10,10"; // default is fish reproduction, shark reproduction, and shark energy are all 10
+      parameters = defaultParameters; // default is fish reproduction, shark reproduction, shark energy start, and shark energy gain are all 10
     }
     setParameters(parameters);
+    assignState(state);
+  }
+
+  @Override
+  protected void assignConstants() {
+    fishName = myResources.getString("FishName");
+    fishColor = myResources.getString("FishColor");
+    sharkName = myResources.getString("SharkName");
+    sharkColor = myResources.getString("SharkColor");
+    defaultParameters = myResources.getString("DefaultPredatorPreyParameters");
+    fishReproductionKey = myResources.getString("FishReproduction");
+    sharkReproductionKey = myResources.getString("SharkReproduction");
+    sharkEnergyStartKey = myResources.getString("SharkEnergyStart");
+    sharkEnergyGainKey = myResources.getString("SharkEnergyGain");
   }
 
   @Override
   protected void assignState(
       int state) { // Assume fish (prey) is 1 and shark (predator) is 2 on initial states
-    if (myStartColors == null || myStartColors.split(",").length != 3) {
-      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, FISH_NAME, FISH_COLOR, SHARK_NAME,
-          SHARK_COLOR);
+    if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
+      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, fishName, fishColor, sharkName,
+          sharkColor);
     } else {
-      String stateColors[] = myStartColors.split(",");
-      assignThreeCases(state, EMPTY_NAME, stateColors[0], FISH_NAME, stateColors[1],
-          SHARK_NAME, stateColors[2]);
+      String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
+      assignThreeCases(state, EMPTY_NAME, stateColors[0], fishName, stateColors[1],
+          sharkName, stateColors[2]);
     }
   }
 
   @Override
   protected void setParameters(String parameters) {
-    setCellParameter("FishReproduction", Double.valueOf(parameters.split(",")[0]));
-    setCellParameter("SharkReproduction", Double.valueOf(parameters.split(",")[1]));
-    setCellParameter("SharkEnergy", Double.valueOf(parameters.split(",")[2]));
+    setCellParameter(fishReproductionKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
+    setCellParameter(sharkReproductionKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[1]));
+    setCellParameter(sharkEnergyStartKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[2]));
+    setCellParameter(sharkEnergyGainKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[3]));
   }
 
 //  public double getSharkEnergy () {

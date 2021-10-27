@@ -1,8 +1,10 @@
 package cellsociety.controller;
 
 import cellsociety.model.Grid;
+import cellsociety.model.cell.ModelCell;
 import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
+import cellsociety.model.model.SpreadingOfFireModel;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.view.mainView.MainView;
@@ -25,6 +27,7 @@ public class Controller {
   private Stage myStage;
   private Grid currGrid;
   private boolean hasUpdate;
+  private Map<String, String> simProperties;
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
@@ -50,18 +53,18 @@ public class Controller {
     hasUpdate = true;
   }
 
-  public void openCSVFile(File csvFile) {
-    try {
-      myParserCSV.readFile(csvFile);
-    } catch (CsvValidationException | IOException e) {
-      // TODO: handle the invalid file exception with pop-up in view
-      e.printStackTrace();
-    }
-    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
-        myParserCSV.getStartStates(), DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
-    myModel = new GameOfLifeModel(this, currGrid);
-    myMainView.initiateGridView();
-  }
+//  public void openCSVFile(File csvFile) {
+//    try {
+//      myParserCSV.readFile(csvFile);
+//    } catch (CsvValidationException | IOException e) {
+//      // TODO: handle the invalid file exception with pop-up in view
+//      e.printStackTrace();
+//    }
+//    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(),
+//        myParserCSV.getStartStates(), DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
+//    myModel = new GameOfLifeModel(this, currGrid);
+//    myMainView.initiateGridView();
+//  }
 
   public void setHasUpdate(boolean hasUpdate) {
     this.hasUpdate = hasUpdate;
@@ -85,6 +88,10 @@ public class Controller {
     currGrid.updateCell(i, j, state);
   }
 
+  public String getCellColor(int i, int j){
+    return currGrid.getCell(i, j).getCellProperty("StateColor");
+  }
+
   public void openSIMFile(File simFile) {
     try {
       myParserSIM.readFile(simFile);
@@ -100,7 +107,14 @@ public class Controller {
       e.printStackTrace();
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
-    myModel = new GameOfLifeModel(this, currGrid);
+    simProperties = myParserSIM.getMap();
+    if (simProperties.get("Type").equals("SpreadingOfFire")) {
+      myModel = new SpreadingOfFireModel(this, currGrid);
+    }
+    else {
+      myModel = new GameOfLifeModel(this, currGrid);
+    }
+
     myMainView.initiateGridView();
   }
 
@@ -121,29 +135,13 @@ public class Controller {
   }
 
   /**
-   * Method to save the simulation grid to a CSV File
+   * Method to get the Grid for saving CSV
    */
-  public void saveCSVFile() {
-    try {
-      PrintWriter csvFile = new PrintWriter(new File("data/game_of_life/saved_sim.csv"));
-      csvFile.write(currGrid.getNumRows() + "," + currGrid.getNumCols() + "\n");
-      for (int i = 0; i < currGrid.getNumRows(); i++) {
-        StringBuilder rowCSV = new StringBuilder();
-        for (int j = 0; j < currGrid.getNumCols(); j++) {
-          if (j != currGrid.getNumCols() - 1) {
-            rowCSV.append(currGrid.getCellStateNumber(i, j) + ",");
-          }
-          else {
-            rowCSV.append(currGrid.getCellStateNumber(i, j) + "\n");
-          }
-        }
-        csvFile.write(rowCSV.toString());
+  public Grid getGrid() {
+    return currGrid;
+  }
 
-      }
-      csvFile.close();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
+  public Map getMap() {
+    return simProperties;
   }
 }

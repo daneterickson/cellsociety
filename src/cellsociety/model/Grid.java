@@ -64,26 +64,28 @@ public class Grid {
     return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
   }
 
-  // Probably can delete this method since it only is used to test Reflection. Need another way to test reflection
+
   public ModelCell getCell(int i, int j) {
     return myGrid[i][j];
   }
 
   private void setCell(int i, int j, int state) throws ClassNotFoundException {
     Class<?> clazz = Class.forName(myCellType);
-    ModelCell newCell = new GameOfLifeCell(i, j, myStateColors, myParameters, state);
+    ModelCell newCell;
     try {
       newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, String.class, String.class, int.class)
           .newInstance(i, j, myStateColors, myParameters, state);
+      myGrid[i][j] = newCell;
+//      if (myGrid[i][j] == null) {
+//        myGrid[i][j] = newCell;
+//      } else {
+//        myGrid[i][j].changeState(state);
+//      }
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
       System.out.println("Method Not Found");
       e.printStackTrace();
     }
-    if (myGrid[i][j] == null) {
-      myGrid[i][j] = newCell;
-    } else {
-      myGrid[i][j].changeState(state);
-    }
+
   }
 
   public void updateCell(int i, int j, int state) {

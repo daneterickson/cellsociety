@@ -1,19 +1,22 @@
 package cellsociety.view.right;
 
-import java.lang.reflect.Method;
-import javafx.event.Event;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
-import org.apache.commons.lang3.ObjectUtils.Null;
 
 public abstract class RightPanel {
   private VBox theRightPanel;
+  protected static final String RESOURCE = "cellsociety.view.right.";
+  protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "RightSettings.css";
+
   public RightPanel() {
      theRightPanel = new VBox();
+     makeSettingsPanel(theRightPanel);
   }
 
-  protected abstract void makeSettingsPanel();
+  protected abstract void makeSettingsPanel(VBox rightPanel);
 
   protected abstract Node makeButtons();
 
@@ -21,7 +24,8 @@ public abstract class RightPanel {
 
   protected abstract Node makeTextBox();
 
-  public Node makeAButton(String className, String buttonAction, String label) {
+
+  protected Node makeAButton(String className, String buttonAction, String label) {
     Button theButton = new Button(label);
     theButton.setOnAction(value -> {
       try {
@@ -35,7 +39,17 @@ public abstract class RightPanel {
     return theButton;
   }
 
-  protected Node getTheRightPanel() {
+  protected Slider makeASlider(double min, double max, double start, String cssLabel, boolean ticks){
+    Slider theSlider = new Slider(min, max, start);
+    theSlider.setShowTickLabels(ticks);
+    theSlider.setShowTickMarks(ticks);
+    theSlider.getStyleClass().add(cssLabel);
+    theSlider.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    return theSlider;
+  }
+
+  public VBox getTheRightPanel() {
     return theRightPanel;
   }
+
 }

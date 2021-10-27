@@ -5,7 +5,7 @@ import cellsociety.model.Grid;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameOfLifeModel extends Model {
+public class GameOfLifeModel extends Model { 
 
   private final int DEAD_STATE = 0;
   private final int LIVE_STATE = 1;

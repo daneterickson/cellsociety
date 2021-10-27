@@ -52,6 +52,17 @@ public abstract class ModelCell {
       String color1, String name2, String color2) {
     numCases = 3;
     myCellProperties.put(NUMBER_CASES_KEY, THREE_CASES);
+    if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
+      switchThreeCases(state, name0, color0, name1, color1, name2, color2);
+    }
+    else {
+      String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
+      switchThreeCases(state, name0, stateColors[0], name1, stateColors[1], name2, stateColors[2]);
+    }
+  }
+
+  private void switchThreeCases(int state, String name0, String color0, String name1, String color1,
+      String name2, String color2) {
     switch (state) {
       case 0 -> {
         setStateColor(color0);

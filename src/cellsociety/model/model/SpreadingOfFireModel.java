@@ -8,8 +8,8 @@ public class SpreadingOfFireModel extends Model{
 
   private final int EMPTY = 0;
   private final int TREE = 1;
-  private final int BURNING = 1;
-  private int probCatch;
+  private final int BURNING = 2;
+  private double probCatch = 0.9;
   private Random random;
 
   public SpreadingOfFireModel(Controller controller, Grid grid) {

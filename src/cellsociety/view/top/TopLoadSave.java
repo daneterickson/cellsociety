@@ -47,11 +47,11 @@ public class TopLoadSave {
     return topLoadSave;
   }
 
-  private Node makeLoadCSVButton() {
-    Button loadCSVButton = new Button("Load CSV File");
-    loadCSVButton.setOnAction(e -> loadCSVFile());
-    return setID(loadCSVButton, "LoadCSVButton");
-  }
+//  private Node makeLoadCSVButton() {
+//    Button loadCSVButton = new Button("Load CSV File");
+//    loadCSVButton.setOnAction(e -> loadCSVFile());
+//    return setID(loadCSVButton, "LoadCSVButton");
+//  }
 
   private Node makeLoadSIMButton() {
     Button loadSIMButton = new Button("Load Sim File");
@@ -71,16 +71,16 @@ public class TopLoadSave {
     return setID(saveSIMButton, "SaveSIMButton");
   }
 
-  private void loadCSVFile() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Load CSV File");
-    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.csv"));
-    File selectedFile = fileChooser.showOpenDialog(myStage);
-    if (selectedFile == null) {
-      return;
-    }
-    myController.openCSVFile(selectedFile);
-  }
+//  private void loadCSVFile() {
+//    FileChooser fileChooser = new FileChooser();
+//    fileChooser.setTitle("Load CSV File");
+//    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.csv"));
+//    File selectedFile = fileChooser.showOpenDialog(myStage);
+//    if (selectedFile == null) {
+//      return;
+//    }
+//    myController.openCSVFile(selectedFile);
+//  }
 
   private void loadSIMFile() {
     FileChooser fileChooser = new FileChooser();

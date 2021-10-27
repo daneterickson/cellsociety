@@ -16,8 +16,6 @@ public class GridView {
   //TODO Make these temporary hardcoded values dependent on the window size or Model values ASAP
   private static final int GRID_VIEW_MAX_WIDTH = 300;
   private static final int GRID_VIEW_MAX_HEIGHT = 300;
-  //private static final Color DEAD_CELL_COLOR = Color.web("#DDDDDD");
-  //private static final Color ALIVE_CELL_COLOR = Color.BLUE;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final double GRID_LINE_SIZE = .04;
 
@@ -112,9 +110,13 @@ public class GridView {
     }catch(NonInvertibleTransformException e){
       e.getMessage();
     }
-    //TODO Only works for simulations with two states currently. Need some way to know all possible states
+    //TODO May work AFTER exception throwing in backend is added
     int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
-    myController.setCellState(myMousePos[1], myMousePos[0], 1-currState);
+    try {
+      myController.setCellState(myMousePos[1], myMousePos[0], currState + 1);
+    }catch(IndexOutOfBoundsException e){
+      myController.setCellState(myMousePos[1], myMousePos[0], 0);
+    }
     updateGrid();
   }
 

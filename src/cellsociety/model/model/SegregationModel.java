@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.Random;
 
 public class SegregationModel extends Model {
+  //base class variables
+  private Grid currGrid;
+  private ArrayList<Integer> newUpdates;
+  private Controller myController;
+  private GridIterator gridIterator;
+  private int numUpdates;
 
   private final int EMPTY = 0;
   private final int RACE1 = 1;
@@ -21,6 +27,8 @@ public class SegregationModel extends Model {
 
   public SegregationModel(Controller controller, Grid grid) {
     super(controller, grid);
+    getBaseInstanceVariables();
+
     numCols = grid.getNumCols();
     random = new Random();
     emptySpots = new ArrayList<>();
@@ -43,7 +51,13 @@ public class SegregationModel extends Model {
       threshold = 0.5;
     }
   }
-
+  private void getBaseInstanceVariables() {
+    currGrid = getCurrGrid();
+    newUpdates = getNewUpdates();
+    myController = getMyController();
+    gridIterator = getGridIterator();
+    numUpdates = getNumUpdates();
+  }
   @Override
   protected List<Integer> getNearby(int row, int col) {
     return gridIterator.get8Nearby(row, col, currGrid, EMPTY);

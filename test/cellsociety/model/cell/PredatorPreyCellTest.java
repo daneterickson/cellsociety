@@ -52,11 +52,12 @@ public class PredatorPreyCellTest {
 
   @Test
   void testSetParameters() {
-    myParameters = "1,2,3";
+    myParameters = "1,2,3,4";
     myCell = new PredatorPreyCell(0, 0, myStartColors, myParameters, 0);
-    assertEquals("1", myCell.getCellProperty("FishReproduction"));
-    assertEquals("2", myCell.getCellProperty("SharkReproduction"));
-    assertEquals("3", myCell.getCellProperty("SharkEnergy"));
+    assertEquals(1.0, myCell.getCellParameter("FishReproduction"));
+    assertEquals(2.0, myCell.getCellParameter("SharkReproduction"));
+    assertEquals(3.0, myCell.getCellParameter("SharkEnergyStart"));
+    assertEquals(4.0, myCell.getCellParameter("SharkEnergyGain"));
   }
 
   @Test

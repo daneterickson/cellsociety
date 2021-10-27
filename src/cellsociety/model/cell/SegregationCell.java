@@ -1,36 +1,55 @@
 package cellsociety.model.cell;
 
+import java.util.ResourceBundle;
+
 public class SegregationCell extends ModelCell{
 
-  public static final String RACE1_RED = "ff0000";
-  public static final String RACE1_NAME = "race1";
-  public static final String RACE2_BLUE = "0000ff";
-  public static final String RACE2_NAME = "race2";
-
   private String myStartColors;
+  private ResourceBundle myResources;
+
+  private String race1Color;
+  private String race1Name;
+  private String race2Color;
+  private String race2Name;
+  private String defaultThreshold;
+  private String similarityThresholdKey;
 
   public SegregationCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
+    myResources = getMyResources();
+    assignConstants();
     myStartColors = startColors;
     if (parameters == null) {
-      parameters = "0.5"; // default 50% similarity threshold
+      parameters = defaultThreshold; // default 50% similarity threshold
     }
     setParameters(parameters);
+    assignState(state);
+  }
+
+  @Override
+  protected void assignConstants() {
+    race1Color = myResources.getString("Race1Color");
+    race1Name = myResources.getString("Race1Name");
+    race2Color = myResources.getString("Race2Color");
+    race2Name = myResources.getString("Race2Name");
+    defaultThreshold = myResources.getString("DefaultThreshold");
+    similarityThresholdKey = myResources.getString("Threshold");
   }
 
   @Override
   protected void assignState(int state) {
-    if (myStartColors == null || myStartColors.split(",").length != 3) {
-      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, RACE1_NAME, RACE1_RED, RACE2_NAME, RACE2_BLUE);
+    if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
+      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, race1Name, race1Color, race2Name,
+          race2Color);
     }
     else {
-      String stateColors[] = myStartColors.split(",");
-      assignThreeCases(state, EMPTY_NAME, stateColors[0], RACE1_NAME, stateColors[1], RACE2_NAME, stateColors[2]);
+      String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
+      assignThreeCases(state, EMPTY_NAME, stateColors[0], race1Name, stateColors[1], race2Name, stateColors[2]);
     }
   }
 
   @Override
   protected void setParameters(String parameters) {
-    setCellParameter("Threshold", Double.valueOf(parameters.split(",")[0]));
+    setCellParameter(similarityThresholdKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
   }
 }

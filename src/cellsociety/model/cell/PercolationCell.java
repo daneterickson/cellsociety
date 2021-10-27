@@ -1,31 +1,44 @@
 package cellsociety.model.cell;
 
-import java.util.Map;
+import java.util.ResourceBundle;
 
 public class PercolationCell extends ModelCell{
 
-  public static final String WATER_NAME = "water";
-  public static final String WATER_COLOR = "0000ff";
-  public static final String BARRIER_NAME = "barrier";
-  public static final String BARRIER_COLOR = "000000";
-
   private String myStartColors;
   private String myParameters;
+  private ResourceBundle myResources;
+
+  private String waterName;
+  private String waterColor;
+  private String barrierName;
+  private String barrierColor;
 
   public PercolationCell(int i, int j, String startColors, String parameters, int state) {
     super(i, j, startColors, parameters, state);
+    myResources = getMyResources();
+    assignConstants();
     myStartColors = startColors;
     myParameters = parameters;
+    assignState(state);
+  }
+
+  @Override
+  protected void assignConstants() {
+    waterName = myResources.getString("WaterName");
+    waterColor = myResources.getString("WaterColor");
+    barrierName = myResources.getString("BarrierName");
+    barrierColor = myResources.getString("BarrierColor");
   }
 
   @Override
   protected void assignState(int state) {
-    if (myStartColors == null || myStartColors.split(",").length != 3) {
-      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, WATER_NAME, WATER_COLOR, BARRIER_NAME, BARRIER_COLOR);
+    if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
+      assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, waterName, waterColor, barrierName,
+          barrierColor);
     }
     else {
-      String stateColors[] = myStartColors.split(",");
-      assignThreeCases(state, EMPTY_NAME, stateColors[0], WATER_NAME, stateColors[1], BARRIER_NAME, stateColors[2]);
+      String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
+      assignThreeCases(state, EMPTY_NAME, stateColors[0], waterName, stateColors[1], barrierName, stateColors[2]);
     }
   }
 

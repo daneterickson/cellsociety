@@ -14,6 +14,7 @@ public abstract class ModelCell {
   private String myStateColor;
   private String myStateName;
   private String myStartColors;
+  private int numCases;
   private ResourceBundle myResources = ResourceBundle.getBundle(
       String.format("%s%s", DEFAULT_RESOURCES, RESOURCES_LANGUAGE));
 
@@ -49,6 +50,7 @@ public abstract class ModelCell {
 
   protected void assignThreeCases(int state, String name0, String color0, String name1,
       String color1, String name2, String color2) {
+    numCases = 3;
     myCellProperties.put(NUMBER_CASES_KEY, THREE_CASES);
     switch (state) {
       case 0 -> {
@@ -68,6 +70,7 @@ public abstract class ModelCell {
 
   protected void assignTwoCases(int state, String name0, String color0, String name1,
       String color1) {
+    numCases = 2;
     myCellProperties.put(NUMBER_CASES_KEY, TWO_CASES);
     switch (state) {
       case 0 -> {
@@ -82,6 +85,7 @@ public abstract class ModelCell {
   }
 
   public void changeState(int newState) {
+    if (newState >= numCases) throw new IndexOutOfBoundsException();
     myStateNumber = newState;
     myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(newState));
     assignState(newState);

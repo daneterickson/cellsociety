@@ -5,6 +5,7 @@ import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.left.CellProperties;
+import cellsociety.view.right.RightPanel;
 import cellsociety.view.top.TopLoadSave;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
@@ -15,19 +16,22 @@ import javafx.stage.Stage;
 public class MainView {
 
   private Stage myStage;
-  private CellProperties myCellProperties = new CellProperties();
+  private CellProperties myCellProperties;
   private GridView myGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
+  private RightPanel myRightPanel;
   private Controller myController;
   private ResourceBundle myResources;
 
   public MainView(Stage stage, Controller controller){
+    myCellProperties = new CellProperties();
     myController = controller;
     myStage = stage;
     myTopLoadSave = new TopLoadSave(myStage, myController);
     myGridView = new GridView(myCellProperties, myController);
     mySimControl = new SimControl(myGridView, myController);
+    //myRightPanel = new GameOfLifeSettings();      (default)
   }
 
   public Scene makeScene(int width, int height) {
@@ -36,7 +40,7 @@ public class MainView {
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
-    //root.setRight();
+    //root.setRight(myRightPanel.getTheRightPanel);
     //root.setTop();
     Scene scene = new Scene(root, width, height);
     return scene;

@@ -1,6 +1,7 @@
 package cellsociety.controller;
 
 import cellsociety.model.Grid;
+import cellsociety.model.cell.ModelCell;
 import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
 import cellsociety.model.parser.ParserCSV;
@@ -84,6 +85,10 @@ public class Controller {
 
   public void setCellState(int i, int j, int state){
     currGrid.updateCell(i, j, state);
+  }
+
+  public String getCellColor(int i, int j){
+    return currGrid.getCell(i, j).getCellProperty("StateColor");
   }
 
   public void openSIMFile(File simFile) {

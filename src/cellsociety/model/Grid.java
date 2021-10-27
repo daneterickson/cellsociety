@@ -64,7 +64,7 @@ public class Grid {
     return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
   }
 
-  // Probably can delete this method since it only is used to test Reflection. Need another way to test reflection
+
   public ModelCell getCell(int i, int j) {
     return myGrid[i][j];
   }

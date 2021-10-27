@@ -33,6 +33,9 @@ Not very fully flexible for new changes. We also have a couple very large classe
 ### Refactoring Work
 
  * Issue chosen: Fix and Alternatives
+   * We are adding the properties file to the view. Our fix was to create on resource bundle instance in the mainview class and then we are passing it to all of the other view classes when they are created.
+  * An alternative would be to directly create multiple resource bundle classes in all of the classes where we needed it. This would be a faster fix; however, it would lead to duplicated code.
 
 
  * Issue chosen: Fix and Alternatives
+   * Created a hierarchy for each rule instead of having it all in the model. This improved our encapsulation in the model package.

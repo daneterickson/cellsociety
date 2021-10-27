@@ -2,9 +2,11 @@ package cellsociety.view.top;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -116,7 +118,18 @@ public class TopLoadSave {
   }
 
   private void saveSimFile(File saveFile) {
-
+    File SIM = new File(saveFile.toString() + ".sim");
+    Map simValueMap = myController.getMap();
+    try {
+      PrintWriter simFile = new PrintWriter(SIM);
+      for (Object key : simValueMap.keySet()) {
+        simFile.write(key.toString() + "=" + simValueMap.get(key).toString() + "\n");
+      }
+      simFile.close();
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private File openSaveFileDialog() {

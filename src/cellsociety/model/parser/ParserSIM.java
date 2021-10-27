@@ -49,6 +49,8 @@ public class ParserSIM implements Parser {
 
   public String getInfo (String key) { return mySimulationProperties.get(key); }
 
+  public Map getMap() { return mySimulationProperties; }
+
 //  public String getType() {
 //    return myInfoMap.get("Type");
 //  }

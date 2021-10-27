@@ -20,7 +20,7 @@ public class PredatorPreyModel extends Model {
   private final Random random;
   private final String FishReproduction = "FishReproduction";
   private final String SharkReproduction = "SharkReproduction";
-  private final String SharkEnergy = "SharkEnergy";
+  private final String SharkEnergy = "SharkEnergyStart";
   private final String SharkEnergyGain = "SharkEnergyGain";
 
   public PredatorPreyModel(Controller controller, Grid grid) {

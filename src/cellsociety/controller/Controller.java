@@ -117,11 +117,14 @@ public class Controller {
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
     simProperties = myParserSIM.getMap();
-    if (simProperties.get("Type").equals("SpreadingOfFire")) {
-      myModel = new SpreadingOfFireModel(this, currGrid);
+
+    try {
+      Class<?> clazz = Class.forName("cellsociety.model.model." + simProperties.get("Type") + "Model");
+      Object modell = clazz.getDeclaredConstructor(Controller.class, Grid.class).newInstance(this, currGrid);
+      myModel = (Model) modell;
     }
-    else {
-      myModel = new GameOfLifeModel(this, currGrid);
+    catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+      e.printStackTrace();
     }
 
     try {

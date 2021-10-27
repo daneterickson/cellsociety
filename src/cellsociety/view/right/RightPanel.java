@@ -38,7 +38,7 @@ public abstract class RightPanel {
   }
 
 
-  protected VBox getTheRightPanel() {
+  public VBox getTheRightPanel() {
     return theRightPanel;
   }
 

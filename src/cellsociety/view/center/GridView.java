@@ -16,8 +16,8 @@ public class GridView {
   //TODO Make these temporary hardcoded values dependent on the window size or Model values ASAP
   private static final int GRID_VIEW_MAX_WIDTH = 300;
   private static final int GRID_VIEW_MAX_HEIGHT = 300;
-  private static final Color DEAD_CELL_COLOR = Color.LIGHTGREY;
-  private static final Color ALIVE_CELL_COLOR = Color.BLUE;
+  //private static final Color DEAD_CELL_COLOR = Color.web("#DDDDDD");
+  //private static final Color ALIVE_CELL_COLOR = Color.BLUE;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final double GRID_LINE_SIZE = .04;
 
@@ -67,7 +67,7 @@ public class GridView {
     GraphicsContext gc = this.myCanvas.getGraphicsContext2D();
     gc.clearRect(0, 0, myCanvas.getWidth(), myCanvas.getHeight());
     gc.setTransform(myAffine);
-    gc.setFill(DEAD_CELL_COLOR);
+    //gc.setFill(DEAD_CELL_COLOR);
     gc.fillRect(0, 0, myGridWidth, myGridHeight);
 
     updateCellColors(gc);
@@ -90,14 +90,7 @@ public class GridView {
   private void updateCellColors(GraphicsContext gc) {
     for (int i = 0; i < myNumGridRows; i++) {
       for (int j = 0; j < myNumGridCols; j++) {
-        //TODO allow for different colors based off simulation type
-        int cellState = myController.getCellStateNumber(i, j);
-        if(cellState == 1){
-          gc.setFill(ALIVE_CELL_COLOR);
-        }
-        else{
-          gc.setFill(DEAD_CELL_COLOR);
-        }
+        gc.setFill(Color.web("#" + myController.getCellColor(i, j)));
         gc.fillRect(j, i, 1, 1);
       }
     }

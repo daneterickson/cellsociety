@@ -48,11 +48,16 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected void updateCell(int row, int col, int state) {
+//    System.out.println("updatecell" + row + " " + col);
+
     List<Integer> nearby = getNearby(row, col);
     currRule(row, col, state, nearby);
   }
 
   private void addNewUpdates(int row, int col, int newState, int reproduction, int energy) {
+//    System.out.println(
+//        "new UPDATE: " + row + " " + col + " " + newState + " " + reproduction + " " + energy);
+
     newUpdates.add(row);
     newUpdates.add(col);
     newUpdates.add(newState);
@@ -70,12 +75,13 @@ public class PredatorPreyModel extends Model {
       newState = newUpdates.get(idx + 2);
       newReproduction = newUpdates.get(idx + 3);
       newEnergy = newUpdates.get(idx + 4);
-
+//      System.out.println(
+//          row + " " + col + " " + newState + " " + newReproduction + " " + newEnergy);
       currGrid.updateCell(row, col, newState);
 
-      if(newState == FISH){
+      if (newState == FISH) {
         currGrid.getCell(row, col).setCellParameter(FishReproduction, (double) newReproduction);
-      }else if (newState == SHARK){
+      } else if (newState == SHARK) {
         currGrid.getCell(row, col).setCellParameter(SharkReproduction, (double) newReproduction);
         currGrid.getCell(row, col).setCellParameter(SharkEnergy, (double) newEnergy);
       }
@@ -87,6 +93,7 @@ public class PredatorPreyModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
+
     if (state == EMPTY) {
       return EMPTY;
     }
@@ -104,7 +111,6 @@ public class PredatorPreyModel extends Model {
     int fishEnergy = -1; //fish don't have energy level
 
     eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
-
     //update reproduction value
     if (currReproduction > 0) {
       currReproduction--;
@@ -112,19 +118,23 @@ public class PredatorPreyModel extends Model {
 
     //fish can't move
     if (eligibleSpaces.size() < 1) {
+//      System.out.println("fish can't move");
       addNewUpdates(currRow, currCol, FISH, currReproduction, fishEnergy);
       return FISH;
     }
 
     //reproduce and move
     if (currReproduction == 0) {
+//      System.out.println("fish reproduce");
+      move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state, currReproduction, -1);
       addNewUpdates(currRow, currCol, FISH, fishReproduction, -1);
-      move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction, -1);
       return FISH;
     }
 
     //move
-    move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction, -1);
+//    System.out.println("fish move");
+
+    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state, currReproduction, -1);
     addNewUpdates(currRow, currCol, EMPTY, -1, -1);
     return EMPTY;
   }
@@ -141,9 +151,10 @@ public class PredatorPreyModel extends Model {
     if (currReproduction > 0) {
       currReproduction--;
     }
-
     //dead
     if (currEnergy <= 0) {
+//      System.out.println("shark dead");
+
       addNewUpdates(currRow, currCol, EMPTY, -1, -1);
       return EMPTY;
     }
@@ -159,19 +170,24 @@ public class PredatorPreyModel extends Model {
 
     //shark can't move
     if (eligibleSpaces.size() < 1) {
+//      System.out.println("shark can't move");
+
       addNewUpdates(currRow, currCol, SHARK, currReproduction, currEnergy);
       return SHARK;
     }
 
     //reproduce and move
     if (currReproduction == 0) {
-      move(currRow, currCol, random.nextInt(eligibleSpaces.size()), state, currReproduction,
+//      System.out.println("shark reproduce");
+      move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state, currReproduction,
           currEnergy);
       addNewUpdates(currRow, currCol, SHARK, sharkReproduction, sharkEnergy);
       return SHARK;
     }
 
     //move
+//    System.out.println("shark move");
+
     addNewUpdates(currRow, currCol, EMPTY, -1, -1);
     return EMPTY;
   }
@@ -184,10 +200,12 @@ public class PredatorPreyModel extends Model {
       int eligible) {
     ArrayList<Integer> ret = new ArrayList<>();
     for (int idx = 0; idx < nearby.size(); idx++) {
-      if (!inBounds(currRow, currCol, idx)) {
+      if (!inBounds(currRow, currCol, idx) || occupiedSpace(currRow, currCol, idx)) {
         continue;
       }
+
       if (nearby.get(idx) == eligible) {
+//        System.out.println("geteligible  "+currRow + " " + currCol + " " + idx);
         ret.add(idx);
       }
     }
@@ -206,10 +224,10 @@ public class PredatorPreyModel extends Model {
     int newRow = currRow;
     int newCol = currCol;
     switch (idx) {
-      case 0 -> newRow = currRow - 1;
-      case 1 -> newRow = currRow + 1;
-      case 2 -> newCol = currCol + 1;
-      case 3 -> newCol = currCol - 1;
+      case 0 -> newRow -= 1;
+      case 1 -> newRow += 1;
+      case 2 -> newCol += 1;
+      case 3 -> newCol -= 1;
     }
 
     addNewUpdates(newRow, newCol, state, currReproduction, currEnergy);
@@ -220,13 +238,33 @@ public class PredatorPreyModel extends Model {
    */
   private boolean inBounds(int currRow, int currCol, int idx) {
     //nearby = [north,south,east,west]
-    return switch (idx) {
+    boolean ret = switch (idx) {
       case 0 -> currRow - 1 >= 0;
       case 1 -> currRow + 1 < currGrid.getNumRows();
       case 2 -> currCol + 1 < currGrid.getNumCols();
       case 3 -> currCol - 1 >= 0;
       default -> false;
     };
+//    if (ret) System.out.println("in bounds "+currRow+" "+currCol+" "+idx);
+    return ret;
+  }
+
+  private boolean occupiedSpace(int currRow, int currCol, int idx) {
+    //nearby = [north,south,east,west]
+    switch (idx) {
+      case 0 -> currRow--;
+      case 1 -> currRow++;
+      case 2 -> currCol++;
+      case 3 -> currCol--;
+      default -> throw new IllegalStateException("Unexpected value: " + idx);
+    }
+
+    for (int i = 0; i < newUpdates.size(); i += numUpdates) {
+      if (newUpdates.get(i) == currRow && newUpdates.get(i + 1) == currCol) {
+        return false;
+      }
+    }
+    return false;
   }
 }
 

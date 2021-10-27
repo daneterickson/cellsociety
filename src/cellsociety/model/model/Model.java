@@ -46,7 +46,7 @@ public abstract class Model{ // implements baseModel{
     while (true) {
       try {
         currGrid.getCell(currRow, currCol).getCellProperty(StateNumber);
-        gridIterationAction.apply(currRow).accept(currRow);
+        gridIterationAction.apply(currRow).accept(currCol);
         currCol += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {

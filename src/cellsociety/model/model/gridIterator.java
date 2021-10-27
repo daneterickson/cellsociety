@@ -16,20 +16,21 @@ public class gridIterator {
    */
   public List<Integer> get4Nearby(int row, int col, Grid grid, int edgeValue) {
     int[] x = {0, 0, 1, -1};
-    int[] y = {1, -1, 0, 0};
+    int[] y = {-1, 1, 0, 0};
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
     int state;
 
     while (idx < 4) {
       try {
-        state = parseInt(grid.getCell(row + x[idx], col + y[idx]).getCellProperty("StateNumber"));
+        state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
         neighbors.add(idx, state);
       } catch (IndexOutOfBoundsException e) {
         neighbors.add(idx, edgeValue);
       }
       idx++;
     }
+
     return neighbors;
   }
 
@@ -51,7 +52,7 @@ public class gridIterator {
           continue;
         }
         try {
-          state = parseInt(grid.getCell(row + x, col + y).getCellProperty("StateNumber"));
+          state = parseInt(grid.getCell(row + y, col + x).getCellProperty("StateNumber"));
           neighbors.add(idx, state);
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases

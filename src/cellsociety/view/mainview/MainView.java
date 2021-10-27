@@ -1,4 +1,4 @@
-package cellsociety.view.mainView;
+package cellsociety.view.mainview;
 
 
 import cellsociety.controller.Controller;
@@ -7,11 +7,13 @@ import cellsociety.view.center.GridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
-import cellsociety.view.right.SpreadingOfFireSettings;
 import cellsociety.view.top.TopLoadSave;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
@@ -28,13 +30,14 @@ public class MainView {
   private BorderPane root;
 
   public MainView(Stage stage, Controller controller){
-    myCellProperties = new CellProperties();
+    myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     myController = controller;
     myStage = stage;
-    myTopLoadSave = new TopLoadSave(myStage, myController);
+    myCellProperties = new CellProperties(myResources);
+    myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
     myGridView = new GridView(myCellProperties, myController);
+    myRightPanel = new GameOfLifeSettings(myResources);
     mySimControl = new SimControl(myGridView, myController);
-    myRightPanel = new GameOfLifeSettings();      //(default)
   }
 
   public Scene makeScene(int width, int height) {
@@ -44,11 +47,9 @@ public class MainView {
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
     root.setRight(myRightPanel.getTheRightPanel());
-    //root.setTop();
     Scene scene = new Scene(root, width, height);
     return scene;
   }
-
 
   /**
    * Updates the canvas (grid) in the view.

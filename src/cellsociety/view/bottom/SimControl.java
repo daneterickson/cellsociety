@@ -58,6 +58,7 @@ public class SimControl {
     mySimControl = new VBox(BUTTON_SLIDER_SPACING);
     mySimControl.getChildren().add(makeControlButtons());
     mySimControl.getChildren().add(makeSpeedSlider());
+    mySimControl.getChildren().add(makeLangButton());
     myController = controller;
     setStyles();
   }
@@ -81,7 +82,6 @@ public class SimControl {
   private Node makeControlButtons() {
     HBox buttonHBox = new HBox(BUTTON_SPACING);
     buttonHBox.getChildren().add(makePlayPauseButton());
-//    buttonHBox.getChildren().add(makeStopButton());
     buttonHBox.getChildren().add(makeStepButton());
     buttonHBox.getStyleClass().add("buttons");
     return buttonHBox;
@@ -107,15 +107,8 @@ public class SimControl {
 
   private Node makePlayPauseButton() {
     Button playPauseButton = new Button("", playIcon);
-    playPauseButton.setOnAction(value -> play(playPauseButton));
+    playPauseButton.setOnAction(value -> playPause(playPauseButton));
     return playPauseButton;
-  }
-
-
-  private Node makeStopButton() {
-    Button stopButton = new Button("", stopIcon);
-    stopButton.setOnAction(value -> stop());
-    return stopButton;
   }
 
   private Node makeStepButton() {
@@ -124,7 +117,7 @@ public class SimControl {
     return stepButton;
   }
 
-  private void play(Button playPauseButton) {
+  private void playPause(Button playPauseButton) {
     if (myAnimation == null) {
       myAnimation = new Timeline();
       myAnimation.setCycleCount(Timeline.INDEFINITE);
@@ -147,25 +140,29 @@ public class SimControl {
 
   }
 
-  private void pause() {
-    if (isPaused) {
-      myAnimation.play();
-    } else {
-      myAnimation.pause();
-    }
-    isPaused = !isPaused;
-  }
-
-  private void stop() {
-    if (myAnimation != null) {
-      myAnimation.stop();
-    }
-  }
-
   private void step() {
     if(myController.getHasUpdate()){
       myController.updateModel();
       myGridView.updateGrid();
+    }
+  }
+
+
+  private Node makeLangButton() {
+    HBox langHBox = new HBox();
+    Button langButton = new Button("EN");
+    langButton.setOnAction(e -> toggleLanguage(langButton));
+    langHBox.getChildren().add(langButton);
+
+    return langHBox;
+  }
+
+  private void toggleLanguage(Button langButton) {
+    if (langButton.getText().equals("EN")) {
+      langButton.setText("ES");
+    }
+    else {
+      langButton.setText("EN");
     }
   }
 

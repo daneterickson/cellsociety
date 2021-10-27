@@ -1,5 +1,6 @@
 package cellsociety.view.right;
 
+import java.util.ResourceBundle;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
@@ -11,8 +12,8 @@ public class SegregationSettings extends RightPanel{
   private final double STARTING_SIMILARITY = .5;
 
 
-  public SegregationSettings(){
-    super();
+  public SegregationSettings(ResourceBundle bundle){
+    super(bundle);
   }
 
   @Override

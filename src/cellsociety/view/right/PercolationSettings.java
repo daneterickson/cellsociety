@@ -1,13 +1,14 @@
 package cellsociety.view.right;
 
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 public class PercolationSettings extends RightPanel{
 
 
-  public PercolationSettings(){
-    super();
+  public PercolationSettings(ResourceBundle bundle){
+    super(bundle);
   }
 
   @Override

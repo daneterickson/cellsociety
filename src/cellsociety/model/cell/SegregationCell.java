@@ -23,6 +23,7 @@ public class SegregationCell extends ModelCell{
       parameters = defaultThreshold; // default 50% similarity threshold
     }
     setParameters(parameters);
+    assignState(state);
   }
 
   @Override

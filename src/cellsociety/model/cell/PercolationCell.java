@@ -19,6 +19,7 @@ public class PercolationCell extends ModelCell{
     assignConstants();
     myStartColors = startColors;
     myParameters = parameters;
+    assignState(state);
   }
 
   @Override

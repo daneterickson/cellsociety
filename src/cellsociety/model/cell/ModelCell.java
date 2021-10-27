@@ -38,7 +38,7 @@ public abstract class ModelCell {
     myStartColors = stateColors;
     myStateNumber = state;
     myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(state));
-    assignState(state);
+//    assignState(state);
   }
 
   protected abstract void assignConstants();

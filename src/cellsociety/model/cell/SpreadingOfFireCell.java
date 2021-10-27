@@ -24,6 +24,7 @@ public class SpreadingOfFireCell extends ModelCell{
       parameters = defaultProbCatch; // default 50% probCatch
     }
     setParameters(parameters);
+    assignState(state);
   }
 
   @Override

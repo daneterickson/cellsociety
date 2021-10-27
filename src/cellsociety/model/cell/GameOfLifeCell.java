@@ -15,6 +15,7 @@ public class GameOfLifeCell extends ModelCell {
     myResources = getMyResources();
     assignConstants();
     myStartColors = startColors;
+    assignState(state);
   }
 
   @Override

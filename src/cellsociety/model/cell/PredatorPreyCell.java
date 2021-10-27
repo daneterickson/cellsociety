@@ -26,6 +26,7 @@ public class PredatorPreyCell extends ModelCell {
       parameters = defaultParameters; // default is fish reproduction, shark reproduction, shark energy start, and shark energy gain are all 10
     }
     setParameters(parameters);
+    assignState(state);
   }
 
   @Override

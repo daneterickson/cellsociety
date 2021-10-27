@@ -121,29 +121,9 @@ public class Controller {
   }
 
   /**
-   * Method to save the simulation grid to a CSV File
+   * Method to get the Grid for saving CSV
    */
-  public void saveCSVFile() {
-    try {
-      PrintWriter csvFile = new PrintWriter(new File("data/game_of_life/saved_sim.csv"));
-      csvFile.write(currGrid.getNumRows() + "," + currGrid.getNumCols() + "\n");
-      for (int i = 0; i < currGrid.getNumRows(); i++) {
-        StringBuilder rowCSV = new StringBuilder();
-        for (int j = 0; j < currGrid.getNumCols(); j++) {
-          if (j != currGrid.getNumCols() - 1) {
-            rowCSV.append(currGrid.getCellStateNumber(i, j) + ",");
-          }
-          else {
-            rowCSV.append(currGrid.getCellStateNumber(i, j) + "\n");
-          }
-        }
-        csvFile.write(rowCSV.toString());
-
-      }
-      csvFile.close();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
+  public Grid getGrid() {
+    return currGrid;
   }
 }

@@ -1,12 +1,10 @@
 package cellsociety.view.right;
 
-import java.lang.reflect.Method;
-import javafx.event.Event;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
-import org.apache.commons.lang3.ObjectUtils.Null;
 
 public abstract class RightPanel {
   private VBox theRightPanel;

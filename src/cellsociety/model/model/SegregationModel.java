@@ -1,5 +1,7 @@
 package cellsociety.model.model;
 
+import static java.lang.Integer.parseInt;
+
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ public class SegregationModel extends Model {
     random = new Random();
     emptySpots = new ArrayList<>();
     iterateGrid(row -> col -> {
-      if (currGrid.getCellStateNumber(row, col) == EMPTY) {
+      int state = parseInt(grid.getCell(row, col).getCellProperty("StateNumber"));
+      if (state == EMPTY) {
         emptySpots.add(row * numCols + col);
       }
     });

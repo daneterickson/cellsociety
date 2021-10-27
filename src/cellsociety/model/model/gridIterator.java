@@ -1,5 +1,7 @@
 package cellsociety.model.model;
 
+import static java.lang.Integer.parseInt;
+
 import cellsociety.model.Grid;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +19,12 @@ public class gridIterator {
     int[] y = {1, -1, 0, 0};
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
+    int state;
 
     while (idx < 4) {
       try {
-        neighbors.add(idx, grid.getCellStateNumber(row + x[idx], col + y[idx]));
+        state = parseInt(grid.getCell(row + x[idx], col + y[idx]).getCellProperty("StateNumber"));
+        neighbors.add(idx, state);
       } catch (IndexOutOfBoundsException e) {
         neighbors.add(idx, edgeValue);
       }
@@ -39,6 +43,7 @@ public class gridIterator {
     int[] dy = {-1, 0, 1};
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
+    int state;
 
     for (int x : dx) {
       for (int y : dy) {
@@ -46,7 +51,8 @@ public class gridIterator {
           continue;
         }
         try {
-          neighbors.add(idx, grid.getCellStateNumber(row + x, col + y));
+          state = parseInt(grid.getCell(row + x, col + y).getCellProperty("StateNumber"));
+          neighbors.add(idx, state);
         } catch (IndexOutOfBoundsException e) {
           //handles edge cases
           neighbors.add(idx, edgeValue);

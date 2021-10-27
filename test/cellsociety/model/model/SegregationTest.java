@@ -18,11 +18,12 @@ public class SegregationTest {
 
   private Model myModel;
   private Grid myGrid;
-  private int myStates[][];
+  private int[][] myStates;
   private int numRows;
   private int numCols;
   private Controller myController;
-  private Map<Integer, String> myStartColors;
+  private String myStartColors;
+  private String myParameters;
 
   @BeforeEach
   void setUp() {
@@ -34,9 +35,8 @@ public class SegregationTest {
 
     numRows = 5;
     numCols = 5;
-    myStartColors = new HashMap<>();
     String type = "Segregation";
-    myGrid = new Grid(numRows, numCols, myStates, myStartColors, type);
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new SegregationModel(myController, myGrid);
   }
 
@@ -73,17 +73,17 @@ public class SegregationTest {
     int currCol = 2;
 
     //empty cell
-    list = Arrays.asList(new Integer[]{0, 0, 0, 1, 2, 0, 1, 0});
+    list = Arrays.asList(0, 0, 0, 1, 2, 0, 1, 0);
     ret = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
     assertEquals(0, ret, "empty cell should remain empty(0). got: " + ret);
 
     //Over threshold
-    list = Arrays.asList(new Integer[]{0, 0, 0, 1, 2, 1, 1, 0});
+    list = Arrays.asList(0, 0, 0, 1, 2, 1, 1, 0);
     ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
     assertEquals(1, ret, "Cell state should stay the same. got: " + ret);
 
     //Under threshold
-    list = Arrays.asList(new Integer[]{0, 0, 0, 1, 2, 2, 2, 0});
+    list = Arrays.asList(0, 0, 0, 1, 2, 2, 2, 0);
     ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
     assertEquals(0, ret, "Cell should be vacated. got: " + ret);
   }

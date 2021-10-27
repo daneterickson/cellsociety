@@ -18,7 +18,7 @@ public class GameOfLifeModelTest {
 
   private Model myModel;
   private Grid myGrid;
-  private int myStates[][];
+  private int[][] myStates;
   private int numRows;
   private int numCols;
   private Controller myController;
@@ -68,32 +68,32 @@ public class GameOfLifeModelTest {
     int currRow = 2;
     int currCol = 2;
     //stable population
-    list = Arrays.asList(new Integer[]{0, 0, 1, 1, 0, 0, 0, 0});
+    list = Arrays.asList(0, 0, 1, 1, 0, 0, 0, 0);
     newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
     assertEquals(1, newState, "New state should be 1. got: " + newState);
 
     //overpopulation
-    list = Arrays.asList(new Integer[]{0, 0, 1, 1, 0, 1, 0, 1});
+    list = Arrays.asList(0, 0, 1, 1, 0, 1, 0, 1);
     newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
     assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //underpopulation
-    list = Arrays.asList(new Integer[]{0, 0, 0, 0, 0, 0, 0, 1});
+    list = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 1);
     newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
     assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //Failed reproduction
-    list = Arrays.asList(new Integer[]{0, 0, 0, 0, 0, 0, 0, 1});
+    list = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 1);
     newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
     assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //Failed reproduction
-    list = Arrays.asList(new Integer[]{0, 0, 1, 1, 1, 0, 0, 1});
+    list = Arrays.asList(0, 0, 1, 1, 1, 0, 0, 1);
     newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
     assertEquals(0, newState, "New state should be 0. got: " + newState);
 
     //Successful reproduction
-    list = Arrays.asList(new Integer[]{0, 0, 1, 0, 1, 0, 0, 1});
+    list = Arrays.asList(0, 0, 1, 0, 1, 0, 0, 1);
     newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
     assertEquals(1, newState, "New state should be 1. got: " + newState);
 
@@ -112,7 +112,7 @@ public class GameOfLifeModelTest {
 
     }
     for (int row = 0; row < numRows; row++) {
-      System.out.println("");
+      System.out.println();
       for (int col = 0; col < numCols; col++) {
         System.out.print(" " + myGrid.getCellStateNumber(row, col));
 //        assertEquals(expected[row][col], myGrid.getCellState(row, col), row +", "+col);

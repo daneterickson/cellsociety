@@ -1,5 +1,7 @@
 package cellsociety.model.model;
 
+import static java.lang.Integer.parseInt;
+
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
@@ -15,27 +17,28 @@ public class PredatorPreyModel extends Model {
   private int sharkReproduction;
   private int sharkEnergy;
   private int energyGain;
-  private Random random;
+  private final Random random;
+  private final String FishReproduction = "FishReproduction";
+  private final String SharkReproduction = "SharkReproduction";
+  private final String SharkEnergy = "SharkEnergy";
+  private final String SharkEnergyGain = "SharkEnergyGain";
 
   public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller, grid);
     random = new Random();
-    setReproductionEnergy();
+//    setReproductionEnergy();
     numUpdates = 5;
+    getBaseParameters();
   }
 
-  /**
-   * sets the reproduction and energy values in grid for each model cell
-   */
-  private void setReproductionEnergy() {
-    iterateGrid(row -> col -> {
-      if (currGrid.getCell(row, col).getStateNumber() == FISH) {
-        currGrid.getCell(row, col).setReproduction(fishReproduction);
-      } else if (currGrid.getCell(row, col).getStateNumber() == SHARK) {
-        currGrid.getCell(row, col).setReproduction(sharkReproduction);
-        currGrid.getCell(row, col).setEnergy(sharkEnergy);
-      }
-    });
+  private void getBaseParameters() {
+    fishReproduction = (int) Math.round(
+        currGrid.getCell(0, 0).getCellParameter(FishReproduction));
+    sharkReproduction = (int) Math.round(
+        currGrid.getCell(0, 0).getCellParameter(SharkReproduction));
+    sharkEnergy = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergy));
+    energyGain = 10;
+//    energyGain = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergyGain));
   }
 
   @Override
@@ -46,7 +49,7 @@ public class PredatorPreyModel extends Model {
   @Override
   protected void updateCell(int row, int col, int state) {
     List<Integer> nearby = getNearby(row, col);
-    int newState = currRule(row, col, state, nearby);
+    currRule(row, col, state, nearby);
   }
 
   private void addNewUpdates(int row, int col, int newState, int reproduction, int energy) {
@@ -69,9 +72,13 @@ public class PredatorPreyModel extends Model {
       newEnergy = newUpdates.get(idx + 4);
 
       currGrid.updateCell(row, col, newState);
-      currGrid.getCell(row, col).setReproduction(newReproduction);
-      currGrid.getCell(row, col).setEnergy(newEnergy);
 
+      if(newState == FISH){
+        currGrid.getCell(row, col).setCellParameter(FishReproduction, (double) newReproduction);
+      }else if (newState == SHARK){
+        currGrid.getCell(row, col).setCellParameter(SharkReproduction, (double) newReproduction);
+        currGrid.getCell(row, col).setCellParameter(SharkEnergy, (double) newEnergy);
+      }
     }
   }
 
@@ -92,7 +99,8 @@ public class PredatorPreyModel extends Model {
 
   private int fishRules(int currRow, int currCol, int state, List<Integer> nearby) {
     ArrayList<Integer> eligibleSpaces;
-    int currReproduction = currGrid.getCell(currRow, currCol).getReproduction();
+    int currReproduction = (int) Math.round(
+        currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
     int fishEnergy = -1; //fish don't have energy level
 
     eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
@@ -123,8 +131,10 @@ public class PredatorPreyModel extends Model {
 
   private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
     ArrayList<Integer> eligibleSpaces;
-    int currEnergy = currGrid.getCell(currRow, currCol).getEnergy();
-    int currReproduction = currGrid.getCell(currRow, currCol).getReproduction();
+    int currReproduction = (int) Math.round(
+        currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
+    int currEnergy = (int) Math.round(
+        currGrid.getCell(currRow, currCol).getCellParameter(SharkEnergy));
 
     currEnergy--;
     //update reproduction value
@@ -167,7 +177,8 @@ public class PredatorPreyModel extends Model {
   }
 
   /**
-   * finds eligible spaces that the current cell can move to based on the allowed 'eligible' cell state.
+   * finds eligible spaces that the current cell can move to based on the allowed 'eligible' cell
+   * state.
    */
   private ArrayList<Integer> getEligibleSpaces(int currRow, int currCol, List<Integer> nearby,
       int eligible) {

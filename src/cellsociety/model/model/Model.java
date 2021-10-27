@@ -1,5 +1,6 @@
 package cellsociety.model.model;
 
+import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
@@ -12,8 +13,10 @@ public abstract class Model{ // implements baseModel{
   protected Grid currGrid;
   protected ArrayList<Integer> newUpdates;
   protected Controller myController;
-  protected cellsociety.model.model.gridIterator gridIterator;
+  protected gridIterator gridIterator;
   protected int numUpdates = 3;
+  private final String StateNumber = "StateNumber";
+
 
   public Model(Controller controller, Grid grid) {
     newUpdates = new ArrayList<>();
@@ -25,7 +28,9 @@ public abstract class Model{ // implements baseModel{
   public void updateModel(Grid currGrid) {
     this.currGrid = currGrid;
     iterateGrid(row -> col -> {
-      updateCell(row, col, currGrid.getCellStateNumber(row, col));
+      String currState = currGrid.getCell(row, col).getCellProperty(StateNumber);
+      int stateAsInt = parseInt(currState);
+      updateCell(row, col, stateAsInt);
     });
     updateGrid();
     myController.setHasUpdate(true);
@@ -40,14 +45,14 @@ public abstract class Model{ // implements baseModel{
     int currCol = 0;
     while (true) {
       try {
-        currGrid.getCellStateNumber(currRow, currCol);
+        currGrid.getCell(currRow, currCol).getCellProperty(StateNumber);
         gridIterationAction.apply(currRow).accept(currRow);
         currCol += 1;
       } catch (IndexOutOfBoundsException xOutOfBounds) {
         try {
           currCol = 0;
           currRow += 1;
-          currGrid.getCellStateNumber(currRow, currCol);
+          currGrid.getCell(currRow, currCol).getCellProperty(StateNumber);
         } catch (IndexOutOfBoundsException yOutOfBounds) {
           break;
         }

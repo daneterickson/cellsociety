@@ -16,8 +16,6 @@ public class GridView {
   //TODO Make these temporary hardcoded values dependent on the window size or Model values ASAP
   private static final int GRID_VIEW_MAX_WIDTH = 300;
   private static final int GRID_VIEW_MAX_HEIGHT = 300;
-  //private static final Color DEAD_CELL_COLOR = Color.web("#DDDDDD");
-  //private static final Color ALIVE_CELL_COLOR = Color.BLUE;
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final double GRID_LINE_SIZE = .04;
 

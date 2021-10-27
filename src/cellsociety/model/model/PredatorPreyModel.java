@@ -1,5 +1,8 @@
 package cellsociety.model.model;
 
+import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
+import static cellsociety.model.cell.PredatorPreyCell.FISH_STATE;
+import static cellsociety.model.cell.PredatorPreyCell.SHARK_STATE;
 import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
@@ -19,10 +22,6 @@ public class PredatorPreyModel extends Model {
   private GridIterator gridIterator;
   private int numUpdates;
 
-  //constants
-  private final int EMPTY = 0;
-  private final int FISH = 1;
-  private final int SHARK = 2;
   private final Random random;
   private final String FishReproduction = "FishReproduction";
   private final String SharkReproduction = "SharkReproduction";
@@ -71,7 +70,7 @@ public class PredatorPreyModel extends Model {
         System.out.println("Invalid Property");
       }
       int stateAsInt = parseInt(currState);
-      if (stateAsInt == SHARK){
+      if (stateAsInt == SHARK_STATE){
         updateCell(row, col, stateAsInt);
       }
     });
@@ -87,7 +86,7 @@ public class PredatorPreyModel extends Model {
         System.out.println("Invalid Property");
       }
       int stateAsInt = parseInt(currState);
-      if (stateAsInt != SHARK){
+      if (stateAsInt != SHARK_STATE){
         if (sharkAttacks.contains(row*numCols+col)){
           sharkAttacks.remove(row*numCols+col);
         }else{
@@ -113,7 +112,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get4Nearby(row, col, currGrid, EMPTY);
+    return gridIterator.get4Nearby(row, col, currGrid, EMPTY_STATE);
   }
 
   @Override
@@ -149,9 +148,9 @@ public class PredatorPreyModel extends Model {
 //          row + " " + col + " " + newState + " " + newReproduction + " " + newEnergy);
       currGrid.updateCell(row, col, newState);
 
-      if (newState == FISH) {
+      if (newState == FISH_STATE) {
         currGrid.getCell(row, col).setCellParameter(FishReproduction, (double) newReproduction);
-      } else if (newState == SHARK) {
+      } else if (newState == SHARK_STATE) {
         currGrid.getCell(row, col).setCellParameter(SharkReproduction, (double) newReproduction);
         currGrid.getCell(row, col).setCellParameter(SharkEnergy, (double) newEnergy);
       }
@@ -164,10 +163,10 @@ public class PredatorPreyModel extends Model {
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
 
-    if (state == EMPTY) {
-      return EMPTY;
+    if (state == EMPTY_STATE) {
+      return EMPTY_STATE;
     }
-    if (state == FISH) {
+    if (state == FISH_STATE) {
       return fishRules(currRow, currCol, state, nearby);
     } else {
       return sharkRules(currRow, currCol, state, nearby);
@@ -186,7 +185,7 @@ public class PredatorPreyModel extends Model {
     }
     int fishEnergy = -1; //fish don't have energy level
 
-    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
+    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
     //update reproduction value
     if (currReproduction > 0) {
       currReproduction--;
@@ -195,8 +194,8 @@ public class PredatorPreyModel extends Model {
     //fish can't move
     if (eligibleSpaces.size() < 1) {
 //      System.out.println("fish can't move");
-      addNewUpdates(currRow, currCol, FISH, currReproduction, fishEnergy);
-      return FISH;
+      addNewUpdates(currRow, currCol, FISH_STATE, currReproduction, fishEnergy);
+      return FISH_STATE;
     }
 
     //reproduce and move
@@ -204,8 +203,8 @@ public class PredatorPreyModel extends Model {
 //      System.out.println("fish reproduce");
       move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
           currReproduction, -1, false);
-      addNewUpdates(currRow, currCol, FISH, fishReproduction, -1);
-      return FISH;
+      addNewUpdates(currRow, currCol, FISH_STATE, fishReproduction, -1);
+      return FISH_STATE;
     }
 
     //move
@@ -213,8 +212,8 @@ public class PredatorPreyModel extends Model {
 
     move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
         currReproduction, -1, false);
-    addNewUpdates(currRow, currCol, EMPTY, -1, -1);
-    return EMPTY;
+    addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
+    return EMPTY_STATE;
   }
 
   private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
@@ -248,11 +247,11 @@ public class PredatorPreyModel extends Model {
     if (currEnergy <= 0) {
       System.out.println("shark dead");
 
-      addNewUpdates(currRow, currCol, EMPTY, -1, -1);
-      return EMPTY;
+      addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
+      return EMPTY_STATE;
     }
 
-    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, FISH);
+    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, FISH_STATE);
 
     //try to eat
     if (eligibleSpaces.size() >= 1) {
@@ -260,7 +259,7 @@ public class PredatorPreyModel extends Model {
       currEnergy += energyGain;
       attack = true;
     } else {
-      eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY);
+      eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
     }
 
     //shark can't move
@@ -269,24 +268,24 @@ public class PredatorPreyModel extends Model {
 
 //      System.out.println("shark can't move");
 
-      addNewUpdates(currRow, currCol, SHARK, currReproduction, currEnergy);
-      return SHARK;
+      addNewUpdates(currRow, currCol, SHARK_STATE, currReproduction, currEnergy);
+      return SHARK_STATE;
     }
     System.out.println("curr params: "+ currReproduction +" " + currEnergy);
 
     //move
     System.out.println("shark move");
-    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), SHARK,
+    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), SHARK_STATE,
         currReproduction,
         currEnergy, attack);
 
     if (currReproduction == 0) {
       System.out.println("shark reproduce");
-      addNewUpdates(currRow, currCol, SHARK, sharkReproduction, sharkEnergy);
-      return SHARK;
+      addNewUpdates(currRow, currCol, SHARK_STATE, sharkReproduction, sharkEnergy);
+      return SHARK_STATE;
     }else{
-      addNewUpdates(currRow, currCol, EMPTY, -1, -1);
-      return EMPTY;
+      addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
+      return EMPTY_STATE;
     }
 
 

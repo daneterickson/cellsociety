@@ -4,9 +4,11 @@ import java.util.ResourceBundle;
 
 public class SegregationCell extends ModelCell{
 
+  public static final int RACE1_STATE = 1;
+  public static final int RACE2_STATE = 2;
+
   private String myStartColors;
   private ResourceBundle myResources;
-
   private String race1Color;
   private String race1Name;
   private String race2Color;

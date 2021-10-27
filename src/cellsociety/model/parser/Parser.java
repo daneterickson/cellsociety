@@ -1,5 +1,5 @@
 package cellsociety.model.parser;
 
-public interface Parser {
+public abstract class Parser {
 
 }

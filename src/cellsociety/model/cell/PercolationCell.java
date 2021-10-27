@@ -4,10 +4,12 @@ import java.util.ResourceBundle;
 
 public class PercolationCell extends ModelCell{
 
+  public static final int WATER_STATE = 1;
+  public static final int BARRIER_STATE = 2;
+
   private String myStartColors;
   private String myParameters;
   private ResourceBundle myResources;
-
   private String waterName;
   private String waterColor;
   private String barrierName;

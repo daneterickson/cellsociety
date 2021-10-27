@@ -13,7 +13,7 @@ public class SegregationModel extends Model {
   private final int EMPTY = 0;
   private final int RACE1 = 1;
   private final int RACE2 = 2;
-  private double threshold = .50;
+  private double threshold;
   private ArrayList<Integer> emptySpots;
   private Random random;
   private int numCols;
@@ -29,6 +29,12 @@ public class SegregationModel extends Model {
         emptySpots.add(row * numCols + col);
       }
     });
+    try{
+      threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
+    } catch(Exception e){
+      System.out.println("invalid threshold variable");
+      threshold = 0.5;
+    }
   }
 
   @Override

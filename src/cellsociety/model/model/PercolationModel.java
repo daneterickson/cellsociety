@@ -11,7 +11,6 @@ public class PercolationModel extends Model {
   private final int EMPTY = 0;
   private final int WATER = 1;
   private final int BARRIER = 2;
-  private int probCatch;
   private Random random;
 
   public PercolationModel(Controller controller, Grid grid) {

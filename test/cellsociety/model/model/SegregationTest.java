@@ -87,29 +87,4 @@ public class SegregationTest {
     ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
     assertEquals(0, ret, "Cell should be vacated. got: " + ret);
   }
-
-  @Test
-  void testGameOfLife() {
-//    no test here bc can't test random
-//    int[][] expected = new int[][]{{0, 0, 0, 0, 0},
-//        {0, 0, 1, 0, 0},
-//        {0, 0, 1, 0, 0},
-//        {0, 0, 1, 0, 0},
-//        {0, 0, 0, 0, 0}};
-//    try{
-//      myModel.updateModel(myGrid);
-//    }catch (NullPointerException e){
-//
-//    }
-//    for (int row = 0; row < numRows; row++) {
-//      System.out.println("");
-//      for (int col = 0; col < numCols; col++) {
-//        System.out.print(" "+myGrid.getCellState(row, col));
-////        assertEquals(expected[row][col], myGrid.getCellState(row, col), row +", "+col);
-//      }
-//    }
-
-  }
-
-
 }

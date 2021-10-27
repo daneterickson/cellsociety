@@ -1,7 +1,10 @@
 package cellsociety.model.model;
 
+import static java.lang.Integer.parseInt;
+
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,12 +14,18 @@ public class SpreadingOfFireModel extends Model {
   private final int EMPTY = 0;
   private final int TREE = 1;
   private final int BURNING = 2;
-  private double probCatch = 0.9;
+  private double probCatch;
   private Random random;
 
   public SpreadingOfFireModel(Controller controller, Grid grid) {
     super(controller, grid);
     random = new Random();
+    try {
+      probCatch = currGrid.getCell(0, 0).getCellParameter("ProbCatch");
+    }catch (Exception e){
+      System.out.println("invalid probCatch variable");
+      probCatch = 0.5;
+    }
   }
 
   @Override

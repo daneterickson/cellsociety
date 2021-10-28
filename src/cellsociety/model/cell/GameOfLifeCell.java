@@ -4,6 +4,9 @@ import java.util.ResourceBundle;
 
 public class GameOfLifeCell extends ModelCell {
 
+  public static final int DEAD_STATE = 0;
+  public static final int ALIVE_STATE = 1;
+
   private String myStartColors;
   private ResourceBundle myResources;
   private String aliveBlue;
@@ -32,7 +35,7 @@ public class GameOfLifeCell extends ModelCell {
     }
     else {
       String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
-      assignTwoCases(state, deadName, stateColors[0], aliveName, stateColors[1]);
+      assignTwoCases(state, deadName, stateColors[DEAD_STATE], aliveName, stateColors[ALIVE_STATE]);
     }
   }
 

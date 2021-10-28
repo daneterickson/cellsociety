@@ -33,6 +33,7 @@ public class PredatorPreyRule extends Rule {
   public PredatorPreyRule(Grid currGrid, int numCols, int numUpdates, int fishReproduction,
       int sharkReproduction, int sharkEnergy, int energyGain, ArrayList<Integer> newUpdates,
       ArrayList<Integer> sharkAttacks) {
+//    super();
     this.currGrid = currGrid;
     this.numCols = numCols;
     this.numUpdates = numUpdates;
@@ -44,7 +45,7 @@ public class PredatorPreyRule extends Rule {
     this.sharkAttacks = sharkAttacks;
     random = new Random();
   }
-
+  @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
     if (state == EMPTY) {
       return EMPTY;

@@ -1,5 +1,6 @@
 package cellsociety.model.model;
 
+import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
@@ -17,9 +18,6 @@ public class SegregationModel extends Model {
   private GridIterator gridIterator;
   private int numUpdates;
 
-  private final int EMPTY = 0;
-  private final int RACE1 = 1;
-  private final int RACE2 = 2;
   private double threshold;
   private ArrayList<Integer> emptySpots;
   private Random random;
@@ -40,7 +38,7 @@ public class SegregationModel extends Model {
         // TODO: handle exception
         System.out.println("Invalid Property");
       }
-      if (state == EMPTY) {
+      if (state == EMPTY_STATE) {
         emptySpots.add(row * numCols + col);
       }
     });
@@ -60,7 +58,7 @@ public class SegregationModel extends Model {
   }
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get8Nearby(row, col, currGrid, EMPTY);
+    return gridIterator.get8Nearby(row, col, currGrid, EMPTY_STATE);
   }
 
   /**
@@ -68,8 +66,8 @@ public class SegregationModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    if (state == EMPTY) {
-      return EMPTY;
+    if (state == EMPTY_STATE) {
+      return EMPTY_STATE;
     }
 
     double allyPercentage = getAllyPercentage(state, nearby);
@@ -77,7 +75,7 @@ public class SegregationModel extends Model {
     if (allyPercentage < threshold) {
       relocate(state);
       emptySpots.add(currRow*numCols + currCol);
-      return EMPTY;
+      return EMPTY_STATE;
     }
     return state;
   }
@@ -94,7 +92,7 @@ public class SegregationModel extends Model {
     double totalNeighbors = 0;
     double allies = 0;
     for (int i : nearby) {
-      if (i != EMPTY) {
+      if (i != EMPTY_STATE) {
         totalNeighbors += 1;
       }
       if (i == state) {

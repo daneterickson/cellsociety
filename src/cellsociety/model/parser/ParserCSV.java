@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ParserCSV implements Parser{
+public class ParserCSV extends Parser{
 
   private int numRows;
   private int numCols;

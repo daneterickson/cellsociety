@@ -4,9 +4,11 @@ import java.util.ResourceBundle;
 
 public class PredatorPreyCell extends ModelCell {
 
+  public static final int FISH_STATE = 1;
+  public static final int SHARK_STATE = 2;
+
   private String myStartColors;
   private ResourceBundle myResources;
-
   private String fishName;
   private String fishColor;
   private String sharkName;

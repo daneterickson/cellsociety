@@ -1,5 +1,8 @@
 package cellsociety.model.model;
 
+import static cellsociety.model.cell.GameOfLifeCell.ALIVE_STATE;
+import static cellsociety.model.cell.GameOfLifeCell.DEAD_STATE;
+
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.util.ArrayList;
@@ -12,9 +15,6 @@ public class GameOfLifeModel extends Model {
   private Controller myController;
   private GridIterator gridIterator;
   private int numUpdates;
-
-  private final int DEAD_STATE = 0;
-  private final int LIVE_STATE = 1;
 
   public GameOfLifeModel(Controller controller, Grid grid) {
     super(controller, grid);
@@ -41,15 +41,15 @@ public class GameOfLifeModel extends Model {
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
     int population = 0;
     for (int i : nearby) {
-      if (i == LIVE_STATE) {
+      if (i == ALIVE_STATE) {
         population += 1;
       }
     }
     if (state == DEAD_STATE && population == 3) {
-      return LIVE_STATE;
+      return ALIVE_STATE;
     }
-    if (state == LIVE_STATE && (population == 2 || population == 3)) {
-      return LIVE_STATE;
+    if (state == ALIVE_STATE && (population == 2 || population == 3)) {
+      return ALIVE_STATE;
     }
     return DEAD_STATE;
   }

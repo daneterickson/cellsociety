@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class ParserSIM implements Parser {
+public class ParserSIM extends Parser {
 
   private static final String keys[] = {"Type","Title","Author","Description","InitialStates","Parameters","StateColors"};
   private File myFile;

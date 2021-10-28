@@ -13,7 +13,7 @@ public class SpreadingOfFireRule extends Rule {
   private Random random;
 
   public SpreadingOfFireRule () {
-    super();
+//    super();
   }
 
   @Override

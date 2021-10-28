@@ -33,7 +33,7 @@ public class PredatorPreyRule extends Rule {
   public PredatorPreyRule(Grid currGrid, int numCols, int numUpdates, int fishReproduction,
       int sharkReproduction, int sharkEnergy, int energyGain, ArrayList<Integer> newUpdates,
       ArrayList<Integer> sharkAttacks) {
-    super();
+//    super();
     this.currGrid = currGrid;
     this.numCols = numCols;
     this.numUpdates = numUpdates;

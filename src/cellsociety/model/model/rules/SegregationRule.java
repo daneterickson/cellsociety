@@ -12,7 +12,7 @@ public class SegregationRule extends Rule {
   private ArrayList<Integer> myEmptySpots;
 
   public SegregationRule (int threshold, int numCols, ArrayList<Integer> emptySpots) {
-    super();
+//    super();
     myThreshold = threshold;
     myNumCols = numCols;
     myEmptySpots = emptySpots;

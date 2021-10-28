@@ -7,6 +7,7 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.model.rules.SpreadingOfFireRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +34,7 @@ public class SpreadingOfFireModel extends Model {
       System.out.println("invalid probCatch variable");
       probCatch = 0.5;
     }
+    setRule(new SpreadingOfFireRule(probCatch));
   }
 
   private void getBaseInstanceVariables() {

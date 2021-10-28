@@ -7,6 +7,7 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.rules.PercolationRule;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class PercolationModel extends Model {
     super(controller, grid);
     getBaseInstanceVariables();
     getEndEdge();
+    setRule(new PercolationRule());
   }
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();

@@ -6,6 +6,8 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.rules.SegregationRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,6 +19,7 @@ public class SegregationModel extends Model {
   private Controller myController;
   private GridIterator gridIterator;
   private int numUpdates;
+  private SegregationRule mySegregationRule;
 
   private double threshold;
   private ArrayList<Integer> emptySpots;
@@ -48,6 +51,8 @@ public class SegregationModel extends Model {
       System.out.println("invalid threshold variable");
       threshold = 0.5;
     }
+    mySegregationRule = new SegregationRule(threshold, numCols, emptySpots);
+    setRule(mySegregationRule);
   }
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
@@ -59,6 +64,19 @@ public class SegregationModel extends Model {
   @Override
   protected List<Integer> getNearby(int row, int col) {
     return gridIterator.get8Nearby(row, col, currGrid, EMPTY_STATE);
+  }
+
+  @Override
+  protected void updateCell(int row, int col, int state) {
+    List<Integer> nearby = getNearby(row, col);
+    int newState = mySegregationRule.determineState(row, col, state, nearby);
+    if (mySegregationRule.relocationStatus()) {
+      relocate(state);
+      emptySpots.add(row * numCols + col);
+    }
+    if (newState != state) {
+      addNewUpdates(row, col, newState);
+    }
   }
 
   /**

@@ -5,6 +5,8 @@ import static cellsociety.model.cell.GameOfLifeCell.DEAD_STATE;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.model.rules.GameOfLifeRule;
+import cellsociety.model.model.rules.Rule;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class GameOfLifeModel extends Model {
   public GameOfLifeModel(Controller controller, Grid grid) {
     super(controller, grid);
     getBaseInstanceVariables();
-
+    setRule(new GameOfLifeRule());
   }
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();

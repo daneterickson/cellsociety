@@ -20,8 +20,8 @@ public class PredatorPreySettings extends RightPanel{
   private static final int MAX_FISH_E_VAL = 21;
   private static final int START_FISH_E_VAL = 5;
   //TODO set these Strings from the properties file
-  private static final String FISH_REP_LABEL = "Fish Repopulation Rate";
-  private static final String SHARK_REP_LABEL = "Shark Repopulation Rate";
+  private static final String FISH_REP_LABEL = "Fish Re-population Rate";
+  private static final String SHARK_REP_LABEL = "Shark Re-population Rate";
   private static final String SHARK_E_LABEL = "Shark Energy Level";
   private static final String FISH_E_VAL_LABEL = "Fish Energy Level";
 

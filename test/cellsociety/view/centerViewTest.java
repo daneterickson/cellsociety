@@ -43,29 +43,25 @@ public class centerViewTest extends DukeApplicationTest {
 
   @Test
   public void testClickingOnGridInBottomRightAfterOtherClicks(){
-    int stateBeforeClick = myController.getCellStateNumber(9,9);
     clickOn(myGrid, 0,  0);
     clickOn(myGrid, 100,  0);
     clickOn(myGrid, 70,  100);
     clickOn(myGrid, 0,  290);
     clickOn(myGrid, 290,  290);
-    assertEquals(1-stateBeforeClick, myController.getCellStateNumber(9,9));
+    assertEquals(1, myController.getCellStateNumber(9,9));
   }
 
 
   @Test
   public void testClickingOnGridToMakeBlinkerThenStepSim(){
     myStepButton = lookup("#stepButton").query();
-    int stateBeforeClick = myController.getCellStateNumber(3,4);
     clickOn(myGrid, 133,  100);
     clickOn(myGrid, 163,  100);
     clickOn(myGrid, 193,  100);
     clickOn(myStepButton);
     clickOn(myStepButton);
     clickOn(myStepButton);
-    clickOn(myStepButton);
-    clickOn(myStepButton);
-    assertEquals(1-stateBeforeClick, myController.getCellStateNumber(3,4));
+    assertEquals(1, myController.getCellStateNumber(3,5));
   }
 
 }

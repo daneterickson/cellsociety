@@ -52,6 +52,9 @@ public abstract class RightPanel {
     theSlider.setMinorTickCount(NUM_MINOR_TICKS);
     theSlider.setMajorTickUnit(tickSpacing);
     theSlider.setShowTickLabels(ticks);
+    theSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+      //TODO varHere = theSlider.getValue();
+    });
     theSlider.getStyleClass().add(cssLabel);
     theSlider.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return theSlider;

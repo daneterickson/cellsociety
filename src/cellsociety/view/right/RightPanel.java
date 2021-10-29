@@ -10,7 +10,6 @@ import javafx.scene.layout.VBox;
 
 public abstract class RightPanel {
   private VBox theRightPanel;
-  private static final int TICK_SPACING = 5;
   private static final int NUM_MINOR_TICKS = 2;
   protected static final String RESOURCE = "cellsociety.view.right.";
   protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "RightSettings.css";
@@ -46,12 +45,12 @@ public abstract class RightPanel {
     return theButton;
   }
 
-  protected Slider makeASlider(double min, double max, double start, String cssLabel, boolean ticks){
+  protected Slider makeASlider(double min, double max, double start, String cssLabel, boolean ticks, double tickSpacing){
     Slider theSlider = new Slider(min, max, start);
     theSlider.setShowTickMarks(ticks);
     theSlider.setSnapToTicks(true);
     theSlider.setMinorTickCount(NUM_MINOR_TICKS);
-    theSlider.setMajorTickUnit(TICK_SPACING);
+    theSlider.setMajorTickUnit(tickSpacing);
     theSlider.setShowTickLabels(ticks);
     theSlider.getStyleClass().add(cssLabel);
     theSlider.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());

@@ -125,7 +125,7 @@ public class GridView {
     }catch(NonInvertibleTransformException e){
       e.getMessage();
     }
-    myCellProperties.updateCellCordLabel(myMousePos[1], myMousePos[0]);
+    myCellProperties.updateCellCordLabel(myMousePos[0], myMousePos[1]);
   }
 
   private void getMousePosOnGrid(MouseEvent mouseEvent)

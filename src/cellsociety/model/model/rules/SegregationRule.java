@@ -5,7 +5,7 @@ import java.util.List;
 public class SegregationRule extends Rule {
 
   public SegregationRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    super(currRow, currCol, state, nearby);
+    //super(currRow, currCol, state, nearby);
   }
 
   @Override

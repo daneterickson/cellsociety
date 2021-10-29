@@ -8,7 +8,7 @@ public class GameOfLifeRule extends Rule {
   private static final int LIVE_STATE = 1;
 
   public GameOfLifeRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    super(currRow, currCol, state, nearby);
+    //super(currRow, currCol, state, nearby);
   }
 
   @Override

@@ -37,7 +37,7 @@ public class PredatorPreySettings extends RightPanel{
 
   @Override
   protected Node makeSliders(){
-    Group sliderGroup = new Group();
+    VBox sliderGroup = new VBox();
     Slider fishRepSlider = makeASlider(MIN_FISH_REP, MAX_FISH_REP, START_FISH_REP, "fishRepSlider", true);
     Slider sharkRepSlider = makeASlider(MIN_SHARK_REP, MAX_SHARK_REP, START_SHARK_REP, "sharkRepSlider", true);
     Slider sharkEnergySlider = makeASlider(MIN_SHARK_E, MAX_SHARK_E, START_SHARK_E, "sharkEnergySlider", true);

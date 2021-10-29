@@ -28,7 +28,7 @@ public class SegregationSettings extends RightPanel{
 
   @Override
   protected Node makeSliders(){
-    Group sliderGroup = new Group();
+    VBox sliderGroup = new VBox();
     Slider similaritySlider = makeASlider(MIN_SIMILARITY,MAX_SIMILARITY,STARTING_SIMILARITY, "similaritySlider", true);
     sliderGroup.getChildren().add(similaritySlider);
     return sliderGroup;

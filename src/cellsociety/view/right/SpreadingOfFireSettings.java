@@ -25,7 +25,7 @@ public class SpreadingOfFireSettings extends RightPanel{
 
   @Override
   protected Node makeSliders(){
-    Group sliderGroup = new Group();
+    VBox sliderGroup = new VBox();
     Slider probSlider = makeASlider(MIN_PROB,MAX_PROB,STARTING_PROB,"probSlider", true);
     sliderGroup.getChildren().add(probSlider);
     return sliderGroup;}

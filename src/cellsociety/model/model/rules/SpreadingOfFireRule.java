@@ -12,7 +12,7 @@ public class SpreadingOfFireRule extends Rule {
   private Random random;
 
   public SpreadingOfFireRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    super(currRow, currCol, state, nearby);
+    //super(currRow, currCol, state, nearby);
   }
 
   @Override

@@ -33,8 +33,8 @@ public class Controller {
   private Map<String, String> simProperties;
   private ResourceBundle myResources;
 
-  private static final int SCENE_WIDTH = 500;
-  private static final int SCENE_HEIGHT = 500;
+  private static final int SCENE_WIDTH = 600;
+  private static final int SCENE_HEIGHT = 600;
   private static final int DEFAULT_GRID_WIDTH = 10;
   private static final int DEFAULT_GRID_HEIGHT = 10;
   public static final String DEFAULT_STATE_COLORS= "";

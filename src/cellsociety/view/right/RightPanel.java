@@ -4,6 +4,7 @@ package cellsociety.view.right;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
@@ -50,6 +51,13 @@ public abstract class RightPanel {
     theSlider.getStyleClass().add(cssLabel);
     theSlider.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return theSlider;
+  }
+
+  protected Label makeALabel(String text, String cssLabel){
+    Label theLabel = new Label(text);
+    theLabel.getStyleClass().add(cssLabel);
+    theLabel.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    return theLabel;
   }
 
   public VBox getTheRightPanel() {

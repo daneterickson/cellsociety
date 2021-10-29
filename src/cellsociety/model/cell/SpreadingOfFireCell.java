@@ -4,9 +4,11 @@ import java.util.ResourceBundle;
 
 public class SpreadingOfFireCell extends ModelCell{
 
+  public static final int TREE_STATE = 1;
+  public static final int BURN_STATE = 2;
+
   private String myStartColors;
   private ResourceBundle myResources;
-
   private String emptyColor;
   private String treeColor;
   private String treeName;

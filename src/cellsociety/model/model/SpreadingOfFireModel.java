@@ -1,5 +1,8 @@
 package cellsociety.model.model;
 
+import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
+import static cellsociety.model.cell.SpreadingOfFireCell.BURN_STATE;
+import static cellsociety.model.cell.SpreadingOfFireCell.TREE_STATE;
 import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
@@ -16,9 +19,6 @@ public class SpreadingOfFireModel extends Model {
   private GridIterator gridIterator;
   private int numUpdates;
 
-  private final int EMPTY = 0;
-  private final int TREE = 1;
-  private final int BURNING = 2;
   private double probCatch;
   private Random random;
 
@@ -45,7 +45,7 @@ public class SpreadingOfFireModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get4Nearby(row, col, currGrid, EMPTY);
+    return gridIterator.get4Nearby(row, col, currGrid, EMPTY_STATE);
   }
 
   /**
@@ -53,19 +53,19 @@ public class SpreadingOfFireModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    if (state == EMPTY || state == BURNING) {
-      return EMPTY;
+    if (state == EMPTY_STATE || state == BURN_STATE) {
+      return EMPTY_STATE;
     }
 
     for (int neighborState : nearby) {
-      if (neighborState == BURNING) {
+      if (neighborState == BURN_STATE) {
         if (random.nextFloat() < probCatch) {
-          return BURNING;
+          return BURN_STATE;
         }
-        return TREE;
+        return TREE_STATE;
       }
     }
-    return TREE;
+    return TREE_STATE;
   }
 
 }

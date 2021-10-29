@@ -1,5 +1,7 @@
 package cellsociety.model.model;
 
+import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
+import static cellsociety.model.cell.PercolationCell.WATER_STATE;
 import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
@@ -16,9 +18,6 @@ public class PercolationModel extends Model {
   private GridIterator gridIterator;
   private int numUpdates;
 
-  private final int EMPTY = 0;
-  private final int WATER = 1;
-  private final int BARRIER = 2;
   private String endEdge;
 
 
@@ -37,7 +36,7 @@ public class PercolationModel extends Model {
   private String getEndEdge() {
     iterateGrid(row-> col -> {
       try {
-        if (parseInt(currGrid.getCell(row,col).getCellProperty("StateNumber")) == WATER){
+        if (parseInt(currGrid.getCell(row,col).getCellProperty("StateNumber")) == WATER_STATE){
           if (row == 0){
             endEdge = "bottom";
           }
@@ -73,7 +72,7 @@ public class PercolationModel extends Model {
         int r = 0;
         for (int c = 0; c < currGrid.getNumCols();c++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {
@@ -86,7 +85,7 @@ public class PercolationModel extends Model {
         int r = currGrid.getNumRows() - 1;
         for (int c = 0; c < currGrid.getNumCols();c++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {
@@ -99,7 +98,7 @@ public class PercolationModel extends Model {
         int c = 0;
         for (int r = 0; r < currGrid.getNumRows();r++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {
@@ -112,7 +111,7 @@ public class PercolationModel extends Model {
         int c = currGrid.getNumCols() - 1;
         for (int r = 0; r < currGrid.getNumRows();r++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER){
+            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {
@@ -130,7 +129,7 @@ public class PercolationModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get8Nearby(row, col, currGrid, EMPTY);
+    return gridIterator.get8Nearby(row, col, currGrid, EMPTY_STATE);
   }
 
   /**
@@ -138,18 +137,18 @@ public class PercolationModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    if (state == EMPTY) {
+    if (state == EMPTY_STATE) {
       if (findNearbyWater(nearby)) {
-        return WATER;
+        return WATER_STATE;
       }
-      return EMPTY;
+      return EMPTY_STATE;
     }
     return state;
   }
 
   private boolean findNearbyWater(List<Integer> nearby) {
     for (int i : nearby) {
-      if (i == WATER) {
+      if (i == WATER_STATE) {
         return true;
       }
     }

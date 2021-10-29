@@ -30,6 +30,7 @@ public abstract class ModelCell {
   public final String DEFAULT_GREY = myResources.getString("DefaultGrey");
   public final String EMPTY_NAME = myResources.getString("EmptyName");
   public final String PARAMETER_DELIMINATOR = myResources.getString("ParameterDeliminator");
+  public static final int EMPTY_STATE = 0;
 
 
   public ModelCell(int i, int j, String stateColors, String parameters, int state) {
@@ -65,7 +66,7 @@ public abstract class ModelCell {
   private void switchThreeCases(int state, String name0, String color0, String name1, String color1,
       String name2, String color2) {
     switch (state) {
-      case 0 -> {
+      case EMPTY_STATE -> {
         setStateColor(color0);
         setStateName(name0);
       }

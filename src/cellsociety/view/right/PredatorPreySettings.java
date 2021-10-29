@@ -8,16 +8,16 @@ import javafx.scene.layout.VBox;
 
 public class PredatorPreySettings extends RightPanel{
   private static final int MIN_FISH_REP = 1;
-  private static final int MAX_FISH_REP = 20;
+  private static final int MAX_FISH_REP = 21;
   private static final int START_FISH_REP = 5;
   private static final int MIN_SHARK_REP = 1;
-  private static final int MAX_SHARK_REP = 20;
+  private static final int MAX_SHARK_REP = 21;
   private static final int START_SHARK_REP = 5;
   private static final int MIN_SHARK_E = 1;
-  private static final int MAX_SHARK_E = 20;
+  private static final int MAX_SHARK_E = 21;
   private static final int START_SHARK_E = 5;
   private static final int MIN_FISH_E_VAL = 1;
-  private static final int MAX_FISH_E_VAL = 20;
+  private static final int MAX_FISH_E_VAL = 21;
   private static final int START_FISH_E_VAL = 5;
   //TODO set these Strings from the properties file
   private static final String FISH_REP_LABEL = "Fish Repopulation Rate";

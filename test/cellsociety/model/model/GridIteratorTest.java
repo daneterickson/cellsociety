@@ -2,12 +2,8 @@ package cellsociety.model.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
+import cellsociety.model.model.utils.GridIterator;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

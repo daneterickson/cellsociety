@@ -1,4 +1,4 @@
-package cellsociety.model.model;
+package cellsociety.model.model.utils;
 
 import static java.lang.Integer.parseInt;
 
@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridIterator {
-
-  public GridIterator(){}
+  private EdgePolicies edgePolicy;
+  public GridIterator(){
+    edgePolicy = new EdgePolicies();
+  }
 
   /**
    * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]

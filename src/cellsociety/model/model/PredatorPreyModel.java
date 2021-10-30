@@ -10,6 +10,7 @@ import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.rules.PredatorPreyRule;
 import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.utils.GridIterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

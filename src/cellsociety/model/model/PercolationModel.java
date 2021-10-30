@@ -7,6 +7,7 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.utils.GridIterator;
 import java.util.ArrayList;
 import java.util.List;
 

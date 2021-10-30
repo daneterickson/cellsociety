@@ -5,6 +5,7 @@ import static cellsociety.model.cell.GameOfLifeCell.DEAD_STATE;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.model.utils.GridIterator;
 import java.util.ArrayList;
 import java.util.List;
 

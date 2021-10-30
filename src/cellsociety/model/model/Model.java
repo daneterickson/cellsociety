@@ -102,8 +102,8 @@ public abstract class Model { // implements baseModel{
    */
   protected void updateCell(int row, int col, int state) {
     List<Integer> nearby = getNearby(row, col);
-    int newState = myRule.determineState(row, col, state, nearby);
-//    int newState = currRule(row, col, state, nearby);
+//    int newState = myRule.determineState(row, col, state, nearby);
+    int newState = currRule(row, col, state, nearby);
     if (newState != state) {
       addNewUpdates(row, col, newState);
     }

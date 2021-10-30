@@ -7,9 +7,7 @@ import java.util.List;
 
 public class PercolationRule extends Rule {
 
-  public PercolationRule () {
-//    super();
-  }
+  public PercolationRule () {}
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
     if (state == EMPTY_STATE) {

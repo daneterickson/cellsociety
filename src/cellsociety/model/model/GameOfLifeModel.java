@@ -17,11 +17,13 @@ public class GameOfLifeModel extends Model {
   private Controller myController;
   private GridIterator gridIterator;
   private int numUpdates;
+  private Rule myRule;
 
   public GameOfLifeModel(Controller controller, Grid grid) {
     super(controller, grid);
     getBaseInstanceVariables();
-    setRule(new GameOfLifeRule());
+    myRule = new GameOfLifeRule();
+//    setRule(new GameOfLifeRule());
   }
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
@@ -41,19 +43,7 @@ public class GameOfLifeModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    int population = 0;
-    for (int i : nearby) {
-      if (i == ALIVE_STATE) {
-        population += 1;
-      }
-    }
-    if (state == DEAD_STATE && population == 3) {
-      return ALIVE_STATE;
-    }
-    if (state == ALIVE_STATE && (population == 2 || population == 3)) {
-      return ALIVE_STATE;
-    }
-    return DEAD_STATE;
+    return myRule.determineState(currRow, currCol, state, nearby);
   }
 
 }

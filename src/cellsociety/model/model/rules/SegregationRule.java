@@ -13,7 +13,6 @@ public class SegregationRule extends Rule {
   private boolean relocateCheck = false;
 
   public SegregationRule(double threshold, int numCols, ArrayList<Integer> emptySpots) {
-//    super();
     myThreshold = threshold;
     myNumCols = numCols;
     myEmptySpots = emptySpots;
@@ -32,14 +31,6 @@ public class SegregationRule extends Rule {
     }
     return state;
   }
-
-//  private void relocate(int state) {
-//    int idx = random.nextInt(myEmptySpots.size());
-//    int r = myEmptySpots.get(idx) / myNumCols;
-//    int c = myEmptySpots.get(idx) % myNumCols;
-//    myEmptySpots.remove(idx);
-//    addNewUpdates(r, c, state);
-//  }
 
   /**
    * Getter method that gets the relocation status to know when to relocate a cell.

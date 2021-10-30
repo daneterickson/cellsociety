@@ -58,7 +58,7 @@ public class SegregationModel extends Model {
   }
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get8Nearby(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareComplete(row, col, currGrid, EMPTY_STATE);
   }
 
   /**

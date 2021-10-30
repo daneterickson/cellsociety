@@ -11,8 +11,6 @@ import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.rules.PredatorPreyRule;
 import cellsociety.model.model.rules.Rule;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -119,7 +117,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get4Nearby(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareEdges(row, col, currGrid, EMPTY_STATE);
   }
 
   @Override

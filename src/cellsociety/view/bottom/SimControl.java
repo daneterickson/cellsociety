@@ -145,7 +145,7 @@ public class SimControl {
   private void step() {
     if(myController.getHasUpdate()){
       myController.updateModels();
-      myGridView.updateGrid();
+      myGridView.updateGrids();
     }
   }
 

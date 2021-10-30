@@ -10,11 +10,8 @@ import cellsociety.view.right.RightPanel;
 import cellsociety.view.top.TopLoadSave;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
@@ -56,7 +53,7 @@ public class MainView {
    * Updates the canvas (grid) in the view.
    */
   public void updateView() {
-    myGridView.updateGrid();
+    myGridView.updateGrids();
   }
 
   public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }

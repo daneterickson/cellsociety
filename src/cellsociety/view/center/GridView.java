@@ -23,6 +23,7 @@ public class GridView {
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   private static final double GRID_LINE_SIZE = .04;
+  private static final double SELECTED_LINE_SIZE = .15;
 
 
   private String RESOURCE = "cellsociety.view.center.";
@@ -74,8 +75,11 @@ public class GridView {
    * of new changes to the grid model. This should be called after each update of a cell value.
    */
   public void updateGrids() {
+    int curGrid = myGridNum;
     for (int i = 0; i < myCanvasList.size(); i++) {
       //GraphicsContext gc = this.myCanvas.getGraphicsContext2D();
+      myController.setCurrentGridNumber(i);
+      myGridNum = i;
       Canvas curCanvas = myCanvasList.get(i);
       GraphicsContext gc = curCanvas.getGraphicsContext2D();
       gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
@@ -83,6 +87,8 @@ public class GridView {
       updateCellColors(gc);
       drawGridLines(gc);
     }
+    myGridNum = curGrid;
+    drawSelectedGridIndicatorLines();
   }
 
   /**
@@ -124,7 +130,7 @@ public class GridView {
     GraphicsContext gc = curCanvas.getGraphicsContext2D();
     gc.setTransform(myAffineList.get(myGridNum));
     gc.setStroke(SELECTED_GRID_COLOR);
-    gc.setLineWidth(GRID_LINE_SIZE);
+    gc.setLineWidth(SELECTED_LINE_SIZE);
     int numRows = myNumGridRowsList.get(myGridNum);
     int numCols = myNumGridColsList.get(myGridNum);
     gc.strokeLine(0,0,numCols, 0); //Draw Top Line
@@ -136,8 +142,8 @@ public class GridView {
 
   private void handleCellClicked(MouseEvent mouseEvent) {
     try{
-      getMousePosOnGrid(mouseEvent);
       updateGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
+      getMousePosOnGrid(mouseEvent);
       drawSelectedGridIndicatorLines();
     }catch(NonInvertibleTransformException e){
       e.getMessage();
@@ -218,7 +224,8 @@ public class GridView {
     tempCanvas.setOnMouseClicked(e -> handleCellClicked(e));
     tempCanvas.setOnMouseMoved(e -> handleCellHovered(e));
     tempCanvas.setId("canvas");
-    myCanvasList.add(tempCanvas);
+    if(myGridNum == myCanvasList.size()) {myCanvasList.add(tempCanvas);}
+    else{myCanvasList.add(myGridNum, tempCanvas);}
     addAffineToList();
   }
 
@@ -226,6 +233,7 @@ public class GridView {
   public void addGridToCenter(){
     myNumGridRowsList.add(0);
     myNumGridColsList.add(0);
+    myController.addDefaultSimPropMap();
     myAffineList.add(new Affine());
     myController.setCurrentGridNumber(myCanvasList.size());
     myGridNum = myController.getCurrentGridNumber();
@@ -234,6 +242,20 @@ public class GridView {
     addCanvasToList();
     myGridHolder.getChildren().add(myCanvasList.get(myGridNum));
     initiateGrid();
+    updateOtherGridSizing();
+  }
+
+  private void updateOtherGridSizing(){
+    int curGridNum = myGridNum;
+    for (int gridNum = 0; gridNum < curGridNum; gridNum++) {
+      myController.setCurrentGridNumber(gridNum);
+      findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
+      //myCanvasList.remove(gridNum);
+      //addCanvasToList();
+    }
+
+    myGridNum = curGridNum;
+    myController.setCurrentGridNumber(curGridNum);
   }
 
 

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -171,12 +172,17 @@ public class Controller {
   private void readSIMFile(File simFile) {
     try {
       myParserSIM.readFile(simFile);
-      if(simPropertiesList.size()>0){simPropertiesList.remove(currentGridNumber);}
+      if(simPropertiesList.size()==currentGridNumber){simPropertiesList.add(null);}
       simPropertiesList.add(currentGridNumber, myParserSIM.getMap());
+      simPropertiesList.remove(currentGridNumber+1);
     } catch (FileNotFoundException | NoSuchFieldException e) {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
+  }
+
+  public void addDefaultSimPropMap(){
+    simPropertiesList.add(new HashMap<>() );
   }
 
   public void setLang(String langString) {

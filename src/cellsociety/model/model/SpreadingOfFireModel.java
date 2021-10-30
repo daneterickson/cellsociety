@@ -47,7 +47,7 @@ public class SpreadingOfFireModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get4Nearby(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareEdges(row, col, currGrid, EMPTY_STATE);
   }
 
   /**

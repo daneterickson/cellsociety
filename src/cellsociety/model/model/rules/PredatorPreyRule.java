@@ -33,7 +33,7 @@ public class PredatorPreyRule extends Rule {
   public PredatorPreyRule(Grid currGrid, int numCols, int numUpdates, int fishReproduction,
       int sharkReproduction, int sharkEnergy, int energyGain, ArrayList<Integer> newUpdates,
       ArrayList<Integer> sharkAttacks) {
-//    super();
+    super();
     this.currGrid = currGrid;
     this.numCols = numCols;
     this.numUpdates = numUpdates;
@@ -100,8 +100,8 @@ public class PredatorPreyRule extends Rule {
   }
 
   private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
-    System.out.println(
-        sharkEnergy + " " + sharkReproduction + " " + fishReproduction + " " + energyGain);
+//    System.out.println(
+//        "shark energy: "+sharkEnergy + "shark repro: " + sharkReproduction + "fish repro: " + fishReproduction + "energy gain: " + energyGain);
     ArrayList<Integer> eligibleSpaces;
     int currReproduction = 0;
     boolean attack = false;

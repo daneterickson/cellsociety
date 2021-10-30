@@ -2,6 +2,8 @@ package cellsociety.view.center;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.left.CellProperties;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -27,22 +29,24 @@ public class GridView {
   private double myGridHeight;
   private Integer[] myMousePos;
 
-  private Canvas myCanvas;
-  private Affine myAffine;
+  //private Canvas myCanvas;
+  private List<Canvas> myCanvasList;
+  private List<Affine> myAffineList;
   private HBox myGridHolder;
   private CellProperties myCellProperties;
   private Controller myController;
 
 
   public GridView(CellProperties cellProps, Controller controller) {
+    myCanvasList = new ArrayList<>();
     myMousePos = new Integer[2];
     myGridHolder = new HBox();
     myController = controller;
     myCellProperties = cellProps;
-    findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
-    setupCanvas();
-    myGridHolder.getChildren().add(myCanvas);
-    makeAffine();
+    findOptimalGridSizing(myController.getNumGridRows(0), myController.getNumGridCols(0));
+    addCanvasToList();
+    myGridHolder.getChildren().add(myCanvasList.get(0));
+    addAffineToList();
     setStyles();
   }
 
@@ -77,7 +81,7 @@ public class GridView {
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     myCanvas.setWidth(myGridWidth);
     myCanvas.setHeight(myGridHeight);
-    makeAffine();
+    addAffineToList();
     updateGrid();
   }
 
@@ -165,16 +169,17 @@ public class GridView {
     }
   }
 
-  private void makeAffine() {
-    myAffine = new Affine();
-    myAffine.appendScale(myGridWidth / myNumGridCols, myGridHeight / myNumGridRows);
+  private void addAffineToList() {
+    Affine tempAffine = new Affine();
+    tempAffine.appendScale(myGridWidth / myNumGridCols, myGridHeight / myNumGridRows);
+    myAffineList.add(tempAffine);
   }
 
-  private void setupCanvas() {
-    myCanvas = new Canvas(myGridWidth, myGridHeight);
-    myCanvas.setOnMouseClicked(e -> handleCellClicked(e));
-    myCanvas.setOnMouseMoved(e -> handleCellHovered(e));
-    myCanvas.setId("canvas");
+  private void addCanvasToList() {//TODO specify the canvas number?
+    Canvas tempCanvas = new Canvas(myGridWidth, myGridHeight);
+    tempCanvas.setOnMouseClicked(e -> handleCellClicked(e));
+    tempCanvas.setOnMouseMoved(e -> handleCellHovered(e));
+    tempCanvas.setId("canvas");
   }
 
 

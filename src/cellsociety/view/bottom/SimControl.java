@@ -37,6 +37,7 @@ public class SimControl {
   private static final double MAX_SLIDER_VAL = 3;
   private static final double INITIAL_RATE = 1;
   private static final int ICON_SIZE = 20;
+  private static final String ADD_GRID_BUTTON_TEXT = "Add Grid"; //TODO replace hardcoded string
 
   private double myAnimationRate;
   private VBox mySimControl;
@@ -84,6 +85,7 @@ public class SimControl {
     HBox buttonHBox = new HBox(BUTTON_SPACING);
     buttonHBox.getChildren().add(makePlayPauseButton());
     buttonHBox.getChildren().add(makeStepButton());
+    buttonHBox.getChildren().add(makeAddGridButton());
     buttonHBox.getStyleClass().add("buttons");
     return buttonHBox;
   }
@@ -149,6 +151,14 @@ public class SimControl {
     }
   }
 
+  private Button makeAddGridButton(){
+    Button button = new Button(ADD_GRID_BUTTON_TEXT);
+    button.setOnAction(e -> myGridView.addGridToCenter());
+    button.getStyleClass().add("addGridButton");
+    button.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    button.setId("addGridButton");
+    return button;
+  }
 
   private Node makeLangButton() {
     HBox langHBox = new HBox();

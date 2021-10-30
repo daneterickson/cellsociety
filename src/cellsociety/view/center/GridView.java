@@ -23,7 +23,7 @@ public class GridView {
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   private static final double GRID_LINE_SIZE = .04;
-  private static final String ADD_GRID_BUTTON_TEXT = "Add Grid";
+
 
   private String RESOURCE = "cellsociety.view.center.";
   private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "GridView.css";
@@ -55,8 +55,6 @@ public class GridView {
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
     myGridHolder.getChildren().add(myCanvasList.get(myGridNum));
-    //addAffineToList();
-    myGridHolder.getChildren().add(makeAddGridButton());
     setStyles();
   }
 
@@ -224,15 +222,8 @@ public class GridView {
     addAffineToList();
   }
 
-  private Button makeAddGridButton(){
-    Button button = new Button(ADD_GRID_BUTTON_TEXT);
-    button.setOnAction(e -> addGridToCenter());
-    button.getStyleClass().add("addGridButton");
-    button.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    return button;
-  }
 
-  private void addGridToCenter(){
+  public void addGridToCenter(){
     myNumGridRowsList.add(0);
     myNumGridColsList.add(0);
     myAffineList.add(new Affine());

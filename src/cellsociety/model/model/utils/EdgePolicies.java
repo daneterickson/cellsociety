@@ -5,7 +5,7 @@ import cellsociety.model.Grid;
 public class EdgePolicies {
   public EdgePolicies(){}
 
-  public int finite(int row, int col, Grid grid){
+  public int finite(int row, int col, Grid grid) {
     return 0;
   }
 

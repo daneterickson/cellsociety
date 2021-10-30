@@ -46,27 +46,6 @@ public class PredatorPreyTest {
   }
 
   @Test
-  void testGetNearby()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
-    getNearby.setAccessible(true);
-
-    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2, 2);
-
-    int empty = 0;
-    int fish = 0;
-    for (int i : neighbors) {
-      if (i == 0) {
-        empty += 1;
-      } else if (i == 1) {
-        fish += 1;
-      }
-    }
-    assertEquals(1, empty, "(2,2) should have 1 empty neighbors. got: " + empty);
-    assertEquals(2, fish, "(2,2) should have 2 fish neighbors. got: " + fish);
-  }
-
-  @Test
   void testCurrRuleMovement()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,

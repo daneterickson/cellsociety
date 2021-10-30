@@ -41,23 +41,6 @@ public class GameOfLifeModelTest {
   }
 
   @Test
-  void testGetNearby()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
-    getNearby.setAccessible(true);
-
-    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 1, 2);
-
-    int population = 0;
-    for (int i : neighbors) {
-      if (i == 1) {
-        population += 1;
-      }
-    }
-    assertEquals(3, population, "(1,2) should have 3 live neighbors. got: " + population);
-  }
-
-  @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
@@ -115,7 +98,7 @@ public class GameOfLifeModelTest {
       System.out.println();
       for (int col = 0; col < numCols; col++) {
         System.out.print(" " + myGrid.getCellStateNumber(row, col));
-//        assertEquals(expected[row][col], myGrid.getCellState(row, col), row +", "+col);
+        assertEquals(expected[row][col], myGrid.getCellStateNumber(row, col), row +", "+col);
       }
     }
 

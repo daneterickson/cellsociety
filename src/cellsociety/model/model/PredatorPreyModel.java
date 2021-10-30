@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class PredatorPreyModel extends Model {
+
   //base class variables
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
@@ -66,13 +67,14 @@ public class PredatorPreyModel extends Model {
   @Override
   public void updateModel(Grid currGrid) {
     this.currGrid = currGrid;
-    iterateGrid(iterateGridLambda(currGrid, row->col->state -> iterateSharks(row,col,state)));
-    iterateGrid(iterateGridLambda(currGrid, row->col->state -> iterateOthers(row,col,state)));
+    iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateSharks(row, col, state)));
+    iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateOthers(row, col, state)));
     updateGrid();
     myController.setHasUpdate(true);
   }
 
-  private Function<Integer, Consumer<Integer>> iterateGridLambda(Grid currGrid, Function<Integer, Function<Integer, Consumer<Integer>>> iteratorTarget) {
+  private Function<Integer, Consumer<Integer>> iterateGridLambda(Grid currGrid,
+      Function<Integer, Function<Integer, Consumer<Integer>>> iteratorTarget) {
     return row -> col -> {
       try {
         String currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
@@ -156,7 +158,7 @@ public class PredatorPreyModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return rule.determineState(currRow,currCol,state,nearby);
+    return rule.determineState(currRow, currCol, state, nearby);
   }
 
 }

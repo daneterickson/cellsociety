@@ -38,7 +38,7 @@ public class PredatorPreyModel extends Model {
   private int energyGain;
   private ArrayList<Integer> sharkAttacks;
   private int numCols;
-  private Rule rule;
+  private Rule myRule;
 
 
   public PredatorPreyModel(Controller controller, Grid grid) {
@@ -49,7 +49,7 @@ public class PredatorPreyModel extends Model {
     sharkAttacks = new ArrayList<>();
     numCols = currGrid.getNumCols();
     getBaseParameters();
-    rule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
         sharkEnergy, energyGain, newUpdates,
         sharkAttacks);
   }
@@ -156,7 +156,7 @@ public class PredatorPreyModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return rule.determineState(currRow, currCol, state, nearby);
+    return myRule.determineState(currRow, currCol, state, nearby);
   }
 
 }

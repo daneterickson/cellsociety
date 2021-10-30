@@ -5,6 +5,9 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.rules.GameOfLifeRule;
+import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.rules.SpreadingOfFireRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -12,6 +15,7 @@ import java.util.function.Function;
 
 public abstract class Model { // implements baseModel{
 
+  private Rule myRule;
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
@@ -25,6 +29,10 @@ public abstract class Model { // implements baseModel{
     currGrid = grid;
     gridIterator = new GridIterator();
     numUpdates = 3;
+  }
+
+  protected void setRule (Rule rule) {
+    myRule = rule;
   }
 
   protected Grid getCurrGrid() {
@@ -94,6 +102,7 @@ public abstract class Model { // implements baseModel{
    */
   protected void updateCell(int row, int col, int state) {
     List<Integer> nearby = getNearby(row, col);
+//    int newState = myRule.determineState(row, col, state, nearby);
     int newState = currRule(row, col, state, nearby);
     if (newState != state) {
       addNewUpdates(row, col, newState);

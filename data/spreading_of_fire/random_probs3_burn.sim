@@ -1,0 +1,6 @@
+Type=SpreadingOfFire
+Title=Burn Probabilities
+Author=Dane Erickson
+Description=Populate cells in 5x5 grid all to burn
+InitialStates=5,5,0,0,1
+Parameters=0.55

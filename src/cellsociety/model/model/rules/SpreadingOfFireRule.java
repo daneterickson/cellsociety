@@ -9,11 +9,13 @@ import java.util.Random;
 
 public class SpreadingOfFireRule extends Rule {
 
-  private double probCatch;
+  private double myProbCatch;
   private Random random;
 
-  public SpreadingOfFireRule () {
+  public SpreadingOfFireRule (double probCatch) {
 //    super();
+    myProbCatch = probCatch;
+    random = new Random();
   }
 
   @Override
@@ -24,7 +26,7 @@ public class SpreadingOfFireRule extends Rule {
 
     for (int neighborState : nearby) {
       if (neighborState == BURN_STATE) {
-        if (random.nextFloat() < probCatch) {
+        if (random.nextFloat() < myProbCatch) {
           return BURN_STATE;
         }
         return TREE_STATE;

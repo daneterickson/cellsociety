@@ -6,6 +6,7 @@ public class GameOfLifeCell extends ModelCell {
 
   public static final int DEAD_STATE = 0;
   public static final int ALIVE_STATE = 1;
+  public static final int GAME_OF_LIFE_CASES = 2;
 
   private String myStartColors;
   private ResourceBundle myResources;

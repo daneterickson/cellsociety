@@ -1,0 +1,6 @@
+Type=SpreadingOfFire
+Title=Empty Probabilities
+Author=Dane Erickson
+Description=Populate cells in 5x5 grid all to empty
+InitialStates=5,5,1,0,0
+Parameters=0.55

@@ -6,6 +6,9 @@ import cellsociety.model.cell.ModelCellInterface;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Class to create a Grid object, which stores all the ModelCells at their correct location.
+ */
 public class Grid {
 
   private int myNumRows;
@@ -15,6 +18,16 @@ public class Grid {
   private String myStateColors;
   private String myParameters;
 
+  /**
+   * Constructor to create a Grid object using information provided from the SIM and CSV files.
+   *
+   * @param rows is the number of rows for the Grid
+   * @param cols is the number of columns for the Grid
+   * @param startStates is a 2D array of the start states for the simulation
+   * @param stateColors is a comma separated String of the state colors for each state
+   * @param parameters is a comma separated String of the parameters for the simulation
+   * @param type is a String for the simulation type ("GameOfLife", "Percolation", etc.)
+   */
   public Grid(int rows, int cols, int[][] startStates, String stateColors, String parameters,
       String type) {
     myNumRows = rows;
@@ -39,6 +52,33 @@ public class Grid {
     }
   }
 
+  /**
+   * Getter method to get the state of a specific cell in the Grid.
+   *
+   * @param i is the row position of the cell
+   * @param j is the column position of the cell
+   * @return the state (int) of the cell
+   */
+  public int getCellStateNumber(int i, int j) {
+    try {
+      return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
+    } catch (KeyNotFoundException e) {
+      System.out.println("Invalid Property");
+      return 0;
+    }
+  }
+
+  /**
+   * Getter method to get a ModelCell object at a specific location.
+   *
+   * @param i is the row position of the cell
+   * @param j is the column position of the cell
+   * @return the ModelCell at the given location
+   */
+  public ModelCell getCell(int i, int j) {
+    return myGrid[i][j];
+  }
+
   private void setCell(int i, int j, int state) throws ClassNotFoundException {
     Class<?> clazz = Class.forName(myCellType);
     ModelCell newCell;
@@ -53,27 +93,31 @@ public class Grid {
     }
   }
 
-  public int getCellStateNumber(int i, int j) {
-    try {
-      return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
-    } catch (KeyNotFoundException e) {
-      System.out.println("Invalid Property");
-      return 0;
-    }
-  }
-
-  public ModelCellInterface getCell(int i, int j) {
-    return myGrid[i][j];
-  }
-
+  /**
+   * Updates the state of a cell at a given position
+   *
+   * @param i is the row position of the cell
+   * @param j is the column position of the cell
+   * @param state is the new state for the cell
+   */
   public void updateCell(int i, int j, int state) {
     myGrid[i][j].changeState(state);
   }
 
+  /**
+   * Getter method to get the number of columns of the Grid
+   *
+   * @return the number of columns in the Grid
+   */
   public int getNumCols() {
     return myNumCols;
   }
 
+  /**
+   * Getter method to get the number of rows of the Grid
+   *
+   * @return the number of rows in the Grid
+   */
   public int getNumRows() {
     return myNumRows;
   }

@@ -1,12 +1,10 @@
 package cellsociety.model.model;
 
-import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
-import static cellsociety.model.cell.SpreadingOfFireCell.BURN_STATE;
-import static cellsociety.model.cell.SpreadingOfFireCell.TREE_STATE;
 import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.model.utils.GridIterator;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.rules.SpreadingOfFireRule;
 import java.util.ArrayList;
@@ -47,7 +45,7 @@ public class SpreadingOfFireModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareEdges(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareEdges(row, col, currGrid);
   }
 
   /**

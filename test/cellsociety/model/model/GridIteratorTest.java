@@ -2,12 +2,9 @@ package cellsociety.model.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
+import cellsociety.model.model.utils.FiniteEdgePolicy;
+import cellsociety.model.model.utils.GridIterator;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +22,7 @@ public class GridIteratorTest {
 
   @BeforeEach
   void setUp() {
-    myGridIterator = new GridIterator();
+    myGridIterator = new GridIterator(new FiniteEdgePolicy());
     myStates = new int[][]{{0, 0, 0, 0, 0},
         {0, 2, 1, 2, 0},
         {0, 0, 1, 2, 0},
@@ -41,7 +38,7 @@ public class GridIteratorTest {
 
   @Test
   void testSquareComplete(){
-    List<Integer> neighbors = myGridIterator.getSquareComplete(row,col,myGrid,0);
+    List<Integer> neighbors = myGridIterator.getSquareComplete(row,col,myGrid);
 
     int population = 0;
     for (int i : neighbors) {
@@ -57,7 +54,7 @@ public class GridIteratorTest {
 
   @Test
   void testSquareEdges(){
-    List<Integer> neighbors = myGridIterator.getSquareEdges(row,col,myGrid,0);
+    List<Integer> neighbors = myGridIterator.getSquareEdges(row,col,myGrid);
 
     int population = 0;
     for (int i : neighbors) {
@@ -74,7 +71,7 @@ public class GridIteratorTest {
   @Test
   void testSquareCorners(){
 
-    List<Integer> neighbors = myGridIterator.getSquareCorners(row,col,myGrid,0);
+    List<Integer> neighbors = myGridIterator.getSquareCorners(row,col,myGrid);
 
     int population = 0;
     for (int i : neighbors) {
@@ -96,7 +93,7 @@ public class GridIteratorTest {
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
 
-    neighbors = myGridIterator.getSquareCorners(row,col,myGrid,0);
+    neighbors = myGridIterator.getSquareCorners(row,col,myGrid);
 
     population = 0;
     for (int i : neighbors) {

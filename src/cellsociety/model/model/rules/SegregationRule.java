@@ -12,12 +12,24 @@ public class SegregationRule extends Rule {
   private ArrayList<Integer> myEmptySpots;
   private boolean relocateCheck = false;
 
+  /**
+   * Subclass of Rule that makes a rule for the Segregation simulation to find a cell's new state
+   */
   public SegregationRule(double threshold, int numCols, ArrayList<Integer> emptySpots) {
     myThreshold = threshold;
     myNumCols = numCols;
     myEmptySpots = emptySpots;
   }
 
+  /**
+   * Overridden method to determine the state for a SegregationRule
+   *
+   * @param currRow is the current row of the cell being evaluated
+   * @param currCol is the current column of the cell being evaluated
+   * @param state   is the current state of the cell being evaluated
+   * @param nearby  is a list of the states of the nearby cells
+   * @return the new state for the cell being evaluated
+   */
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
     relocateCheck = false;
@@ -33,12 +45,12 @@ public class SegregationRule extends Rule {
   }
 
   /**
-   * Getter method that gets the relocation status to know when to relocate a cell.
-   * Relocation Status determined in determineState() method.
+   * Getter method that gets the relocation status to know when to relocate a cell. Relocation
+   * Status determined in determineState() method.
    *
    * @return relocateCheck is the boolean of whether to relocate
    */
-  public boolean relocationStatus () {
+  public boolean relocationStatus() {
     return relocateCheck;
   }
 

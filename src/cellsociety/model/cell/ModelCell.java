@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Super class for the model cells for each simulation type. Each object stores its position, state,
+ * and other properties like color and parameters for the simulation. Methods allow programmer to
+ * get and set some properties for the cell.
+ */
 public abstract class ModelCell implements ModelCellInterface, ViewCellInterface {
 
   private int myRow;
@@ -32,7 +37,15 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
   public final String PARAMETER_DELIMINATOR = myResources.getString("ParameterDeliminator");
   public static final int EMPTY_STATE = 0;
 
-
+  /**
+   * Constructor for a ModelCell object, which is the super class of each simulation cell type
+   *
+   * @param i           is the row position of the cell being created
+   * @param j           is the column position of the cell being created
+   * @param stateColors is a comma separated String of the state colors for each state
+   * @param parameters  is a comma separated String of the parameters (may be "" for no parameters)
+   * @param state       is the state of the cell being created
+   */
   public ModelCell(int i, int j, String stateColors, String parameters, int state) {
     myRow = i;
     myCol = j;
@@ -103,16 +116,45 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
     myStateColor = color;
     myCellProperties.put(STATE_COLOR_KEY, color);
   }
+  /**
+   * Changes the ModelCell's state based on the inputted value.
+   *
+   * @param newState is the new state for the cell
+   * @throws IndexOutOfBoundsException if the newState is greater than the mas acceptable state
+   */
+  public void changeState(int newState) throws IndexOutOfBoundsException {
+    if (newState >= numCases) {
+      throw new IndexOutOfBoundsException();
+    }
+    myStateNumber = newState;
+    myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(newState));
+    assignState(newState);
+  }
 
   protected void setStateName(String name) {
     myStateName = name;
     myCellProperties.put(STATE_NAME_KEY, name);
   }
 
+  /**
+   * Sets a parameter for the cell based on the inputted key for the parameter map and new value.
+   * Parameters include info like probCatch and PredatorPrey energy levels and is only used in back
+   * end
+   *
+   * @param key   is the key for the specific parameter in the parameters map
+   * @param value is the new value of the parameter
+   */
   public void setCellParameter(String key, Double value) {
     myCellParameters.put(key, value);
   }
 
+  /**
+   * Finds the value of a given parameter for the cell, which is only used in back end.
+   *
+   * @param parameter is the key for the specific parameter in the parameters map
+   * @return the Double value for the inputted parameter
+   * @throws KeyNotFoundException if there is no matching parameter in the parameters map
+   */
   public Double getCellParameter(String parameter) throws KeyNotFoundException {
     if (!myCellParameters.containsKey(parameter)) {
       throw new KeyNotFoundException("Invalid Parameter");
@@ -120,20 +162,19 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
     return myCellParameters.get(parameter);
   }
 
+  /**
+   * Finds the String value of a specific property for the cell.
+   * Properties include info like state number, state name, etc.
+   *
+   * @param property is the String key for the specific property in the properties map
+   * @return the String value for the inputted property type
+   * @throws KeyNotFoundException if there is no matching property in the properties map
+   */
   public String getCellProperty(String property) throws KeyNotFoundException {
     if (!myCellProperties.containsKey(property)) {
       throw new KeyNotFoundException("Invalid Property");
     }
     return myCellProperties.get(property);
-  }
-
-  public void changeState(int newState) {
-    if (newState >= numCases) {
-      throw new IndexOutOfBoundsException();
-    }
-    myStateNumber = newState;
-    myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(newState));
-    assignState(newState);
   }
 
 }

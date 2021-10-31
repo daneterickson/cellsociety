@@ -6,6 +6,7 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.utils.GridIterator;
 import cellsociety.model.model.rules.SegregationRule;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class SegregationModel extends Model {
   }
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareComplete(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareComplete(row, col, currGrid);
   }
 
   /**

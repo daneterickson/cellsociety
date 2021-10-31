@@ -214,7 +214,7 @@ public class Controller {
     return currGrid;
   }
 
-  public Map getMap() {
+  public Map getSimPropertiesMap() {
     return simProperties;
   }
 }

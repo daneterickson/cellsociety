@@ -2,6 +2,9 @@ package cellsociety.model.cell;
 
 import java.util.ResourceBundle;
 
+/**
+ * Subclass of ModelCell that makes a cell for each spot in Segregation simulation
+ */
 public class SegregationCell extends ModelCell {
 
   public static final int RACE1_STATE = 1;
@@ -16,11 +19,20 @@ public class SegregationCell extends ModelCell {
   private String defaultThreshold;
   private String similarityThresholdKey;
 
-  public SegregationCell(int i, int j, String startColors, String parameters, int state) {
-    super(i, j, startColors, parameters, state);
+  /**
+   * Constructor for a SegregationCell object, which is extended from the ModelCell super class
+   *
+   * @param i           is the row position of the cell being created
+   * @param j           is the column position of the cell being created
+   * @param stateColors is a comma separated String of the state colors for each state
+   * @param parameters  is a comma separated String of the parameters (may be "" for no parameters)
+   * @param state       is the state of the cell being created
+   */
+  public SegregationCell(int i, int j, String stateColors, String parameters, int state) {
+    super(i, j, stateColors, parameters, state);
     myResources = getMyResources();
     assignConstants();
-    myStartColors = startColors;
+    myStartColors = stateColors;
     if (parameters == null) {
       parameters = defaultThreshold; // default 50% similarity threshold
     }

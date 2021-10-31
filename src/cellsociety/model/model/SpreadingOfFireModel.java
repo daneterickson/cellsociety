@@ -56,4 +56,15 @@ public class SpreadingOfFireModel extends Model {
     return myRule.determineState(currRow, currCol, state, nearby);
   }
 
+  @Override
+  protected void setProb(ArrayList newProb) {
+    probCatch = (double) newProb.get(0);
+    myRule = new SpreadingOfFireRule(probCatch);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
+  }
+
 }

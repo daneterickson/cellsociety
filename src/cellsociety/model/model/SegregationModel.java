@@ -6,6 +6,7 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.rules.SpreadingOfFireRule;
 import cellsociety.model.model.utils.GridIterator;
 import cellsociety.model.model.rules.SegregationRule;
 import java.util.ArrayList;
@@ -84,6 +85,17 @@ public class SegregationModel extends Model {
     int c = emptySpots.get(idx) % numCols;
     emptySpots.remove(idx);
     addNewUpdates(r, c, state);
+  }
+
+  @Override
+  protected void setProb(ArrayList newProb) {
+    threshold = (double) newProb.get(0);
+    myRule = new SegregationRule(threshold, numCols, emptySpots);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
   }
 
 }

@@ -1,6 +1,8 @@
 package cellsociety.view.right;
 
 
+import cellsociety.controller.Controller;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -15,9 +17,11 @@ public abstract class RightPanel {
   protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "RightSettings.css";
 
   private ResourceBundle myResource;
+  private Controller myController;
 
-  public RightPanel(ResourceBundle bundle) {
+  public RightPanel(ResourceBundle bundle, Controller controller) {
     myResource = bundle;
+    myController = controller;
     theRightPanel = new VBox();
     makeSettingsPanel(theRightPanel);
   }
@@ -29,6 +33,8 @@ public abstract class RightPanel {
   protected abstract Node makeSliders();
 
   protected abstract Node makeTextBox();
+
+  protected abstract void setProbSettings(ArrayList probability);
 
 
   protected Node makeAButton(String className, String buttonAction, String label) {
@@ -70,5 +76,16 @@ public abstract class RightPanel {
   public VBox getTheRightPanel() {
     return theRightPanel;
   }
+
+  public ResourceBundle getMyResource() { return myResource; }
+
+  public Node setResource(ResourceBundle bundle) {
+    myResource = bundle;
+    theRightPanel = new VBox();
+    makeSettingsPanel(theRightPanel);
+    return theRightPanel;
+  }
+
+  protected Controller getMyController() { return myController; }
 
 }

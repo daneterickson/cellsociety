@@ -5,9 +5,9 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
-import cellsociety.model.model.utils.EdgePolicies;
-import cellsociety.model.model.utils.FiniteEdgePolicy;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
+import cellsociety.model.model.utils.GridIterators.GridIterator;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.utils.HistogramManager;
 import java.util.ArrayList;
@@ -33,7 +33,6 @@ public abstract class Model {
     myController = controller;
     currGrid = grid;
     edgePolicy = new FiniteEdgePolicy();
-    gridIterator = new GridIterator(edgePolicy);
     numUpdates = 3;
     histogram = new HistogramManager(currGrid);
     updateHistogram();
@@ -57,6 +56,10 @@ public abstract class Model {
 
   protected GridIterator getGridIterator() {
     return gridIterator;
+  }
+
+  protected EdgePolicies getEdgePolicy() {
+    return edgePolicy;
   }
 
   protected Controller getMyController() {

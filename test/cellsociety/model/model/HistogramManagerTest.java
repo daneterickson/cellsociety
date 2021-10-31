@@ -5,14 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.model.utils.EdgePolicies;
-import cellsociety.model.model.utils.FiniteEdgePolicy;
-import cellsociety.model.model.utils.SphericalEdgePolicy;
-import cellsociety.model.model.utils.ToroidalEdgePolicy;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

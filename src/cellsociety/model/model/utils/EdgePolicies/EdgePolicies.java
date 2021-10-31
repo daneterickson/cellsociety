@@ -1,4 +1,4 @@
-package cellsociety.model.model.utils;
+package cellsociety.model.model.utils.EdgePolicies;
 
 import cellsociety.model.Grid;
 

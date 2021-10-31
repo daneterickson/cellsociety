@@ -81,14 +81,14 @@ public class SquareGridView extends GridView {
     addColNumForGrid(getCurrentGridNum(), numCols);
     double blockLength;
     if (numRows > numCols) {
-      setGridHeight(GRID_VIEW_MAX_HEIGHT);
+      setGridHeight(CENTER_VIEW_MAX_HEIGHT);
       if (getCanvasListSize() > 0) {
         setGridHeight(getGridHeight() / getCanvasListSize());
       }
       blockLength = getGridHeight() / numRows;
       setGridWidth(blockLength * numCols);
     } else {
-      setGridWidth(GRID_VIEW_MAX_WIDTH);
+      setGridWidth(CENTER_VIEW_MAX_WIDTH);
       if (getCanvasListSize() > 0) {
         setGridWidth(getGridWidth() / getCanvasListSize());
       }

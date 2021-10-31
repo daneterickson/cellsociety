@@ -5,7 +5,6 @@ import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.center.SquareGridView;
-import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -33,10 +32,10 @@ public class MainView {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     myController = controller;
     myStage = stage;
-    myCellProperties = new CellProperties(myResources);
+    myCellProperties = new CellProperties(myController, myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-//    myGridView = new SquareGridView(myCellProperties, myController);
-    myGridView = new TriangleGridView(myCellProperties, myController);
+    myGridView = new SquareGridView(myCellProperties, myController);
+//    myGridView = new TriangleGridView(myCellProperties, myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
   }
@@ -67,6 +66,7 @@ public class MainView {
     root.setRight(myRightPanel.setResource(bundle));
   }
   public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
+  public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.

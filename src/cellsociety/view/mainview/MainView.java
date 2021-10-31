@@ -45,8 +45,8 @@ public class MainView {
 
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
-    root.setCenter(myGridView.getGridBox());
-//    root.setCenter(myHistogramView.getHistogramBox());
+//    root.setCenter(myGridView.getGridBox());
+    root.setCenter(myHistogramView.getHistogramBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -60,7 +60,7 @@ public class MainView {
    */
   public void updateView() {
     myGridView.updateGrids();
-//    myHistogramView.updateBars();
+    myHistogramView.updateBars();
   }
 
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
@@ -75,8 +75,9 @@ public class MainView {
   /**
    * Updates the canvas (grid) in the view and changes the scaling.
    */
-  public void initiateGridView(){
+  public void initiateCenterView(){
     myGridView.initiateGrid();
+    myHistogramView.initiateHistogram();
   }
 
   public CellProperties getMyCellProperties() { return myCellProperties; }

@@ -40,9 +40,13 @@ public class HistogramView extends CenterView {
     myCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     gc = myCanvas.getGraphicsContext2D();
     myController = controller;
-    myHistogramMap = myController.getHistogramMap();
     bars = new ArrayList<>();
 //    numCases = getNumCases(myController.getSimPropertiesMap().get("Type"));
+
+  }
+
+  public void initiateHistogram() {
+    myHistogramMap = myController.getHistogramMap();
     assignStateColors();
     makeBars();
     makeAxisLine();
@@ -64,17 +68,20 @@ public class HistogramView extends CenterView {
   }
 
   private void makeBars() {
+    bars.clear();
+    barBox.getChildren().clear();
     for (Integer state : myHistogramMap.keySet()) {
       Rectangle bar = new Rectangle(BAR_WIDTH, 0);
       bars.add(bar);
       barBox.getChildren().add(bar);
     }
+    histogramElements.getChildren().clear();
     histogramElements.getChildren().add(barBox);
   }
 
   public void updateBars() {
     for (Integer stateNumber : myHistogramMap.keySet()) {
-      bars.get(stateNumber).setY(myHistogramMap.get(stateNumber));
+      bars.get(stateNumber).setHeight(myHistogramMap.get(stateNumber));
     }
   }
 

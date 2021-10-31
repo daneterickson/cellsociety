@@ -1,5 +1,7 @@
 package cellsociety.view.right;
 
+import cellsociety.controller.Controller;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
@@ -7,8 +9,8 @@ import javafx.scene.layout.VBox;
 public class GameOfLifeSettings extends RightPanel{
 
 
-  public GameOfLifeSettings(ResourceBundle bundle){
-    super(bundle);
+  public GameOfLifeSettings(ResourceBundle bundle, Controller controller){
+    super(bundle, controller);
   }
 
   @Override
@@ -27,4 +29,6 @@ public class GameOfLifeSettings extends RightPanel{
     return null;
   }
 
+  @Override
+  protected void setProbSettings(ArrayList probability) { }
 }

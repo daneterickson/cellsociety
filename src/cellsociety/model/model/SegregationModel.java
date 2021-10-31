@@ -118,4 +118,15 @@ public class SegregationModel extends Model {
     addNewUpdates(r, c, state);
   }
 
+  @Override
+  protected void setProb(ArrayList newProb) {
+    threshold = (double) newProb.get(0);
+    myRule = new SegregationRule(threshold, numCols, emptySpots);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
+  }
+
 }

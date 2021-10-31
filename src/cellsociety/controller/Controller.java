@@ -257,7 +257,6 @@ public class Controller {
     return myGridsList.get(currentGridNumber);
   }
 
-
   public Map getSimPropertiesMap() {return simPropertiesList.get(currentGridNumber);}
 
   private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){

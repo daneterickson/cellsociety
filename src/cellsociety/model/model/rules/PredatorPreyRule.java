@@ -77,23 +77,25 @@ public class PredatorPreyRule extends Rule {
     if (state == EMPTY_STATE) {
       return EMPTY_STATE;
     }
-    if (state == FISH_STATE) {
-      return fishRules(currRow, currCol, state, nearby);
-    } else {
-      return sharkRules(currRow, currCol, state, nearby);
+    try {
+      if (state == FISH_STATE) {
+        return fishRules(currRow, currCol, state, nearby);
+      } else {
+        return sharkRules(currRow, currCol, state, nearby);
+      }
+    } catch (KeyNotFoundException e) {
+      e.printStackTrace();
     }
+  return EMPTY_STATE;
   }
 
-  private int fishRules(int currRow, int currCol, int state, List<Integer> nearby) {
+  private int fishRules(int currRow, int currCol, int state, List<Integer> nearby)
+      throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
     int currReproduction = 0;
-    try {
-      currReproduction = (int) Math.round(
-          currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
+
+    currReproduction = (int) Math.round(
+        currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
 
     eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
     //update reproduction value
@@ -126,27 +128,15 @@ public class PredatorPreyRule extends Rule {
     return EMPTY_STATE;
   }
 
-  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
-//    System.out.println(
-//        "shark energy: "+sharkEnergy + "shark repro: " + sharkReproduction + "fish repro: " + fishReproduction + "energy gain: " + energyGain);
+  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby)
+      throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
-    int currReproduction = 0;
     boolean attack = false;
-    try {
-      currReproduction = (int) Math.round(
-          currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
-    int currEnergy = 0;
-    try {
-      currEnergy = (int) Math.round(
-          currGrid.getCell(currRow, currCol).getCellParameter(SharkEnergy));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
+
+    int currReproduction = (int) Math.round(
+        currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
+    int currEnergy = (int) Math.round(
+        currGrid.getCell(currRow, currCol).getCellParameter(SharkEnergy));
 
     currEnergy--;
     //update reproduction value
@@ -157,7 +147,7 @@ public class PredatorPreyRule extends Rule {
     if (currEnergy <= 0) {
       System.out.println("shark dead");
 
-      addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
+      addNewUpdates(currRow, currCol, EMPTY_STATE, sharkReproduction, sharkEnergy);
       return EMPTY_STATE;
     }
 
@@ -194,7 +184,7 @@ public class PredatorPreyRule extends Rule {
       addNewUpdates(currRow, currCol, SHARK_STATE, sharkReproduction, sharkEnergy);
       return SHARK_STATE;
     } else {
-      addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
+      addNewUpdates(currRow, currCol, EMPTY_STATE, sharkReproduction, sharkEnergy);
       return EMPTY_STATE;
     }
 

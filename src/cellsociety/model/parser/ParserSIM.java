@@ -38,6 +38,7 @@ public class ParserSIM extends Parser {
     Scanner s = new Scanner(file);
     while (s.hasNextLine()) {
       String line = s.nextLine();
+      if (line.charAt(0) == '#') continue;
       String words[] = line.split("=");
       mySimulationProperties.put(words[0], words[1]);
       if (!Arrays.asList(SIM_FILE_KEYS).contains(words[0])) {

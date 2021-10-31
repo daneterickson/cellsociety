@@ -1,0 +1,5 @@
+Type=PredatorPrey
+Title=Lines of Prey
+Author=Robert Duvall
+Description=Lines of prey for predators to share
+InitialStates=predator_prey/lines.csv

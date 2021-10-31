@@ -62,7 +62,24 @@ public abstract class GridView{
     return myGridHolder;
   }
 
-  public abstract void updateGrids();
+  /**
+   * Sets up the initial grid background, gridlines, etc. Also updates the canvas (grid) based off
+   * of new changes to the grid model. This should be called after each update of a cell value.
+   */
+  public void updateGrids() {
+    int curGrid = getCurrentGridNum();
+    for (int i = 0; i < getCanvasListSize(); i++) {
+      setCurrentGridNum(i);
+      Canvas curCanvas = getCanvasFromList(i);
+      GraphicsContext gc = curCanvas.getGraphicsContext2D();
+      gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
+      gc.setTransform(getAffineFromList(i));
+      updateCellColors(gc);
+      drawGridLines(gc);
+    }
+    setCurrentGridNum(curGrid);
+    drawSelectedGridIndicatorLines();
+  }
 
   protected abstract void findOptimalGridSizing(int numRows, int numCols);
 

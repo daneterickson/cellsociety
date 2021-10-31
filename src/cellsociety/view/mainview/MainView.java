@@ -4,8 +4,8 @@ package cellsociety.view.mainview;
 import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
+import cellsociety.view.center.HistogramView;
 import cellsociety.view.center.SquareGridView;
-import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -28,6 +28,7 @@ public class MainView {
   private Controller myController;
   private ResourceBundle myResources;
   private BorderPane root;
+  private HistogramView myHistogramView;
 
   public MainView(Stage stage, Controller controller){
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
@@ -37,13 +38,15 @@ public class MainView {
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
     myGridView = new SquareGridView(myCellProperties, myController);
 //    myGridView = new TriangleGridView(myCellProperties, myController);
+    myHistogramView = new HistogramView(myController);
     myRightPanel = new GameOfLifeSettings(myResources);
     mySimControl = new SimControl(myGridView, myController);
   }
 
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
-    root.setCenter(myGridView.getGridBox());
+//    root.setCenter(myGridView.getGridBox());
+    root.setCenter(myHistogramView.getHistogramBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -57,6 +60,7 @@ public class MainView {
    */
   public void updateView() {
     myGridView.updateGrids();
+    myHistogramView.updateBars();
   }
 
   public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }

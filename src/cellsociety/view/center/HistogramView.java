@@ -1,8 +1,12 @@
 package cellsociety.view.center;
 
 import cellsociety.controller.Controller;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -19,24 +23,29 @@ public class HistogramView extends CenterView {
   private HBox myHistogramHolder;
   private Canvas myCanvas;
   private Controller myController;
-  private HBox bars;
+  private HBox barBox;
   private VBox histogramElements;
   private int numCases;
-  private Rectangle bar0;
-  private Rectangle bar1;
-  private Rectangle bar2;
+  private List<Rectangle> bars;
   private String state0_color;
   private String state1_color;
   private String state2_color;
+  private Map<String, Integer> myHistogramMap;
+  private GraphicsContext gc;
 
   public HistogramView (Controller controller) {
     myHistogramHolder = new HBox();
-    bars = new HBox(BAR_SPACING);
+    barBox = new HBox(BAR_SPACING);
     histogramElements = new VBox(0);
     myCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+    gc = myCanvas.getGraphicsContext2D();
     myController = controller;
+    myHistogramMap = myController.getHistogramMap();
+    bars = new ArrayList<>();
     numCases = getNumCases(myController.getSimPropertiesMap().get("Type"));
     assignStateColors();
+    makeBars();
+    makeAxisLine();
   }
 
   private void assignStateColors() {
@@ -55,16 +64,22 @@ public class HistogramView extends CenterView {
   }
 
   private void makeBars() {
-    bar0 = new Rectangle(BAR_WIDTH, 0);
-    bar1 = new Rectangle(BAR_WIDTH, 0);
-    bars.getChildren().add(bar0);
-    bars.getChildren().add(bar1);
-    if (numCases > 2) {
-      bar2 = new Rectangle(BAR_WIDTH, 0);
-      bars.getChildren().add(bar2);
+    for (String state : myHistogramMap.keySet()) {
+      Rectangle bar = new Rectangle(BAR_WIDTH, 0);
+      bars.add(bar);
+      barBox.getChildren().add(bar);
+    }
+    histogramElements.getChildren().add(barBox);
+  }
+
+  public void updateBars() {
+    for (String stateNumber : myHistogramMap.keySet()) {
+      bars.get(Integer.parseInt(stateNumber)).setY(myHistogramMap.get(stateNumber));
     }
   }
 
-  public Canvas getCanvas() { return myCanvas; }
+  public Node getHistogramBox() {
+    return histogramElements;
+  }
 
 }

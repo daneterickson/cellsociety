@@ -76,5 +76,47 @@ public class EdgePoliciesTest {
 
     assertEquals(2, result, "(-1,-1) should go to (4,4) = 2. got:" + result);
   }
+  @Test
+  void testSpheroid() {
+//     {{1, 1, 1, 1, 1},
+//      {2, 0, 0, 0, 1},
+//      {2, 0, 0, 0, 1},
+//      {2, 0, 0, 0, 1},
+//      {2, 2, 2, 2, 2}};
+    int result;
 
+    row = -1;
+    col = 0;
+    result = myEdgePolicies.spheroid(row, col, myGrid);
+    assertEquals(1, result, "(0,-1) should go to (0,0) = 1. got:" + result);
+
+    row = 5;
+    col = 0;
+    result = myEdgePolicies.spheroid(row, col, myGrid);
+    assertEquals(1, result, "(0,5) should go to (4,0) = 1. got:" + result);
+
+    row = 5;
+    col = -1;
+    result = myEdgePolicies.spheroid(row, col, myGrid);
+
+    assertEquals(1, result, "(-1,5) should go to (4,0) = 1. got:" + result);
+
+    row = -1;
+    col = -1;
+    result = myEdgePolicies.spheroid(row, col, myGrid);
+
+    assertEquals(1, result, "(-1,-1) should go to (0,0) = 1. got:" + result);
+
+    row = -1;
+    col = 2;
+    result = myEdgePolicies.spheroid(row, col, myGrid);
+
+    assertEquals(2, result, "(2,-1) should go to (0,2) = 2. got:" + result);
+
+    row = 5;
+    col = 2;
+    result = myEdgePolicies.spheroid(row, col, myGrid);
+
+    assertEquals(1, result, "(2,5) should go to (4,2) = 1. got:" + result);
+  }
 }

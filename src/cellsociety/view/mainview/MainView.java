@@ -35,8 +35,8 @@ public class MainView {
     myStage = stage;
     myCellProperties = new CellProperties(myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-//    myGridView = new SquareGridView(myCellProperties, myController);
-    myGridView = new TriangleGridView(myCellProperties, myController);
+    myGridView = new SquareGridView(myCellProperties, myController);
+//    myGridView = new TriangleGridView(myCellProperties, myController);
     myRightPanel = new GameOfLifeSettings(myResources);
     mySimControl = new SimControl(myGridView, myController);
   }

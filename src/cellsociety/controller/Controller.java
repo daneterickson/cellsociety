@@ -39,9 +39,8 @@ public class Controller {
   private ResourceBundle myResources;
   private int currentGridNumber;
 
-
-  private static final int SCENE_WIDTH = 600;
-  private static final int SCENE_HEIGHT = 600;
+  public static final int SCENE_WIDTH = 1000;
+  public static final int SCENE_HEIGHT = 800;
   public static final int DEFAULT_GRID_WIDTH = 10;
   public static final int DEFAULT_GRID_HEIGHT = 10;
   public static final String DEFAULT_STATE_COLORS= "";
@@ -257,7 +256,7 @@ public class Controller {
     return myGridsList.get(currentGridNumber);
   }
 
-  public Map getSimPropertiesMap() {return simPropertiesList.get(currentGridNumber);}
+  public Map<String, String> getSimPropertiesMap() {return simPropertiesList.get(currentGridNumber);}
 
   private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){
     return new Grid(height, width, cellStates, stateColors, parameters, type);

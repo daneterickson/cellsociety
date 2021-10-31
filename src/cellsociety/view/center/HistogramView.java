@@ -30,7 +30,7 @@ public class HistogramView extends CenterView {
   private String state0_color;
   private String state1_color;
   private String state2_color;
-  private Map<String, Integer> myHistogramMap;
+  private Map<Integer, Integer> myHistogramMap;
   private GraphicsContext gc;
 
   public HistogramView (Controller controller) {
@@ -42,7 +42,7 @@ public class HistogramView extends CenterView {
     myController = controller;
     myHistogramMap = myController.getHistogramMap();
     bars = new ArrayList<>();
-    numCases = getNumCases(myController.getSimPropertiesMap().get("Type"));
+//    numCases = getNumCases(myController.getSimPropertiesMap().get("Type"));
     assignStateColors();
     makeBars();
     makeAxisLine();
@@ -64,7 +64,7 @@ public class HistogramView extends CenterView {
   }
 
   private void makeBars() {
-    for (String state : myHistogramMap.keySet()) {
+    for (Integer state : myHistogramMap.keySet()) {
       Rectangle bar = new Rectangle(BAR_WIDTH, 0);
       bars.add(bar);
       barBox.getChildren().add(bar);
@@ -73,8 +73,8 @@ public class HistogramView extends CenterView {
   }
 
   public void updateBars() {
-    for (String stateNumber : myHistogramMap.keySet()) {
-      bars.get(Integer.parseInt(stateNumber)).setY(myHistogramMap.get(stateNumber));
+    for (Integer stateNumber : myHistogramMap.keySet()) {
+      bars.get(stateNumber).setY(myHistogramMap.get(stateNumber));
     }
   }
 

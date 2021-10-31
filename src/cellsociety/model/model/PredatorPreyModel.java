@@ -10,8 +10,8 @@ import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.rules.PredatorPreyRule;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
-import cellsociety.model.model.utils.GridIterators.GridIterator;
-import cellsociety.model.model.utils.GridIterators.SquareEdges;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
+import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,7 +24,7 @@ public class PredatorPreyModel extends Model {
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
-  private GridIterator gridIterator;
+  private NeighborFinder neighborFinder;
   private EdgePolicies edgePolicy;
   private int numUpdates;
 
@@ -64,7 +64,7 @@ public class PredatorPreyModel extends Model {
     myController = getMyController();
     numUpdates = getNumUpdates();
     edgePolicy = getEdgePolicy();
-    gridIterator = new SquareEdges(edgePolicy);
+    neighborFinder = new SquareEdges(edgePolicy);
   }
 
   @Override
@@ -124,7 +124,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getNeighbors(row, col, currGrid);
+    return neighborFinder.getNeighbors(row, col, currGrid);
   }
 
   @Override
@@ -164,6 +164,23 @@ public class PredatorPreyModel extends Model {
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
     return myRule.determineState(currRow, currCol, state, nearby);
+  }
+
+  @Override
+  protected void setProb(ArrayList newProb) {
+    fishReproduction = (int) newProb.get(0);
+    sharkReproduction = (int) newProb.get(1);
+    sharkEnergy = (int) newProb.get(2);
+    energyGain = (int) newProb.get(3);
+
+    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+        sharkEnergy, energyGain, newUpdates,
+        sharkAttacks);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
   }
 
 }

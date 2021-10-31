@@ -7,9 +7,9 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
-import cellsociety.model.model.utils.GridIterators.GridIterator;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.SegregationRule;
-import cellsociety.model.model.utils.GridIterators.SquareComplete;
+import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,7 +19,7 @@ public class SegregationModel extends Model {
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
-  private GridIterator gridIterator;
+  private NeighborFinder neighborFinder;
   private EdgePolicies edgePolicy;
   private int numUpdates;
   private SegregationRule myRule;
@@ -65,14 +65,14 @@ public class SegregationModel extends Model {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
     myController = getMyController();
-    gridIterator = getGridIterator();
+    neighborFinder = setNeighborFinder();
     edgePolicy = getEdgePolicy();
-    gridIterator = new SquareComplete(edgePolicy);
+    neighborFinder = new SquareComplete(edgePolicy);
     numUpdates = getNumUpdates();
   }
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getNeighbors(row, col, currGrid);
+    return neighborFinder.getNeighbors(row, col, currGrid);
   }
 
   /**
@@ -94,6 +94,17 @@ public class SegregationModel extends Model {
     int c = emptySpots.get(idx) % numCols;
     emptySpots.remove(idx);
     addNewUpdates(r, c, state);
+  }
+
+  @Override
+  protected void setProb(ArrayList newProb) {
+    threshold = (double) newProb.get(0);
+    myRule = new SegregationRule(threshold, numCols, emptySpots);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
   }
 
 }

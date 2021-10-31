@@ -4,12 +4,14 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.cell.ModelCell;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
-import cellsociety.model.model.utils.GridIterators.GridIterator;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.utils.HistogramManager;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +24,7 @@ public abstract class Model {
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
-  private GridIterator gridIterator;
+  private NeighborFinder neighborFinder;
   private Integer numUpdates;
   private final String stateNumber = "StateNumber";
   private EdgePolicies edgePolicy;
@@ -36,6 +38,21 @@ public abstract class Model {
     numUpdates = 3;
     histogram = new HistogramManager(currGrid);
     updateHistogram();
+  }
+
+  public void setNeighborFinder(String type) {
+    String neighborFinderType = String.format("cellsociety.model.model.utils.NeighborFinders.%s", type);
+    try {
+      Class<?> clazz = Class.forName(neighborFinderType);
+      neighborFinder = (NeighborFinder) clazz.getDeclaredConstructor(EdgePolicies.class)
+          .newInstance(edgePolicy);
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+      System.out.println("Method Not Found");
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      System.out.println("Class Not Found");
+      e.printStackTrace();
+    }
   }
 
   protected void setRule (Rule rule) {
@@ -54,8 +71,8 @@ public abstract class Model {
     return numUpdates;
   }
 
-  protected GridIterator getGridIterator() {
-    return gridIterator;
+  protected NeighborFinder setNeighborFinder() {
+    return neighborFinder;
   }
 
   protected EdgePolicies getEdgePolicy() {
@@ -173,4 +190,9 @@ public abstract class Model {
 
   protected abstract Integer currRule(int currRow, int currCol, int state, List<Integer> nearby);
 
+  protected void setProb(ArrayList newProb) {}
+
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
+  }
 }

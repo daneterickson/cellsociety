@@ -208,17 +208,13 @@ public class PredatorPreyRule extends Rule {
       int eligible) {
     ArrayList<Integer> ret = new ArrayList<>();
     for (int idx = 0; idx < nearby.size(); idx++) {
-      System.out.println("nearby"+nearby.get(idx));
       if (!inBounds(currRow, currCol, idx) || occupiedSpace(currRow, currCol, idx)) {
-        System.out.println("ineligible"+nearby.get(idx));
         continue;
       }
 
       if (nearby.get(idx) == eligible) {
 //        System.out.println("geteligible  "+currRow + " " + currCol + " " + idx);
-        System.out.println("eligible"+nearby.get(idx));
         ret.add(idx);
-        System.out.println("size: "+ret.size());
       }
     }
     return ret;
@@ -277,8 +273,6 @@ public class PredatorPreyRule extends Rule {
 
     for (int i = 0; i < newUpdates.size(); i += numUpdates) {
       if (newUpdates.get(i) == currRow && newUpdates.get(i + 1) == currCol) {
-        System.out.println(" :occupied: ");
-        System.out.println(newUpdates.get(i) + " " + newUpdates.get(i+1) + " " + newUpdates.get(i+2) + " " + newUpdates.get(i+3) + " "+ newUpdates.get(i+4) + " ");
         return true;
       }
     }

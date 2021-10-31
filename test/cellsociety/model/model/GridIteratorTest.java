@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
-import cellsociety.model.model.utils.GridIterators.GridIterator;
-import cellsociety.model.model.utils.GridIterators.SquareComplete;
-import cellsociety.model.model.utils.GridIterators.SquareCorners;
-import cellsociety.model.model.utils.GridIterators.SquareEdges;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
+import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
+import cellsociety.model.model.utils.NeighborFinders.SquareCorners;
+import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class GridIteratorTest {
   private int numCols;
   private String myStartColors;
   private String myParameters;
-  private GridIterator myGridIterator;
+  private NeighborFinder myNeighborFinder;
   private EdgePolicies edgePolicy;
   private int row;
   private int col;
@@ -43,8 +43,8 @@ public class GridIteratorTest {
 
   @Test
   void testSquareComplete(){
-    myGridIterator = new SquareComplete(edgePolicy);
-    List<Integer> neighbors = myGridIterator.getNeighbors(row,col,myGrid);
+    myNeighborFinder = new SquareComplete(edgePolicy);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
 
     int population = 0;
     for (int i : neighbors) {
@@ -60,8 +60,8 @@ public class GridIteratorTest {
 
   @Test
   void testSquareEdges(){
-    myGridIterator = new SquareEdges(edgePolicy);
-    List<Integer> neighbors = myGridIterator.getNeighbors(row,col,myGrid);
+    myNeighborFinder = new SquareEdges(edgePolicy);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
 
     int population = 0;
     for (int i : neighbors) {
@@ -77,8 +77,8 @@ public class GridIteratorTest {
 
   @Test
   void testSquareCorners(){
-    myGridIterator = new SquareCorners(edgePolicy);
-    List<Integer> neighbors = myGridIterator.getNeighbors(row,col,myGrid);
+    myNeighborFinder = new SquareCorners(edgePolicy);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
 
     int population = 0;
     for (int i : neighbors) {
@@ -100,7 +100,7 @@ public class GridIteratorTest {
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
 
-    neighbors = myGridIterator.getNeighbors(row,col,myGrid);
+    neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
 
     population = 0;
     for (int i : neighbors) {

@@ -24,7 +24,7 @@ public class MainView {
   private GridView myGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
-  public RightPanel myRightPanel;
+  private RightPanel myRightPanel;
   private Controller myController;
   private ResourceBundle myResources;
   private BorderPane root;
@@ -39,14 +39,14 @@ public class MainView {
     myGridView = new SquareGridView(myCellProperties, myController);
 //    myGridView = new TriangleGridView(myCellProperties, myController);
     myHistogramView = new HistogramView(myController);
-    myRightPanel = new GameOfLifeSettings(myResources);
+    myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
   }
 
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
-//    root.setCenter(myGridView.getGridBox());
-    root.setCenter(myHistogramView.getHistogramBox());
+    root.setCenter(myGridView.getGridBox());
+//    root.setCenter(myHistogramView.getHistogramBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -60,10 +60,16 @@ public class MainView {
    */
   public void updateView() {
     myGridView.updateGrids();
-    myHistogramView.updateBars();
+//    myHistogramView.updateBars();
   }
 
-  public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }
+  public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
+    myRightPanel = rightPanel;
+    root.setRight(myRightPanel.setResource(bundle));
+  }
+  public void updateRightPanelLang(ResourceBundle bundle) {
+    root.setRight(myRightPanel.setResource(bundle));
+  }
   public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
 
   /**

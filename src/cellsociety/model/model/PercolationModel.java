@@ -6,9 +6,11 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.GridIterators.GridIterator;
 import cellsociety.model.model.rules.PercolationRule;
 import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.utils.GridIterators.SquareComplete;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class PercolationModel extends Model {
   private ArrayList<Integer> newUpdates;
   private Controller myController;
   private GridIterator gridIterator;
+  private EdgePolicies edgePolicy;
   private int numUpdates;
   private Rule myRule;
   private String endEdge;
@@ -35,6 +38,8 @@ public class PercolationModel extends Model {
     newUpdates = getNewUpdates();
     myController = getMyController();
     gridIterator = getGridIterator();
+    edgePolicy = getEdgePolicy();
+    gridIterator = new SquareComplete(edgePolicy);
     numUpdates = getNumUpdates();
   }
   private String getEndEdge() {
@@ -133,7 +138,7 @@ public class PercolationModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareComplete(row, col, currGrid);
+    return gridIterator.getNeighbors(row, col, currGrid);
   }
 
   /**
@@ -142,15 +147,6 @@ public class PercolationModel extends Model {
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
     return myRule.determineState(currRow, currCol, state, nearby);
-  }
-
-  private boolean findNearbyWater(List<Integer> nearby) {
-    for (int i : nearby) {
-      if (i == WATER_STATE) {
-        return true;
-      }
-    }
-    return false;
   }
 
 }

@@ -7,24 +7,18 @@ import java.util.Arrays;
 import java.util.List;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Cell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 
-public abstract class GridView{
+public abstract class GridView extends CenterView {
   //TODO Make these temporary hardcoded values dependent on the window size or Model values ASAP
-  protected static final int GRID_VIEW_MAX_WIDTH = 300;
-  protected static final int GRID_VIEW_MAX_HEIGHT = 300;
   protected static final Color GRID_LINE_COLOR = Color.BLACK;
   protected static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   protected static final double GRID_LINE_SIZE = .04;
   protected static final double SELECTED_LINE_SIZE = .25;
-  protected static final int GRID_SPACING = 10;
-  protected static final String RESOURCE = "cellsociety.view.center.";
-  protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "GridView.css";
 
   private List<Canvas> myCanvasList;
   private List<Affine> myAffineList;
@@ -44,7 +38,7 @@ public abstract class GridView{
     myNumGridColsList = new ArrayList<>(Arrays.asList(0));
     myNumGridRowsList = new ArrayList<>(Arrays.asList(0));
     myGridHolder = new HBox();
-    myGridHolder.setSpacing(GRID_SPACING);
+    myGridHolder.setSpacing(ELEMENT_SPACING);
     myController = controller;
     myCellProperties = cellProps;
     myMousePos = new Integer[2];
@@ -62,7 +56,24 @@ public abstract class GridView{
     return myGridHolder;
   }
 
-  public abstract void updateGrids();
+  /**
+   * Sets up the initial grid background, gridlines, etc. Also updates the canvas (grid) based off
+   * of new changes to the grid model. This should be called after each update of a cell value.
+   */
+  public void updateGrids() {
+    int curGrid = getCurrentGridNum();
+    for (int i = 0; i < getCanvasListSize(); i++) {
+      setCurrentGridNum(i);
+      Canvas curCanvas = getCanvasFromList(i);
+      GraphicsContext gc = curCanvas.getGraphicsContext2D();
+      gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
+      gc.setTransform(getAffineFromList(i));
+      updateCellColors(gc);
+      drawGridLines(gc);
+    }
+    setCurrentGridNum(curGrid);
+    drawSelectedGridIndicatorLines();
+  }
 
   protected abstract void findOptimalGridSizing(int numRows, int numCols);
 

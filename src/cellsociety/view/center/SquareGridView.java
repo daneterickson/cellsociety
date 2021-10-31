@@ -16,25 +16,6 @@ public class SquareGridView extends GridView {
     super(cellProps, controller);
   }
 
-  /**
-   * Sets up the initial grid background, gridlines, etc. Also updates the canvas (grid) based off
-   * of new changes to the grid model. This should be called after each update of a cell value.
-   */
-  @Override
-  public void updateGrids() {
-    int curGrid = getCurrentGridNum();
-    for (int i = 0; i < getCanvasListSize(); i++) {
-      setCurrentGridNum(i);
-      Canvas curCanvas = getCanvasFromList(i);
-      GraphicsContext gc = curCanvas.getGraphicsContext2D();
-      gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
-      gc.setTransform(getAffineFromList(i));
-      updateCellColors(gc);
-      drawGridLines(gc);
-    }
-    setCurrentGridNum(curGrid);
-    drawSelectedGridIndicatorLines();
-  }
 
   @Override
   protected void updateCellColors(GraphicsContext gc) {
@@ -81,14 +62,14 @@ public class SquareGridView extends GridView {
     addColNumForGrid(getCurrentGridNum(), numCols);
     double blockLength;
     if (numRows > numCols) {
-      setGridHeight(GRID_VIEW_MAX_HEIGHT);
+      setGridHeight(CENTER_VIEW_MAX_HEIGHT);
       if (getCanvasListSize() > 0) {
         setGridHeight(getGridHeight() / getCanvasListSize());
       }
       blockLength = getGridHeight() / numRows;
       setGridWidth(blockLength * numCols);
     } else {
-      setGridWidth(GRID_VIEW_MAX_WIDTH);
+      setGridWidth(CENTER_VIEW_MAX_WIDTH);
       if (getCanvasListSize() > 0) {
         setGridWidth(getGridWidth() / getCanvasListSize());
       }

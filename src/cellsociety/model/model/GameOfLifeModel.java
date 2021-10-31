@@ -2,9 +2,11 @@ package cellsociety.model.model;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.GridIterators.GridIterator;
 import cellsociety.model.model.rules.GameOfLifeRule;
 import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.utils.GridIterators.SquareComplete;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class GameOfLifeModel extends Model {
   private ArrayList<Integer> newUpdates;
   private Controller myController;
   private GridIterator gridIterator;
+  private EdgePolicies edgePolicy;
   private int numUpdates;
   private Rule myRule;
 
@@ -28,12 +31,14 @@ public class GameOfLifeModel extends Model {
     newUpdates = getNewUpdates();
     myController = getMyController();
     gridIterator = getGridIterator();
+    edgePolicy = getEdgePolicy();
+    gridIterator = new SquareComplete(edgePolicy);
     numUpdates = getNumUpdates();
   }
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareComplete(row, col, currGrid);
+    return gridIterator.getNeighbors(row, col, currGrid);
   }
 
   /**

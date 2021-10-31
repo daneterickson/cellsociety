@@ -3,7 +3,9 @@ package cellsociety.view.mainview;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
+import cellsociety.view.center.GridView;
 import cellsociety.view.center.SquareGridView;
+import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -19,7 +21,7 @@ public class MainView {
 
   private Stage myStage;
   private CellProperties myCellProperties;
-  private SquareGridView mySquareGridView;
+  private GridView myGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
   private RightPanel myRightPanel;
@@ -33,14 +35,15 @@ public class MainView {
     myStage = stage;
     myCellProperties = new CellProperties(myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-    mySquareGridView = new SquareGridView(myCellProperties, myController);
+//    myGridView = new SquareGridView(myCellProperties, myController);
+    myGridView = new TriangleGridView(myCellProperties, myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
-    mySimControl = new SimControl(mySquareGridView, myController);
+    mySimControl = new SimControl(myGridView, myController);
   }
 
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
-    root.setCenter(mySquareGridView.getGridBox());
+    root.setCenter(myGridView.getGridBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -53,7 +56,7 @@ public class MainView {
    * Updates the canvas (grid) in the view.
    */
   public void updateView() {
-    mySquareGridView.updateGrids();
+    myGridView.updateGrids();
   }
 
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
@@ -69,7 +72,7 @@ public class MainView {
    * Updates the canvas (grid) in the view and changes the scaling.
    */
   public void initiateGridView(){
-    mySquareGridView.initiateGrid();
+    myGridView.initiateGrid();
   }
 
   public CellProperties getMyCellProperties() { return myCellProperties; }

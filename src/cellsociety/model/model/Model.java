@@ -5,11 +5,11 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
-import cellsociety.model.model.utils.EdgePolicies;
-import cellsociety.model.model.utils.FiniteEdgePolicy;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
+import cellsociety.model.model.utils.GridIterators.GridIterator;
 import cellsociety.model.model.rules.Rule;
-import java.lang.reflect.Field;
+import cellsociety.model.model.utils.HistogramManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,6 @@ public abstract class Model {
     myController = controller;
     currGrid = grid;
     edgePolicy = new FiniteEdgePolicy();
-    gridIterator = new GridIterator(edgePolicy);
     numUpdates = 3;
     histogram = new HistogramManager(currGrid);
     updateHistogram();
@@ -56,11 +55,16 @@ public abstract class Model {
     return gridIterator;
   }
 
+  protected EdgePolicies getEdgePolicy() {
+    return edgePolicy;
+  }
+
   protected Controller getMyController() {
     return myController;
   }
 
   public void updateModel(Grid currGrid) {
+    newUpdates.clear();
     this.currGrid = currGrid;
     iterateGrid(row -> col -> {
       String currState = null;
@@ -79,7 +83,7 @@ public abstract class Model {
   }
 
   protected void updateHistogram(){
-    HashMap<Integer,Integer> temp = histogram.makeBlankMap();
+    histogram.clear();
     iterateGrid(row -> col -> {
       String currState = null;
       try {
@@ -89,10 +93,8 @@ public abstract class Model {
         System.out.println("Invalid Property");
       }
       int stateAsInt = parseInt(currState);
-      temp.put(stateAsInt,temp.get(stateAsInt)+1);
+      histogram.add(stateAsInt,1);
     });
-
-    histogram.addPlotPoints(temp);
 
   }
 

@@ -2,10 +2,14 @@ package cellsociety.model.cell;
 
 import java.util.ResourceBundle;
 
+/**
+ * Subclass of ModelCell that makes a cell for each spot in Game of Life simulation
+ */
 public class GameOfLifeCell extends ModelCell {
 
   public static final int DEAD_STATE = 0;
   public static final int ALIVE_STATE = 1;
+  public static final int GAME_OF_LIFE_CASES = 2;
 
   private String myStartColors;
   private ResourceBundle myResources;
@@ -13,11 +17,20 @@ public class GameOfLifeCell extends ModelCell {
   private String deadName;
   private String aliveName;
 
-  public GameOfLifeCell(int i, int j, String startColors, String parameters, int state) {
-    super(i, j, startColors, parameters, state);
+  /**
+   * Constructor for a GameOfLifeCell object, which is extended from the ModelCell super class
+   *
+   * @param i is the row position of the cell being created
+   * @param j is the column position of the cell being created
+   * @param stateColors is a comma separated String of the state colors for each state
+   * @param parameters is a comma separated String of the parameters (may be "" for no parameters)
+   * @param state is the state of the cell being created
+   */
+  public GameOfLifeCell(int i, int j, String stateColors, String parameters, int state) {
+    super(i, j, stateColors, parameters, state);
     myResources = getMyResources();
     assignConstants();
-    myStartColors = startColors;
+    myStartColors = stateColors;
     assignState(state);
   }
 

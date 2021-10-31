@@ -6,6 +6,7 @@ import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
+import cellsociety.model.parser.RandomStates;
 import cellsociety.view.mainview.MainView;
 import cellsociety.view.right.RightPanel;
 import com.opencsv.exceptions.CsvValidationException;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -122,7 +124,7 @@ public class Controller {
 
   public void openSIMFile(File simFile) {
     readSIMFile(simFile);
-    readCSVFile();
+//    readCSVFile();
     makeNewSimulation();
   }
 
@@ -164,10 +166,31 @@ public class Controller {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
+
     myGridsList.remove(currentGridNumber);
     myGridsList.add(currentGridNumber, new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type")));
-
   }
+
+//  private void makeProbStates(int rows, int cols, int numFilled, String type) {
+//
+//  }
+//
+//  private void makeRandomStates(int rows, int cols, int numFilled, String type) {
+//    int states[][] = new int[rows][cols];
+//    int fill = 0;
+//    int numCases = 3;
+//    Random rand = new Random();
+//    if (type.equals("GameOfLife")) numCases = 2;
+//    while (fill < numFilled) {
+//      int state = rand.nextInt(numCases);
+//      int r = rand.nextInt(rows);
+//      int c = rand.nextInt(cols);
+//      if (states[r][c] == 0) {
+//        states[r][c] = state;
+//        fill++;
+//      }
+//    }
+//  }
 
   private void readSIMFile(File simFile) {
     try {
@@ -175,6 +198,13 @@ public class Controller {
       if(simPropertiesList.size()==currentGridNumber){simPropertiesList.add(null);}
       simPropertiesList.add(currentGridNumber, myParserSIM.getMap());
       simPropertiesList.remove(currentGridNumber+1);
+      if (simPropertiesList.get(currentGridNumber).get("InitialStates").split(",").length == 1) {
+        readCSVFile();
+      } else {
+        RandomStates randomStates = new RandomStates(myParserSIM);
+        myGridsList.remove(currentGridNumber);
+        myGridsList.add(currentGridNumber, randomStates.makeGrid());
+      }
     } catch (FileNotFoundException | NoSuchFieldException e) {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
@@ -219,10 +249,12 @@ public class Controller {
     return myGridsList.get(currentGridNumber);
   }
 
-  public Map getMap() {return simPropertiesList.get(currentGridNumber);}
+
+  public Map getSimPropertiesMap() {return simPropertiesList.get(currentGridNumber);}
 
   private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){
     return new Grid(height, width, cellStates, stateColors, parameters, type);
+
   }
 
 }

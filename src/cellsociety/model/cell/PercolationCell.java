@@ -2,7 +2,10 @@ package cellsociety.model.cell;
 
 import java.util.ResourceBundle;
 
-public class PercolationCell extends ModelCell{
+/**
+ * Subclass of ModelCell that makes a cell for each spot in Percolation simulation
+ */
+public class PercolationCell extends ModelCell {
 
   public static final int WATER_STATE = 1;
   public static final int BARRIER_STATE = 2;
@@ -15,11 +18,20 @@ public class PercolationCell extends ModelCell{
   private String barrierName;
   private String barrierColor;
 
-  public PercolationCell(int i, int j, String startColors, String parameters, int state) {
-    super(i, j, startColors, parameters, state);
+  /**
+   * Constructor for a PercolationCell object, which is extended from the ModelCell super class
+   *
+   * @param i           is the row position of the cell being created
+   * @param j           is the column position of the cell being created
+   * @param stateColors is a comma separated String of the state colors for each state
+   * @param parameters  is a comma separated String of the parameters (may be "" for no parameters)
+   * @param state       is the state of the cell being created
+   */
+  public PercolationCell(int i, int j, String stateColors, String parameters, int state) {
+    super(i, j, stateColors, parameters, state);
     myResources = getMyResources();
     assignConstants();
-    myStartColors = startColors;
+    myStartColors = stateColors;
     myParameters = parameters;
     assignState(state);
   }
@@ -35,9 +47,10 @@ public class PercolationCell extends ModelCell{
   @Override
   protected void assignState(int state) {
     assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, waterName, waterColor, barrierName,
-          barrierColor);
+        barrierColor);
   }
 
   @Override
-  protected void setParameters(String parameters) {}
+  protected void setParameters(String parameters) {
+  }
 }

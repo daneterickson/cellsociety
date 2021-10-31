@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=Random All Dead
+Author=Dane Erickson
+Description=Randomly generate cells based on unequal probabilities for each state
+InitialStates=5,5,1,0

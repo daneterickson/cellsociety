@@ -1,6 +1,5 @@
 package cellsociety.model.model;
 
-import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 import static cellsociety.model.cell.PredatorPreyCell.FISH_STATE;
 import static cellsociety.model.cell.PredatorPreyCell.SHARK_STATE;
 import static java.lang.Integer.parseInt;
@@ -8,13 +7,17 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.rules.PredatorPreyRule;
+import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.utils.GridIterator;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class PredatorPreyModel extends Model {
+
   //base class variables
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
@@ -35,6 +38,8 @@ public class PredatorPreyModel extends Model {
   private int energyGain;
   private ArrayList<Integer> sharkAttacks;
   private int numCols;
+  private Rule myRule;
+
 
   public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller, grid);
@@ -44,7 +49,11 @@ public class PredatorPreyModel extends Model {
     sharkAttacks = new ArrayList<>();
     numCols = currGrid.getNumCols();
     getBaseParameters();
+    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+        sharkEnergy, energyGain, newUpdates,
+        sharkAttacks);
   }
+
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
@@ -52,48 +61,44 @@ public class PredatorPreyModel extends Model {
     gridIterator = getGridIterator();
     numUpdates = getNumUpdates();
   }
+
   @Override
   public void updateModel(Grid currGrid) {
     this.currGrid = currGrid;
-    iterateSharks(currGrid);
-    iterateOthers(currGrid);
+    iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateSharks(row, col, state)));
+    iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateOthers(row, col, state)));
     updateGrid();
     myController.setHasUpdate(true);
   }
-  private void iterateSharks(Grid currGrid) {
-    iterateGrid(row -> col -> {
-      String currState = null;
+
+  private Function<Integer, Consumer<Integer>> iterateGridLambda(Grid currGrid,
+      Function<Integer, Function<Integer, Consumer<Integer>>> iteratorTarget) {
+    return row -> col -> {
       try {
-        currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+        String currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+        int stateAsInt = parseInt(currState);
+        iteratorTarget.apply(row).apply(col).accept(stateAsInt);
       } catch (KeyNotFoundException e) {
         // TODO: handle exception
         System.out.println("Invalid Property");
       }
-      int stateAsInt = parseInt(currState);
-      if (stateAsInt == SHARK_STATE){
-        updateCell(row, col, stateAsInt);
-      }
-    });
+    };
   }
 
-  private void iterateOthers(Grid currGrid) {
-    iterateGrid(row -> col -> {
-      String currState = null;
-      try {
-        currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
-      } catch (KeyNotFoundException e) {
-        // TODO: handle exception
-        System.out.println("Invalid Property");
+  private void iterateSharks(Integer row, Integer col, int stateAsInt) {
+    if (stateAsInt == SHARK_STATE) {
+      updateCell(row, col, stateAsInt);
+    }
+  }
+
+  private void iterateOthers(Integer row, Integer col, int stateAsInt) {
+    if (stateAsInt != SHARK_STATE) {
+      if (sharkAttacks.contains(row * numCols + col)) {
+        sharkAttacks.remove(row * numCols + col);
+      } else {
+        updateCell(row, col, stateAsInt);
       }
-      int stateAsInt = parseInt(currState);
-      if (stateAsInt != SHARK_STATE){
-        if (sharkAttacks.contains(row*numCols+col)){
-          sharkAttacks.remove(row*numCols+col);
-        }else{
-          updateCell(row, col, stateAsInt);
-        }
-      }
-    });
+    }
   }
 
   private void getBaseParameters() {
@@ -112,7 +117,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.get4Nearby(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareEdges(row, col, currGrid);
   }
 
   @Override
@@ -121,17 +126,6 @@ public class PredatorPreyModel extends Model {
 
     List<Integer> nearby = getNearby(row, col);
     currRule(row, col, state, nearby);
-  }
-
-  private void addNewUpdates(int row, int col, int newState, int reproduction, int energy) {
-//    System.out.println(
-//        "new UPDATE: " + row + " " + col + " " + newState + " " + reproduction + " " + energy);
-
-    newUpdates.add(row);
-    newUpdates.add(col);
-    newUpdates.add(newState);
-    newUpdates.add(reproduction);
-    newUpdates.add(energy);
   }
 
   @Override
@@ -162,210 +156,9 @@ public class PredatorPreyModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-
-    if (state == EMPTY_STATE) {
-      return EMPTY_STATE;
-    }
-    if (state == FISH_STATE) {
-      return fishRules(currRow, currCol, state, nearby);
-    } else {
-      return sharkRules(currRow, currCol, state, nearby);
-    }
+    return myRule.determineState(currRow, currCol, state, nearby);
   }
 
-  private int fishRules(int currRow, int currCol, int state, List<Integer> nearby) {
-    ArrayList<Integer> eligibleSpaces;
-    int currReproduction = 0;
-    try {
-      currReproduction = (int) Math.round(
-          currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
-    int fishEnergy = -1; //fish don't have energy level
-
-    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
-    //update reproduction value
-    if (currReproduction > 0) {
-      currReproduction--;
-    }
-
-    //fish can't move
-    if (eligibleSpaces.size() < 1) {
-//      System.out.println("fish can't move");
-      addNewUpdates(currRow, currCol, FISH_STATE, currReproduction, fishEnergy);
-      return FISH_STATE;
-    }
-
-    //reproduce and move
-    if (currReproduction == 0) {
-//      System.out.println("fish reproduce");
-      move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
-          currReproduction, -1, false);
-      addNewUpdates(currRow, currCol, FISH_STATE, fishReproduction, -1);
-      return FISH_STATE;
-    }
-
-    //move
-//    System.out.println("fish move");
-
-    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
-        currReproduction, -1, false);
-    addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
-    return EMPTY_STATE;
-  }
-
-  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby) {
-    System.out.println(
-        sharkEnergy + " " + sharkReproduction + " " + fishReproduction + " " + energyGain);
-    ArrayList<Integer> eligibleSpaces;
-    int currReproduction = 0;
-    boolean attack = false;
-    try {
-      currReproduction = (int) Math.round(
-          currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
-    int currEnergy = 0;
-    try {
-      currEnergy = (int) Math.round(
-          currGrid.getCell(currRow, currCol).getCellParameter(SharkEnergy));
-    } catch (KeyNotFoundException e) {
-      // TODO: handle exception
-      System.out.println("Invalid Parameter");
-    }
-
-    currEnergy--;
-    //update reproduction value
-    if (currReproduction > 0) {
-      currReproduction--;
-    }
-    //dead
-    if (currEnergy <= 0) {
-      System.out.println("shark dead");
-
-      addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
-      return EMPTY_STATE;
-    }
-
-    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, FISH_STATE);
-
-    //try to eat
-    if (eligibleSpaces.size() >= 1) {
-      System.out.println("shark eating");
-      currEnergy += energyGain;
-      attack = true;
-    } else {
-      eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
-    }
-
-    //shark can't move
-    if (eligibleSpaces.size() < 1) {
-      System.out.println("shark can't move");
-
-//      System.out.println("shark can't move");
-
-      addNewUpdates(currRow, currCol, SHARK_STATE, currReproduction, currEnergy);
-      return SHARK_STATE;
-    }
-    System.out.println("curr params: "+ currReproduction +" " + currEnergy);
-
-    //move
-    System.out.println("shark move");
-    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), SHARK_STATE,
-        currReproduction,
-        currEnergy, attack);
-
-    if (currReproduction == 0) {
-      System.out.println("shark reproduce");
-      addNewUpdates(currRow, currCol, SHARK_STATE, sharkReproduction, sharkEnergy);
-      return SHARK_STATE;
-    }else{
-      addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
-      return EMPTY_STATE;
-    }
-
-
-  }
-
-  /**
-   * finds eligible spaces that the current cell can move to based on the allowed 'eligible' cell
-   * state.
-   */
-  private ArrayList<Integer> getEligibleSpaces(int currRow, int currCol, List<Integer> nearby,
-      int eligible) {
-    ArrayList<Integer> ret = new ArrayList<>();
-    for (int idx = 0; idx < nearby.size(); idx++) {
-      if (!inBounds(currRow, currCol, idx) || occupiedSpace(currRow, currCol, idx)) {
-        continue;
-      }
-
-      if (nearby.get(idx) == eligible) {
-//        System.out.println("geteligible  "+currRow + " " + currCol + " " + idx);
-        ret.add(idx);
-      }
-    }
-    return ret;
-  }
-
-  /**
-   * moves the current cell to a new location and then adds the new properties to newUpdates
-   */
-  private void move(int currRow, int currCol, int idx, int state, int currReproduction,
-      int currEnergy, boolean attack) {
-    if (currReproduction == 0) {
-      currReproduction = sharkReproduction;
-    }
-    int newRow = currRow;
-    int newCol = currCol;
-    switch (idx) {
-      case 0 -> newRow -= 1;
-      case 1 -> newRow += 1;
-      case 2 -> newCol += 1;
-      case 3 -> newCol -= 1;
-    }
-    if (attack){
-      sharkAttacks.add(newRow*numCols + newCol);
-    }
-    addNewUpdates(newRow, newCol, state, currReproduction, currEnergy);
-  }
-
-  /**
-   * checks that a possible move is in bounds.
-   */
-  private boolean inBounds(int currRow, int currCol, int idx) {
-    //nearby = [north,south,east,west]
-    boolean ret = switch (idx) {
-      case 0 -> currRow - 1 >= 0;
-      case 1 -> currRow + 1 < currGrid.getNumRows();
-      case 2 -> currCol + 1 < currGrid.getNumCols();
-      case 3 -> currCol - 1 >= 0;
-      default -> false;
-    };
-//    if (ret) System.out.println("in bounds "+currRow+" "+currCol+" "+idx);
-    return ret;
-  }
-
-  private boolean occupiedSpace(int currRow, int currCol, int idx) {
-  //nearby = [north,south,east,west]
-  switch (idx) {
-    case 0 -> currRow--;
-    case 1 -> currRow++;
-    case 2 -> currCol++;
-    case 3 -> currCol--;
-    default -> throw new IllegalStateException("Unexpected value: " + idx);
-  }
-
-  for (int i = 0; i < newUpdates.size(); i += numUpdates) {
-    if (newUpdates.get(i) == currRow && newUpdates.get(i + 1) == currCol) {
-      return false;
-    }
-  }
-  return false;
-}
 }
 
 

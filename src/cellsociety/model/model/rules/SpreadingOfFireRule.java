@@ -7,28 +7,49 @@ import static cellsociety.model.cell.SpreadingOfFireCell.TREE_STATE;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Subclass of Rule that makes a rule for the Spreading of Fire simulation to find a cell's new
+ * state
+ */
 public class SpreadingOfFireRule extends Rule {
 
-  private double probCatch;
+  private double myProbCatch;
   private Random random;
 
-  public SpreadingOfFireRule () {
-//    super();
+  /**
+   * Constructor to create the SpreadingOfFireRule object, which is called by SpreadingOfFireModel
+   * to determine the new state for a particular cell.
+   *
+   * @param probCatch is the probability that a tree cell catches on fire from an adjacent burning
+   *                  cell
+   */
+  public SpreadingOfFireRule(double probCatch) {
+    myProbCatch = probCatch;
+    random = new Random();
   }
 
+  /**
+   * Overridden method to determine the state for a SpreadingOfFireRule
+   *
+   * @param currRow is the current row of the cell being evaluated
+   * @param currCol is the current column of the cell being evaluated
+   * @param state   is the current state of the cell being evaluated
+   * @param nearby  is a list of the states of the nearby cells
+   * @return the new state for the cell being evaluated
+   */
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
     if (state == EMPTY_STATE || state == BURN_STATE) {
       return EMPTY_STATE;
     }
-
     for (int neighborState : nearby) {
       if (neighborState == BURN_STATE) {
-        if (random.nextFloat() < probCatch) {
+        if (random.nextFloat() < myProbCatch) {
           return BURN_STATE;
         }
         return TREE_STATE;
       }
     }
-    return TREE_STATE;  }
+    return TREE_STATE;
+  }
 }

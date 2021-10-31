@@ -1,81 +1,69 @@
 package cellsociety.model.parser;
 
+import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Subclass of the Parser hierarchy that is used to parse a SIM file with the information for the
+ * simulation, such as Type, Name, and InitialStates info.
+ */
 public class ParserSIM extends Parser {
 
-  private static final String keys[] = {"Type","Title","Author","Description","InitialStates","Parameters","StateColors"};
-  private File myFile;
+  public static final String SIM_FILE_KEYS[] = {"Type", "Title", "Author", "Description",
+      "InitialStates", "Parameters", "StateColors"};
   private Map<String, String> mySimulationProperties;
-//  private Map<Integer, String> myStatesColorMap;
 
   public ParserSIM() {
     mySimulationProperties = new HashMap<>();
-//    myStatesColorMap = new HashMap<>();
   }
 
+  /**
+   * Overridden method that reads the inputted SIM file and processes the information in the file.
+   * Each key in the file has a corresponding Key in the Simulation Properties map, which stores all
+   * the information for the simulation.
+   *
+   * @param file is the File to be read
+   * @throws IOException          is thrown if no file is found
+   * @throws NoSuchFieldException is thrown if the key in the file is not associated with one of the
+   *                              simulation properties
+   */
+  @Override
   public void readFile(File file) throws FileNotFoundException, NoSuchFieldException {
-//    try {
-//      Scanner s = new Scanner(file);
-//      while (s.hasNextLine()) {
-//        String line = s.nextLine();
-//        String words[] = line.split("=");
-//        myInfoMap.put(words[0], words[1]);
-//      }
-//      assignStateColors();
-//    }
-//    catch (FileNotFoundException e) {
-//      System.out.println("File not found");
-//    }
     Scanner s = new Scanner(file);
     while (s.hasNextLine()) {
       String line = s.nextLine();
       String words[] = line.split("=");
       mySimulationProperties.put(words[0], words[1]);
-      if (!Arrays.asList(keys).contains(words[0])) throw new NoSuchFieldException("Invalid Key");
+      if (!Arrays.asList(SIM_FILE_KEYS).contains(words[0])) {
+        throw new NoSuchFieldException("Invalid Key");
+      }
     }
-//    assignColorMap();
   }
 
-//  public void assignColorMap() {
-//    if (mySimulationProperties.get("StateColors") == null) return;
-//    String colors[] = mySimulationProperties.get("StateColors").split(",");
-//    for (int i = 0; i < colors.length; i++) {
-//      myStatesColorMap.put(i, colors[i]);
-//    }
-//  }
+  /**
+   * Getter method to get the String value of a particular property from the SIM file
+   *
+   * @param key is the name of the desired property
+   * @return the value of the property from the SIM file
+   */
+  public String getInfo(String key) {
+    return mySimulationProperties.get(key);
+  }
 
-  public String getInfo (String key) { return mySimulationProperties.get(key); }
-
-  public Map getMap() { return mySimulationProperties; }
-
-//  public String getType() {
-//    return myInfoMap.get("Type");
-//  }
-//
-//  public String getTitle() {
-//    return myInfoMap.get("Title");
-//  }
-//
-//  public String getInitialStates() {
-//    return myInfoMap.get("InitialStates");
-//  }
-
-  // Assume parameters for PredatorPrey go fish reproduction time, shark reproduction time, shark energy level
-//  public Double getParameters(int index) {
-//    if (mySimulationProperties.get("Parameters") == null) return 0.0;
-////    List<Double> parameters = new ArrayList<>();
-////    for (String num : myInfoMap.get("Parameters").split(",")) {
-////      parameters.add(Double.valueOf(num));
-////    }
-////    return parameters.get(index);
-//    return Double.valueOf(mySimulationProperties.get("Parameters").split(",")[index]);
-//  }
+  /**
+   * Getter method to get a Map of all the simulation properties
+   *
+   * @return the Map of all the simulation properties from the SIM file
+   */
+  public Map getMap() {
+    return mySimulationProperties;
+  }
 
 
 }

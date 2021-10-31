@@ -16,6 +16,7 @@ public class SegregationRule extends Rule {
    * Subclass of Rule that makes a rule for the Segregation simulation to find a cell's new state
    */
   public SegregationRule(double threshold, int numCols, ArrayList<Integer> emptySpots) {
+
     myThreshold = threshold;
     myNumCols = numCols;
     myEmptySpots = emptySpots;

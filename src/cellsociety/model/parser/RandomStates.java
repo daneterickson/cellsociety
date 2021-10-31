@@ -14,6 +14,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * Class to generate the initial states for random configurations where a CSV file is not given
+ */
 public class RandomStates {
 
   private ParserSIM myParser;
@@ -27,14 +30,22 @@ public class RandomStates {
   private int states[][];
   private Random rand = new Random();
 
-  public RandomStates (ParserSIM parser) {
+  /**
+   * Constructor to make a RandomStates object based on a ParserSIM object. The RandomStates object
+   * is used to generate the initial states for random configurations.
+   *
+   * @param parser is the ParserSIM object used for the current simulation
+   */
+  public RandomStates(ParserSIM parser) {
     myParser = parser;
     String parameters[] = parser.getInfo("InitialStates").split(",");
     myNumRows = Integer.parseInt(parameters[0]);
     myNumCols = Integer.parseInt(parameters[1]);
     states = new int[myNumRows][myNumCols];
     myNumCases = 3;
-    if (parser.getInfo("Type").equals("GameOfLife")) myNumCases = GAME_OF_LIFE_CASES;
+    if (parser.getInfo("Type").equals("GameOfLife")) {
+      myNumCases = GAME_OF_LIFE_CASES;
+    }
     assignVariables(parameters);
   }
 
@@ -61,7 +72,7 @@ public class RandomStates {
   private void numFilledStates() {
     int fill = 0;
     while (fill < myNumFilled) {
-      int state = rand.nextInt(myNumCases-1) + 1;
+      int state = rand.nextInt(myNumCases - 1) + 1;
       int r = rand.nextInt(myNumRows);
       int c = rand.nextInt(myNumCols);
       if (states[r][c] == 0) {
@@ -72,18 +83,20 @@ public class RandomStates {
   }
 
   private void probDensity2States() {
-    for (int r=0; r<myNumRows; r++) {
-      for (int c=0; c<myNumCols; c++) {
+    for (int r = 0; r < myNumRows; r++) {
+      for (int c = 0; c < myNumCols; c++) {
         double tmp = rand.nextDouble();
-        if (tmp < myProb1) states[r][c] = 1;
+        if (tmp < myProb1) {
+          states[r][c] = 1;
+        }
       }
     }
   }
 
   private void probDensity3States() {
     List<Integer> probs = makeProbsList();
-    for (int r=0; r<myNumRows; r++) {
-      for (int c=0; c<myNumCols; c++) {
+    for (int r = 0; r < myNumRows; r++) {
+      for (int c = 0; c < myNumCols; c++) {
         int tmp = rand.nextInt(100);
         states[r][c] = probs.get(tmp);
       }
@@ -91,23 +104,36 @@ public class RandomStates {
   }
 
   private List<Integer> makeProbsList() {
-    int state0[] = new int[(int)Math.round(myProb0*100)];
-    int state1[] = new int[(int)Math.round(myProb1*100)];
+    int state0[] = new int[(int) Math.round(myProb0 * 100)];
+    int state1[] = new int[(int) Math.round(myProb1 * 100)];
     Arrays.fill(state1, 1);
     int state2[] = new int[100 - state0.length - state1.length];
     Arrays.fill(state2, 2);
     List<Integer> probs = new ArrayList<>();
-    for (int i: state0) probs.add(i);
-    for (int i: state1) probs.add(i);
-    for (int i: state2) probs.add(i);
+    for (int i : state0) {
+      probs.add(i);
+    }
+    for (int i : state1) {
+      probs.add(i);
+    }
+    for (int i : state2) {
+      probs.add(i);
+    }
     return probs;
   }
 
+  /**
+   * Makes and returns the Grid to be used in the simulation based on the generated random
+   * configuration of initial states.
+   *
+   * @return the Grid object to be used in the simulation
+   */
   public Grid makeGrid() {
-    return new Grid(myNumRows,myNumCols,states,myParser.getInfo("StateColors"),myParser.getInfo("Parameters"),myParser.getInfo("Type"));
+    return new Grid(myNumRows, myNumCols, states, myParser.getInfo("StateColors"),
+        myParser.getInfo("Parameters"), myParser.getInfo("Type"));
   }
 
-  protected RandomStates (ParserSIM parser, long seed) {
+  protected RandomStates(ParserSIM parser, long seed) {
     rand = new Random(seed);
     myParser = parser;
     String parameters[] = parser.getInfo("InitialStates").split(",");
@@ -115,7 +141,9 @@ public class RandomStates {
     myNumCols = Integer.parseInt(parameters[1]);
     states = new int[myNumRows][myNumCols];
     myNumCases = 3;
-    if (parser.getInfo("Type").equals("GameOfLife")) myNumCases = GAME_OF_LIFE_CASES;
+    if (parser.getInfo("Type").equals("GameOfLife")) {
+      myNumCases = GAME_OF_LIFE_CASES;
+    }
     assignVariables(parameters);
   }
 }

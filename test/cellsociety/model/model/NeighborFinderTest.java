@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GridIteratorTest {
+public class NeighborFinderTest {
   private Grid myGrid;
   private int myStates[][];
   private int numRows;

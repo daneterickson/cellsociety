@@ -10,7 +10,9 @@ import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.rules.PredatorPreyRule;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
 import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,24 @@ public class PredatorPreyModel extends Model {
     neighborFinder = new SquareEdges(edgePolicy);
   }
 
+  @Override
+  public void setEdgePolicy(String type){
+    EdgePolicySetter eps = new EdgePolicySetter();
+    edgePolicy = eps.setEdgePolicy(type);
+  }
+  @Override
+  public String getEdgePolicyType(){
+    return edgePolicy.getClass().toString();
+  }
+  @Override
+  public void setNeighborFinder(String type){
+    NeighborFinderSetter nfs = new NeighborFinderSetter();
+    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+  }
+  @Override
+  public String getNeighborFinderType(){
+    return neighborFinder.getClass().toString();
+  }
   @Override
   public void updateModel(Grid currGrid) {
     newUpdates.clear();

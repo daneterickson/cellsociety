@@ -3,9 +3,11 @@ package cellsociety.model.model;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.GameOfLifeRule;
 import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
 import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,29 @@ public class GameOfLifeModel extends Model {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
     myController = getMyController();
-    neighborFinder = setNeighborFinder();
+    neighborFinder = getNeighborFinder();
     edgePolicy = getEdgePolicy();
     neighborFinder = new SquareComplete(edgePolicy);
     numUpdates = getNumUpdates();
+  }
+
+  @Override
+  public void setEdgePolicy(String type){
+    EdgePolicySetter eps = new EdgePolicySetter();
+    edgePolicy = eps.setEdgePolicy(type);
+  }
+  @Override
+  public String getEdgePolicyType(){
+    return edgePolicy.getClass().toString();
+  }
+  @Override
+  public void setNeighborFinder(String type){
+    NeighborFinderSetter nfs = new NeighborFinderSetter();
+    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+  }
+  @Override
+  public String getNeighborFinderType(){
+    return neighborFinder.getClass().toString();
   }
 
   @Override

@@ -5,9 +5,11 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.rules.SpreadingOfFireRule;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
 import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +44,30 @@ public class SpreadingOfFireModel extends Model {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
     myController = getMyController();
-    neighborFinder = setNeighborFinder();
+    neighborFinder = getNeighborFinder();
     edgePolicy = getEdgePolicy();
     neighborFinder = new SquareEdges(edgePolicy);
     numUpdates = getNumUpdates();
   }
 
+  @Override
+  public void setEdgePolicy(String type){
+    EdgePolicySetter eps = new EdgePolicySetter();
+    edgePolicy = eps.setEdgePolicy(type);
+  }
+  @Override
+  public String getEdgePolicyType(){
+    return edgePolicy.getClass().toString();
+  }
+  @Override
+  public void setNeighborFinder(String type){
+    NeighborFinderSetter nfs = new NeighborFinderSetter();
+    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+  }
+  @Override
+  public String getNeighborFinderType(){
+    return neighborFinder.getClass().toString();
+  }
   @Override
   protected List<Integer> getNearby(int row, int col) {
     return neighborFinder.getNeighbors(row, col, currGrid);

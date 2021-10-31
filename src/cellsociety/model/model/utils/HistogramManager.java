@@ -46,7 +46,7 @@ public class HistogramManager {
     declaredFields.addAll(childFields);
     declaredFields.addAll(parentFields);
 
-    List<String> staticFields = new ArrayList<String>();
+    List<String> staticFields = new ArrayList<>();
     String fieldName;
     for (Field field : declaredFields) {
       if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {

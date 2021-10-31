@@ -6,11 +6,8 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -98,7 +95,7 @@ public class GameOfLifeModelTest {
       System.out.println();
       for (int col = 0; col < numCols; col++) {
         System.out.print(" " + myGrid.getCellStateNumber(row, col));
-        assertEquals(expected[row][col], myGrid.getCellStateNumber(row, col), row +", "+col);
+        assertEquals(expected[row][col], myGrid.getCellStateNumber(row, col), row + ", " + col);
       }
     }
   }

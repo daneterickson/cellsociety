@@ -7,10 +7,12 @@ import cellsociety.model.Grid;
 import cellsociety.model.cell.ModelCell;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
 import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.utils.HistogramManager;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,20 +42,11 @@ public abstract class Model {
     updateHistogram();
   }
 
-  public void setNeighborFinder(String type) {
-    String neighborFinderType = String.format("cellsociety.model.model.utils.NeighborFinders.%s", type);
-    try {
-      Class<?> clazz = Class.forName(neighborFinderType);
-      neighborFinder = (NeighborFinder) clazz.getDeclaredConstructor(EdgePolicies.class)
-          .newInstance(edgePolicy);
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      System.out.println("Method Not Found");
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
-      System.out.println("Class Not Found");
-      e.printStackTrace();
-    }
-  }
+  public abstract void setEdgePolicy(String type);
+  public abstract String getEdgePolicyType();
+  public abstract void setNeighborFinder(String type);
+  public abstract String getNeighborFinderType( );
+
 
   protected void setRule (Rule rule) {
     myRule = rule;
@@ -71,7 +64,7 @@ public abstract class Model {
     return numUpdates;
   }
 
-  protected NeighborFinder setNeighborFinder() {
+  protected NeighborFinder getNeighborFinder() {
     return neighborFinder;
   }
 
@@ -118,6 +111,9 @@ public abstract class Model {
 
   }
 
+  /**
+   * returns a hashmap of [cell state names : amount]
+   */
   public HashMap getHistogram(){
     return histogram.getHistogram();
   }

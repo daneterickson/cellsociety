@@ -19,6 +19,7 @@ public class PercolationRule extends Rule {
    * @param nearby  is a list of the states of the nearby cells
    * @return the new state for the cell being evaluated
    */
+
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
     if (state == EMPTY_STATE) {

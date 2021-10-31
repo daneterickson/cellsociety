@@ -28,11 +28,6 @@ public class PredatorPreySettings extends RightPanel {
   private int slidersChanged = 0;
 
   private static final int TICK_SPACING = 5;
-  //TODO set these Strings from the properties file
-  private static final String FISH_REP_LABEL = "Fish Re-population Rate";
-  private static final String SHARK_REP_LABEL = "Shark Re-population Rate";
-  private static final String SHARK_E_LABEL = "Shark Energy Level";
-  private static final String FISH_E_VAL_LABEL = "Energy Gained";
 
 
   public PredatorPreySettings(ResourceBundle bundle, Controller controller) {
@@ -60,17 +55,17 @@ public class PredatorPreySettings extends RightPanel {
     settingsPkg.add(2, START_SHARK_E);
     settingsPkg.add(3, START_E_GAINED);
 
-    Label fishRepLabel = makeALabel(FISH_REP_LABEL, "fishRepLabel");
+    Label fishRepLabel = makeALabel(super.getMyResource().getString("PredatorPreyFishRepLabel"), "fishRepLabel");
     Slider fishRepSlider = makeASlider(MIN_FISH_REP, MAX_FISH_REP, START_FISH_REP, "fishRepSlider",
         true, TICK_SPACING);
-    Label sharkRepLabel = makeALabel(SHARK_REP_LABEL, "sharkRepLabel");
+    Label sharkRepLabel = makeALabel(super.getMyResource().getString("PredatorPreySharkRepLabel"), "sharkRepLabel");
     Slider sharkRepSlider = makeASlider(MIN_SHARK_REP, MAX_SHARK_REP, START_SHARK_REP,
         "sharkRepSlider", true, TICK_SPACING);
-    Label sharkELabel = makeALabel(SHARK_E_LABEL, "sharkELabel");
+    Label sharkELabel = makeALabel(super.getMyResource().getString("PredatorPreySharkEnergyLabel"), "sharkELabel");
     Slider sharkEnergySlider = makeASlider(MIN_SHARK_E, MAX_SHARK_E, START_SHARK_E,
         "sharkEnergySlider", true, TICK_SPACING);
 
-    Label fishEValLabel = makeALabel(FISH_E_VAL_LABEL, "fishEValLabel");
+    Label fishEValLabel = makeALabel(super.getMyResource().getString("PredatorPreyEnergyGainedLabel"), "fishEValLabel");
     Slider fishEnergyValueSlider = makeASlider(MIN_E_GAINED, MAX_E_GAINED, START_E_GAINED,
         "fishEValSlider", true, TICK_SPACING);
 

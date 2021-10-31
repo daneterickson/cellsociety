@@ -1,5 +1,7 @@
 package cellsociety.view.left;
 
+import cellsociety.controller.Controller;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -20,9 +22,11 @@ public class CellProperties {
   private Label mySimTypeLabel;
   private VBox myCellProperties;
   private ResourceBundle myResource;
+  private Controller myController;
 
 
-  public CellProperties(ResourceBundle resource){
+  public CellProperties(Controller controller,ResourceBundle resource){
+    myController = controller;
     myResource = resource;
     myCellProperties = new VBox();
     myCellProperties.getChildren().add(makeCellPropLabels());
@@ -78,7 +82,7 @@ public class CellProperties {
   }
 
   private Node initializeSimTypeLabel(){
-    mySimTypeLabel = new Label(DEFAULT_SIM);
+    mySimTypeLabel = new Label(myResource.getString("DefaultSim"));
     return mySimTypeLabel;
   }
 
@@ -101,9 +105,35 @@ public class CellProperties {
 
   public Node setResource(ResourceBundle bundle) {
     myResource = bundle;
-    return makeCellPropLabels();
+    myCellProperties = new VBox();
+    myCellProperties.getChildren().add(makeCellPropLabels());
+    setStyles();
+    return myCellProperties;
   }
 
+  public Node updateLeftView(ResourceBundle bundle, Map simProps) {
+    myResource = bundle;
+    myCellProperties = new VBox();
+
+    mySimTypeLabel = new Label((String) simProps.get("Type"));
+
+    Label title = new Label(myResource.getString("CoordinateTitle"));
+    title.getStyleClass().add("coordinateTitle");
+
+    myCellCoordinatesLabel = new Label("("+myCurrentX+", "+myCurrentY+")");
+
+    Label color = new Label(myResource.getString("StateColorTitle"));
+    title.getStyleClass().add("stateColorsTitle");
+
+    myCellProperties.getChildren().add(mySimTypeLabel);
+    myCellProperties.getChildren().add(title);
+    myCellProperties.getChildren().add(myCellCoordinatesLabel);
+    myCellProperties.getChildren().add(color);
+    setStyles();
+
+
+    return myCellProperties;
+  }
 
 
 }

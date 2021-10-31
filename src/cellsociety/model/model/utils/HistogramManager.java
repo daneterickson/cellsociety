@@ -13,7 +13,7 @@ import java.util.List;
 public class HistogramManager {
 
   private HashMap<Integer, String> cellStates;
-  private HashMap<String, Integer> histogram;
+  private HashMap<Integer, Integer> histogram;
   private Grid currGrid;
 
   public HistogramManager(Grid grid) {
@@ -29,8 +29,7 @@ public class HistogramManager {
     histogram = new HashMap<>();
     String name;
     for (Integer state : cellStates.keySet()) {
-      name = cellStates.get(state);
-      histogram.put(name, 0);
+      histogram.put(state, 0);
     }
   }
 
@@ -85,7 +84,7 @@ public class HistogramManager {
    * @return the histogram as a map of cell state names to arrays of the amounts of each type of
    * cell state per round
    */
-  public HashMap<String, Integer> getHistogram() {
+  public HashMap<Integer, Integer> getHistogram() {
     return histogram;
   }
 
@@ -93,16 +92,16 @@ public class HistogramManager {
    * adds the given values to the histogram
    */
   public void add(Integer cellStateNum, int amount) {
-    String name = cellStates.get(cellStateNum);
-    int total = histogram.get(name) + amount;
-    histogram.put(name, total);
+//    String name = cellStates.get(cellStateNum);
+    int total = histogram.get(cellStateNum) + amount;
+    histogram.put(cellStateNum, total);
   }
 
   /**
    * clears the map. this is called everytime the model is updated
    */
   public void clear() {
-    for (String key : histogram.keySet()){
+    for (Integer key : histogram.keySet()){
       histogram.put(key,0);
     }
   }

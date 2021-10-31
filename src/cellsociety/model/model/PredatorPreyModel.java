@@ -64,6 +64,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   public void updateModel(Grid currGrid) {
+    newUpdates.clear();
     this.currGrid = currGrid;
     iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateSharks(row, col, state)));
     iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateOthers(row, col, state)));

@@ -64,6 +64,7 @@ public abstract class Model {
   }
 
   public void updateModel(Grid currGrid) {
+    newUpdates.clear();
     this.currGrid = currGrid;
     iterateGrid(row -> col -> {
       String currState = null;

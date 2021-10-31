@@ -92,9 +92,7 @@ public class PredatorPreyRule extends Rule {
   private int fishRules(int currRow, int currCol, int state, List<Integer> nearby)
       throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
-    int currReproduction = 0;
-
-    currReproduction = (int) Math.round(
+    int currReproduction = (int) Math.round(
         currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
 
     eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
@@ -132,7 +130,6 @@ public class PredatorPreyRule extends Rule {
       throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
     boolean attack = false;
-
     int currReproduction = (int) Math.round(
         currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
     int currEnergy = (int) Math.round(
@@ -199,13 +196,17 @@ public class PredatorPreyRule extends Rule {
       int eligible) {
     ArrayList<Integer> ret = new ArrayList<>();
     for (int idx = 0; idx < nearby.size(); idx++) {
+      System.out.println("nearby"+nearby.get(idx));
       if (!inBounds(currRow, currCol, idx) || occupiedSpace(currRow, currCol, idx)) {
+        System.out.println("ineligible"+nearby.get(idx));
         continue;
       }
 
       if (nearby.get(idx) == eligible) {
 //        System.out.println("geteligible  "+currRow + " " + currCol + " " + idx);
+        System.out.println("eligible"+nearby.get(idx));
         ret.add(idx);
+        System.out.println("size: "+ret.size());
       }
     }
     return ret;
@@ -249,6 +250,9 @@ public class PredatorPreyRule extends Rule {
     return ret;
   }
 
+  /**
+   * determines if the specified row and col have been moved to
+   */
   private boolean occupiedSpace(int currRow, int currCol, int idx) {
     //nearby = [north,south,east,west]
     switch (idx) {
@@ -261,12 +265,17 @@ public class PredatorPreyRule extends Rule {
 
     for (int i = 0; i < newUpdates.size(); i += numUpdates) {
       if (newUpdates.get(i) == currRow && newUpdates.get(i + 1) == currCol) {
-        return false;
+        System.out.println(" :occupied: ");
+        System.out.println(newUpdates.get(i) + " " + newUpdates.get(i+1) + " " + newUpdates.get(i+2) + " " + newUpdates.get(i+3) + " "+ newUpdates.get(i+4) + " ");
+        return true;
       }
     }
     return false;
   }
 
+  /**
+   * adds changed cells' states to a queue that's to be used in updateGrid
+   */
   private void addNewUpdates(int row, int col, int newState, int reproduction, int energy) {
 //    System.out.println(
 //        "new UPDATE: " + row + " " + col + " " + newState + " " + reproduction + " " + energy);

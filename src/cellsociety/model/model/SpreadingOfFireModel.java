@@ -4,9 +4,11 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.GridIterators.GridIterator;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.rules.SpreadingOfFireRule;
+import cellsociety.model.model.utils.GridIterators.SquareEdges;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,6 +19,7 @@ public class SpreadingOfFireModel extends Model {
   private ArrayList<Integer> newUpdates;
   private Controller myController;
   private GridIterator gridIterator;
+  private EdgePolicies edgePolicy;
   private int numUpdates;
   private Rule myRule;
   private double probCatch;
@@ -40,12 +43,14 @@ public class SpreadingOfFireModel extends Model {
     newUpdates = getNewUpdates();
     myController = getMyController();
     gridIterator = getGridIterator();
+    edgePolicy = getEdgePolicy();
+    gridIterator = new SquareEdges(edgePolicy);
     numUpdates = getNumUpdates();
   }
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareEdges(row, col, currGrid);
+    return gridIterator.getNeighbors(row, col, currGrid);
   }
 
   /**

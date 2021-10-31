@@ -3,10 +3,10 @@ package cellsociety.model.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.model.Grid;
-import cellsociety.model.model.utils.EdgePolicies;
-import cellsociety.model.model.utils.FiniteEdgePolicy;
-import cellsociety.model.model.utils.SphericalEdgePolicy;
-import cellsociety.model.model.utils.ToroidalEdgePolicy;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
+import cellsociety.model.model.utils.EdgePolicies.SphericalEdgePolicy;
+import cellsociety.model.model.utils.EdgePolicies.ToroidalEdgePolicy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

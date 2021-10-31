@@ -6,8 +6,10 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.GridIterators.GridIterator;
 import cellsociety.model.model.rules.SegregationRule;
+import cellsociety.model.model.utils.GridIterators.SquareComplete;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +20,7 @@ public class SegregationModel extends Model {
   private ArrayList<Integer> newUpdates;
   private Controller myController;
   private GridIterator gridIterator;
+  private EdgePolicies edgePolicy;
   private int numUpdates;
   private SegregationRule myRule;
 
@@ -33,6 +36,17 @@ public class SegregationModel extends Model {
     numCols = grid.getNumCols();
     random = new Random();
     emptySpots = new ArrayList<>();
+    findEmptyCells(grid);
+    try{
+      threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
+    } catch(Exception e){
+      System.out.println("invalid threshold variable");
+      threshold = 0.5;
+    }
+    myRule = new SegregationRule(threshold, numCols, emptySpots);
+  }
+
+  private void findEmptyCells(Grid grid) {
     iterateGrid(row -> col -> {
       int state = 0;
       try {
@@ -45,24 +59,20 @@ public class SegregationModel extends Model {
         emptySpots.add(row * numCols + col);
       }
     });
-    try{
-      threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
-    } catch(Exception e){
-      System.out.println("invalid threshold variable");
-      threshold = 0.5;
-    }
-    myRule = new SegregationRule(threshold, numCols, emptySpots);
   }
+
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
     myController = getMyController();
     gridIterator = getGridIterator();
+    edgePolicy = getEdgePolicy();
+    gridIterator = new SquareComplete(edgePolicy);
     numUpdates = getNumUpdates();
   }
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareComplete(row, col, currGrid);
+    return gridIterator.getNeighbors(row, col, currGrid);
   }
 
   /**

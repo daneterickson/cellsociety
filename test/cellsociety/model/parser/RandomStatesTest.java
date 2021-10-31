@@ -94,6 +94,20 @@ public class RandomStatesTest {
   }
 
   @Test
+  void testRandom3NumFilled() throws FileNotFoundException, NoSuchFieldException {
+    myParser.readFile(new File("data/spreading_of_fire/random_num3_filled.sim"));
+    RandomStates rs = new RandomStates(myParser);
+    Grid grid = rs.makeGrid();
+    int filled = 0;
+    for (int r=0; r<5; r++) {
+      for (int c=0; c<5; c++) {
+        if (grid.getCellStateNumber(r,c) != 0) filled++;
+      }
+    }
+    assertEquals(9, filled);
+  }
+
+  @Test
   void testRandomProbs3Rows() throws FileNotFoundException, NoSuchFieldException {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_empty.sim"));
     RandomStates rs = new RandomStates(myParser);

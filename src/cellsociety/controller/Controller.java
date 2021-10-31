@@ -15,6 +15,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
@@ -24,44 +27,46 @@ import javafx.stage.Stage;
 
 public class Controller {
 
-  private Model myModel;
+  private List<Model> myModelsList;
   private ParserCSV myParserCSV;
   private ParserSIM myParserSIM;
   private MainView myMainView;
   private Stage myStage;
-  private Grid currGrid;
+  private List<Grid> myGridsList;
   private boolean hasUpdate;
   private boolean stopAnimation;
-  private Map<String, String> simProperties;
+  private List<Map<String, String>> simPropertiesList;
   private ResourceBundle myResources;
+  private int currentGridNumber;
 
-  private static final int SCENE_WIDTH = 500;
-  private static final int SCENE_HEIGHT = 500;
+
+  private static final int SCENE_WIDTH = 600;
+  private static final int SCENE_HEIGHT = 600;
   public static final int DEFAULT_GRID_WIDTH = 10;
   public static final int DEFAULT_GRID_HEIGHT = 10;
   public static final String DEFAULT_STATE_COLORS= "";
   public static final String DEFAULT_PARAMETERS = "";
   private static final String DEFAULT_TYPE = "GameOfLife";
   private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
-  private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
 
   public Controller(Stage stage) {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
-    currGrid = DEFAULT_GRID;
-    myModel = new GameOfLifeModel(this, currGrid);
-    startView(stage);
-    myParserCSV = new ParserCSV();
-    myParserSIM = new ParserSIM();
-    hasUpdate = true;
-    stopAnimation = false;
-  }
-
-  private void startView(Stage stage) {
+    currentGridNumber = 0;
+    Grid defaultGrid = makeDefaultGrid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
+    myGridsList = new ArrayList<>();
+    myGridsList.add(defaultGrid);
+    myModelsList = new ArrayList<>();
+    myModelsList.add(new GameOfLifeModel(this, defaultGrid));
     myMainView = new MainView(stage, this);
     Scene scene = myMainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
     myMainView.initiateGridView();
+    myParserCSV = new ParserCSV();
+    myParserSIM = new ParserSIM();
+    simPropertiesList = new ArrayList<>();
+    hasUpdate = true;
+    stopAnimation = false;
   }
 
   public void setStopAnimation(boolean animationState) {
@@ -80,29 +85,53 @@ public class Controller {
     return hasUpdate;
   }
 
-  public void updateModel(){
+  public void setCurrentGridNumber(int newGridNumber){
+    currentGridNumber = newGridNumber;
+  }
+
+  public int getCurrentGridNumber(){
+    return currentGridNumber;
+  }
+
+  public void updateModels(){
     hasUpdate = false;
-    myModel.updateModel(currGrid);
-    myMainView.updateView();
+    for (int i = 0; i < myModelsList.size(); i++) {
+      myModelsList.get(i).updateModel(myGridsList.get(i));
+      myMainView.updateView();
+    }
   }
 
   //refactor to remove these.
   public int getCellStateNumber(int i, int j){
-    return currGrid.getCellStateNumber(i, j);
+    return myGridsList.get(currentGridNumber).getCellStateNumber(i, j);
   }
 
   public void setCellState(int i, int j, int state){
-    currGrid.updateCell(i, j, state);
+    myGridsList.get(currentGridNumber).updateCell(i, j, state);
   }
 
   public String getCellColor(int i, int j){
     try {
-      return currGrid.getCell(i, j).getCellProperty("StateColor");
+      return myGridsList.get(currentGridNumber).getCell(i, j).getCellProperty("StateColor");
     } catch (KeyNotFoundException e) {
       //TODO: handle exception
       System.out.println("Invalid Property");
       return "000000"; // default black
     }
+  }
+
+
+  public void makeNewDefaultSimulation(){
+    Grid defaultGrid = makeDefaultGrid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
+    myGridsList.add(defaultGrid);
+    myModelsList.add(new GameOfLifeModel(this, defaultGrid));
+    //myMainView.initiateGridView();
+  }
+
+  public void openSIMFile(File simFile) {
+    readSIMFile(simFile);
+//    readCSVFile();
+    makeNewSimulation();
   }
 
   private void makeNewSimulation() {
@@ -113,7 +142,7 @@ public class Controller {
 
   private void makeNewRightPanel() {
     try {
-      Object rightPanel = Class.forName("cellsociety.view.right." + simProperties.get("Type") + "Settings").getDeclaredConstructor(ResourceBundle.class).newInstance(myResources);
+      Object rightPanel = Class.forName("cellsociety.view.right." + simPropertiesList.get(currentGridNumber).get("Type") + "Settings").getDeclaredConstructor(ResourceBundle.class).newInstance(myResources);
       myMainView.myRightPanel = (RightPanel) rightPanel;
       myMainView.updateRightPanel();
     }
@@ -124,9 +153,10 @@ public class Controller {
 
   private void makeNewModel() {
     try {
-      Class<?> clazz = Class.forName("cellsociety.model.model." + simProperties.get("Type") + "Model");
-      Object modell = clazz.getDeclaredConstructor(Controller.class, Grid.class).newInstance(this, currGrid);
-      myModel = (Model) modell;
+      Class<?> clazz = Class.forName("cellsociety.model.model." + simPropertiesList.get(currentGridNumber).get("Type") + "Model");
+      Object modell = clazz.getDeclaredConstructor(Controller.class, Grid.class).newInstance(this, myGridsList.get(currentGridNumber));
+      myModelsList.remove(currentGridNumber);
+      myModelsList.add(currentGridNumber, (Model) modell);
     }
     catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
       e.printStackTrace();
@@ -141,30 +171,12 @@ public class Controller {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();
     }
-    currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
+
+    myGridsList.remove(currentGridNumber);
+    myGridsList.add(currentGridNumber, new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type")));
   }
 
-  public void openSIMFile(File simFile) {
-    readSIMFile(simFile);
-//    readCSVFile();
-    makeNewSimulation();
-  }
 
-  private void readSIMFile(File simFile) {
-    try {
-      myParserSIM.readFile(simFile);
-      simProperties = myParserSIM.getMap();
-      if (simProperties.get("InitialStates").split(",").length == 1) {
-        readCSVFile();
-      } else {
-        RandomStates randomStates = new RandomStates(myParserSIM);
-        currGrid = randomStates.makeGrid();
-      }
-    } catch (FileNotFoundException | NoSuchFieldException e) {
-      // TODO: handle the invalid file exception with pop-up in view
-      e.printStackTrace();
-    }
-  }
 //  private void makeProbStates(int rows, int cols, int numFilled, String type) {
 //
 //  }
@@ -187,6 +199,30 @@ public class Controller {
 //  }
 
 
+  private void readSIMFile(File simFile) {
+    try {
+      myParserSIM.readFile(simFile);
+      if(simPropertiesList.size()==currentGridNumber){simPropertiesList.add(null);}
+      simPropertiesList.add(currentGridNumber, myParserSIM.getMap());
+      simPropertiesList.remove(currentGridNumber+1);
+      if (simPropertiesList.get(currentGridNumber).get("InitialStates").split(",").length == 1) {
+        readCSVFile();
+      } else {
+        RandomStates randomStates = new RandomStates(myParserSIM);
+        myGridsList.remove(currentGridNumber);
+        myGridsList.add(currentGridNumber, randomStates.makeGrid());
+      }
+    } catch (FileNotFoundException | NoSuchFieldException e) {
+      // TODO: handle the invalid file exception with pop-up in view
+      e.printStackTrace();
+    }
+  }
+
+
+  public void addDefaultSimPropMap(){
+    simPropertiesList.add(new HashMap<>() );
+  }
+
   public void setLang(String langString) {
     ResourceBundle bundle;
     if (langString.equals("EN")) {
@@ -203,7 +239,7 @@ public class Controller {
    * @return integer number of columns
    */
   public int getNumGridCols(){
-    return currGrid.getNumCols();
+    return myGridsList.get(currentGridNumber).getNumCols();
   }
 
   /**
@@ -211,17 +247,22 @@ public class Controller {
    * @return integer number of rows
    */
   public int getNumGridRows(){
-    return currGrid.getNumRows();
+    return myGridsList.get(currentGridNumber).getNumRows();
   }
 
   /**
    * Method to get the Grid for saving CSV
    */
   public Grid getGrid() {
-    return currGrid;
+    return myGridsList.get(currentGridNumber);
   }
 
-  public Map getSimPropertiesMap() {
-    return simProperties;
+
+  public Map getSimPropertiesMap() {return simPropertiesList.get(currentGridNumber);}
+
+  private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){
+    return new Grid(height, width, cellStates, stateColors, parameters, type);
+
   }
+
 }

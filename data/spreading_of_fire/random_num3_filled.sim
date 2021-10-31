@@ -1,0 +1,5 @@
+Type=SpreadingOfFire
+Title=Random Number Filled
+Author=Dane Erickson
+Description=Randomly generate cells in 5x5 grid based on number of filled cells (9)
+InitialStates=5,5,9

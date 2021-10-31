@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  * and other properties like color and parameters for the simulation. Methods allow programmer to
  * get and set some properties for the cell.
  */
-public abstract class ModelCell {
+public abstract class ModelCell implements ModelCellInterface, ViewCellInterface {
 
   private int myRow;
   private int myCol;
@@ -55,7 +55,6 @@ public abstract class ModelCell {
     myStartColors = stateColors;
     myStateNumber = state;
     myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(state));
-//    assignState(state);
   }
 
   protected abstract void assignConstants();
@@ -112,6 +111,12 @@ public abstract class ModelCell {
     }
   }
 
+  protected abstract void setParameters(String parameters);
+
+  protected void setStateColor(String color) {
+    myStateColor = color;
+    myCellProperties.put(STATE_COLOR_KEY, color);
+  }
   /**
    * Changes the ModelCell's state based on the inputted value.
    *
@@ -127,7 +132,10 @@ public abstract class ModelCell {
     assignState(newState);
   }
 
-  protected abstract void setParameters(String parameters);
+  protected void setStateName(String name) {
+    myStateName = name;
+    myCellProperties.put(STATE_NAME_KEY, name);
+  }
 
   /**
    * Sets a parameter for the cell based on the inputted key for the parameter map and new value.
@@ -168,28 +176,6 @@ public abstract class ModelCell {
       throw new KeyNotFoundException("Invalid Property");
     }
     return myCellProperties.get(property);
-  }
-
-//  public int getStateNumber() {
-//    return myStateNumber;
-//  }
-
-//  public String getStateName() {
-//    return myStateName;
-//  }
-
-//  public String getStateColor() {
-//    return myStateColor;
-//  }
-
-  protected void setStateColor(String color) {
-    myStateColor = color;
-    myCellProperties.put(STATE_COLOR_KEY, color);
-  }
-
-  protected void setStateName(String name) {
-    myStateName = name;
-    myCellProperties.put(STATE_NAME_KEY, name);
   }
 
 }

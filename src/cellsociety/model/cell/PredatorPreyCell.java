@@ -75,15 +75,4 @@ public class PredatorPreyCell extends ModelCell {
         Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[3]));
   }
 
-//  public double getSharkEnergy () {
-//    return mySharkEnergy;
-//  }
-//
-//  public double getSharkReproduction () {
-//    return mySharkReproduction;
-//  }
-//
-//  public double getFishReproduction () {
-//    return myFishReproduction;
-//  }
 }

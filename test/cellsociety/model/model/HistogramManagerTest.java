@@ -70,7 +70,7 @@ public class HistogramManagerTest {
     StringBuilder setString = new StringBuilder();
     HashMap<String, ArrayList<Integer>> test;
 
-    myStates = new int[][]{{1, 1, 1, 1, 1},
+    myStates = new int[][]{{0, 1, 1, 1, 1},
         {2, 0, 0, 0, 1},
         {2, 0, 0, 0, 1},
         {2, 0, 0, 0, 1},
@@ -92,7 +92,7 @@ public class HistogramManagerTest {
     int burning =  test.get("BURN_STATE").get(0);
     int tree =  test.get("TREE_STATE").get(0);
     assertEquals(7,burning,"should start of with 7 burning. got: " + burning);
-    assertEquals(8,tree,"should start of with 8 tree. got: " + tree);
+    assertEquals(7,tree,"should start of with 7 tree. got: " + tree);
 
     try {
       myModel.updateModel(myGrid);
@@ -104,6 +104,6 @@ public class HistogramManagerTest {
     burning =  test.get("BURN_STATE").get(1);
     tree =  test.get("TREE_STATE").get(1);
     assertEquals(0,burning,"should have 0 burning. got: " + burning);
-    assertEquals(8,tree,"should still have 8 tree. got: " + tree);
+    assertEquals(7,tree,"should still have 7 tree. got: " + tree);
   }
 }

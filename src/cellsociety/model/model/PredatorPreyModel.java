@@ -68,6 +68,7 @@ public class PredatorPreyModel extends Model {
     iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateSharks(row, col, state)));
     iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateOthers(row, col, state)));
     updateGrid();
+    updateHistogram();
     myController.setHasUpdate(true);
   }
 

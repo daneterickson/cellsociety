@@ -9,12 +9,14 @@ import cellsociety.model.model.utils.EdgePolicies;
 import cellsociety.model.model.utils.FiniteEdgePolicy;
 import cellsociety.model.model.utils.GridIterator;
 import cellsociety.model.model.rules.Rule;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class Model { // implements baseModel{
+public abstract class Model {
 
   private Rule myRule;
   private Grid currGrid;
@@ -24,6 +26,8 @@ public abstract class Model { // implements baseModel{
   private Integer numUpdates;
   private final String stateNumber = "StateNumber";
   private EdgePolicies edgePolicy;
+  private HistogramManager histogram;
+
   public Model(Controller controller, Grid grid) {
     newUpdates = new ArrayList<>();
     myController = controller;
@@ -31,6 +35,8 @@ public abstract class Model { // implements baseModel{
     edgePolicy = new FiniteEdgePolicy();
     gridIterator = new GridIterator(edgePolicy);
     numUpdates = 3;
+    histogram = new HistogramManager(currGrid);
+    updateHistogram();
   }
 
   protected void setRule (Rule rule) {
@@ -71,7 +77,30 @@ public abstract class Model { // implements baseModel{
       updateCell(row, col, stateAsInt);
     });
     updateGrid();
+    updateHistogram();
     myController.setHasUpdate(true);
+  }
+
+  protected void updateHistogram(){
+    HashMap<Integer,Integer> temp = histogram.makeBlankMap();
+    iterateGrid(row -> col -> {
+      String currState = null;
+      try {
+        currState = currGrid.getCell(row, col).getCellProperty(stateNumber);
+      } catch (KeyNotFoundException e) {
+        //TODO: handle exception
+        System.out.println("Invalid Property");
+      }
+      int stateAsInt = parseInt(currState);
+      temp.put(stateAsInt,temp.get(stateAsInt)+1);
+    });
+
+    histogram.addPlotPoints(temp);
+
+  }
+
+  public HashMap getHistogram(){
+    return histogram.getHistogram();
   }
 
   /**

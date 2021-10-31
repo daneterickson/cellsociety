@@ -48,7 +48,7 @@ public class GameOfLifeCell extends ModelCell {
     }
     else {
       String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
-      assignTwoCases(state, deadName, stateColors[DEAD_STATE], aliveName, stateColors[ALIVE_STATE]);
+      assignTwoCases(state, deadName, stateColors[EMPTY_STATE], aliveName, stateColors[ALIVE_STATE]);
     }
   }
 

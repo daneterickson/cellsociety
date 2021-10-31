@@ -101,8 +101,5 @@ public class GameOfLifeModelTest {
         assertEquals(expected[row][col], myGrid.getCellStateNumber(row, col), row +", "+col);
       }
     }
-
   }
-
-
 }

@@ -2,6 +2,7 @@ package cellsociety.model.cell;
 
 import cellsociety.model.exceptions.KeyNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 

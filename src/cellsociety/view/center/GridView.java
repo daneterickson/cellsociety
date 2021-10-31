@@ -75,7 +75,28 @@ public abstract class GridView extends CenterView {
     drawSelectedGridIndicatorLines();
   }
 
-  protected abstract void findOptimalGridSizing(int numRows, int numCols);
+  protected void findOptimalGridSizing(int numRows, int numCols) {
+    removeRowNumForGrid(getCurrentGridNum());
+    removeColNumForGrid(getCurrentGridNum());
+    addRowNumForGrid(getCurrentGridNum(), numRows);
+    addColNumForGrid(getCurrentGridNum(), numCols);
+    double blockLength;
+    if (numRows > numCols) {
+      setGridHeight(CENTER_VIEW_MAX_HEIGHT);
+      if (getCanvasListSize() > 0) {
+        setGridHeight(getGridHeight() / getCanvasListSize());
+      }
+      blockLength = getGridHeight() / numRows;
+      setGridWidth(blockLength * numCols);
+    } else {
+      setGridWidth(CENTER_VIEW_MAX_WIDTH);
+      if (getCanvasListSize() > 0) {
+        setGridWidth(getGridWidth() / getCanvasListSize());
+      }
+      blockLength = getGridWidth() / numCols;
+      setGridHeight(blockLength * numRows);
+    }
+  }
 
   protected abstract void updateCellColors(GraphicsContext gc);
 

@@ -3,7 +3,7 @@ package cellsociety.view.mainview;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
-import cellsociety.view.center.GridView;
+import cellsociety.view.center.SquareGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -19,7 +19,7 @@ public class MainView {
 
   private Stage myStage;
   private CellProperties myCellProperties;
-  private GridView myGridView;
+  private SquareGridView mySquareGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
   public RightPanel myRightPanel;
@@ -33,14 +33,14 @@ public class MainView {
     myStage = stage;
     myCellProperties = new CellProperties(myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-    myGridView = new GridView(myCellProperties, myController);
+    mySquareGridView = new SquareGridView(myCellProperties, myController);
     myRightPanel = new GameOfLifeSettings(myResources);
-    mySimControl = new SimControl(myGridView, myController);
+    mySimControl = new SimControl(mySquareGridView, myController);
   }
 
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
-    root.setCenter(myGridView.getGridBox());
+    root.setCenter(mySquareGridView.getGridBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -53,7 +53,7 @@ public class MainView {
    * Updates the canvas (grid) in the view.
    */
   public void updateView() {
-    myGridView.updateGrids();
+    mySquareGridView.updateGrids();
   }
 
   public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }
@@ -63,7 +63,7 @@ public class MainView {
    * Updates the canvas (grid) in the view and changes the scaling.
    */
   public void initiateGridView(){
-    myGridView.initiateGrid();
+    mySquareGridView.initiateGrid();
   }
 
   public CellProperties getMyCellProperties() { return myCellProperties; }

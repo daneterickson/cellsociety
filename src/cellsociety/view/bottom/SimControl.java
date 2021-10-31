@@ -1,7 +1,7 @@
 package cellsociety.view.bottom;
 
 import cellsociety.controller.Controller;
-import cellsociety.view.center.GridView;
+import cellsociety.view.center.SquareGridView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
@@ -41,7 +41,7 @@ public class SimControl {
 
   private double myAnimationRate;
   private VBox mySimControl;
-  private GridView myGridView;
+  private SquareGridView mySquareGridView;
   private Timeline myAnimation;
   private Controller myController;
   private boolean isPaused;
@@ -54,9 +54,9 @@ public class SimControl {
   private ImageView rabbitIcon = new ImageView(SLIDER_ICONS + "rabbit.png");
 
 
-  public SimControl(GridView gridView, Controller controller) {
+  public SimControl(SquareGridView squareGridView, Controller controller) {
     myAnimationRate = INITIAL_RATE;
-    myGridView = gridView;
+    mySquareGridView = squareGridView;
     mySimControl = new VBox(BUTTON_SLIDER_SPACING);
     mySimControl.getChildren().add(makeControlButtons());
     mySimControl.getChildren().add(makeSpeedSlider());
@@ -147,13 +147,13 @@ public class SimControl {
   private void step() {
     if(myController.getHasUpdate()){
       myController.updateModels();
-      myGridView.updateGrids();
+      mySquareGridView.updateGrids();
     }
   }
 
   private Button makeAddGridButton(){
     Button button = new Button(ADD_GRID_BUTTON_TEXT);
-    button.setOnAction(e -> myGridView.addGridToCenter());
+    button.setOnAction(e -> mySquareGridView.addGridToCenter());
     button.getStyleClass().add("addGridButton");
     button.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     button.setId("addGridButton");

@@ -1,6 +1,5 @@
 package cellsociety.model.model;
 
-import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 import static cellsociety.model.cell.PredatorPreyCell.FISH_STATE;
 import static cellsociety.model.cell.PredatorPreyCell.SHARK_STATE;
 import static java.lang.Integer.parseInt;
@@ -118,7 +117,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareEdges(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareEdges(row, col, currGrid);
   }
 
   @Override

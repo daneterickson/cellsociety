@@ -5,6 +5,8 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.utils.EdgePolicies;
+import cellsociety.model.model.utils.FiniteEdgePolicy;
 import cellsociety.model.model.utils.GridIterator;
 import cellsociety.model.model.rules.Rule;
 import java.util.ArrayList;
@@ -21,12 +23,13 @@ public abstract class Model { // implements baseModel{
   private GridIterator gridIterator;
   private Integer numUpdates;
   private final String stateNumber = "StateNumber";
-
+  private EdgePolicies edgePolicy;
   public Model(Controller controller, Grid grid) {
     newUpdates = new ArrayList<>();
     myController = controller;
     currGrid = grid;
-    gridIterator = new GridIterator();
+    edgePolicy = new FiniteEdgePolicy();
+    gridIterator = new GridIterator(edgePolicy);
     numUpdates = 3;
   }
 

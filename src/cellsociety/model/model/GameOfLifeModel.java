@@ -1,8 +1,5 @@
 package cellsociety.model.model;
 
-import static cellsociety.model.cell.GameOfLifeCell.ALIVE_STATE;
-import static cellsociety.model.cell.GameOfLifeCell.DEAD_STATE;
-
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.GridIterator;
@@ -36,7 +33,7 @@ public class GameOfLifeModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareComplete(row, col, currGrid, DEAD_STATE);
+    return gridIterator.getSquareComplete(row, col, currGrid);
   }
 
   /**

@@ -5,11 +5,13 @@ import cellsociety.model.Grid;
 public class EdgePolicies {
   public EdgePolicies(){}
 
-  public int finite(int row, int col, Grid grid) {
+  public int policy(int row, int col, Grid grid){return 0;}
+
+  protected int finite(int row, int col, Grid grid) {
     return 0;
   }
 
-  public int toroidal(int row, int col, Grid grid){
+  protected int toroidal(int row, int col, Grid grid){
     int numRows = grid.getNumRows();
     int numCols = grid.getNumCols();
 
@@ -24,7 +26,7 @@ public class EdgePolicies {
 
     return grid.getCellStateNumber(row,col);
   }
-  public int spheroid(int row, int col, Grid grid){
+  protected int spherical(int row, int col, Grid grid){
     int numRows = grid.getNumRows();
     int numCols = grid.getNumCols();
 
@@ -45,7 +47,7 @@ public class EdgePolicies {
       newRow = col;
     }
 
-    System.out.println(newCol + ", " + newRow);
+//    System.out.println(newCol + ", " + newRow);
     return grid.getCellStateNumber(newRow,newCol);
   }
 

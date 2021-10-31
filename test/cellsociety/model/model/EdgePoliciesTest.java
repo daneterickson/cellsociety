@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies;
-import cellsociety.model.model.utils.GridIterator;
-import java.util.List;
+import cellsociety.model.model.utils.FiniteEdgePolicy;
+import cellsociety.model.model.utils.SphericalEdgePolicy;
+import cellsociety.model.model.utils.ToroidalEdgePolicy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,6 @@ public class EdgePoliciesTest {
 
   @BeforeEach
   void setUp() {
-    myEdgePolicies = new EdgePolicies();
     myStates = new int[][]{{1, 1, 1, 1, 1},
         {2, 0, 0, 0, 1},
         {2, 0, 0, 0, 1},
@@ -39,7 +39,8 @@ public class EdgePoliciesTest {
 
   @Test
   void testFinite() {
-    int result = myEdgePolicies.finite(row, col, myGrid);
+    myEdgePolicies = new FiniteEdgePolicy();
+    int result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(0, result, "finite should return 0: " + result);
   }
@@ -51,28 +52,29 @@ public class EdgePoliciesTest {
 //      {2, 0, 0, 0, 1},
 //      {2, 0, 0, 0, 1},
 //      {2, 2, 2, 2, 2}};
+    myEdgePolicies = new ToroidalEdgePolicy();
     int result;
     row = -1;
     col = 0;
-    result = myEdgePolicies.toroidal(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(2, result, "(0,-1) should go to (0,4) = 2. got:" + result);
 
     row = 5;
     col = 0;
-    result = myEdgePolicies.toroidal(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(1, result, "(0,5) should go to (0,1) = 1. got:" + result);
 
     row = 5;
     col = -1;
-    result = myEdgePolicies.toroidal(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(1, result, "(-1,5) should go to (4,1) = 1. got:" + result);
 
     row = -1;
     col = -1;
-    result = myEdgePolicies.toroidal(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(2, result, "(-1,-1) should go to (4,4) = 2. got:" + result);
   }
@@ -83,39 +85,41 @@ public class EdgePoliciesTest {
 //      {2, 0, 0, 0, 1},
 //      {2, 0, 0, 0, 1},
 //      {2, 2, 2, 2, 2}};
+    myEdgePolicies = new SphericalEdgePolicy();
+
     int result;
 
     row = -1;
     col = 0;
-    result = myEdgePolicies.spheroid(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
     assertEquals(1, result, "(0,-1) should go to (0,0) = 1. got:" + result);
 
     row = 5;
     col = 0;
-    result = myEdgePolicies.spheroid(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
     assertEquals(1, result, "(0,5) should go to (4,0) = 1. got:" + result);
 
     row = 5;
     col = -1;
-    result = myEdgePolicies.spheroid(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(1, result, "(-1,5) should go to (4,0) = 1. got:" + result);
 
     row = -1;
     col = -1;
-    result = myEdgePolicies.spheroid(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(1, result, "(-1,-1) should go to (0,0) = 1. got:" + result);
 
     row = -1;
     col = 2;
-    result = myEdgePolicies.spheroid(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(2, result, "(2,-1) should go to (0,2) = 2. got:" + result);
 
     row = 5;
     col = 2;
-    result = myEdgePolicies.spheroid(row, col, myGrid);
+    result = myEdgePolicies.policy(row, col, myGrid);
 
     assertEquals(1, result, "(2,5) should go to (4,2) = 1. got:" + result);
   }

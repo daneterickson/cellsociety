@@ -1,6 +1,5 @@
 package cellsociety.model.model;
 
-import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 import static cellsociety.model.cell.PercolationCell.WATER_STATE;
 import static java.lang.Integer.parseInt;
 
@@ -134,7 +133,7 @@ public class PercolationModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareComplete(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareComplete(row, col, currGrid);
   }
 
   /**

@@ -7,6 +7,7 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.rules.SegregationRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +19,7 @@ public class SegregationModel extends Model {
   private Controller myController;
   private GridIterator gridIterator;
   private int numUpdates;
+  private SegregationRule myRule;
 
   private double threshold;
   private ArrayList<Integer> emptySpots;
@@ -49,6 +51,7 @@ public class SegregationModel extends Model {
       System.out.println("invalid threshold variable");
       threshold = 0.5;
     }
+    myRule = new SegregationRule(threshold, numCols, emptySpots);
   }
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
@@ -67,18 +70,12 @@ public class SegregationModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    if (state == EMPTY_STATE) {
-      return EMPTY_STATE;
-    }
-
-    double allyPercentage = getAllyPercentage(state, nearby);
-
-    if (allyPercentage < threshold) {
+    int newState = myRule.determineState(currRow,currCol,state,nearby);
+    if (myRule.relocationStatus()) {
       relocate(state);
-      emptySpots.add(currRow*numCols + currCol);
-      return EMPTY_STATE;
+      emptySpots.add(currRow * numCols + currCol);
     }
-    return state;
+    return newState;
   }
 
   private void relocate(int state) {
@@ -87,20 +84,6 @@ public class SegregationModel extends Model {
     int c = emptySpots.get(idx) % numCols;
     emptySpots.remove(idx);
     addNewUpdates(r, c, state);
-  }
-
-  private double getAllyPercentage(int state, List<Integer> nearby) {
-    double totalNeighbors = 0;
-    double allies = 0;
-    for (int i : nearby) {
-      if (i != EMPTY_STATE) {
-        totalNeighbors += 1;
-      }
-      if (i == state) {
-        allies++;
-      }
-    }
-    return allies / totalNeighbors;
   }
 
 }

@@ -7,9 +7,7 @@ import java.util.List;
 
 public class GameOfLifeRule extends Rule {
 
-  public GameOfLifeRule () {
-//    super();
-  }
+  public GameOfLifeRule () {}
 
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {

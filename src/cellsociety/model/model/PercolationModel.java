@@ -8,6 +8,8 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.rules.PercolationRule;
+import cellsociety.model.model.rules.Rule;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class PercolationModel extends Model {
   private Controller myController;
   private GridIterator gridIterator;
   private int numUpdates;
-
+  private Rule myRule;
   private String endEdge;
 
 
@@ -26,6 +28,8 @@ public class PercolationModel extends Model {
     super(controller, grid);
     getBaseInstanceVariables();
     getEndEdge();
+    myRule = new PercolationRule();
+//    setRule(new PercolationRule());
   }
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
@@ -138,13 +142,7 @@ public class PercolationModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    if (state == EMPTY_STATE) {
-      if (findNearbyWater(nearby)) {
-        return WATER_STATE;
-      }
-      return EMPTY_STATE;
-    }
-    return state;
+    return myRule.determineState(currRow, currCol, state, nearby);
   }
 
   private boolean findNearbyWater(List<Integer> nearby) {

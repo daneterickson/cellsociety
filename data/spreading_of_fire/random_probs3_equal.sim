@@ -1,0 +1,6 @@
+Type=SpreadingOfFire
+Title=Equal Probabilities
+Author=Dane Erickson
+Description=Randomly populate cells in 5x5 grid based on equal probabilities for each state
+InitialStates=5,5,0.333,0.333,0.334
+Parameters=0.55

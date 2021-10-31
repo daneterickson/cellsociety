@@ -1,0 +1,6 @@
+Type=SpreadingOfFire
+Title=Tree Probabilities
+Author=Dane Erickson
+Description=Populate cells in 5x5 grid all to tree
+InitialStates=5,5,0,1,0
+Parameters=0.55

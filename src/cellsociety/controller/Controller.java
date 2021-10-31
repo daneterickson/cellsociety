@@ -6,6 +6,7 @@ import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
+import cellsociety.model.parser.RandomStates;
 import cellsociety.view.mainview.MainView;
 import cellsociety.view.right.RightPanel;
 import com.opencsv.exceptions.CsvValidationException;
@@ -16,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLOutput;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -97,7 +99,7 @@ public class Controller {
 
   public void openSIMFile(File simFile) {
     readSIMFile(simFile);
-    readCSVFile();
+//    readCSVFile();
     makeNewSimulation();
   }
 
@@ -139,13 +141,39 @@ public class Controller {
       e.printStackTrace();
     }
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
-
   }
+
+//  private void makeProbStates(int rows, int cols, int numFilled, String type) {
+//
+//  }
+//
+//  private void makeRandomStates(int rows, int cols, int numFilled, String type) {
+//    int states[][] = new int[rows][cols];
+//    int fill = 0;
+//    int numCases = 3;
+//    Random rand = new Random();
+//    if (type.equals("GameOfLife")) numCases = 2;
+//    while (fill < numFilled) {
+//      int state = rand.nextInt(numCases);
+//      int r = rand.nextInt(rows);
+//      int c = rand.nextInt(cols);
+//      if (states[r][c] == 0) {
+//        states[r][c] = state;
+//        fill++;
+//      }
+//    }
+//  }
 
   private void readSIMFile(File simFile) {
     try {
       myParserSIM.readFile(simFile);
       simProperties = myParserSIM.getMap();
+      if (simProperties.get("InitialStates").split(",").length == 1) {
+        readCSVFile();
+      } else {
+        RandomStates randomStates = new RandomStates(myParserSIM);
+        currGrid = randomStates.makeGrid();
+      }
     } catch (FileNotFoundException | NoSuchFieldException e) {
       // TODO: handle the invalid file exception with pop-up in view
       e.printStackTrace();

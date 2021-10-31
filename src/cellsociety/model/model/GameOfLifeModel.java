@@ -3,10 +3,10 @@ package cellsociety.model.model;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
-import cellsociety.model.model.utils.GridIterators.GridIterator;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.GameOfLifeRule;
 import cellsociety.model.model.rules.Rule;
-import cellsociety.model.model.utils.GridIterators.SquareComplete;
+import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class GameOfLifeModel extends Model {
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
-  private GridIterator gridIterator;
+  private NeighborFinder neighborFinder;
   private EdgePolicies edgePolicy;
   private int numUpdates;
   private Rule myRule;
@@ -30,15 +30,15 @@ public class GameOfLifeModel extends Model {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
     myController = getMyController();
-    gridIterator = getGridIterator();
+    neighborFinder = setNeighborFinder();
     edgePolicy = getEdgePolicy();
-    gridIterator = new SquareComplete(edgePolicy);
+    neighborFinder = new SquareComplete(edgePolicy);
     numUpdates = getNumUpdates();
   }
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getNeighbors(row, col, currGrid);
+    return neighborFinder.getNeighbors(row, col, currGrid);
   }
 
   /**

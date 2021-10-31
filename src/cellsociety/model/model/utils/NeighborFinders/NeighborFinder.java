@@ -1,4 +1,4 @@
-package cellsociety.model.model.utils.GridIterators;
+package cellsociety.model.model.utils.NeighborFinders;
 
 import static java.lang.Integer.parseInt;
 
@@ -8,9 +8,9 @@ import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GridIterator {
+public abstract class NeighborFinder {
   private EdgePolicies edgePolicy;
-  public GridIterator(EdgePolicies edgePolicy){
+  public NeighborFinder(EdgePolicies edgePolicy){
     this.edgePolicy = edgePolicy;
   }
 

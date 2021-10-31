@@ -1,10 +1,10 @@
-package cellsociety.model.model.utils.GridIterators;
+package cellsociety.model.model.utils.NeighborFinders;
 
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.List;
 
-public class SquareEdges extends GridIterator implements GridIteratorInterface{
+public class SquareEdges extends NeighborFinder implements NeighborFinderInterface {
 
   public SquareEdges(EdgePolicies edgePolicy) {
     super(edgePolicy);

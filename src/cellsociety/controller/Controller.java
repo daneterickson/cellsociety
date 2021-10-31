@@ -39,15 +39,15 @@ public class Controller {
   private ResourceBundle myResources;
   private int currentGridNumber;
 
+
   private static final int SCENE_WIDTH = 600;
   private static final int SCENE_HEIGHT = 600;
-  private static final int DEFAULT_GRID_WIDTH = 10;
-  private static final int DEFAULT_GRID_HEIGHT = 10;
+  public static final int DEFAULT_GRID_WIDTH = 10;
+  public static final int DEFAULT_GRID_HEIGHT = 10;
   public static final String DEFAULT_STATE_COLORS= "";
   public static final String DEFAULT_PARAMETERS = "";
   private static final String DEFAULT_TYPE = "GameOfLife";
   private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
-
 
   public Controller(Stage stage) {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
@@ -71,6 +71,10 @@ public class Controller {
 
   public void setStopAnimation(boolean animationState) {
     stopAnimation = animationState;
+  }
+
+  public boolean getStopAnimation(){
+    return stopAnimation;
   }
 
   public void setHasUpdate(boolean hasUpdate) {
@@ -97,6 +101,7 @@ public class Controller {
     }
   }
 
+  //refactor to remove these.
   public int getCellStateNumber(int i, int j){
     return myGridsList.get(currentGridNumber).getCellStateNumber(i, j);
   }
@@ -115,6 +120,7 @@ public class Controller {
     }
   }
 
+
   public void makeNewDefaultSimulation(){
     Grid defaultGrid = makeDefaultGrid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
     myGridsList.add(defaultGrid);
@@ -130,7 +136,6 @@ public class Controller {
 
   private void makeNewSimulation() {
     makeNewModel();
-
     makeNewRightPanel();
     myMainView.initiateGridView();
   }
@@ -171,6 +176,7 @@ public class Controller {
     myGridsList.add(currentGridNumber, new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type")));
   }
 
+
 //  private void makeProbStates(int rows, int cols, int numFilled, String type) {
 //
 //  }
@@ -192,6 +198,7 @@ public class Controller {
 //    }
 //  }
 
+
   private void readSIMFile(File simFile) {
     try {
       myParserSIM.readFile(simFile);
@@ -210,6 +217,7 @@ public class Controller {
       e.printStackTrace();
     }
   }
+
 
   public void addDefaultSimPropMap(){
     simPropertiesList.add(new HashMap<>() );

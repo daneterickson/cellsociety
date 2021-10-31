@@ -37,32 +37,39 @@ public class Controller {
 
   private static final int SCENE_WIDTH = 500;
   private static final int SCENE_HEIGHT = 500;
-  private static final int DEFAULT_GRID_WIDTH = 10;
-  private static final int DEFAULT_GRID_HEIGHT = 10;
+  public static final int DEFAULT_GRID_WIDTH = 10;
+  public static final int DEFAULT_GRID_HEIGHT = 10;
   public static final String DEFAULT_STATE_COLORS= "";
   public static final String DEFAULT_PARAMETERS = "";
   private static final String DEFAULT_TYPE = "GameOfLife";
   private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
   private static final Grid DEFAULT_GRID = new Grid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
 
-
   public Controller(Stage stage) {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     currGrid = DEFAULT_GRID;
     myModel = new GameOfLifeModel(this, currGrid);
-    myMainView = new MainView(stage, this);
-    Scene scene = myMainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
-    stage.setScene(scene);
-    stage.show();
-    myMainView.initiateGridView();
+    startView(stage);
     myParserCSV = new ParserCSV();
     myParserSIM = new ParserSIM();
     hasUpdate = true;
     stopAnimation = false;
   }
 
+  private void startView(Stage stage) {
+    myMainView = new MainView(stage, this);
+    Scene scene = myMainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
+    stage.setScene(scene);
+    stage.show();
+    myMainView.initiateGridView();
+  }
+
   public void setStopAnimation(boolean animationState) {
     stopAnimation = animationState;
+  }
+
+  public boolean getStopAnimation(){
+    return stopAnimation;
   }
 
   public void setHasUpdate(boolean hasUpdate) {
@@ -79,6 +86,7 @@ public class Controller {
     myMainView.updateView();
   }
 
+  //refactor to remove these.
   public int getCellStateNumber(int i, int j){
     return currGrid.getCellStateNumber(i, j);
   }
@@ -97,15 +105,8 @@ public class Controller {
     }
   }
 
-  public void openSIMFile(File simFile) {
-    readSIMFile(simFile);
-//    readCSVFile();
-    makeNewSimulation();
-  }
-
   private void makeNewSimulation() {
     makeNewModel();
-
     makeNewRightPanel();
     myMainView.initiateGridView();
   }
@@ -143,6 +144,27 @@ public class Controller {
     currGrid = new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type"));
   }
 
+  public void openSIMFile(File simFile) {
+    readSIMFile(simFile);
+//    readCSVFile();
+    makeNewSimulation();
+  }
+
+  private void readSIMFile(File simFile) {
+    try {
+      myParserSIM.readFile(simFile);
+      simProperties = myParserSIM.getMap();
+      if (simProperties.get("InitialStates").split(",").length == 1) {
+        readCSVFile();
+      } else {
+        RandomStates randomStates = new RandomStates(myParserSIM);
+        currGrid = randomStates.makeGrid();
+      }
+    } catch (FileNotFoundException | NoSuchFieldException e) {
+      // TODO: handle the invalid file exception with pop-up in view
+      e.printStackTrace();
+    }
+  }
 //  private void makeProbStates(int rows, int cols, int numFilled, String type) {
 //
 //  }
@@ -164,21 +186,6 @@ public class Controller {
 //    }
 //  }
 
-  private void readSIMFile(File simFile) {
-    try {
-      myParserSIM.readFile(simFile);
-      simProperties = myParserSIM.getMap();
-      if (simProperties.get("InitialStates").split(",").length == 1) {
-        readCSVFile();
-      } else {
-        RandomStates randomStates = new RandomStates(myParserSIM);
-        currGrid = randomStates.makeGrid();
-      }
-    } catch (FileNotFoundException | NoSuchFieldException e) {
-      // TODO: handle the invalid file exception with pop-up in view
-      e.printStackTrace();
-    }
-  }
 
   public void setLang(String langString) {
     ResourceBundle bundle;

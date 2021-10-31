@@ -8,7 +8,6 @@ import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -23,7 +22,8 @@ public class GridView {
   private static final Color GRID_LINE_COLOR = Color.BLACK;
   private static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   private static final double GRID_LINE_SIZE = .04;
-  private static final double SELECTED_LINE_SIZE = .15;
+  private static final double SELECTED_LINE_SIZE = .25;
+  private static final int GRID_SPACING = 10;
 
 
   private String RESOURCE = "cellsociety.view.center.";
@@ -50,6 +50,7 @@ public class GridView {
     myNumGridRowsList = new ArrayList<>(Arrays.asList(0));
     myMousePos = new Integer[2];
     myGridHolder = new HBox();
+    myGridHolder.setSpacing(GRID_SPACING);
     myController = controller;
     myGridNum = myController.getCurrentGridNumber();
     myCellProperties = cellProps;
@@ -77,9 +78,7 @@ public class GridView {
   public void updateGrids() {
     int curGrid = myGridNum;
     for (int i = 0; i < myCanvasList.size(); i++) {
-      //GraphicsContext gc = this.myCanvas.getGraphicsContext2D();
-      myController.setCurrentGridNumber(i);
-      myGridNum = i;
+      updateGridNumber(i);
       Canvas curCanvas = myCanvasList.get(i);
       GraphicsContext gc = curCanvas.getGraphicsContext2D();
       gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
@@ -240,7 +239,7 @@ public class GridView {
     myController.makeNewDefaultSimulation();
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
-    myGridHolder.getChildren().add(myCanvasList.get(myGridNum));
+    //myGridHolder.getChildren().add(myCanvasList.get(myGridNum));
     initiateGrid();
     updateOtherGridSizing();
   }
@@ -248,14 +247,15 @@ public class GridView {
   private void updateOtherGridSizing(){
     int curGridNum = myGridNum;
     for (int gridNum = 0; gridNum < curGridNum; gridNum++) {
-      myController.setCurrentGridNumber(gridNum);
+      updateGridNumber(gridNum);
       findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
-      //myCanvasList.remove(gridNum);
-      //addCanvasToList();
+      myGridHolder.getChildren().remove(myCanvasList.get(gridNum));
+      myCanvasList.remove(gridNum);
+      addCanvasToList();
     }
-
-    myGridNum = curGridNum;
-    myController.setCurrentGridNumber(curGridNum);
+    myGridHolder.getChildren().addAll(myCanvasList);
+    updateGrids();
+    updateGridNumber(curGridNum);
   }
 
 

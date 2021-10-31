@@ -8,6 +8,7 @@ import cellsociety.model.model.rules.SpreadingOfFireRule;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.model.parser.RandomStates;
+import cellsociety.view.left.CellProperties;
 import cellsociety.view.mainview.MainView;
 import cellsociety.view.right.RightPanel;
 import com.opencsv.exceptions.CsvValidationException;
@@ -145,7 +146,12 @@ public class Controller {
   private void makeNewSimulation() {
     makeNewModel();
     makeNewRightPanel();
+    makeNewLeftPanel();
     myMainView.initiateGridView();
+  }
+
+  private void makeNewLeftPanel() {
+      myMainView.updateLeftView(myResources);
   }
 
   private void makeNewRightPanel() {
@@ -189,7 +195,7 @@ public class Controller {
 //  }
 //
 //  private void makeRandomStates(int rows, int cols, int numFilled, String type) {
-//    int states[][] = new int[rows][cols];
+//    int states[][]s = new int[rows][cols];
 //    int fill = 0;
 //    int numCases = 3;
 //    Random rand = new Random();
@@ -265,7 +271,12 @@ public class Controller {
     return myGridsList.get(currentGridNumber);
   }
 
-  public Map getSimPropertiesMap() {return simPropertiesList.get(currentGridNumber);}
+  public Map getSimPropertiesMap() {
+    if (simPropertiesList == null) {
+      return null;
+    }
+    return simPropertiesList.get(currentGridNumber);
+  }
 
   private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){
     return new Grid(height, width, cellStates, stateColors, parameters, type);

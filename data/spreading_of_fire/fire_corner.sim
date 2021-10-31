@@ -1,0 +1,6 @@
+Type=SpreadingOfFire
+Title=Starts Small
+Author=Robert Duvall
+Description=Fire starts from the corner
+InitialStates=spreading_of_fire/fire_corner.csv
+Parameters=0.2

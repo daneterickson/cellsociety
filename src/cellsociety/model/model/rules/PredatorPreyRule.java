@@ -89,6 +89,11 @@ public class PredatorPreyRule extends Rule {
   return EMPTY_STATE;
   }
 
+  /**
+   * determines the cell state changes for a fish cell.
+   * if the fish can move, it sets the current cell to empty and adds the current fish states to newUpdates
+   * if reproduction = 0, it sets the current cell to fish, and adds the current fish states to newUpdates
+   */
   private int fishRules(int currRow, int currCol, int state, List<Integer> nearby)
       throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
@@ -126,6 +131,13 @@ public class PredatorPreyRule extends Rule {
     return EMPTY_STATE;
   }
 
+  /**
+   * determines the cell state changes for a shark cell.
+   * if energy = 0; the cell becomes empty
+   * if the shark can move, it sets the current cell to empty and adds the current shark states to newUpdates
+   * if the shark can eat, it sets the current cell to empty, sets attacked = true, and adds the current shark states to newUpdates
+   * if reproduction = 0, it sets the current cell to shark, and adds the current shark states to newUpdates
+   */
   private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby)
       throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;

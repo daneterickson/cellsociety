@@ -2,15 +2,24 @@ package cellsociety.model.model.utils;
 
 import cellsociety.model.Grid;
 
-public class EdgePolicies {
+public abstract class EdgePolicies {
   public EdgePolicies(){}
 
-  public int policy(int row, int col, Grid grid){return 0;}
+  /**
+   * abstract class that will be called in each policy
+   */
+  public abstract int policy(int row, int col, Grid grid);
 
+  /**
+   * edge policy that assumes edges as empty cells
+   */
   protected int finite(int row, int col, Grid grid) {
     return 0;
   }
 
+  /**
+   * edge policy that assumes the edges loop to the opposite edge
+   */
   protected int toroidal(int row, int col, Grid grid){
     int numRows = grid.getNumRows();
     int numCols = grid.getNumCols();
@@ -26,6 +35,10 @@ public class EdgePolicies {
 
     return grid.getCellStateNumber(row,col);
   }
+
+  /**
+   * edge policy that assumes the top and left edges connect and the bottom and right edges connect
+   */
   protected int spherical(int row, int col, Grid grid){
     int numRows = grid.getNumRows();
     int numCols = grid.getNumCols();
@@ -47,7 +60,6 @@ public class EdgePolicies {
       newRow = col;
     }
 
-//    System.out.println(newCol + ", " + newRow);
     return grid.getCellStateNumber(newRow,newCol);
   }
 

@@ -9,7 +9,7 @@ import cellsociety.model.model.utils.EdgePolicies;
 import cellsociety.model.model.utils.FiniteEdgePolicy;
 import cellsociety.model.model.utils.GridIterator;
 import cellsociety.model.model.rules.Rule;
-import java.lang.reflect.Field;
+import cellsociety.model.model.utils.HistogramManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

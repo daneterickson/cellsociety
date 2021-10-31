@@ -1,4 +1,4 @@
-package cellsociety.model.model;
+package cellsociety.model.model.utils;
 
 import static java.lang.Integer.parseInt;
 
@@ -22,6 +22,9 @@ public class HistogramManager {
     initHistogram();
   }
 
+  /**
+   * creates the histogram map and initializes each of the cellStates in it
+   */
   private void initHistogram() {
     histogram = new HashMap<>();
     String name;

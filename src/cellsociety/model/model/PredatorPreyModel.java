@@ -166,6 +166,23 @@ public class PredatorPreyModel extends Model {
     return myRule.determineState(currRow, currCol, state, nearby);
   }
 
+  @Override
+  protected void setProb(ArrayList newProb) {
+    fishReproduction = (int) newProb.get(0);
+    sharkReproduction = (int) newProb.get(1);
+    sharkEnergy = (int) newProb.get(2);
+    energyGain = (int) newProb.get(3);
+
+    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+        sharkEnergy, energyGain, newUpdates,
+        sharkAttacks);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
+  }
+
 }
 
 

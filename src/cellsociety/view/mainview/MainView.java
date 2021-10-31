@@ -24,7 +24,7 @@ public class MainView {
   private GridView myGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
-  public RightPanel myRightPanel;
+  private RightPanel myRightPanel;
   private Controller myController;
   private ResourceBundle myResources;
   private BorderPane root;
@@ -37,7 +37,7 @@ public class MainView {
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
 //    myGridView = new SquareGridView(myCellProperties, myController);
     myGridView = new TriangleGridView(myCellProperties, myController);
-    myRightPanel = new GameOfLifeSettings(myResources);
+    myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
   }
 
@@ -59,7 +59,13 @@ public class MainView {
     myGridView.updateGrids();
   }
 
-  public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }
+  public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
+    myRightPanel = rightPanel;
+    root.setRight(myRightPanel.setResource(bundle));
+  }
+  public void updateRightPanelLang(ResourceBundle bundle) {
+    root.setRight(myRightPanel.setResource(bundle));
+  }
   public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
 
   /**

@@ -1,5 +1,7 @@
 package cellsociety.view.right;
 
+import cellsociety.controller.Controller;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -13,12 +15,10 @@ public class SegregationSettings extends RightPanel{
   private final double STARTING_SIMILARITY = .5;
 
   private static final double TICK_SPACING = .1;
-  //TODO get string for properties
-  private static final String SIMILARITY_LABEL = "Preferred Similarity";
 
 
-  public SegregationSettings(ResourceBundle bundle){
-    super(bundle);
+  public SegregationSettings(ResourceBundle bundle, Controller controller){
+    super(bundle, controller);
   }
 
   @Override
@@ -34,8 +34,13 @@ public class SegregationSettings extends RightPanel{
   @Override
   protected Node makeSliders(){
     VBox sliderGroup = new VBox();
-    Label similarityLabel = makeALabel(SIMILARITY_LABEL, "similarityLabel");
+    Label similarityLabel = makeALabel(super.getMyResource().getString("SegregationSimilarityLabel"), "similarityLabel");
     Slider similaritySlider = makeASlider(MIN_SIMILARITY,MAX_SIMILARITY,STARTING_SIMILARITY, "similaritySlider", true, TICK_SPACING);
+    similaritySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+      ArrayList settingsPkg = new ArrayList();
+      settingsPkg.add(similaritySlider.getValue());
+      setProbSettings(settingsPkg);
+    });
     sliderGroup.getChildren().addAll(similarityLabel, similaritySlider);
     return sliderGroup;
   }
@@ -45,6 +50,10 @@ public class SegregationSettings extends RightPanel{
     return null;
   }
 
+  @Override
+  protected void setProbSettings(ArrayList probability) {
+    super.getMyController().updateModelSettings(probability);
+  }
 
 
 }

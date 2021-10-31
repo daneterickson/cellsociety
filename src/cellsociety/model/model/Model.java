@@ -190,4 +190,9 @@ public abstract class Model {
 
   protected abstract Integer currRule(int currRow, int currCol, int state, List<Integer> nearby);
 
+  protected void setProb(ArrayList newProb) {}
+
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
+  }
 }

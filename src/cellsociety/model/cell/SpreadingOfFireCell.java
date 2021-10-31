@@ -2,7 +2,7 @@ package cellsociety.model.cell;
 
 import java.util.ResourceBundle;
 
-public class SpreadingOfFireCell extends ModelCell{
+public class SpreadingOfFireCell extends ModelCell {
 
   public static final int TREE_STATE = 1;
   public static final int BURN_STATE = 2;

@@ -2,7 +2,7 @@ package cellsociety.model.cell;
 
 import java.util.ResourceBundle;
 
-public class SegregationCell extends ModelCell{
+public class SegregationCell extends ModelCell {
 
   public static final int RACE1_STATE = 1;
   public static final int RACE2_STATE = 2;
@@ -46,6 +46,7 @@ public class SegregationCell extends ModelCell{
 
   @Override
   protected void setParameters(String parameters) {
-    setCellParameter(similarityThresholdKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
+    setCellParameter(similarityThresholdKey,
+        Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
   }
 }

@@ -53,21 +53,14 @@ public class PredatorPreyCell extends ModelCell {
 
   @Override
   protected void setParameters(String parameters) {
-    setCellParameter(fishReproductionKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
-    setCellParameter(sharkReproductionKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[1]));
-    setCellParameter(sharkEnergyStartKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[2]));
-    setCellParameter(sharkEnergyGainKey, Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[3]));
+    setCellParameter(fishReproductionKey,
+        Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[0]));
+    setCellParameter(sharkReproductionKey,
+        Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[1]));
+    setCellParameter(sharkEnergyStartKey,
+        Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[2]));
+    setCellParameter(sharkEnergyGainKey,
+        Double.valueOf(parameters.split(PARAMETER_DELIMINATOR)[3]));
   }
 
-//  public double getSharkEnergy () {
-//    return mySharkEnergy;
-//  }
-//
-//  public double getSharkReproduction () {
-//    return mySharkReproduction;
-//  }
-//
-//  public double getFishReproduction () {
-//    return myFishReproduction;
-//  }
 }

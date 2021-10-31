@@ -2,6 +2,7 @@ package cellsociety.model;
 
 import cellsociety.model.cell.GameOfLifeCell;
 import cellsociety.model.cell.ModelCell;
+import cellsociety.model.cell.ModelCellInterface;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -14,7 +15,8 @@ public class Grid {
   private String myStateColors;
   private String myParameters;
 
-  public Grid(int rows, int cols, int[][] startStates, String stateColors, String parameters, String type) {
+  public Grid(int rows, int cols, int[][] startStates, String stateColors, String parameters,
+      String type) {
     myNumRows = rows;
     myNumCols = cols;
     myStateColors = stateColors;
@@ -37,7 +39,46 @@ public class Grid {
     }
   }
 
-//  /**
+  private void setCell(int i, int j, int state) throws ClassNotFoundException {
+    Class<?> clazz = Class.forName(myCellType);
+    ModelCell newCell;
+    try {
+      newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, String.class,
+              String.class, int.class)
+          .newInstance(i, j, myStateColors, myParameters, state);
+      myGrid[i][j] = newCell;
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+      System.out.println("Method Not Found");
+      e.printStackTrace();
+    }
+  }
+
+  public int getCellStateNumber(int i, int j) {
+    try {
+      return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
+    } catch (KeyNotFoundException e) {
+      System.out.println("Invalid Property");
+      return 0;
+    }
+  }
+
+  public ModelCellInterface getCell(int i, int j) {
+    return myGrid[i][j];
+  }
+
+  public void updateCell(int i, int j, int state) {
+    myGrid[i][j].changeState(state);
+  }
+
+  public int getNumCols() {
+    return myNumCols;
+  }
+
+  public int getNumRows() {
+    return myNumRows;
+  }
+
+  //  /**
 //   * implementation with arraylist instead of array[][]
 //   */
 //  public Grid (int rows, int cols, ArrayList<ArrayList<Integer>> startStates, String type) {
@@ -60,50 +101,4 @@ public class Grid {
 //      }
 //    }
 //  }
-
-  public int getCellStateNumber(int i, int j) {
-    try {
-      return Integer.valueOf(myGrid[i][j].getCellProperty("StateNumber"));
-    } catch (KeyNotFoundException e) {
-      System.out.println("Invalid Property");
-      return 0;
-    }
-  }
-
-
-  public ModelCell getCell(int i, int j) {
-    return myGrid[i][j];
-  }
-
-  private void setCell(int i, int j, int state) throws ClassNotFoundException {
-    Class<?> clazz = Class.forName(myCellType);
-    ModelCell newCell;
-    try {
-      newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, String.class, String.class, int.class)
-          .newInstance(i, j, myStateColors, myParameters, state);
-      myGrid[i][j] = newCell;
-//      if (myGrid[i][j] == null) {
-//        myGrid[i][j] = newCell;
-//      } else {
-//        myGrid[i][j].changeState(state);
-//      }
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      System.out.println("Method Not Found");
-      e.printStackTrace();
-    }
-
-  }
-
-  public void updateCell(int i, int j, int state) {
-    myGrid[i][j].changeState(state);
-  }
-
-  public int getNumCols() {
-    return myNumCols;
-  }
-
-  public int getNumRows() {
-    return myNumRows;
-  }
-
 }

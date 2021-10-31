@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public abstract class ModelCell {
+public abstract class ModelCell implements ModelCellInterface, ViewCellInterface {
 
   private int myRow;
   private int myCol;
@@ -41,12 +41,13 @@ public abstract class ModelCell {
     myStartColors = stateColors;
     myStateNumber = state;
     myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(state));
-//    assignState(state);
   }
 
   protected abstract void assignConstants();
 
-  protected ResourceBundle getMyResources () { return myResources; }
+  protected ResourceBundle getMyResources() {
+    return myResources;
+  }
 
   protected abstract void assignState(int state);
 
@@ -56,8 +57,7 @@ public abstract class ModelCell {
     myCellProperties.put(NUMBER_CASES_KEY, THREE_CASES);
     if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
       switchThreeCases(state, name0, color0, name1, color1, name2, color2);
-    }
-    else {
+    } else {
       String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
       switchThreeCases(state, name0, stateColors[0], name1, stateColors[1], name2, stateColors[2]);
     }
@@ -97,40 +97,7 @@ public abstract class ModelCell {
     }
   }
 
-  public void changeState(int newState) {
-    if (newState >= numCases) throw new IndexOutOfBoundsException();
-    myStateNumber = newState;
-    myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(newState));
-    assignState(newState);
-  }
-
   protected abstract void setParameters(String parameters);
-
-  public void setCellParameter(String key, Double value) {
-    myCellParameters.put(key, value);
-  }
-
-  public Double getCellParameter(String parameter) throws KeyNotFoundException {
-    if (!myCellParameters.containsKey(parameter)) throw new KeyNotFoundException("Invalid Parameter");
-    return myCellParameters.get(parameter);
-  }
-
-  public String getCellProperty(String property) throws KeyNotFoundException {
-    if (!myCellProperties.containsKey(property)) throw new KeyNotFoundException("Invalid Property");
-    return myCellProperties.get(property);
-  }
-
-//  public int getStateNumber() {
-//    return myStateNumber;
-//  }
-
-//  public String getStateName() {
-//    return myStateName;
-//  }
-
-//  public String getStateColor() {
-//    return myStateColor;
-//  }
 
   protected void setStateColor(String color) {
     myStateColor = color;
@@ -140,6 +107,33 @@ public abstract class ModelCell {
   protected void setStateName(String name) {
     myStateName = name;
     myCellProperties.put(STATE_NAME_KEY, name);
+  }
+
+  public void setCellParameter(String key, Double value) {
+    myCellParameters.put(key, value);
+  }
+
+  public Double getCellParameter(String parameter) throws KeyNotFoundException {
+    if (!myCellParameters.containsKey(parameter)) {
+      throw new KeyNotFoundException("Invalid Parameter");
+    }
+    return myCellParameters.get(parameter);
+  }
+
+  public String getCellProperty(String property) throws KeyNotFoundException {
+    if (!myCellProperties.containsKey(property)) {
+      throw new KeyNotFoundException("Invalid Property");
+    }
+    return myCellProperties.get(property);
+  }
+
+  public void changeState(int newState) {
+    if (newState >= numCases) {
+      throw new IndexOutOfBoundsException();
+    }
+    myStateNumber = newState;
+    myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(newState));
+    assignState(newState);
   }
 
 }

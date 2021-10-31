@@ -2,7 +2,7 @@ package cellsociety.model.cell;
 
 import java.util.ResourceBundle;
 
-public class PercolationCell extends ModelCell{
+public class PercolationCell extends ModelCell {
 
   public static final int WATER_STATE = 1;
   public static final int BARRIER_STATE = 2;
@@ -35,9 +35,10 @@ public class PercolationCell extends ModelCell{
   @Override
   protected void assignState(int state) {
     assignThreeCases(state, EMPTY_NAME, DEFAULT_GREY, waterName, waterColor, barrierName,
-          barrierColor);
+        barrierColor);
   }
 
   @Override
-  protected void setParameters(String parameters) {}
+  protected void setParameters(String parameters) {
+  }
 }

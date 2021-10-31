@@ -1,6 +1,5 @@
 package cellsociety.model.model;
 
-import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 import static cellsociety.model.cell.PredatorPreyCell.FISH_STATE;
 import static cellsociety.model.cell.PredatorPreyCell.SHARK_STATE;
 import static java.lang.Integer.parseInt;
@@ -10,6 +9,7 @@ import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.rules.PredatorPreyRule;
 import cellsociety.model.model.rules.Rule;
+import cellsociety.model.model.utils.GridIterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -117,7 +117,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareEdges(row, col, currGrid, EMPTY_STATE);
+    return gridIterator.getSquareEdges(row, col, currGrid);
   }
 
   @Override

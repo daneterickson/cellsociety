@@ -68,7 +68,7 @@ public class HistogramManagerTest {
   void testAddRound() {
     Set<String> expected;
     StringBuilder setString = new StringBuilder();
-    HashMap<String, ArrayList<Integer>> test;
+    HashMap<String, Integer> test;
 
     myStates = new int[][]{{0, 1, 1, 1, 1},
         {2, 0, 0, 0, 1},
@@ -89,8 +89,8 @@ public class HistogramManagerTest {
 
     expected = Set.of("BURN_STATE","TREE_STATE","EMPTY_STATE");
     assertEquals(expected, sofKeys, "spreading of fire keys should be burn and tree state. got: " + setString.toString());
-    int burning =  test.get("BURN_STATE").get(0);
-    int tree =  test.get("TREE_STATE").get(0);
+    int burning = test.get("BURN_STATE");
+    int tree =  test.get("TREE_STATE");
     assertEquals(7,burning,"should start of with 7 burning. got: " + burning);
     assertEquals(7,tree,"should start of with 7 tree. got: " + tree);
 
@@ -101,8 +101,8 @@ public class HistogramManagerTest {
     }
 
     test = myModel.getHistogram();
-    burning =  test.get("BURN_STATE").get(1);
-    tree =  test.get("TREE_STATE").get(1);
+    burning =  test.get("BURN_STATE");
+    tree =  test.get("TREE_STATE");
     assertEquals(0,burning,"should have 0 burning. got: " + burning);
     assertEquals(7,tree,"should still have 7 tree. got: " + tree);
   }

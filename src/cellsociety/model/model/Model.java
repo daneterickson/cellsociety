@@ -83,7 +83,7 @@ public abstract class Model {
   }
 
   protected void updateHistogram(){
-    HashMap<Integer,Integer> temp = histogram.makeBlankMap();
+    histogram.clear();
     iterateGrid(row -> col -> {
       String currState = null;
       try {
@@ -93,10 +93,8 @@ public abstract class Model {
         System.out.println("Invalid Property");
       }
       int stateAsInt = parseInt(currState);
-      temp.put(stateAsInt,temp.get(stateAsInt)+1);
+      histogram.add(stateAsInt,1);
     });
-
-    histogram.addPlotPoints(temp);
 
   }
 

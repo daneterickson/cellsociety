@@ -1,11 +1,15 @@
 package cellsociety.view.bottom;
 
 import cellsociety.controller.Controller;
+import cellsociety.view.center.CenterView;
 import cellsociety.view.center.GridView;
+import cellsociety.view.left.CellProperties;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -41,10 +45,12 @@ public class SimControl {
 
   private double myAnimationRate;
   private VBox mySimControl;
-  private GridView myGridView;
+  private CenterView myCenterView;
   private Timeline myAnimation;
   private Controller myController;
   private boolean isPaused;
+  private ResourceBundle myResources;
+  private CellProperties myCellProperties;
 
   private ImageView playIcon = new ImageView(ICONS + "play.png");
   private ImageView pauseIcon = new ImageView(ICONS + "pause.png");
@@ -54,14 +60,17 @@ public class SimControl {
   private ImageView rabbitIcon = new ImageView(SLIDER_ICONS + "rabbit.png");
 
 
-  public SimControl(GridView gridView, Controller controller) {
+  public SimControl(CenterView centerView, Controller controller, ResourceBundle resources,
+      CellProperties cellProperties) {
     myAnimationRate = INITIAL_RATE;
-    myGridView = gridView;
+    myCenterView = centerView;
+    myController = controller;
+    myResources = resources;
+    myCellProperties = cellProperties;
     mySimControl = new VBox(BUTTON_SLIDER_SPACING);
     mySimControl.getChildren().add(makeControlButtons());
     mySimControl.getChildren().add(makeSpeedSlider());
-    mySimControl.getChildren().add(makeLangButton());
-    myController = controller;
+    mySimControl.getChildren().addAll(makeLangButton(), makeViewChoiceBox());
     setStyles();
   }
 
@@ -147,17 +156,25 @@ public class SimControl {
   private void step() {
     if(myController.getHasUpdate()){
       myController.updateModels();
-      myGridView.updateView();
+      myCenterView.updateView();
     }
   }
 
   private Button makeAddGridButton(){
     Button button = new Button(ADD_GRID_BUTTON_TEXT);
-    button.setOnAction(e -> myGridView.addGridToCenter());
+    button.setOnAction(e -> myCenterView.addGridToCenter());
     button.getStyleClass().add("addGridButton");
     button.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     button.setId("addGridButton");
     return button;
+  }
+
+  private Node makeViewChoiceBox() {
+    ChoiceBox views = new ChoiceBox();
+    views.getItems().addAll(myResources.getString("ViewTypes").split(","));
+    views.setOnAction(e -> {
+      myController.updateCenterViewType(views.getValue().toString()); });
+    return views;
   }
 
   private Node makeLangButton() {

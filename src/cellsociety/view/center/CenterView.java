@@ -11,13 +11,15 @@ public abstract class CenterView {
   protected static final String RESOURCE = "cellsociety.view.center.";
   protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "CenterView.css";
 
-  public CenterView(){}
+  public CenterView(CellProperties cellProperties, Controller controller){}
 
   public abstract void initiateView();
 
   public abstract void updateView();
 
   public abstract Node getViewBox();
+
+  public void addGridToCenter() {}
 
 
 

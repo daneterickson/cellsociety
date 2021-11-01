@@ -11,6 +11,7 @@ import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
 import cellsociety.view.top.TopLoadSave;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
@@ -22,7 +23,6 @@ public class MainView {
 
   private Stage myStage;
   private CellProperties myCellProperties;
-  private GridView myGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
   private RightPanel myRightPanel;
@@ -44,9 +44,9 @@ public class MainView {
 //    myGridView = new CircleGridView(myCellProperties, myController);
 //    myGridView = new HexagonGridView(myCellProperties, myController);
 //    myHistogramView = new HistogramView(myController);
-    myCenterView = new SquareGridView(myCellProperties, myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
-    mySimControl = new SimControl(myGridView, myController);
+    myCenterView = new SquareGridView(myCellProperties, myController);
+    mySimControl = new SimControl(myCenterView, myController, myResources, myCellProperties);
   }
 
   public Scene makeScene(int width, int height) {
@@ -59,6 +59,20 @@ public class MainView {
     root.setRight(myRightPanel.getTheRightPanel());
     Scene scene = new Scene(root, width, height);
     return scene;
+  }
+
+  public void assignViewType(String viewType) throws ClassNotFoundException {
+    String className = String.format("cellsociety.view.center.%s",viewType);
+    Class<?> clazz = Class.forName(className);
+    try {
+      myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class, Controller.class)
+          .newInstance(myCellProperties, myController);
+      root.setCenter(myCenterView.getViewBox());
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+      System.out.println("Method Not Found");
+      e.printStackTrace();
+    }
+    myCenterView.updateView();
   }
 
   /**

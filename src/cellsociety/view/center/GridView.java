@@ -38,6 +38,7 @@ public abstract class GridView extends CenterView {
 
 
   public GridView(CellProperties cellProps, Controller controller){
+    super(cellProps, controller);
     myCanvasList = new ArrayList<>();
     myAffineList = new ArrayList<>();
     myNumGridColsList = new ArrayList<>(Arrays.asList(0));
@@ -126,6 +127,7 @@ public abstract class GridView extends CenterView {
     updateView();
   }
 
+  @Override
   public void addGridToCenter(){
     myNumGridRowsList.add(0);
     myNumGridColsList.add(0);

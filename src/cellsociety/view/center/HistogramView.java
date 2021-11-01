@@ -1,6 +1,7 @@
 package cellsociety.view.center;
 
 import cellsociety.controller.Controller;
+import cellsociety.view.left.CellProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,8 @@ public class HistogramView extends CenterView {
   private double totalNumCells;
   private GraphicsContext gc;
 
-  public HistogramView(Controller controller) {
+  public HistogramView(CellProperties cellProps, Controller controller) {
+    super(cellProps, controller);
     barBox = new HBox(BAR_SPACING);
     barBox.setAlignment(Pos.BOTTOM_CENTER);
     labelBox = new HBox(LABEL_SPACING);

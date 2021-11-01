@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -26,11 +27,11 @@ public class TopLoadSave {
 
   public TopLoadSave(Stage stage, Controller controller, ResourceBundle resources) {
     myStage = stage;
+    myResources = resources;
     myTopLoadSave = new HBox();
     myTopLoadSave.getChildren().add(makeLoadSaveButtons());
     setStyles();
     myController = controller;
-    myResources = resources;
   }
 
   private void setStyles() {
@@ -40,47 +41,22 @@ public class TopLoadSave {
 
   private Node makeLoadSaveButtons() {
     HBox topLoadSave = new HBox(15);
-//    topLoadSave.getChildren().add(makeLoadCSVButton());
-//    topLoadSave.getChildren().add(makeSaveCSVButton());
     topLoadSave.getChildren().add(makeLoadSIMButton());
     topLoadSave.getChildren().add(makeSaveSIMButton());
     return topLoadSave;
   }
 
-//  private Node makeLoadCSVButton() {
-//    Button loadCSVButton = new Button("Load CSV File");
-//    loadCSVButton.setOnAction(e -> loadCSVFile());
-//    return setID(loadCSVButton, "LoadCSVButton");
-//  }
-
   private Node makeLoadSIMButton() {
-    Button loadSIMButton = new Button("Load Sim File");
+    Button loadSIMButton = new Button(myResources.getString("LoadSim"));
     loadSIMButton.setOnAction(e -> loadSIMFile());
     return setID(loadSIMButton, "LoadSIMButton");
   }
 
-//  private Node makeSaveCSVButton() {
-//    Button loadButton = new Button("Save CSV File");
-//    loadButton.setOnAction(e -> saveCSVFile());
-//    return setID(loadButton, "SaveCSVButton");
-//  }
-
   private Node makeSaveSIMButton() {
-    Button saveSIMButton = new Button("Save SIM");
+    Button saveSIMButton = new Button(myResources.getString("SaveSim"));
     saveSIMButton.setOnAction(e -> saveSIM());
     return setID(saveSIMButton, "SaveSIMButton");
   }
-
-//  private void loadCSVFile() {
-//    FileChooser fileChooser = new FileChooser();
-//    fileChooser.setTitle("Load CSV File");
-//    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV", "*.csv"));
-//    File selectedFile = fileChooser.showOpenDialog(myStage);
-//    if (selectedFile == null) {
-//      return;
-//    }
-//    myController.openCSVFile(selectedFile);
-//  }
 
   private void loadSIMFile() {
     FileChooser fileChooser = new FileChooser();
@@ -150,6 +126,14 @@ public class TopLoadSave {
   }
 
   public Node getTopLoadSave() {
+    return myTopLoadSave;
+  }
+
+  public Node setResource(ResourceBundle bundle) {
+    myResources = bundle;
+    myTopLoadSave = new HBox();
+    myTopLoadSave.getChildren().add(makeLoadSaveButtons());
+    setStyles();
     return myTopLoadSave;
   }
 

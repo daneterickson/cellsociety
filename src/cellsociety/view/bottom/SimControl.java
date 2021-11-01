@@ -69,7 +69,8 @@ public class SimControl {
     mySimControl = new VBox(BUTTON_SLIDER_SPACING);
     mySimControl.getChildren().add(makeControlButtons());
     mySimControl.getChildren().add(makeSpeedSlider());
-    mySimControl.getChildren().addAll(makeLangButton(), makeViewChoiceBox());
+    mySimControl.getChildren().add(makeViewChoiceBox());
+    mySimControl.getChildren().add(makeLangButton());
     setStyles();
   }
 
@@ -181,7 +182,7 @@ public class SimControl {
     Button langButton = new Button("EN");
     langButton.setOnAction(e -> toggleLanguage(langButton));
     langHBox.getChildren().add(langButton);
-
+    langHBox.getStyleClass().add("buttons");
     return langHBox;
   }
 
@@ -196,12 +197,23 @@ public class SimControl {
     }
   }
 
+
   /**
    * getSimControl is used to return the made buttons at the bottom of the view
    *
    * @return an HBox containing all the simulation control buttons
    */
   public Node getSimControl() {
+    return mySimControl;
+  }
+
+  public Node setResource(ResourceBundle bundle) {
+    HBox buttons = (HBox) mySimControl.getChildren().get(0);
+    Button addGrid = (Button) buttons.getChildren().get(2);
+    addGrid.setText(bundle.getString("AddGrid"));
+    buttons.getChildren().set(2, addGrid);
+    mySimControl.getChildren().set(0, buttons);
+    setStyles();
     return mySimControl;
   }
 }

@@ -5,6 +5,7 @@ import cellsociety.view.left.CellProperties;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +20,7 @@ public abstract class GridView extends CenterView {
   protected static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   protected static final double GRID_LINE_SIZE = .04;
   protected static final double SELECTED_LINE_SIZE = .25;
+  protected static final double RADIUS = 0.5;
 
   private List<Canvas> myCanvasList;
   private List<Affine> myAffineList;
@@ -215,12 +217,27 @@ public abstract class GridView extends CenterView {
     getCanvasFromList(myController.getCurrentGridNumber()).getStyleClass().add("canvas");
   }
 
-  protected void addToCanvasList(Canvas canvas){
-    myCanvasList.add(canvas);
-  }
-
-  protected void addToCanvasList(int index, Canvas canvas){
-    myCanvasList.add(index, canvas);
+  /**
+   * Not only useful for circular cases, but also a good approximation for cells that are almost
+   * circular (hexagons, octagons, decagons, etc.).
+   */
+  protected void getMousePositionForCircles(MouseEvent mouseEvent){
+    double cursorX = mouseEvent.getX();
+    double cursorY = mouseEvent.getY();
+    setCursorOverCell(false);
+    try {
+      Point2D modelXY = getAffineFromList(myController.getCurrentGridNumber()).inverseTransform(
+          cursorX, cursorY);
+      Point2D center = new Point2D(((int) modelXY.getX()) + RADIUS, ((int) modelXY.getY()) + RADIUS);
+      double disToCenter = Math.sqrt(Math.pow(modelXY.getX()- center.getX(), 2) + Math.pow(modelXY.getY()- center.getY(), 2));
+      if(disToCenter <= RADIUS) {
+        setCursorOverCell(true);
+      }
+      setMosPos(0, (int) modelXY.getX());
+      setMosPos(1, (int) modelXY.getY());
+    } catch (NonInvertibleTransformException e) {
+      e.getMessage();//It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
+    }
   }
 
   protected int getCanvasListSize(){

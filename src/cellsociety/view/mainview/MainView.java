@@ -3,11 +3,10 @@ package cellsociety.view.mainview;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
-import cellsociety.view.center.CircleGridView;
+import cellsociety.view.center.CenterView;
 import cellsociety.view.center.GridView;
-import cellsociety.view.center.HexagonGridView;
+import cellsociety.view.center.HistogramView;
 import cellsociety.view.center.SquareGridView;
-import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -30,6 +29,8 @@ public class MainView {
   private Controller myController;
   private ResourceBundle myResources;
   private BorderPane root;
+  private HistogramView myHistogramView;
+  private CenterView myCenterView;
 
   public MainView(Stage stage, Controller controller){
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
@@ -38,17 +39,20 @@ public class MainView {
     myCellProperties = new CellProperties(myController, myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
     //TODO make button to toggle between these with reflection
-    myGridView = new SquareGridView(myCellProperties, myController, myResources);
-    //myGridView = new TriangleGridView(myCellProperties, myController, myResources);
-    //myGridView = new CircleGridView(myCellProperties, myController, myResources);
-    //myGridView = new HexagonGridView(myCellProperties, myController, myResources);
+//    myGridView = new SquareGridView(myCellProperties, myController);
+//    myGridView = new TriangleGridView(myCellProperties, myController);
+//    myGridView = new CircleGridView(myCellProperties, myController);
+//    myGridView = new HexagonGridView(myCellProperties, myController);
+//    myHistogramView = new HistogramView(myController);
+    myCenterView = new SquareGridView(myCellProperties, myController, myResources);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
   }
 
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
-    root.setCenter(myGridView.getGridBox());
+    root.setCenter(myCenterView.getViewBox());
+//    root.setCenter(myHistogramView.getHistogramBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -61,7 +65,9 @@ public class MainView {
    * Updates the canvas (grid) in the view.
    */
   public void updateView() {
-    myGridView.updateGrids();
+    myCenterView.updateView();
+//    myGridView.updateView();
+//    myHistogramView.updateView();
   }
 
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
@@ -77,8 +83,10 @@ public class MainView {
   /**
    * Updates the canvas (grid) in the view and changes the scaling.
    */
-  public void initiateGridView(){
-    myGridView.initiateGrid();
+  public void initiateCenterView(){
+    myCenterView.initiateView();
+//    myGridView.initiateView();
+//    myHistogramView.initiateView();
   }
 
   public CellProperties getMyCellProperties() { return myCellProperties; }

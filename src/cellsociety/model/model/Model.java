@@ -4,7 +4,6 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.cell.ModelCell;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
@@ -114,8 +113,8 @@ public abstract class Model {
   /**
    * returns a hashmap of [cell state names : amount]
    */
-  public HashMap getHistogram(){
-    return histogram.getHistogram();
+  public HashMap getHistogramMap(){
+    return histogram.getHistogramManager();
   }
 
   /**

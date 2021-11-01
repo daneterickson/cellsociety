@@ -45,9 +45,11 @@ public class GameOfLifeCell extends ModelCell {
   protected void assignState(int state) {
     if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 2) {
       assignTwoCases(state, deadName, DEFAULT_GREY, aliveName, aliveBlue);
+      assignNameColorMapTwoCases(deadName, DEFAULT_GREY, aliveName, aliveBlue);
     } else {
       String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
       assignTwoCases(state, deadName, stateColors[EMPTY_STATE], aliveName, stateColors[ALIVE_STATE]);
+      assignNameColorMapTwoCases(deadName, stateColors[EMPTY_STATE], aliveName, stateColors[ALIVE_STATE]);
     }
   }
 

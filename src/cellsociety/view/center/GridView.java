@@ -31,6 +31,7 @@ public abstract class GridView extends CenterView {
   private double myGridHeight;
   private Integer[] myMousePos;
   private double myBlockLength;
+  private boolean cursorOverCell;
 
 
   public GridView(CellProperties cellProps, Controller controller){
@@ -44,6 +45,7 @@ public abstract class GridView extends CenterView {
     myCellProperties = cellProps;
     myMousePos = new Integer[2];
     myBlockLength = 0;
+    cursorOverCell = true;
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
     myGridHolder.getChildren().add(myCanvasList.get(myController.getCurrentGridNumber()));
@@ -163,20 +165,22 @@ public abstract class GridView extends CenterView {
   }
 
   private void handleCellClicked(MouseEvent mouseEvent) {
-    try{
-      myController.setCurrentGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
-      getMousePosOnGrid(mouseEvent);
-      drawSelectedGridIndicatorLines();
-    }catch(NonInvertibleTransformException e){
-      e.getMessage();
+    if(cursorOverCell) {
+      try {
+        myController.setCurrentGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
+        getMousePosOnGrid(mouseEvent);
+        drawSelectedGridIndicatorLines();
+      } catch (NonInvertibleTransformException e) {
+        e.getMessage();
+      }
+      int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
+      try {
+        myController.setCellState(myMousePos[1], myMousePos[0], currState + 1);
+      } catch (IndexOutOfBoundsException e) {
+        myController.setCellState(myMousePos[1], myMousePos[0], 0);
+      }
+      updateGrids();
     }
-    int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
-    try {
-      myController.setCellState(myMousePos[1], myMousePos[0], currState + 1);
-    }catch(IndexOutOfBoundsException e){
-      myController.setCellState(myMousePos[1], myMousePos[0], 0);
-    }
-    updateGrids();
   }
 
   private void handleCellHovered(MouseEvent mouseEvent) {
@@ -273,6 +277,10 @@ public abstract class GridView extends CenterView {
 
   protected String getCellColor(int i, int j){
     return myController.getCellColor(i, j);
+  }
+
+  protected void setCursorOverCell(boolean overCell){
+    cursorOverCell = overCell;
   }
 
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -58,7 +59,8 @@ public abstract class GridView extends CenterView {
    * Getter method that returns the HBox which holds the canvases (grids).
    * @return HBox node that contains the canvas nodes.
    */
-  public HBox getGridBox() {
+  @Override
+  public Node getViewBox() {
     return myGridHolder;
   }
 
@@ -66,7 +68,8 @@ public abstract class GridView extends CenterView {
    * Sets up the initial grid background, gridlines, etc. Also updates the canvas (grid) based off
    * of new changes to the grid model. This should be called after each update of a cell value.
    */
-  public void updateGrids() {
+  @Override
+  public void updateView() {
     int curGrid = getCurrentGridNum();
     for (int i = 0; i < getCanvasListSize(); i++) {
       setCurrentGridNum(i);
@@ -114,12 +117,13 @@ public abstract class GridView extends CenterView {
    * Sets the initial scaling for the grid view based off the model grid sizing. Then updates the
    * grid view.
    */
-  public void initiateGrid(){
+  @Override
+  public void initiateView(){
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     myCanvasList.get(myController.getCurrentGridNumber()).setWidth(myGridWidth);
     myCanvasList.get(myController.getCurrentGridNumber()).setHeight(myGridHeight);
     addAffineToList();
-    updateGrids();
+    updateView();
   }
 
   public void addGridToCenter(){
@@ -133,7 +137,7 @@ public abstract class GridView extends CenterView {
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
     //myGridHolder.getChildren().add(myCanvasList.get(myGridNum));
-    initiateGrid();
+    initiateView();
     updateOtherGridSizing();
   }
 
@@ -147,7 +151,7 @@ public abstract class GridView extends CenterView {
       addCanvasToList();
     }
     myGridHolder.getChildren().addAll(myCanvasList);
-    updateGrids();
+    updateView();
     myController.setCurrentGridNumber(curGridNum);
   }
 
@@ -181,7 +185,7 @@ public abstract class GridView extends CenterView {
       } catch (IndexOutOfBoundsException e) {
         myController.setCellState(myMousePos[1], myMousePos[0], 0);
       }
-      updateGrids();
+      updateView();
     }
   }
 

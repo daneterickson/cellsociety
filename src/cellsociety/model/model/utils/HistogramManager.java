@@ -84,7 +84,7 @@ public class HistogramManager {
    * @return the histogram as a map of cell state names to arrays of the amounts of each type of
    * cell state per round
    */
-  public HashMap<Integer, Integer> getHistogram() {
+  public HashMap<Integer, Integer> getHistogramManager() {
     return histogram;
   }
 

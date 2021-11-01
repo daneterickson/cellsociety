@@ -4,7 +4,6 @@ import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
-import cellsociety.model.model.rules.SpreadingOfFireRule;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.model.parser.RandomStates;
@@ -15,14 +14,12 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -40,7 +37,6 @@ public class Controller {
   private List<Map<String, String>> simPropertiesList;
   private ResourceBundle myResources;
   private int currentGridNumber;
-
 
   private static final int SCENE_WIDTH = 1000;
   private static final int SCENE_HEIGHT = 600;
@@ -63,7 +59,7 @@ public class Controller {
     Scene scene = myMainView.makeScene(SCENE_WIDTH, SCENE_HEIGHT);
     stage.setScene(scene);
     stage.show();
-    myMainView.initiateGridView();
+    myMainView.initiateCenterView();
     myParserCSV = new ParserCSV();
     myParserSIM = new ParserSIM();
     simPropertiesList = new ArrayList<>();
@@ -129,6 +125,13 @@ public class Controller {
     }
   }
 
+  public Map<Integer, Integer> getHistogramMap() {
+    return myModelsList.get(0).getHistogramMap();
+  }
+
+  public Map getNamesAndColors() {
+    return myGridsList.get(0).getCell(0,0).getNameColorMap();
+  }
 
   public void makeNewDefaultSimulation(){
     Grid defaultGrid = makeDefaultGrid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
@@ -146,8 +149,8 @@ public class Controller {
   private void makeNewSimulation() {
     makeNewModel();
     makeNewRightPanel();
+    myMainView.initiateCenterView();
     makeNewLeftPanel();
-    myMainView.initiateGridView();
   }
 
   private void makeNewLeftPanel() {

@@ -5,9 +5,14 @@ import cellsociety.view.left.CellProperties;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.NonInvertibleTransformException;
 
 public class TriangleGridView extends GridView {
+  private static final int NUM_VERTEXES = 3;
+  private static final int POINT0 = 0;
+  private static final int POINT1 = 1;
+  private static final int POINT2 = 2;
 
   public TriangleGridView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
@@ -15,7 +20,41 @@ public class TriangleGridView extends GridView {
 
   @Override
   protected void updateCellColors(GraphicsContext gc) {
+    for (int i = 0; i < getNumRows(getCurrentGridNum()); i++) {
+      for (int j = 0; j < getNumCols(getCurrentGridNum()); j++) {
+        gc.setFill(Color.web("#" + getCellColor(i, j)));
+        if(j == 0){
+          fillLeftHalfTriangle(j, i, gc);
+        }
+        else{
+          fillTriangle(j, i, gc);
+        }
+      }
+    }
+  }
 
+  private void fillLeftHalfTriangle(int i, int j, GraphicsContext gc){
+    double[] xCoords = {0, 1, 0};
+    double[] yCoords = new double[NUM_VERTEXES];
+    yCoords[POINT0] = j;
+    if(j % 2 == 0) {
+      yCoords[POINT1] = j+1;
+    } else{
+      yCoords[POINT1] = j;
+    }
+    yCoords[POINT2] = j+1;
+    gc.fillPolygon(xCoords, yCoords, NUM_VERTEXES);
+  }
+
+  private void fillTriangle(int i, int j, GraphicsContext gc){
+    double[] xCoords = {i-1, i, i+1};
+    double[] yCoords;
+    if((j%2 == 0 && i%2 != 0) || (j%2 != 0 && i%2 == 0)){
+      yCoords = new double[]{j, j + 1, j};
+    } else{
+      yCoords = new double[]{j + 1, j, j + 1};
+    }
+    gc.fillPolygon(xCoords, yCoords, NUM_VERTEXES);
   }
 
   @Override
@@ -58,6 +97,7 @@ public class TriangleGridView extends GridView {
     selectCorrectTriangle(modelAffineXY, correctedX, correctedY, triLength);
   }
 
+  //TODO dont allow the far right triangle pieces. Do this by making sure mosPosX != numCols
   private void selectCorrectTriangle(Point2D modelAffineXY, double correctedX, double correctedY, double triLength) {
     if (((int) modelAffineXY.getX() % 2 == 0 && (int)modelAffineXY.getY() % 2 == 0) ||
         ((int) modelAffineXY.getX() % 2 != 0 && (int)modelAffineXY.getY() % 2 != 0)) { //Top to bottom diagonal

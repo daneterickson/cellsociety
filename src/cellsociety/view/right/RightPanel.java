@@ -15,6 +15,8 @@ public abstract class RightPanel {
   private static final int NUM_MINOR_TICKS = 2;
   protected static final String RESOURCE = "cellsociety.view.right.";
   protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "RightSettings.css";
+  private static final String CENTER_PATH = "cellsociety.view.center.%s";
+
 
   private ResourceBundle myResource;
   private Controller myController;
@@ -37,11 +39,13 @@ public abstract class RightPanel {
   protected abstract void setProbSettings(ArrayList probability);
 
 
-  protected Node makeAButton(String className, String buttonAction, String label) {
+  protected Button makeAButton(String className, String buttonAction, String label, String cssLabel) {
     Button theButton = new Button(label);
+    theButton.getStyleClass().add(cssLabel);
+    theButton.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     theButton.setOnAction(value -> {
       try {
-        Class.forName(className).getMethod(buttonAction);
+        Class.forName(String.format(CENTER_PATH, className)).getMethod(buttonAction);
       } catch (NoSuchMethodException e) {
         e.printStackTrace();
       } catch (ClassNotFoundException e) {
@@ -58,9 +62,6 @@ public abstract class RightPanel {
     theSlider.setMinorTickCount(NUM_MINOR_TICKS);
     theSlider.setMajorTickUnit(tickSpacing);
     theSlider.setShowTickLabels(ticks);
-    theSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-      //TODO varHere = theSlider.getValue();
-    });
     theSlider.getStyleClass().add(cssLabel);
     theSlider.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return theSlider;
@@ -87,5 +88,13 @@ public abstract class RightPanel {
   }
 
   protected Controller getMyController() { return myController; }
+
+  protected Button makeGridLinesToggleButton(){
+    Button lineToggle = new Button(myResource.getString("ToggleGridLines"));
+    lineToggle.getStyleClass().add("toggleGridLines");
+    lineToggle.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    lineToggle.setOnAction(e -> myController.toggleCenterLines());
+    return lineToggle;
+  }
 
 }

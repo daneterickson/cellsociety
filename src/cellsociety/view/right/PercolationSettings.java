@@ -14,11 +14,11 @@ public class PercolationSettings extends RightPanel{
   }
 
   @Override
-  public void makeSettingsPanel(VBox rightPanel){}
+  public void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeButtons());}
 
   @Override
   protected Node makeButtons(){
-    return null;
+    return makeGridLinesToggleButton();
   }
 
   @Override

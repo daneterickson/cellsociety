@@ -79,10 +79,12 @@ public abstract class GridView extends CenterView {
       gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
       gc.setTransform(getAffineFromList(i));
       updateCellColors(gc);
-      drawGridLines(gc);
+      if(linesAreOn()) {
+        drawGridLines(gc);
+      }
     }
     setCurrentGridNum(curGrid);
-    drawSelectedGridIndicatorLines();
+    if(linesAreOn()) {drawSelectedGridIndicatorLines();}
   }
 
   protected void findOptimalGridSizing(int numRows, int numCols) {
@@ -141,6 +143,7 @@ public abstract class GridView extends CenterView {
     initiateView();
     updateOtherGridSizing();
   }
+
 
   private void updateOtherGridSizing(){
     int curGridNum = myController.getCurrentGridNumber();

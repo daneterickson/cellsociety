@@ -39,6 +39,7 @@ public class HistogramView extends CenterView {
   private Map<Integer, String> myNameColorMap;
   private double totalNumCells;
   private GraphicsContext gc;
+  private Line xAxis;
 
   public HistogramView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
@@ -117,8 +118,8 @@ public class HistogramView extends CenterView {
   private void makeAxisLine() {
     double startX = CANVAS_WIDTH / 2 - AXIS_LENGTH / 2;
     double endX = CANVAS_WIDTH / 2 + AXIS_LENGTH / 2;
-    Line xaxis = new Line(startX, 0, endX, 0);
-    histogramElements.getChildren().add(xaxis);
+    xAxis = new Line(startX, 0, endX, 0);
+    histogramElements.getChildren().add(xAxis);
   }
 
   private void makeBars() {

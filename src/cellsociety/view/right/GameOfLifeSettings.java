@@ -14,11 +14,11 @@ public class GameOfLifeSettings extends RightPanel{
   }
 
   @Override
-  protected void makeSettingsPanel(VBox rightPanel){}
+  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeButtons());}
 
   @Override
   protected Node makeButtons(){
-    return null;
+    return makeGridLinesToggleButton();
   }
 
   @Override

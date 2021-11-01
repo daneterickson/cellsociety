@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 public class MainView {
 
+  private static final String CENTER_PATH = "cellsociety.view.center.%s";
   private Stage myStage;
   private CellProperties myCellProperties;
   private SimControl mySimControl;
@@ -29,7 +30,6 @@ public class MainView {
   private Controller myController;
   private ResourceBundle myResources;
   private BorderPane root;
-  private HistogramView myHistogramView;
   private CenterView myCenterView;
 
   public MainView(Stage stage, Controller controller){
@@ -38,12 +38,6 @@ public class MainView {
     myStage = stage;
     myCellProperties = new CellProperties(myController, myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-    //TODO make button to toggle between these with reflection
-//    myGridView = new SquareGridView(myCellProperties, myController);
-//    myGridView = new TriangleGridView(myCellProperties, myController);
-//    myGridView = new CircleGridView(myCellProperties, myController);
-//    myGridView = new HexagonGridView(myCellProperties, myController);
-//    myHistogramView = new HistogramView(myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
     myCenterView = new SquareGridView(myCellProperties, myController);
     mySimControl = new SimControl(myCenterView, myController, myResources, myCellProperties);
@@ -52,7 +46,6 @@ public class MainView {
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
     root.setCenter(myCenterView.getViewBox());
-//    root.setCenter(myHistogramView.getHistogramBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -62,7 +55,7 @@ public class MainView {
   }
 
   public void assignViewType(String viewType) throws ClassNotFoundException {
-    String className = String.format("cellsociety.view.center.%s",viewType);
+    String className = String.format(CENTER_PATH, viewType);
     Class<?> clazz = Class.forName(className);
     try {
       myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class, Controller.class)
@@ -80,8 +73,10 @@ public class MainView {
    */
   public void updateView() {
     myCenterView.updateView();
-//    myGridView.updateView();
-//    myHistogramView.updateView();
+  }
+
+  public void toggleLines(){
+    myCenterView.toggleLines();
   }
 
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
@@ -99,11 +94,10 @@ public class MainView {
    */
   public void initiateCenterView(){
     myCenterView.initiateView();
-//    myGridView.initiateView();
-//    myHistogramView.initiateView();
   }
 
   public CellProperties getMyCellProperties() { return myCellProperties; }
+
   public TopLoadSave getTopLoadSave() {
     return myTopLoadSave;
   }

@@ -140,6 +140,10 @@ public class Controller {
     //myMainView.initiateGridView();
   }
 
+  public void toggleCenterLines(){
+    myMainView.toggleLines();
+  }
+
   public void openSIMFile(File simFile) {
     readSIMFile(simFile);
 //    readCSVFile();

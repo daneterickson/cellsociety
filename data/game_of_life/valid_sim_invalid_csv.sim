@@ -1,0 +1,5 @@
+Type=GameOfLife
+Title=Calls Invalid CSV
+Author=Dane Erickson
+Description=Tests throwing an error in CSV by calling an invalid CSV File
+InitialStates=game_of_life/invalid.csv

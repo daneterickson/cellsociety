@@ -1,5 +1,6 @@
 package cellsociety.model.parser;
 
+import cellsociety.model.exceptions.InvalidFileException;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +23,6 @@ public abstract class Parser {
    *                                the simulation properties
    */
   public abstract void readFile(File file)
-      throws CsvValidationException, IOException, NoSuchFieldException;
+      throws CsvValidationException, IOException, NoSuchFieldException, InvalidFileException;
 
 }

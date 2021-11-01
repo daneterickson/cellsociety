@@ -1,5 +1,6 @@
 package cellsociety.model.parser;
 
+import cellsociety.model.exceptions.InvalidFileException;
 import cellsociety.model.parser.ParserCSV;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
@@ -58,10 +59,10 @@ public class ParserCSVTest {
 
   @Test
   void testEmptyFile() throws CsvValidationException, IOException {
-    myParser.readFile(new File("data/game_of_life/empty.csv"));
-    assertEquals(0, myParser.getNumRows());
-    assertEquals(0, myParser.getNumCols());
-    assertEquals(null, myParser.getStartStates());
+    Exception e = assertThrows(IOException.class, () -> {
+      myParser.readFile(new File("data/game_of_life/empty.csv"));
+    });
+    assertTrue(e.getMessage().contains("Empty CSV File"));
   }
 
   @Test
@@ -92,16 +93,18 @@ public class ParserCSVTest {
 
   @Test
   void testInvalidRowInputFile () {
-    assertThrows(IOException.class, () -> {
+    Exception e = assertThrows(IOException.class, () -> {
       myParser.readFile(new File("data/game_of_life/invalid_rows.csv"));
     });
+    assertTrue(e.getMessage().contains("Invalid Number of Rows"));
   }
 
   @Test
   void testInvalidColInputFile () {
-    assertThrows(IOException.class, () -> {
+     Exception e = assertThrows(IOException.class, () -> {
       myParser.readFile(new File("data/game_of_life/invalid_cols.csv"));
     });
+    assertTrue(e.getMessage().contains("Invalid Number of Columns"));
   }
 
 

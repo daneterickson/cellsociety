@@ -98,7 +98,7 @@ public class TopLoadSave {
     Grid tempGrid = myController.getGrid();
     try {
       PrintWriter csvFile = new PrintWriter(CSV);
-      csvFile.write(tempGrid.getNumRows() + "," + tempGrid.getNumCols() + "\n");
+      csvFile.write(tempGrid.getNumCols() + "," + tempGrid.getNumRows() + "\n");
       for (int i = 0; i < tempGrid.getNumRows(); i++) {
         StringBuilder rowCSV = new StringBuilder();
         for (int j = 0; j < tempGrid.getNumCols(); j++) {
@@ -120,6 +120,7 @@ public class TopLoadSave {
   private void saveSimFile(File saveFile) {
     File SIM = new File(saveFile.toString() + ".sim");
     Map simValueMap = myController.getSimPropertiesMap();
+    simValueMap.put("InitialStates", "testingSave/" + saveFile.getName() + ".csv");
     try {
       PrintWriter simFile = new PrintWriter(SIM);
       for (Object key : simValueMap.keySet()) {
@@ -140,7 +141,6 @@ public class TopLoadSave {
   private void saveSIM() {
     File saveFiles = openSaveFileDialog();
     saveCSVFile(saveFiles);
-    // TODO: Add a method to save the SIM file
     saveSimFile(saveFiles);
   }
 

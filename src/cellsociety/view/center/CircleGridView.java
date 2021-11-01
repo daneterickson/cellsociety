@@ -11,8 +11,8 @@ import javafx.scene.transform.NonInvertibleTransformException;
 
 public class CircleGridView extends GridView{
 
-  public CircleGridView(CellProperties cellProps, Controller controller, ResourceBundle resources){
-    super(cellProps, controller, resources);
+  public CircleGridView(CellProperties cellProps, Controller controller){
+    super(cellProps, controller);
   }
 
   @Override

@@ -2,9 +2,7 @@ package cellsociety.view.center;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.left.CellProperties;
-import java.util.ResourceBundle;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -13,8 +11,8 @@ import javafx.scene.transform.NonInvertibleTransformException;
 public class SquareGridView extends GridView {
 
 
-  public SquareGridView(CellProperties cellProps, Controller controller, ResourceBundle resources) {
-    super(cellProps, controller, resources);
+  public SquareGridView(CellProperties cellProps, Controller controller) {
+    super(cellProps, controller);
   }
 
 

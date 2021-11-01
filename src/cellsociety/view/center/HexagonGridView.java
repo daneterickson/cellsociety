@@ -2,7 +2,6 @@ package cellsociety.view.center;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.left.CellProperties;
-import java.util.ResourceBundle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -10,8 +9,8 @@ import javafx.scene.paint.Color;
 public class HexagonGridView extends GridView{
   private int NUM_VERTEXES = 6;
 
-  public HexagonGridView(CellProperties cellProperties, Controller controller, ResourceBundle resources){
-    super(cellProperties, controller, resources);
+  public HexagonGridView(CellProperties cellProperties, Controller controller){
+    super(cellProperties, controller);
   }
 
   @Override

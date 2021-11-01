@@ -44,7 +44,7 @@ public class MainView {
 //    myGridView = new CircleGridView(myCellProperties, myController);
 //    myGridView = new HexagonGridView(myCellProperties, myController);
 //    myHistogramView = new HistogramView(myController);
-    myCenterView = new SquareGridView(myCellProperties, myController, myResources);
+    myCenterView = new SquareGridView(myCellProperties, myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
   }

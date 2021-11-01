@@ -108,22 +108,17 @@ public class PredatorPreyRule extends Rule {
 
     //fish can't move
     if (eligibleSpaces.size() < 1) {
-//      System.out.println("fish can't move");
       addNewUpdates(currRow, currCol, FISH_STATE, currReproduction, fishEnergy);
       return FISH_STATE;
     }
 
     //reproduce and move
     if (currReproduction == 0) {
-//      System.out.println("fish reproduce");
       move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
           currReproduction, -1, false);
       addNewUpdates(currRow, currCol, FISH_STATE, fishReproduction, -1);
       return FISH_STATE;
     }
-
-    //move
-//    System.out.println("fish move");
 
     move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
         currReproduction, -1, false);
@@ -154,8 +149,6 @@ public class PredatorPreyRule extends Rule {
     }
     //dead
     if (currEnergy <= 0) {
-      System.out.println("shark dead");
-
       addNewUpdates(currRow, currCol, EMPTY_STATE, sharkReproduction, sharkEnergy);
       return EMPTY_STATE;
     }
@@ -164,7 +157,6 @@ public class PredatorPreyRule extends Rule {
 
     //try to eat
     if (eligibleSpaces.size() >= 1) {
-      System.out.println("shark eating");
       currEnergy += energyGain;
       attack = true;
     } else {
@@ -173,23 +165,15 @@ public class PredatorPreyRule extends Rule {
 
     //shark can't move
     if (eligibleSpaces.size() < 1) {
-      System.out.println("shark can't move");
-
-//      System.out.println("shark can't move");
-
       addNewUpdates(currRow, currCol, SHARK_STATE, currReproduction, currEnergy);
       return SHARK_STATE;
     }
-    System.out.println("curr params: " + currReproduction + " " + currEnergy);
-
     //move
-    System.out.println("shark move");
     move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), SHARK_STATE,
         currReproduction,
         currEnergy, attack);
 
     if (currReproduction == 0) {
-      System.out.println("shark reproduce");
       addNewUpdates(currRow, currCol, SHARK_STATE, sharkReproduction, sharkEnergy);
       return SHARK_STATE;
     } else {
@@ -283,8 +267,6 @@ public class PredatorPreyRule extends Rule {
    * adds changed cells' states to a queue that's to be used in updateGrid
    */
   private void addNewUpdates(int row, int col, int newState, int reproduction, int energy) {
-//    System.out.println(
-//        "new UPDATE: " + row + " " + col + " " + newState + " " + reproduction + " " + energy);
 
     newUpdates.add(row);
     newUpdates.add(col);

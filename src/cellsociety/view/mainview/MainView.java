@@ -14,10 +14,13 @@ import cellsociety.view.top.TopLoadSave;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 
@@ -65,7 +68,7 @@ public class MainView {
    * @throws ClassNotFoundException is thrown if the reflection fails and there's no matching class
    */
   public void assignViewType(String viewType) {
-    String className = String.format("cellsociety.view.center.%s", viewType);
+    String className = String.format("cellsociety.view.center.%sView", viewType.replaceAll(" ",""));
     try {
       Class<?> clazz = Class.forName(className);
       myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class,
@@ -85,6 +88,8 @@ public class MainView {
     myCenterView.updateView();
   }
 
+  public void updateBottomPanel(ResourceBundle bundle) { root.setBottom(mySimControl.setResource(bundle)); }
+
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
     myRightPanel = rightPanel;
     root.setRight(myRightPanel.setResource(bundle));
@@ -94,13 +99,12 @@ public class MainView {
     root.setRight(myRightPanel.setResource(bundle));
   }
 
-  public void updateLeftPanel(ResourceBundle bundle) {
-    root.setLeft(myCellProperties.setResource(bundle));
+  public void updateTopPanelLang(ResourceBundle bundle) {
+    root.setTop(myTopLoadSave.setResource(bundle));
   }
 
-  public void updateLeftView(ResourceBundle bundle) {
-    root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap()));
-  }
+  public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
+  public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.
@@ -129,6 +133,5 @@ public class MainView {
   public TopLoadSave getTopLoadSave() {
     return myTopLoadSave;
   }
-
 
 }

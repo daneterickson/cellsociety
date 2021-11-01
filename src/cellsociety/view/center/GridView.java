@@ -5,6 +5,7 @@ import cellsociety.view.left.CellProperties;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +20,7 @@ public abstract class GridView extends CenterView {
   protected static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   protected static final double GRID_LINE_SIZE = .04;
   protected static final double SELECTED_LINE_SIZE = .25;
+  protected static final double RADIUS = 0.5;
 
   private List<Canvas> myCanvasList;
   private List<Affine> myAffineList;
@@ -30,6 +32,8 @@ public abstract class GridView extends CenterView {
   private double myGridWidth;
   private double myGridHeight;
   private Integer[] myMousePos;
+  private double myBlockLength;
+  private boolean cursorOverCell;
 
 
   public GridView(CellProperties cellProps, Controller controller){
@@ -42,6 +46,8 @@ public abstract class GridView extends CenterView {
     myController = controller;
     myCellProperties = cellProps;
     myMousePos = new Integer[2];
+    myBlockLength = 0;
+    cursorOverCell = true;
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
     myGridHolder.getChildren().add(myCanvasList.get(myController.getCurrentGridNumber()));
@@ -75,7 +81,27 @@ public abstract class GridView extends CenterView {
     drawSelectedGridIndicatorLines();
   }
 
-  protected abstract void findOptimalGridSizing(int numRows, int numCols);
+  protected void findOptimalGridSizing(int numRows, int numCols) {
+    removeRowNumForGrid(getCurrentGridNum());
+    removeColNumForGrid(getCurrentGridNum());
+    addRowNumForGrid(getCurrentGridNum(), numRows);
+    addColNumForGrid(getCurrentGridNum(), numCols);
+    if (numRows > numCols) {
+      myGridHeight = CENTER_VIEW_MAX_HEIGHT;
+      if (getCanvasListSize() > 0) {
+        myGridHeight = myGridHeight / getCanvasListSize();
+      }
+      myBlockLength = myGridHeight / numRows;
+      myGridWidth = myBlockLength * numCols;
+    } else {
+      myGridWidth = CENTER_VIEW_MAX_WIDTH;
+      if (getCanvasListSize() > 0) {
+        myGridWidth = myGridWidth / getCanvasListSize();
+      }
+      myBlockLength = myGridWidth / numCols;
+      myGridHeight = myBlockLength * numRows;
+    }
+  }
 
   protected abstract void updateCellColors(GraphicsContext gc);
 
@@ -141,20 +167,22 @@ public abstract class GridView extends CenterView {
   }
 
   private void handleCellClicked(MouseEvent mouseEvent) {
-    try{
-      myController.setCurrentGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
-      getMousePosOnGrid(mouseEvent);
-      drawSelectedGridIndicatorLines();
-    }catch(NonInvertibleTransformException e){
-      e.getMessage();
+    if(cursorOverCell) {
+      try {
+        myController.setCurrentGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
+        getMousePosOnGrid(mouseEvent);
+        drawSelectedGridIndicatorLines();
+      } catch (NonInvertibleTransformException e) {
+        e.getMessage();
+      }
+      int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
+      try {
+        myController.setCellState(myMousePos[1], myMousePos[0], currState + 1);
+      } catch (IndexOutOfBoundsException e) {
+        myController.setCellState(myMousePos[1], myMousePos[0], 0);
+      }
+      updateGrids();
     }
-    int currState = myController.getCellStateNumber(myMousePos[1], myMousePos[0]);
-    try {
-      myController.setCellState(myMousePos[1], myMousePos[0], currState + 1);
-    }catch(IndexOutOfBoundsException e){
-      myController.setCellState(myMousePos[1], myMousePos[0], 0);
-    }
-    updateGrids();
   }
 
   private void handleCellHovered(MouseEvent mouseEvent) {
@@ -189,12 +217,27 @@ public abstract class GridView extends CenterView {
     getCanvasFromList(myController.getCurrentGridNumber()).getStyleClass().add("canvas");
   }
 
-  protected void addToCanvasList(Canvas canvas){
-    myCanvasList.add(canvas);
-  }
-
-  protected void addToCanvasList(int index, Canvas canvas){
-    myCanvasList.add(index, canvas);
+  /**
+   * Not only useful for circular cases, but also a good approximation for cells that are almost
+   * circular (hexagons, octagons, decagons, etc.).
+   */
+  protected void getMousePositionForCircles(MouseEvent mouseEvent){
+    double cursorX = mouseEvent.getX();
+    double cursorY = mouseEvent.getY();
+    setCursorOverCell(false);
+    try {
+      Point2D modelXY = getAffineFromList(myController.getCurrentGridNumber()).inverseTransform(
+          cursorX, cursorY);
+      Point2D center = new Point2D(((int) modelXY.getX()) + RADIUS, ((int) modelXY.getY()) + RADIUS);
+      double disToCenter = Math.sqrt(Math.pow(modelXY.getX()- center.getX(), 2) + Math.pow(modelXY.getY()- center.getY(), 2));
+      if(disToCenter <= RADIUS) {
+        setCursorOverCell(true);
+      }
+      setMosPos(0, (int) modelXY.getX());
+      setMosPos(1, (int) modelXY.getY());
+    } catch (NonInvertibleTransformException e) {
+      e.getMessage();//It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
+    }
   }
 
   protected int getCanvasListSize(){
@@ -233,20 +276,8 @@ public abstract class GridView extends CenterView {
     myNumGridColsList.add(gridNum, cols);
   }
 
-  protected double getGridWidth(){
-    return myGridWidth;
-  }
-
-  protected double getGridHeight(){
-    return myGridHeight;
-  }
-
-  protected void setGridWidth(double width){
-    myGridWidth = width;
-  }
-
-  protected void setGridHeight(double height){
-    myGridHeight = height;
+  protected double getBlockLength(){
+    return myBlockLength;
   }
 
   protected void setMosPos(int index, int value){
@@ -263,6 +294,10 @@ public abstract class GridView extends CenterView {
 
   protected String getCellColor(int i, int j){
     return myController.getCellColor(i, j);
+  }
+
+  protected void setCursorOverCell(boolean overCell){
+    cursorOverCell = overCell;
   }
 
 }

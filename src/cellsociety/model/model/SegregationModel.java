@@ -45,7 +45,7 @@ public class SegregationModel extends Model {
       System.out.println("invalid threshold variable");
       threshold = 0.5;
     }
-    myRule = new SegregationRule(threshold, numCols, emptySpots);
+    myRule = new SegregationRule(threshold);
   }
 
   private void findEmptyCells(Grid grid) {
@@ -121,7 +121,7 @@ public class SegregationModel extends Model {
   @Override
   protected void setProb(ArrayList newProb) {
     threshold = (double) newProb.get(0);
-    myRule = new SegregationRule(threshold, numCols, emptySpots);
+    myRule = new SegregationRule(threshold);
   }
 
   @Override

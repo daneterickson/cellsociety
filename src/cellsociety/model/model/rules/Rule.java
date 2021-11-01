@@ -20,7 +20,6 @@ public abstract class Rule {
    * @param nearby  is a list of the states of the nearby cells
    * @return the new state for the cell being evaluated
    */
-  public abstract int determineState(int currRow, int currCol, int state, List<Integer> nearby);
   public abstract int determineState(int currRow, int currCol, int state, List<Integer> nearby,
       Grid grid, EdgePolicies edgePolicy);
 

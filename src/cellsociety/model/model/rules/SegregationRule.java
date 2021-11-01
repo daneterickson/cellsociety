@@ -4,24 +4,19 @@ import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SegregationRule extends Rule {
 
   private double myThreshold;
-  private int myNumCols;
-  private ArrayList<Integer> myEmptySpots;
   private boolean relocateCheck = false;
 
   /**
    * Subclass of Rule that makes a rule for the Segregation simulation to find a cell's new state
    */
-  public SegregationRule(double threshold, int numCols, ArrayList<Integer> emptySpots) {
+  public SegregationRule(double threshold) {
 
     myThreshold = threshold;
-    myNumCols = numCols;
-    myEmptySpots = emptySpots;
   }
 
   /**
@@ -33,10 +28,7 @@ public class SegregationRule extends Rule {
    * @param nearby  is a list of the states of the nearby cells
    * @return the new state for the cell being evaluated
    */
-  @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
-    return 0;
-  }
+
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
       EdgePolicies edgePolicy){

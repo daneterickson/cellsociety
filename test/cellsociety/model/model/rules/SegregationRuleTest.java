@@ -40,7 +40,7 @@ public class SegregationRuleTest {
     String type = "Segregation";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     empties.add(5);
-    rule = new SegregationRule(0.5,5,empties);
+    rule = new SegregationRule(0.5);
   }
 
   @Test

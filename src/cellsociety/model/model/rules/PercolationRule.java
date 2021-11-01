@@ -33,10 +33,6 @@ public class PercolationRule extends Rule {
     }
     return state;
   }
-  @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
-    return 0;
-  }
 
   private boolean findNearbyWater(List<Integer> nearby, Grid grid,
       EdgePolicies edgePolicy) {

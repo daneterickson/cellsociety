@@ -22,11 +22,6 @@ public class GameOfLifeRule extends Rule {
    * @return the new state for the cell being evaluated
    */
   @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
-    return 0;
-  }
-
-  @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
       EdgePolicies edgePolicy) {
     int population = 0;

@@ -63,6 +63,15 @@ public class PredatorPreyRule extends Rule {
     this.sharkAttacks = sharkAttacks;
     random = new Random();
   }
+  /**
+   * Overridden method to determine the state for a PredatorPreyRule
+   *
+   * @param currRow is the current row of the cell being evaluated
+   * @param currCol is the current column of the cell being evaluated
+   * @param state   is the current state of the cell being evaluated
+   * @param nearby  is a list of the states of the nearby cells
+   * @return the new state for the cell being evaluated
+   */
 
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
@@ -80,20 +89,6 @@ public class PredatorPreyRule extends Rule {
       e.printStackTrace();
     }
     return EMPTY_STATE;
-  }
-
-  /**
-   * Overridden method to determine the state for a PredatorPreyRule
-   *
-   * @param currRow is the current row of the cell being evaluated
-   * @param currCol is the current column of the cell being evaluated
-   * @param state   is the current state of the cell being evaluated
-   * @param nearby  is a list of the states of the nearby cells
-   * @return the new state for the cell being evaluated
-   */
-  @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
-    return 0;
   }
 
   /**

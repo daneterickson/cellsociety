@@ -5,11 +5,14 @@ import cellsociety.view.left.CellProperties;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
@@ -27,6 +30,7 @@ public abstract class GridView extends CenterView {
   private List<Integer> myNumGridColsList;
   private List<Integer> myNumGridRowsList;
   private HBox myGridHolder;
+  private VBox myCenterHolder;
   private CellProperties myCellProperties;
   private Controller myController;
   private double myGridWidth;
@@ -34,15 +38,20 @@ public abstract class GridView extends CenterView {
   private Integer[] myMousePos;
   private double myBlockLength;
   private boolean cursorOverCell;
+  private ResourceBundle myResources;
 
 
-  public GridView(CellProperties cellProps, Controller controller){
+  public GridView(CellProperties cellProps, Controller controller, ResourceBundle resources){
+    myResources = resources;
     myCanvasList = new ArrayList<>();
     myAffineList = new ArrayList<>();
     myNumGridColsList = new ArrayList<>(Arrays.asList(0));
     myNumGridRowsList = new ArrayList<>(Arrays.asList(0));
     myGridHolder = new HBox();
+    myCenterHolder = new VBox();
     myGridHolder.setSpacing(ELEMENT_SPACING);
+    myCenterHolder.setSpacing(ELEMENT_SPACING);
+    myCenterHolder.getChildren().addAll(myGridHolder, makeGridChoiceBox());
     myController = controller;
     myCellProperties = cellProps;
     myMousePos = new Integer[2];
@@ -55,11 +64,11 @@ public abstract class GridView extends CenterView {
   }
 
   /**
-   * Getter method that returns the HBox which holds the canvases (grids).
-   * @return HBox node that contains the canvas nodes.
+   * Getter method that returns the VBox which holds the canvases (grids) and choice box.
+   * @return VBox node that contains the canvas nodes and the change canvas choice box.
    */
-  public HBox getGridBox() {
-    return myGridHolder;
+  public VBox getGridBox() {
+    return myCenterHolder;
   }
 
   /**
@@ -132,7 +141,6 @@ public abstract class GridView extends CenterView {
     myController.makeNewDefaultSimulation();
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
-    //myGridHolder.getChildren().add(myCanvasList.get(myGridNum));
     initiateGrid();
     updateOtherGridSizing();
   }
@@ -189,7 +197,7 @@ public abstract class GridView extends CenterView {
     try{
       getMousePosOnGrid(mouseEvent);
     }catch(NonInvertibleTransformException e){
-      e.getMessage();
+      e.getMessage(); //Not possible to get to the exception due to the mouse position being localized to the canvas nodes
     }
     myCellProperties.updateCellCordLabel(myMousePos[0], myMousePos[1]);
   }
@@ -213,7 +221,9 @@ public abstract class GridView extends CenterView {
 
   private void setStyles() {
     myGridHolder.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
-    myGridHolder.getStyleClass().add("root");
+    myGridHolder.getStyleClass().add("root1");
+    myCenterHolder.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    myCenterHolder.getStyleClass().add("root");
     getCanvasFromList(myController.getCurrentGridNumber()).getStyleClass().add("canvas");
   }
 
@@ -238,6 +248,16 @@ public abstract class GridView extends CenterView {
     } catch (NonInvertibleTransformException e) {
       e.getMessage();//It should be impossible to enter this catch due to the mouse event being localized to the canvas node dimensions.
     }
+  }
+
+  private ChoiceBox makeGridChoiceBox(){
+    ChoiceBox gridSelector = new ChoiceBox();
+    String typesOfGrid = myResources.getString("GridTypes");
+    gridSelector.getItems().addAll(typesOfGrid.split(","));
+    gridSelector.setOnAction(e -> updateGridType(gridSelector.getValue()));
+    gridSelector.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    gridSelector.getStyleClass().add("gridChoiceBox");
+    return gridSelector;
   }
 
   protected int getCanvasListSize(){

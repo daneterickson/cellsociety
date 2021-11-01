@@ -2,6 +2,7 @@ package cellsociety.view.center;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.left.CellProperties;
+import java.util.ResourceBundle;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -14,8 +15,8 @@ public class TriangleGridView extends GridView {
   private static final int POINT1 = 1;
   private static final int POINT2 = 2;
 
-  public TriangleGridView(CellProperties cellProps, Controller controller) {
-    super(cellProps, controller);
+  public TriangleGridView(CellProperties cellProps, Controller controller, ResourceBundle resources) {
+    super(cellProps, controller, resources);
   }
 
   @Override

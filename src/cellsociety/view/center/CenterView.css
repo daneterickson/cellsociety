@@ -3,6 +3,14 @@
   -fx-alignment: center;
 }
 
+.root1 {
+  -fx-alignment: center;
+}
+
 .canvas {
+  -fx-alignment: center;
+}
+
+.gridChoiceBox{
   -fx-alignment: center;
 }

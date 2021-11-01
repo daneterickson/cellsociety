@@ -2,7 +2,6 @@ package cellsociety.view.bottom;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.center.CenterView;
-import cellsociety.view.center.GridView;
 import cellsociety.view.left.CellProperties;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
@@ -162,7 +161,7 @@ public class SimControl {
 
   private Button makeAddGridButton(){
     Button button = new Button(ADD_GRID_BUTTON_TEXT);
-    button.setOnAction(e -> myCenterView.addGridToCenter());
+    button.setOnAction(e -> myCenterView.addViewToCenter());
     button.getStyleClass().add("addGridButton");
     button.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     button.setId("addGridButton");

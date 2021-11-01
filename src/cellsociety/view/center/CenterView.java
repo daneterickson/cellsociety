@@ -19,7 +19,7 @@ public abstract class CenterView {
 
   public abstract Node getViewBox();
 
-  public void addGridToCenter() {}
+  public abstract void addViewToCenter();
 
 
 

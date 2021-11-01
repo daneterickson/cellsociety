@@ -139,6 +139,7 @@ public class HistogramView extends CenterView {
    */
   @Override
   public void updateView() {
+    if (myHistogramMap == null) initiateView();
     for (Integer stateNumber : myHistogramMap.keySet()) {
       bars.get(stateNumber).setHeight(
           Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * MAX_BAR_HEIGHT);
@@ -155,5 +156,8 @@ public class HistogramView extends CenterView {
   public Node getViewBox() {
     return histogramElements;
   }
+
+  @Override
+  public void addViewToCenter() {}
 
 }

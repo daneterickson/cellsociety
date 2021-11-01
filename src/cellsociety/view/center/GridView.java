@@ -128,7 +128,7 @@ public abstract class GridView extends CenterView {
   }
 
   @Override
-  public void addGridToCenter(){
+  public void addViewToCenter(){
     myNumGridRowsList.add(0);
     myNumGridColsList.add(0);
     myController.addDefaultSimPropMap();

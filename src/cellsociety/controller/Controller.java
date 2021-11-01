@@ -146,6 +146,14 @@ public class Controller {
     makeNewSimulation();
   }
 
+  public void updateCenterViewType(String viewType) {
+    try {
+      myMainView.assignViewType(viewType);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+  }
+
   private void makeNewSimulation() {
     makeNewModel();
     makeNewRightPanel();

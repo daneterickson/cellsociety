@@ -3,9 +3,12 @@ package cellsociety.view.mainview;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
+import cellsociety.view.center.CircleGridView;
 import cellsociety.view.center.GridView;
 import cellsociety.view.center.HistogramView;
+import cellsociety.view.center.HexagonGridView;
 import cellsociety.view.center.SquareGridView;
+import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -36,8 +39,11 @@ public class MainView {
     myStage = stage;
     myCellProperties = new CellProperties(myController, myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
+    //TODO make button to toggle between these with reflection
     myGridView = new SquareGridView(myCellProperties, myController);
 //    myGridView = new TriangleGridView(myCellProperties, myController);
+//    myGridView = new CircleGridView(myCellProperties, myController);
+//    myGridView = new HexagonGridView(myCellProperties, myController);
     myHistogramView = new HistogramView(myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
@@ -45,8 +51,8 @@ public class MainView {
 
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
-//    root.setCenter(myGridView.getGridBox());
-    root.setCenter(myHistogramView.getHistogramBox());
+    root.setCenter(myGridView.getGridBox());
+//    root.setCenter(myHistogramView.getHistogramBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());

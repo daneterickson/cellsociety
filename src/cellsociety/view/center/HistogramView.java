@@ -62,7 +62,8 @@ public class HistogramView extends CenterView {
    * the bars, followed by the axis line, and a buffer. Then it updates the bars once to set the
    * starting values.
    */
-  public void initiateHistogram() {
+  @Override
+  public void initiateView() {
     myHistogramMap = myController.getHistogramMap();
     totalNumCells = findTotalCells();
     myNameColorMap = myController.getNamesAndColors();
@@ -73,7 +74,7 @@ public class HistogramView extends CenterView {
     makeNumberLabels();
     histogramElements.getChildren()
         .add(new Rectangle(BOTTOM_SPACING, BOTTOM_SPACING, Color.TRANSPARENT));
-    updateBars();
+    updateView();
   }
 
   private void makeNumberLabels() {
@@ -134,7 +135,8 @@ public class HistogramView extends CenterView {
    * Updates the height of the bars each step of the simulation. The bars are normalized, so they
    * represent percent of the total cells, not absolute values.
    */
-  public void updateBars() {
+  @Override
+  public void updateView() {
     for (Integer stateNumber : myHistogramMap.keySet()) {
       bars.get(stateNumber).setHeight(
           Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * MAX_BAR_HEIGHT);
@@ -147,7 +149,8 @@ public class HistogramView extends CenterView {
    *
    * @return the histogram VBox as a Node to be displayed to the screen.
    */
-  public Node getHistogramBox() {
+  @Override
+  public Node getViewBox() {
     return histogramElements;
   }
 

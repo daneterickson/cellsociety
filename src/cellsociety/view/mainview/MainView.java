@@ -37,10 +37,11 @@ public class MainView {
     myStage = stage;
     myCellProperties = new CellProperties(myController, myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-    //myGridView = new SquareGridView(myCellProperties, myController);
+    //TODO make button to toggle between these with reflection
+    myGridView = new SquareGridView(myCellProperties, myController);
     //myGridView = new TriangleGridView(myCellProperties, myController);
     //myGridView = new CircleGridView(myCellProperties, myController);
-    myGridView = new HexagonGridView(myCellProperties, myController);
+    //myGridView = new HexagonGridView(myCellProperties, myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
   }

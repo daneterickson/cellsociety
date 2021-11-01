@@ -1,6 +1,7 @@
 package cellsociety.controller;
 
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.InvalidFileException;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
@@ -119,8 +120,7 @@ public class Controller {
     try {
       return myGridsList.get(currentGridNumber).getCell(i, j).getCellProperty("StateColor");
     } catch (KeyNotFoundException e) {
-      //TODO: handle exception
-      System.out.println("Invalid Property");
+      myMainView.showError("State Color Not Available");
       return "000000"; // default black
     }
   }
@@ -137,21 +137,19 @@ public class Controller {
     Grid defaultGrid = makeDefaultGrid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
     myGridsList.add(defaultGrid);
     myModelsList.add(new GameOfLifeModel(this, defaultGrid));
-    //myMainView.initiateGridView();
   }
 
   public void openSIMFile(File simFile) {
-    readSIMFile(simFile);
-//    readCSVFile();
-    makeNewSimulation();
+    try {
+      readSIMFile(simFile);
+      makeNewSimulation();
+    } catch (InvalidFileException | NumberFormatException | IOException | CsvValidationException e) {
+      myMainView.showError(e.getMessage());
+    }
   }
 
   public void updateCenterViewType(String viewType) {
-    try {
-      myMainView.assignViewType(viewType);
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    }
+    myMainView.assignViewType(viewType);
   }
 
   private void makeNewSimulation() {
@@ -171,7 +169,7 @@ public class Controller {
       myMainView.updateRightPanel(myResources, (RightPanel) rightPanel);
     }
     catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-      e.printStackTrace();
+      myMainView.showError("RightPanel Class Not Found");
     }
   }
 
@@ -183,19 +181,13 @@ public class Controller {
       myModelsList.add(currentGridNumber, (Model) modell);
     }
     catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-      e.printStackTrace();
+      myMainView.showError("Model Class Not Found");
     }
   }
 
-  private void readCSVFile() {
+  private void readCSVFile() throws CsvValidationException, IOException, NumberFormatException {
     File csvFile = new File(String.format("data/%s", myParserSIM.getInfo("InitialStates")));
-    try {
-      myParserCSV.readFile(csvFile);
-    } catch (CsvValidationException | IOException e) {
-      // TODO: handle the invalid file exception with pop-up in view
-      e.printStackTrace();
-    }
-
+    myParserCSV.readFile(csvFile);
     myGridsList.remove(currentGridNumber);
     myGridsList.add(currentGridNumber, new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type")));
   }
@@ -223,22 +215,18 @@ public class Controller {
 //  }
 
 
-  private void readSIMFile(File simFile) {
-    try {
-      myParserSIM.readFile(simFile);
-      if(simPropertiesList.size()==currentGridNumber){simPropertiesList.add(null);}
-      simPropertiesList.add(currentGridNumber, myParserSIM.getMap());
-      simPropertiesList.remove(currentGridNumber+1);
-      if (simPropertiesList.get(currentGridNumber).get("InitialStates").split(",").length == 1) {
-        readCSVFile();
-      } else {
-        RandomStates randomStates = new RandomStates(myParserSIM);
-        myGridsList.remove(currentGridNumber);
-        myGridsList.add(currentGridNumber, randomStates.makeGrid());
-      }
-    } catch (FileNotFoundException | NoSuchFieldException e) {
-      // TODO: handle the invalid file exception with pop-up in view
-      e.printStackTrace();
+  private void readSIMFile(File simFile)
+      throws InvalidFileException, IOException, CsvValidationException, NumberFormatException {
+    myParserSIM.readFile(simFile);
+    if(simPropertiesList.size()==currentGridNumber){simPropertiesList.add(null);}
+    simPropertiesList.add(currentGridNumber, myParserSIM.getMap());
+    simPropertiesList.remove(currentGridNumber+1);
+    if (simPropertiesList.get(currentGridNumber).get("InitialStates").split(",").length == 1) {
+      readCSVFile();
+    } else {
+      RandomStates randomStates = new RandomStates(myParserSIM);
+      myGridsList.remove(currentGridNumber);
+      myGridsList.add(currentGridNumber, randomStates.makeGrid());
     }
   }
 

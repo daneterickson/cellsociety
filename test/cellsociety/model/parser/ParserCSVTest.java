@@ -92,16 +92,18 @@ public class ParserCSVTest {
 
   @Test
   void testInvalidRowInputFile () {
-    assertThrows(IOException.class, () -> {
+    Exception e = assertThrows(IOException.class, () -> {
       myParser.readFile(new File("data/game_of_life/invalid_rows.csv"));
     });
+    assertTrue(e.getMessage().contains("Invalid Number of Rows"));
   }
 
   @Test
   void testInvalidColInputFile () {
-    assertThrows(IOException.class, () -> {
+     Exception e = assertThrows(IOException.class, () -> {
       myParser.readFile(new File("data/game_of_life/invalid_cols.csv"));
     });
+    assertTrue(e.getMessage().contains("Invalid Number of Columns"));
   }
 
 

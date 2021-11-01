@@ -42,12 +42,7 @@ public class Grid {
   private void setStartStates(int[][] states) {
     for (int row = 0; row < myNumRows; row++) {
       for (int col = 0; col < myNumCols; col++) {
-        try {
-          setCell(row, col, states[row][col]);
-        } catch (ClassNotFoundException e) {
-          System.out.println("Class Not Found");
-          e.printStackTrace();
-        }
+        setCell(row, col, states[row][col]);
       }
     }
   }
@@ -79,17 +74,16 @@ public class Grid {
     return myGrid[i][j];
   }
 
-  private void setCell(int i, int j, int state) throws ClassNotFoundException {
-    Class<?> clazz = Class.forName(myCellType);
-    ModelCell newCell;
+  private void setCell(int i, int j, int state) {
     try {
+      Class<?> clazz = Class.forName(myCellType);
+      ModelCell newCell;
       newCell = (ModelCell) clazz.getDeclaredConstructor(int.class, int.class, String.class,
               String.class, int.class)
           .newInstance(i, j, myStateColors, myParameters, state);
       myGrid[i][j] = newCell;
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      System.out.println("Method Not Found");
-      e.printStackTrace();
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      myGrid[i][j] = new GameOfLifeCell(i,j,myStateColors,myParameters,state);
     }
   }
 

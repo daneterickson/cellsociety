@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -32,18 +34,12 @@ public class MainView {
   private HistogramView myHistogramView;
   private CenterView myCenterView;
 
-  public MainView(Stage stage, Controller controller){
+  public MainView(Stage stage, Controller controller) {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     myController = controller;
     myStage = stage;
     myCellProperties = new CellProperties(myController, myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-    //TODO make button to toggle between these with reflection
-//    myGridView = new SquareGridView(myCellProperties, myController);
-//    myGridView = new TriangleGridView(myCellProperties, myController);
-//    myGridView = new CircleGridView(myCellProperties, myController);
-//    myGridView = new HexagonGridView(myCellProperties, myController);
-//    myHistogramView = new HistogramView(myController);
     myRightPanel = new GameOfLifeSettings(myResources, myController);
     myCenterView = new SquareGridView(myCellProperties, myController);
     mySimControl = new SimControl(myCenterView, myController, myResources, myCellProperties);
@@ -52,7 +48,6 @@ public class MainView {
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
     root.setCenter(myCenterView.getViewBox());
-//    root.setCenter(myHistogramView.getHistogramBox());
     root.setBottom(mySimControl.getSimControl());
     root.setLeft(myCellProperties.getCellProperties());
     root.setTop(myTopLoadSave.getTopLoadSave());
@@ -61,16 +56,24 @@ public class MainView {
     return scene;
   }
 
-  public void assignViewType(String viewType) throws ClassNotFoundException {
-    String className = String.format("cellsociety.view.center.%s",viewType);
-    Class<?> clazz = Class.forName(className);
+  /**
+   * Uses reflection to create the correct CenterView object based on which view type (Histogram,
+   * Square Grid, Triangle Grid, etc.) the user inputs. getViewBox() is then called on that Object
+   * to get the Node for the view type that is placed in the BorderPane.
+   *
+   * @param viewType is the name of the CenterView subclass for the view type
+   * @throws ClassNotFoundException is thrown if the reflection fails and there's no matching class
+   */
+  public void assignViewType(String viewType) {
+    String className = String.format("cellsociety.view.center.%s", viewType);
     try {
-      myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class, Controller.class)
+      Class<?> clazz = Class.forName(className);
+      myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class,
+              Controller.class)
           .newInstance(myCellProperties, myController);
       root.setCenter(myCenterView.getViewBox());
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      System.out.println("Method Not Found");
-      e.printStackTrace();
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      showError(e.getMessage());
     }
     myCenterView.updateView();
   }
@@ -80,30 +83,49 @@ public class MainView {
    */
   public void updateView() {
     myCenterView.updateView();
-//    myGridView.updateView();
-//    myHistogramView.updateView();
   }
 
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
     myRightPanel = rightPanel;
     root.setRight(myRightPanel.setResource(bundle));
   }
+
   public void updateRightPanelLang(ResourceBundle bundle) {
     root.setRight(myRightPanel.setResource(bundle));
   }
-  public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
-  public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
+
+  public void updateLeftPanel(ResourceBundle bundle) {
+    root.setLeft(myCellProperties.setResource(bundle));
+  }
+
+  public void updateLeftView(ResourceBundle bundle) {
+    root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap()));
+  }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.
    */
-  public void initiateCenterView(){
+  public void initiateCenterView() {
     myCenterView.initiateView();
-//    myGridView.initiateView();
-//    myHistogramView.initiateView();
   }
 
-  public CellProperties getMyCellProperties() { return myCellProperties; }
+  /**
+   * Displays the error from reading the SIM File as an Alert in the GUI. Displays the Title of the
+   * error as well as the error message to the user.
+   *
+   * @param message is the String that is displayed on the Alert in the GUI
+   */
+  public void showError(String message) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("SIM File Error");
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+  public CellProperties getMyCellProperties() {
+    return myCellProperties;
+  }
+
   public TopLoadSave getTopLoadSave() {
     return myTopLoadSave;
   }

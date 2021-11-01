@@ -30,6 +30,7 @@ public abstract class GridView extends CenterView {
   private double myGridWidth;
   private double myGridHeight;
   private Integer[] myMousePos;
+  private double myBlockLength;
 
 
   public GridView(CellProperties cellProps, Controller controller){
@@ -42,6 +43,7 @@ public abstract class GridView extends CenterView {
     myController = controller;
     myCellProperties = cellProps;
     myMousePos = new Integer[2];
+    myBlockLength = 0;
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
     myGridHolder.getChildren().add(myCanvasList.get(myController.getCurrentGridNumber()));
@@ -80,21 +82,20 @@ public abstract class GridView extends CenterView {
     removeColNumForGrid(getCurrentGridNum());
     addRowNumForGrid(getCurrentGridNum(), numRows);
     addColNumForGrid(getCurrentGridNum(), numCols);
-    double blockLength;
     if (numRows > numCols) {
-      setGridHeight(CENTER_VIEW_MAX_HEIGHT);
+      myGridHeight = CENTER_VIEW_MAX_HEIGHT;
       if (getCanvasListSize() > 0) {
-        setGridHeight(getGridHeight() / getCanvasListSize());
+        myGridHeight = myGridHeight / getCanvasListSize();
       }
-      blockLength = getGridHeight() / numRows;
-      setGridWidth(blockLength * numCols);
+      myBlockLength = myGridHeight / numRows;
+      myGridWidth = myBlockLength * numCols;
     } else {
-      setGridWidth(CENTER_VIEW_MAX_WIDTH);
+      myGridWidth = CENTER_VIEW_MAX_WIDTH;
       if (getCanvasListSize() > 0) {
-        setGridWidth(getGridWidth() / getCanvasListSize());
+        myGridWidth = myGridWidth / getCanvasListSize();
       }
-      blockLength = getGridWidth() / numCols;
-      setGridHeight(blockLength * numRows);
+      myBlockLength = myGridWidth / numCols;
+      myGridHeight = myBlockLength * numRows;
     }
   }
 
@@ -254,20 +255,8 @@ public abstract class GridView extends CenterView {
     myNumGridColsList.add(gridNum, cols);
   }
 
-  protected double getGridWidth(){
-    return myGridWidth;
-  }
-
-  protected double getGridHeight(){
-    return myGridHeight;
-  }
-
-  protected void setGridWidth(double width){
-    myGridWidth = width;
-  }
-
-  protected void setGridHeight(double height){
-    myGridHeight = height;
+  protected double getBlockLength(){
+    return myBlockLength;
   }
 
   protected void setMosPos(int index, int value){

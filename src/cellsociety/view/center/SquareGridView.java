@@ -40,8 +40,7 @@ public class SquareGridView extends GridView {
   }
 
   @Override
-  protected void getMousePosOnGrid(MouseEvent mouseEvent)
-      throws NonInvertibleTransformException {
+  protected void getMousePosOnGrid(MouseEvent mouseEvent) throws NonInvertibleTransformException {
     double cursorX = mouseEvent.getX();
     double cursorY = mouseEvent.getY();
     try {

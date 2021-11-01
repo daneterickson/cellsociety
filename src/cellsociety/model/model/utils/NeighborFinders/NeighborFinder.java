@@ -26,15 +26,10 @@ public abstract class NeighborFinder {
     int[] y = {-1, 1, 0, 0};
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
-    int state;
 
     while (idx < 4) {
-      try {
-        state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
-        neighbors.add(idx, state);
-      } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
-        neighbors.add(idx, edgePolicy.policy(row + y[idx], col + x[idx], grid));
-      }
+      neighbors.add(row + y[idx]);
+      neighbors.add(col + x[idx]);
       idx++;
     }
 
@@ -49,15 +44,10 @@ public abstract class NeighborFinder {
     int[] y = {-1, -1, 1, 1};
     ArrayList<Integer> neighbors = new ArrayList<>();
     int idx = 0;
-    int state;
 
     while (idx < 4) {
-      try {
-        state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
-        neighbors.add(idx, state);
-      } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
-        neighbors.add(idx, edgePolicy.policy(row + y[idx], col + x[idx], grid));
-      }
+      neighbors.add(row + y[idx]);
+      neighbors.add(col + x[idx]);
       idx++;
     }
 
@@ -71,26 +61,88 @@ public abstract class NeighborFinder {
     int[] dx = {-1, 0, 1};
     int[] dy = {-1, 0, 1};
     ArrayList<Integer> neighbors = new ArrayList<>();
-    int idx = 0;
-    int state;
+    int numCols = grid.getNumCols();
 
-    for (int x : dx) {
-      for (int y : dy) {
+    for (int y : dx) {
+      for (int x : dy) {
         if (x == 0 && y == 0) {
           continue;
         }
-        try {
-          state = parseInt(grid.getCell(row + y, col + x).getCellProperty("StateNumber"));
-          neighbors.add(idx, state);
-        } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
-          //handles edge cases
-          neighbors.add(idx, edgePolicy.policy(row + y, col + x, grid));
-        }
-        idx++;
+        neighbors.add(row + y);
+        neighbors.add(col + x);
       }
     }
     return neighbors;
   }
+//  protected List<Integer> getSquareComplete(int row, int col, Grid grid) {
+//    int[] dx = {-1, 0, 1};
+//    int[] dy = {-1, 0, 1};
+//    ArrayList<Integer> neighbors = new ArrayList<>();
+//    int idx = 0;
+//    int state;
+//
+//    for (int x : dx) {
+//      for (int y : dy) {
+//        if (x == 0 && y == 0) {
+//          continue;
+//        }
+//        try {
+//          state = parseInt(grid.getCell(row + y, col + x).getCellProperty("StateNumber"));
+//          neighbors.add(idx, state);
+//        } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
+//          //handles edge cases
+//          neighbors.add(idx, edgePolicy.policy(row + y, col + x, grid));
+//        }
+//        idx++;
+//      }
+//    }
+//    return neighbors;
+//  }
+//  /**
+//   * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
+//   */
+//  protected List<Integer> getSquareEdges(int row, int col, Grid grid) {
+//    int[] x = {0, 0, 1, -1};
+//    int[] y = {-1, 1, 0, 0};
+//    ArrayList<Integer> neighbors = new ArrayList<>();
+//    int idx = 0;
+//    int state;
+//
+//    while (idx < 4) {
+//      try {
+//        state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
+//        neighbors.add(idx, state);
+//      } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
+//        neighbors.add(idx, edgePolicy.policy(row + y[idx], col + x[idx], grid));
+//      }
+//      idx++;
+//    }
+//
+//    return neighbors;
+//  }
+//
+//  /**
+//   * finds 4 neighboring cells and returns them as a linear array: [NW,NE,SW,SE]
+//   */
+//  protected List<Integer> getSquareCorners(int row, int col, Grid grid) {
+//    int[] x = {-1, 1, -1, 1};
+//    int[] y = {-1, -1, 1, 1};
+//    ArrayList<Integer> neighbors = new ArrayList<>();
+//    int idx = 0;
+//    int state;
+//
+//    while (idx < 4) {
+//      try {
+//        state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
+//        neighbors.add(idx, state);
+//      } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
+//        neighbors.add(idx, edgePolicy.policy(row + y[idx], col + x[idx], grid));
+//      }
+//      idx++;
+//    }
+//
+//    return neighbors;
+//  }
 
   /**
    * finds 12 neighboring cells and returns them as a linear array: [(top left)top row... middle
@@ -105,9 +157,9 @@ public abstract class NeighborFinder {
 
     for (int idx = 0; idx < dx.length; idx++) {
       if (col % 2 == 1) {
-        neighbors.add((row+dy[idx]) * numCols + (col+dx[idx]));
-      }else{
-        neighbors.add((row-dy[idx]) * numCols + (col+dx[idx]));
+        neighbors.add((row + dy[idx]) * numCols + (col + dx[idx]));
+      } else {
+        neighbors.add((row - dy[idx]) * numCols + (col + dx[idx]));
       }
     }
 

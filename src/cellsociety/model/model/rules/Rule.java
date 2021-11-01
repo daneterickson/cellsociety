@@ -1,5 +1,7 @@
 package cellsociety.model.model.rules;
 
+import cellsociety.model.Grid;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.List;
 
 /**
@@ -19,5 +21,18 @@ public abstract class Rule {
    * @return the new state for the cell being evaluated
    */
   public abstract int determineState(int currRow, int currCol, int state, List<Integer> nearby);
+  public abstract int determineState(int currRow, int currCol, int state, List<Integer> nearby,
+      Grid grid, EdgePolicies edgePolicy);
+
+  protected int getState(int row, int col, Grid grid,
+      EdgePolicies edgePolicy){
+    try{
+      return grid.getCellStateNumber(row,col);
+    }catch (IndexOutOfBoundsException e){
+
+    }
+    return edgePolicy.policy(row,col,grid);
+
+  }
 
 }

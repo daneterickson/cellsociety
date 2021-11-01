@@ -36,49 +36,6 @@ public class GameOfLifeModelTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new GameOfLifeModel(myController, myGrid);
   }
-
-  @Test
-  void testCurrRule()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
-        List.class);
-    currRule.setAccessible(true);
-    int newState;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-    //stable population
-    list = Arrays.asList(0, 0, 1, 1, 0, 0, 0, 0);
-    newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
-    assertEquals(1, newState, "New state should be 1. got: " + newState);
-
-    //overpopulation
-    list = Arrays.asList(0, 0, 1, 1, 0, 1, 0, 1);
-    newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
-    assertEquals(0, newState, "New state should be 0. got: " + newState);
-
-    //underpopulation
-    list = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 1);
-    newState = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
-    assertEquals(0, newState, "New state should be 0. got: " + newState);
-
-    //Failed reproduction
-    list = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 1);
-    newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
-    assertEquals(0, newState, "New state should be 0. got: " + newState);
-
-    //Failed reproduction
-    list = Arrays.asList(0, 0, 1, 1, 1, 0, 0, 1);
-    newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
-    assertEquals(0, newState, "New state should be 0. got: " + newState);
-
-    //Successful reproduction
-    list = Arrays.asList(0, 0, 1, 0, 1, 0, 0, 1);
-    newState = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
-    assertEquals(1, newState, "New state should be 1. got: " + newState);
-
-  }
-
   @Test
   void testGameOfLife() {
     int[][] expected = new int[][]{{0, 0, 0, 0, 0},

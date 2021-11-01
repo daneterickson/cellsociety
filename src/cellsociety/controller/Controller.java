@@ -129,6 +129,9 @@ public class Controller {
     return myModelsList.get(0).getHistogramMap();
   }
 
+  public Map getNamesAndColors() {
+    return myGridsList.get(0).getCell(0,0).getNameColorMap();
+  }
 
   public void makeNewDefaultSimulation(){
     Grid defaultGrid = makeDefaultGrid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);

@@ -4,13 +4,16 @@ import cellsociety.controller.Controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class HistogramView extends CenterView {
 
@@ -19,45 +22,93 @@ public class HistogramView extends CenterView {
   public static final int AXIS_LENGTH = 500;
   public static final int BAR_SPACING = 50;
   public static final int BAR_WIDTH = 100;
+  public static final int MAX_BAR_HEIGHT = 400;
+  public static final int BOTTOM_SPACING = 15;
+  public static final int LABEL_SPACING = BAR_WIDTH + BAR_SPACING / 2;
 
-  private HBox myHistogramHolder;
   private Canvas myCanvas;
   private Controller myController;
   private HBox barBox;
+  private HBox labelBox;
+  private HBox numberBox;
   private VBox histogramElements;
-  private int numCases;
   private List<Rectangle> bars;
-  private String state0_color;
-  private String state1_color;
-  private String state2_color;
+  private List<Text> numbers;
   private Map<Integer, Integer> myHistogramMap;
+  private Map<Integer, String> myNameColorMap;
+  private double totalNumCells;
   private GraphicsContext gc;
 
-  public HistogramView (Controller controller) {
-    myHistogramHolder = new HBox();
+  public HistogramView(Controller controller) {
     barBox = new HBox(BAR_SPACING);
+    barBox.setAlignment(Pos.BOTTOM_CENTER);
+    labelBox = new HBox(LABEL_SPACING);
+    labelBox.setAlignment(Pos.TOP_CENTER);
+    numberBox = new HBox(LABEL_SPACING);
+    numberBox.setAlignment(Pos.TOP_CENTER);
     histogramElements = new VBox(0);
+    histogramElements.setAlignment(Pos.BOTTOM_CENTER);
+    setStyles();
     myCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     gc = myCanvas.getGraphicsContext2D();
     myController = controller;
     bars = new ArrayList<>();
-//    numCases = getNumCases(myController.getSimPropertiesMap().get("Type"));
+    numbers = new ArrayList<>();
 
   }
 
+  /**
+   * Initiates the Histogram after the SIM file has been selected. It creates a VBox and first adds
+   * the bars, followed by the axis line, and a buffer. Then it updates the bars once to set the
+   * starting values.
+   */
   public void initiateHistogram() {
     myHistogramMap = myController.getHistogramMap();
-    assignStateColors();
+    totalNumCells = findTotalCells();
+    myNameColorMap = myController.getNamesAndColors();
+    histogramElements.getChildren().clear();
     makeBars();
     makeAxisLine();
+    makeBarLabels();
+    makeNumberLabels();
+    histogramElements.getChildren()
+        .add(new Rectangle(BOTTOM_SPACING, BOTTOM_SPACING, Color.TRANSPARENT));
+    updateBars();
   }
 
-  private void assignStateColors() {
+  private void makeNumberLabels() {
+    numbers.clear();
+    numberBox.getChildren().clear();
+    for (Integer stateNumber : myHistogramMap.keySet()) {
+      String percent = String.valueOf(Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%";
+      Text num = new Text(percent);
+      numbers.add(stateNumber, num);
+      numberBox.getChildren().add(num);
+    }
+    histogramElements.getChildren().add(numberBox);
   }
 
-  private int getNumCases(String type) {
-    if (type.equals("GameOfLife")) return 2;
-    return 3;
+  private void makeBarLabels() {
+    labelBox.getChildren().clear();
+    for (Integer state : myHistogramMap.keySet()) {
+      String name = myNameColorMap.get(state).split(",")[0];
+      Text label = new Text(name);
+      labelBox.getChildren().add(label);
+    }
+    histogramElements.getChildren().add(labelBox);
+  }
+
+  private double findTotalCells() {
+    int ret = 0;
+    for (Integer state : myHistogramMap.keySet()) {
+      ret += myHistogramMap.get(state);
+    }
+    return ret;
+  }
+
+  private void setStyles() {
+    histogramElements.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    histogramElements.getStyleClass().add("barBox");
   }
 
   private void makeAxisLine() {
@@ -71,20 +122,31 @@ public class HistogramView extends CenterView {
     bars.clear();
     barBox.getChildren().clear();
     for (Integer state : myHistogramMap.keySet()) {
-      Rectangle bar = new Rectangle(BAR_WIDTH, 0);
-      bars.add(bar);
+      String color = myNameColorMap.get(state).split(",")[1];
+      Rectangle bar = new Rectangle(BAR_WIDTH, 0, Color.web("#" + color));
+      bars.add(state, bar);
       barBox.getChildren().add(bar);
     }
-    histogramElements.getChildren().clear();
     histogramElements.getChildren().add(barBox);
   }
 
+  /**
+   * Updates the height of the bars each step of the simulation. The bars are normalized, so they
+   * represent percent of the total cells, not absolute values.
+   */
   public void updateBars() {
     for (Integer stateNumber : myHistogramMap.keySet()) {
-      bars.get(stateNumber).setHeight(myHistogramMap.get(stateNumber));
+      bars.get(stateNumber).setHeight(
+          Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * MAX_BAR_HEIGHT);
+      numbers.get(stateNumber).setText(String.valueOf(Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%");
     }
   }
 
+  /**
+   * Getter method to get the histogram VBox to be displayed on the screen.
+   *
+   * @return the histogram VBox as a Node to be displayed to the screen.
+   */
   public Node getHistogramBox() {
     return histogramElements;
   }

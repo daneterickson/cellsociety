@@ -22,6 +22,7 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
   private String myStateName;
   private String myStartColors;
   private int numCases;
+  private Map<Integer, String> myNameColorMap;
   private ResourceBundle myResources = ResourceBundle.getBundle(
       String.format("%s%s", DEFAULT_RESOURCES, RESOURCES_LANGUAGE));
 
@@ -55,6 +56,7 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
     myStartColors = stateColors;
     myStateNumber = state;
     myCellProperties.put(STATE_NUMBER_KEY, String.valueOf(state));
+    myNameColorMap = new HashMap<>();
   }
 
   protected abstract void assignConstants();
@@ -71,9 +73,12 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
     myCellProperties.put(NUMBER_CASES_KEY, THREE_CASES);
     if (myStartColors == null || myStartColors.split(PARAMETER_DELIMINATOR).length != 3) {
       switchThreeCases(state, name0, color0, name1, color1, name2, color2);
+      assignNameColorMapThreeCases(name0, color0, name1, color1, name2, color2);
     } else {
       String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
       switchThreeCases(state, name0, stateColors[0], name1, stateColors[1], name2, stateColors[2]);
+      assignNameColorMapThreeCases(name0, stateColors[0], name1, stateColors[1], name2, stateColors[2]);
+
     }
   }
 
@@ -95,6 +100,13 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
     }
   }
 
+  private void assignNameColorMapThreeCases (String name0, String color0, String name1,
+      String color1, String name2, String color2) {
+    myNameColorMap.put(0, String.format("%s,%s", name0,color0));
+    myNameColorMap.put(1, String.format("%s,%s", name1,color1));
+    myNameColorMap.put(2, String.format("%s,%s", name2,color2));
+  }
+
   protected void assignTwoCases(int state, String name0, String color0, String name1,
       String color1) {
     numCases = 2;
@@ -110,6 +122,19 @@ public abstract class ModelCell implements ModelCellInterface, ViewCellInterface
       }
     }
   }
+
+  protected void assignNameColorMapTwoCases (String name0, String color0, String name1,
+      String color1) {
+    myNameColorMap.put(0, String.format("%s,%s", name0,color0));
+    myNameColorMap.put(1, String.format("%s,%s", name1,color1));
+  }
+
+  /**
+   * Getter method to get the Map of the Name and Color options for each state in the simulation
+   *
+   * @return the Map of states mapped to a comma separated String of the name,color for each state
+   */
+  public Map getNameColorMap() { return myNameColorMap; }
 
   protected abstract void setParameters(String parameters);
 

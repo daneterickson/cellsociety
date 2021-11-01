@@ -14,8 +14,11 @@ import cellsociety.view.top.TopLoadSave;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 
@@ -84,6 +87,8 @@ public class MainView {
 //    myHistogramView.updateView();
   }
 
+  public void updateBottomPanel(ResourceBundle bundle) { root.setBottom(mySimControl.setResource(bundle)); }
+
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
     myRightPanel = rightPanel;
     root.setRight(myRightPanel.setResource(bundle));
@@ -91,6 +96,10 @@ public class MainView {
   public void updateRightPanelLang(ResourceBundle bundle) {
     root.setRight(myRightPanel.setResource(bundle));
   }
+  public void updateTopPanelLang(ResourceBundle bundle) {
+    root.setTop(myTopLoadSave.setResource(bundle));
+  }
+
   public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
   public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
 
@@ -107,6 +116,5 @@ public class MainView {
   public TopLoadSave getTopLoadSave() {
     return myTopLoadSave;
   }
-
 
 }

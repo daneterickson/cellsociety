@@ -257,6 +257,8 @@ public class Controller {
     }
     myMainView.updateLeftPanel(bundle);
     myMainView.updateRightPanelLang(bundle);
+    myMainView.updateTopPanelLang(bundle);
+    myMainView.updateBottomPanel(bundle);
   }
 
   /**

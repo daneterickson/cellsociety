@@ -1,0 +1,6 @@
+Type=PredatorPrey
+Description=Predators on one side, prey on the other
+Title=Divided to Start
+Author=Former Student
+InitialStates=/Users/aarichan/Documents/Duke/Academics/Fall 2021/CS 307/cellsociety_team08/data/testingSave/testing_savecsv.csv
+StateColors=FFFFFF,ADD8E6,8B0000

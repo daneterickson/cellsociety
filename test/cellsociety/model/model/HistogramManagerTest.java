@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +50,7 @@ public class HistogramManagerTest {
     StringBuilder setString = new StringBuilder();
 
     type = "GameOfLife";
-    HashMap test = myModel.getHistogram();
+    HashMap test = myModel.getHistogramMap();
     Set<Integer> golKeys = test.keySet();
     for (Integer key: golKeys){
       setString.append(key + " ");
@@ -77,7 +76,7 @@ public class HistogramManagerTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new SpreadingOfFireModel(myController,myGrid);
 
-    test = myModel.getHistogram();
+    test = myModel.getHistogramMap();
     Set<Integer> sofKeys = test.keySet();
     for (Integer key: sofKeys){
       setString.append(key + " ");
@@ -96,7 +95,7 @@ public class HistogramManagerTest {
 
     }
 
-    test = myModel.getHistogram();
+    test = myModel.getHistogramMap();
     tree =  test.get(1);
     burning =  test.get(2);
     assertEquals(0,burning,"should have 0 burning. got: " + burning);

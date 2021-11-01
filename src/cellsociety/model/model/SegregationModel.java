@@ -42,7 +42,7 @@ public class SegregationModel extends Model {
     try{
       threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
     } catch(Exception e){
-      System.out.println("invalid threshold variable");
+      // TODO: catch threshold exception
       threshold = 0.5;
     }
     myRule = new SegregationRule(threshold);
@@ -54,8 +54,7 @@ public class SegregationModel extends Model {
       try {
         state = parseInt(grid.getCell(row, col).getCellProperty("StateNumber"));
       } catch (KeyNotFoundException e) {
-        // TODO: handle exception
-        System.out.println("Invalid Property");
+        // TODO: handle exception - invalid properties
       }
       if (state == EMPTY_STATE) {
         emptySpots.add(row * numCols + col);

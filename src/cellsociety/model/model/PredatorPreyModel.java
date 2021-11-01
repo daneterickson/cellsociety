@@ -9,7 +9,11 @@ import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.rules.PredatorPreyRule;
 import cellsociety.model.model.rules.Rule;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
+import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +26,8 @@ public class PredatorPreyModel extends Model {
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
-  private GridIterator gridIterator;
+  private NeighborFinder neighborFinder;
+  private EdgePolicies edgePolicy;
   private int numUpdates;
 
   private final Random random;
@@ -52,18 +57,39 @@ public class PredatorPreyModel extends Model {
     myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
         sharkEnergy, energyGain, newUpdates,
         sharkAttacks);
+
   }
 
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
     myController = getMyController();
-    gridIterator = getGridIterator();
     numUpdates = getNumUpdates();
+    edgePolicy = getEdgePolicy();
+    neighborFinder = new SquareEdges(edgePolicy);
   }
 
   @Override
+  public void setEdgePolicy(String type){
+    EdgePolicySetter eps = new EdgePolicySetter();
+    edgePolicy = eps.setEdgePolicy(type);
+  }
+  @Override
+  public String getEdgePolicyType(){
+    return edgePolicy.getClass().toString();
+  }
+  @Override
+  public void setNeighborFinder(String type){
+    NeighborFinderSetter nfs = new NeighborFinderSetter();
+    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+  }
+  @Override
+  public String getNeighborFinderType(){
+    return neighborFinder.getClass().toString();
+  }
+  @Override
   public void updateModel(Grid currGrid) {
+    newUpdates.clear();
     this.currGrid = currGrid;
     iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateSharks(row, col, state)));
     iterateGrid(iterateGridLambda(currGrid, row -> col -> state -> iterateOthers(row, col, state)));
@@ -118,7 +144,7 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareEdges(row, col, currGrid);
+    return neighborFinder.getNeighbors(row, col, currGrid);
   }
 
   @Override
@@ -158,6 +184,23 @@ public class PredatorPreyModel extends Model {
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
     return myRule.determineState(currRow, currCol, state, nearby);
+  }
+
+  @Override
+  protected void setProb(ArrayList newProb) {
+    fishReproduction = (int) newProb.get(0);
+    sharkReproduction = (int) newProb.get(1);
+    sharkEnergy = (int) newProb.get(2);
+    energyGain = (int) newProb.get(3);
+
+    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+        sharkEnergy, energyGain, newUpdates,
+        sharkAttacks);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
   }
 
 }

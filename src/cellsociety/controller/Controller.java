@@ -4,17 +4,19 @@ import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.GameOfLifeModel;
 import cellsociety.model.model.Model;
+import cellsociety.model.model.rules.SpreadingOfFireRule;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.model.parser.RandomStates;
+import cellsociety.view.left.CellProperties;
 import cellsociety.view.mainview.MainView;
 import cellsociety.view.right.RightPanel;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +42,7 @@ public class Controller {
   private int currentGridNumber;
 
 
-  private static final int SCENE_WIDTH = 600;
+  private static final int SCENE_WIDTH = 1000;
   private static final int SCENE_HEIGHT = 600;
   public static final int DEFAULT_GRID_WIDTH = 10;
   public static final int DEFAULT_GRID_HEIGHT = 10;
@@ -101,6 +103,13 @@ public class Controller {
     }
   }
 
+  public void updateModelSettings(ArrayList prob) {
+    for (int i = 0; i < myModelsList.size(); i++) {
+      myModelsList.get(i).changeSettings(prob);
+      myMainView.updateView();
+    }
+  }
+
   //refactor to remove these.
   public int getCellStateNumber(int i, int j){
     return myGridsList.get(currentGridNumber).getCellStateNumber(i, j);
@@ -137,14 +146,18 @@ public class Controller {
   private void makeNewSimulation() {
     makeNewModel();
     makeNewRightPanel();
+    makeNewLeftPanel();
     myMainView.initiateGridView();
+  }
+
+  private void makeNewLeftPanel() {
+      myMainView.updateLeftView(myResources);
   }
 
   private void makeNewRightPanel() {
     try {
-      Object rightPanel = Class.forName("cellsociety.view.right." + simPropertiesList.get(currentGridNumber).get("Type") + "Settings").getDeclaredConstructor(ResourceBundle.class).newInstance(myResources);
-      myMainView.myRightPanel = (RightPanel) rightPanel;
-      myMainView.updateRightPanel();
+      Object rightPanel = Class.forName("cellsociety.view.right." + simPropertiesList.get(currentGridNumber).get("Type") + "Settings").getDeclaredConstructor(ResourceBundle.class, Controller.class).newInstance(myResources, this);
+      myMainView.updateRightPanel(myResources, (RightPanel) rightPanel);
     }
     catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
       e.printStackTrace();
@@ -182,7 +195,7 @@ public class Controller {
 //  }
 //
 //  private void makeRandomStates(int rows, int cols, int numFilled, String type) {
-//    int states[][] = new int[rows][cols];
+//    int states[][]s = new int[rows][cols];
 //    int fill = 0;
 //    int numCases = 3;
 //    Random rand = new Random();
@@ -232,6 +245,7 @@ public class Controller {
       bundle = ResourceBundle.getBundle("lang.Spanish", new Locale("es", "ES"));
     }
     myMainView.updateLeftPanel(bundle);
+    myMainView.updateRightPanelLang(bundle);
   }
 
   /**
@@ -257,7 +271,12 @@ public class Controller {
     return myGridsList.get(currentGridNumber);
   }
 
-  public Map getSimPropertiesMap() {return simPropertiesList.get(currentGridNumber);}
+  public Map getSimPropertiesMap() {
+    if (simPropertiesList == null) {
+      return null;
+    }
+    return simPropertiesList.get(currentGridNumber);
+  }
 
   private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){
     return new Grid(height, width, cellStates, stateColors, parameters, type);

@@ -1,5 +1,7 @@
 package cellsociety.view.right;
 
+import cellsociety.controller.Controller;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
@@ -7,8 +9,8 @@ import javafx.scene.layout.VBox;
 public class PercolationSettings extends RightPanel{
 
 
-  public PercolationSettings(ResourceBundle bundle){
-    super(bundle);
+  public PercolationSettings(ResourceBundle bundle, Controller controller){
+    super(bundle, controller);
   }
 
   @Override
@@ -26,5 +28,8 @@ public class PercolationSettings extends RightPanel{
   protected Node makeTextBox(){
     return null;
   }
+
+  @Override
+  protected void setProbSettings(ArrayList probability) { }
 
 }

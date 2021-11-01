@@ -1,4 +1,4 @@
-package cellsociety.model.model;
+package cellsociety.model.model.utils;
 
 import static java.lang.Integer.parseInt;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class HistogramManager {
 
   private HashMap<Integer, String> cellStates;
-  private HashMap<String, ArrayList<Integer>> histogram;
+  private HashMap<Integer, Integer> histogram;
   private Grid currGrid;
 
   public HistogramManager(Grid grid) {
@@ -22,12 +22,14 @@ public class HistogramManager {
     initHistogram();
   }
 
+  /**
+   * creates the histogram map and initializes each of the cellStates in it
+   */
   private void initHistogram() {
     histogram = new HashMap<>();
     String name;
     for (Integer state : cellStates.keySet()) {
-      name = cellStates.get(state);
-      histogram.put(name, new ArrayList<>());
+      histogram.put(state, 0);
     }
   }
 
@@ -44,7 +46,7 @@ public class HistogramManager {
     declaredFields.addAll(childFields);
     declaredFields.addAll(parentFields);
 
-    List<String> staticFields = new ArrayList<String>();
+    List<String> staticFields = new ArrayList<>();
     String fieldName;
     for (Field field : declaredFields) {
       if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
@@ -82,33 +84,25 @@ public class HistogramManager {
    * @return the histogram as a map of cell state names to arrays of the amounts of each type of
    * cell state per round
    */
-  public HashMap<String, ArrayList<Integer>> getHistogram() {
+  public HashMap<Integer, Integer> getHistogram() {
     return histogram;
   }
 
   /**
-   * @return a blank map with preinputted keys of the cell state values
+   * adds the given values to the histogram
    */
-  public HashMap makeBlankMap() {
-    HashMap<Integer, Integer> temp = new HashMap();
-    for (Integer state : cellStates.keySet()) {
-      temp.put(state, 0);
-    }
-    return temp;
+  public void add(Integer cellStateNum, int amount) {
+//    String name = cellStates.get(cellStateNum);
+    int total = histogram.get(cellStateNum) + amount;
+    histogram.put(cellStateNum, total);
   }
 
   /**
-   * adds the given values to the histogram
-   * @param temp - a map of cell state numbers to the frequency of them in the simulation
+   * clears the map. this is called everytime the model is updated
    */
-  public void addPlotPoints(HashMap<Integer, Integer> temp) {
-    String name;
-    Integer value;
-    for (Integer state : temp.keySet()) {
-      name = cellStates.get(state);
-      value = temp.get(state);
-//      System.out.println(name + " : " + value);
-      histogram.get(name).add(value);
+  public void clear() {
+    for (Integer key : histogram.keySet()){
+      histogram.put(key,0);
     }
   }
 }

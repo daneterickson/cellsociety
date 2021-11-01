@@ -46,7 +46,7 @@ public class PredatorPreyTest {
   }
 
   @Test
-  void testCurrRuleMovement()
+  void testEmptyCell()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
         List.class);
@@ -60,6 +60,17 @@ public class PredatorPreyTest {
     list = Arrays.asList(0, 0, 0, 1);
     ret = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
     assertEquals(0, ret, "empty cell should remain empty(0). got: " + ret);
+  }
+  @Test
+  void testFishMove()
+      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
+        List.class);
+    currRule.setAccessible(true);
+    int ret;
+    List<Integer> list;
+    int currRow = 2;
+    int currCol = 2;
 
     //fish moving
     list = Arrays.asList(0, 2, 1, 1);
@@ -70,6 +81,17 @@ public class PredatorPreyTest {
     list = Arrays.asList(1, 2, 1, 1);
     ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
     assertEquals(1, ret, "fish shouldn't be able to move. got: " + ret);
+  }
+  @Test
+  void testSharkMove()
+      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
+        List.class);
+    currRule.setAccessible(true);
+    int ret;
+    List<Integer> list;
+    int currRow = 2;
+    int currCol = 2;
 
     //shark moving
     list = Arrays.asList(0, 2, 2, 2);
@@ -77,7 +99,7 @@ public class PredatorPreyTest {
     assertEquals(0, ret, "shark should move. got: " + ret);
 
     //shark eating
-    list = Arrays.asList(1, 2, 2, 2);
+    list = Arrays.asList(2, 1, 2, 2);
     ret = (int) currRule.invoke(myModel, currRow, currCol, 2, list);
     assertEquals(0, ret, "shark should move. got: " + ret);
 

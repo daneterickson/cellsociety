@@ -1,23 +1,26 @@
-package cellsociety.model.model.utils;
+package cellsociety.model.model.utils.NeighborFinders;
 
 import static java.lang.Integer.parseInt;
 
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridIterator {
+public abstract class NeighborFinder {
   private EdgePolicies edgePolicy;
-  public GridIterator(EdgePolicies edgePolicy){
+  public NeighborFinder(EdgePolicies edgePolicy){
     this.edgePolicy = edgePolicy;
   }
+
+  public abstract List<Integer> getNeighbors(int row, int col, Grid grid);
 
   /**
    * finds 4 neighboring cells and returns them as a linear array: [north,south,east,west]
    * if the current point is an edge, it acts as if the edges are edgeValue
    */
-  public List<Integer> getSquareEdges(int row, int col, Grid grid) {
+  protected List<Integer> getSquareEdges(int row, int col, Grid grid) {
     int[] x = {0, 0, 1, -1};
     int[] y = {-1, 1, 0, 0};
     ArrayList<Integer> neighbors = new ArrayList<>();
@@ -41,7 +44,7 @@ public class GridIterator {
    * finds 4 neighboring cells and returns them as a linear array: [NW,NE,SW,SE]
    * if the current point is an edge, it acts as if the edges are edgeValue
    */
-  public List<Integer> getSquareCorners(int row, int col, Grid grid) {
+  protected List<Integer> getSquareCorners(int row, int col, Grid grid) {
     int[] x = {-1, 1, -1, 1};
     int[] y = {-1, -1, 1, 1};
     ArrayList<Integer> neighbors = new ArrayList<>();
@@ -66,7 +69,7 @@ public class GridIterator {
    *  [topLeft,topMid,topRight,midLeft,midRight,botLeft,botMiddle,botRight]
    *  if the current point is an edge, it acts as if the edges are edgeValue
    */
-  public List<Integer> getSquareComplete(int row, int col, Grid grid) {
+  protected List<Integer> getSquareComplete(int row, int col, Grid grid) {
     int[] dx = {-1, 0, 1};
     int[] dy = {-1, 0, 1};
     ArrayList<Integer> neighbors = new ArrayList<>();

@@ -4,12 +4,16 @@ import static java.lang.Integer.parseInt;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
+import cellsociety.model.cell.ModelCell;
 import cellsociety.model.exceptions.KeyNotFoundException;
-import cellsociety.model.model.utils.EdgePolicies;
-import cellsociety.model.model.utils.FiniteEdgePolicy;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
+import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.Rule;
-import java.lang.reflect.Field;
+import cellsociety.model.model.utils.HistogramManager;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +26,7 @@ public abstract class Model {
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
-  private GridIterator gridIterator;
+  private NeighborFinder neighborFinder;
   private Integer numUpdates;
   private final String stateNumber = "StateNumber";
   private EdgePolicies edgePolicy;
@@ -33,11 +37,16 @@ public abstract class Model {
     myController = controller;
     currGrid = grid;
     edgePolicy = new FiniteEdgePolicy();
-    gridIterator = new GridIterator(edgePolicy);
     numUpdates = 3;
     histogram = new HistogramManager(currGrid);
     updateHistogram();
   }
+
+  public abstract void setEdgePolicy(String type);
+  public abstract String getEdgePolicyType();
+  public abstract void setNeighborFinder(String type);
+  public abstract String getNeighborFinderType( );
+
 
   protected void setRule (Rule rule) {
     myRule = rule;
@@ -55,8 +64,12 @@ public abstract class Model {
     return numUpdates;
   }
 
-  protected GridIterator getGridIterator() {
-    return gridIterator;
+  protected NeighborFinder getNeighborFinder() {
+    return neighborFinder;
+  }
+
+  protected EdgePolicies getEdgePolicy() {
+    return edgePolicy;
   }
 
   protected Controller getMyController() {
@@ -64,6 +77,7 @@ public abstract class Model {
   }
 
   public void updateModel(Grid currGrid) {
+    newUpdates.clear();
     this.currGrid = currGrid;
     iterateGrid(row -> col -> {
       String currState = null;
@@ -82,7 +96,7 @@ public abstract class Model {
   }
 
   protected void updateHistogram(){
-    HashMap<Integer,Integer> temp = histogram.makeBlankMap();
+    histogram.clear();
     iterateGrid(row -> col -> {
       String currState = null;
       try {
@@ -92,13 +106,14 @@ public abstract class Model {
         System.out.println("Invalid Property");
       }
       int stateAsInt = parseInt(currState);
-      temp.put(stateAsInt,temp.get(stateAsInt)+1);
+      histogram.add(stateAsInt,1);
     });
-
-    histogram.addPlotPoints(temp);
 
   }
 
+  /**
+   * returns a hashmap of [cell state names : amount]
+   */
   public HashMap getHistogram(){
     return histogram.getHistogram();
   }
@@ -171,4 +186,9 @@ public abstract class Model {
 
   protected abstract Integer currRule(int currRow, int currCol, int state, List<Integer> nearby);
 
+  protected void setProb(ArrayList newProb) {}
+
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
+  }
 }

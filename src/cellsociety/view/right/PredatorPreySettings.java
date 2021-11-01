@@ -1,5 +1,9 @@
 package cellsociety.view.right;
 
+import cellsociety.controller.Controller;
+import java.lang.reflect.Array;
+import java.net.http.WebSocket.Listener;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -17,20 +21,17 @@ public class PredatorPreySettings extends RightPanel {
   private static final int MIN_SHARK_E = 1;
   private static final int MAX_SHARK_E = 21;
   private static final int START_SHARK_E = 5;
-  private static final int MIN_FISH_E_VAL = 1;
-  private static final int MAX_FISH_E_VAL = 21;
-  private static final int START_FISH_E_VAL = 5;
+  private static final int MIN_E_GAINED = 1;
+  private static final int MAX_E_GAINED = 21;
+  private static final int START_E_GAINED = 5;
+
+  private int slidersChanged = 0;
 
   private static final int TICK_SPACING = 5;
-  //TODO set these Strings from the properties file
-  private static final String FISH_REP_LABEL = "Fish Re-population Rate";
-  private static final String SHARK_REP_LABEL = "Shark Re-population Rate";
-  private static final String SHARK_E_LABEL = "Shark Energy Level";
-  private static final String FISH_E_VAL_LABEL = "Fish Energy Level";
 
 
-  public PredatorPreySettings(ResourceBundle bundle) {
-    super(bundle);
+  public PredatorPreySettings(ResourceBundle bundle, Controller controller) {
+    super(bundle, controller);
   }
 
   @Override
@@ -46,22 +47,57 @@ public class PredatorPreySettings extends RightPanel {
   @Override
   protected Node makeSliders() {
     VBox sliderGroup = new VBox();
-    Label fishRepLabel = makeALabel(FISH_REP_LABEL, "fishRepLabel");
+
+
+    ArrayList settingsPkg = new ArrayList(4);
+    settingsPkg.add(0, START_FISH_REP);
+    settingsPkg.add(1, START_SHARK_REP);
+    settingsPkg.add(2, START_SHARK_E);
+    settingsPkg.add(3, START_E_GAINED);
+
+    Label fishRepLabel = makeALabel(super.getMyResource().getString("PredatorPreyFishRepLabel"), "fishRepLabel");
     Slider fishRepSlider = makeASlider(MIN_FISH_REP, MAX_FISH_REP, START_FISH_REP, "fishRepSlider",
         true, TICK_SPACING);
-    Label sharkRepLabel = makeALabel(SHARK_REP_LABEL, "sharkRepLabel");
+    Label sharkRepLabel = makeALabel(super.getMyResource().getString("PredatorPreySharkRepLabel"), "sharkRepLabel");
     Slider sharkRepSlider = makeASlider(MIN_SHARK_REP, MAX_SHARK_REP, START_SHARK_REP,
         "sharkRepSlider", true, TICK_SPACING);
-    Label sharkELabel = makeALabel(SHARK_E_LABEL, "sharkELabel");
+    Label sharkELabel = makeALabel(super.getMyResource().getString("PredatorPreySharkEnergyLabel"), "sharkELabel");
     Slider sharkEnergySlider = makeASlider(MIN_SHARK_E, MAX_SHARK_E, START_SHARK_E,
         "sharkEnergySlider", true, TICK_SPACING);
-    Label fishEValLabel = makeALabel(FISH_E_VAL_LABEL, "fishEValLabel");
-    Slider fishEnergyValueSlider = makeASlider(MIN_FISH_E_VAL, MAX_FISH_E_VAL, START_FISH_E_VAL,
+
+    Label fishEValLabel = makeALabel(super.getMyResource().getString("PredatorPreyEnergyGainedLabel"), "fishEValLabel");
+    Slider fishEnergyValueSlider = makeASlider(MIN_E_GAINED, MAX_E_GAINED, START_E_GAINED,
         "fishEValSlider", true, TICK_SPACING);
+
+    fishRepSlider.valueProperty().addListener(((observable, oldValue, newValue) -> {
+      settingsPkg.set(0, fishRepSlider.getValue());
+      slidersChanged(settingsPkg);
+    }));
+    sharkRepSlider.valueProperty().addListener(((observable, oldValue, newValue) -> {
+      settingsPkg.set(1, sharkRepSlider.getValue());
+      slidersChanged(settingsPkg);
+    }));
+    sharkEnergySlider.valueProperty().addListener(((observable, oldValue, newValue) -> {
+      settingsPkg.set(2, sharkEnergySlider.getValue());
+      slidersChanged(settingsPkg);
+    }));
+    fishEnergyValueSlider.valueProperty().addListener(((observable, oldValue, newValue) -> {
+      settingsPkg.set(3, fishEnergyValueSlider.getValue());
+      slidersChanged(settingsPkg);
+    }));
+
+
+
+
     sliderGroup.getChildren()
         .addAll(fishRepLabel, fishRepSlider, sharkRepLabel, sharkRepSlider, sharkELabel,
             sharkEnergySlider, fishEValLabel, fishEnergyValueSlider);
     return sliderGroup;
+  }
+
+  private void slidersChanged(ArrayList settingsToSend) {
+    setProbSettings(settingsToSend);
+    System.out.println("Changed");
   }
 
   @Override
@@ -69,4 +105,6 @@ public class PredatorPreySettings extends RightPanel {
     return null;
   }
 
+  @Override
+  protected void setProbSettings(ArrayList probability) { }
 }

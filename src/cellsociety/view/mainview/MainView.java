@@ -5,7 +5,6 @@ import cellsociety.controller.Controller;
 import cellsociety.view.bottom.SimControl;
 import cellsociety.view.center.GridView;
 import cellsociety.view.center.SquareGridView;
-import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -24,7 +23,7 @@ public class MainView {
   private GridView myGridView;
   private SimControl mySimControl;
   private TopLoadSave myTopLoadSave;
-  public RightPanel myRightPanel;
+  private RightPanel myRightPanel;
   private Controller myController;
   private ResourceBundle myResources;
   private BorderPane root;
@@ -33,11 +32,11 @@ public class MainView {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     myController = controller;
     myStage = stage;
-    myCellProperties = new CellProperties(myResources);
+    myCellProperties = new CellProperties(myController, myResources);
     myTopLoadSave = new TopLoadSave(myStage, myController, myResources);
-    //myGridView = new SquareGridView(myCellProperties, myController);
-    myGridView = new TriangleGridView(myCellProperties, myController);
-    myRightPanel = new GameOfLifeSettings(myResources);
+    myGridView = new SquareGridView(myCellProperties, myController);
+//    myGridView = new TriangleGridView(myCellProperties, myController);
+    myRightPanel = new GameOfLifeSettings(myResources, myController);
     mySimControl = new SimControl(myGridView, myController);
   }
 
@@ -59,8 +58,15 @@ public class MainView {
     myGridView.updateGrids();
   }
 
-  public void updateRightPanel() { root.setRight(myRightPanel.getTheRightPanel()); }
+  public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
+    myRightPanel = rightPanel;
+    root.setRight(myRightPanel.setResource(bundle));
+  }
+  public void updateRightPanelLang(ResourceBundle bundle) {
+    root.setRight(myRightPanel.setResource(bundle));
+  }
   public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
+  public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.

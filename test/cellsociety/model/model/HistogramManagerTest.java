@@ -5,14 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.model.utils.EdgePolicies;
-import cellsociety.model.model.utils.FiniteEdgePolicy;
-import cellsociety.model.model.utils.SphericalEdgePolicy;
-import cellsociety.model.model.utils.ToroidalEdgePolicy;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,24 +47,24 @@ public class HistogramManagerTest {
 
   @Test
   void testInit() {
-    Set<String> expected;
+    Set<Integer> expected;
     StringBuilder setString = new StringBuilder();
 
     type = "GameOfLife";
     HashMap test = myModel.getHistogram();
-    Set<String> golKeys = test.keySet();
-    for (String key: golKeys){
+    Set<Integer> golKeys = test.keySet();
+    for (Integer key: golKeys){
       setString.append(key + " ");
     }
-    expected = Set.of("DEAD_STATE", "ALIVE_STATE");
+    expected = Set.of(0, 1);
     assertEquals(expected, golKeys, "game of life keys should be dead and alive state. got: " + setString.toString());
   }
 
   @Test
   void testAddRound() {
-    Set<String> expected;
+    Set<Integer> expected;
     StringBuilder setString = new StringBuilder();
-    HashMap<String, ArrayList<Integer>> test;
+    HashMap<Integer, Integer> test;
 
     myStates = new int[][]{{0, 1, 1, 1, 1},
         {2, 0, 0, 0, 1},
@@ -82,15 +78,15 @@ public class HistogramManagerTest {
     myModel = new SpreadingOfFireModel(myController,myGrid);
 
     test = myModel.getHistogram();
-    Set<String> sofKeys = test.keySet();
-    for (String key: sofKeys){
+    Set<Integer> sofKeys = test.keySet();
+    for (Integer key: sofKeys){
       setString.append(key + " ");
     }
 
-    expected = Set.of("BURN_STATE","TREE_STATE","EMPTY_STATE");
+    expected = Set.of(0,1,2);
     assertEquals(expected, sofKeys, "spreading of fire keys should be burn and tree state. got: " + setString.toString());
-    int burning =  test.get("BURN_STATE").get(0);
-    int tree =  test.get("TREE_STATE").get(0);
+    int tree =  test.get(1);
+    int burning = test.get(2);
     assertEquals(7,burning,"should start of with 7 burning. got: " + burning);
     assertEquals(7,tree,"should start of with 7 tree. got: " + tree);
 
@@ -101,8 +97,8 @@ public class HistogramManagerTest {
     }
 
     test = myModel.getHistogram();
-    burning =  test.get("BURN_STATE").get(1);
-    tree =  test.get("TREE_STATE").get(1);
+    tree =  test.get(1);
+    burning =  test.get(2);
     assertEquals(0,burning,"should have 0 burning. got: " + burning);
     assertEquals(7,tree,"should still have 7 tree. got: " + tree);
   }

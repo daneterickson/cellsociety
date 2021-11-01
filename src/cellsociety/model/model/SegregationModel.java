@@ -6,8 +6,12 @@ import static java.lang.Integer.parseInt;
 import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
-import cellsociety.model.model.utils.GridIterator;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.SegregationRule;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
+import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,7 +21,8 @@ public class SegregationModel extends Model {
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
   private Controller myController;
-  private GridIterator gridIterator;
+  private NeighborFinder neighborFinder;
+  private EdgePolicies edgePolicy;
   private int numUpdates;
   private SegregationRule myRule;
 
@@ -33,6 +38,17 @@ public class SegregationModel extends Model {
     numCols = grid.getNumCols();
     random = new Random();
     emptySpots = new ArrayList<>();
+    findEmptyCells(grid);
+    try{
+      threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
+    } catch(Exception e){
+      System.out.println("invalid threshold variable");
+      threshold = 0.5;
+    }
+    myRule = new SegregationRule(threshold, numCols, emptySpots);
+  }
+
+  private void findEmptyCells(Grid grid) {
     iterateGrid(row -> col -> {
       int state = 0;
       try {
@@ -45,24 +61,40 @@ public class SegregationModel extends Model {
         emptySpots.add(row * numCols + col);
       }
     });
-    try{
-      threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
-    } catch(Exception e){
-      System.out.println("invalid threshold variable");
-      threshold = 0.5;
-    }
-    myRule = new SegregationRule(threshold, numCols, emptySpots);
   }
+
   private void getBaseInstanceVariables() {
     currGrid = getCurrGrid();
     newUpdates = getNewUpdates();
     myController = getMyController();
-    gridIterator = getGridIterator();
+    neighborFinder = getNeighborFinder();
+    edgePolicy = getEdgePolicy();
+    neighborFinder = new SquareComplete(edgePolicy);
     numUpdates = getNumUpdates();
   }
+
+  @Override
+  public void setEdgePolicy(String type){
+    EdgePolicySetter eps = new EdgePolicySetter();
+    edgePolicy = eps.setEdgePolicy(type);
+  }
+  @Override
+  public String getEdgePolicyType(){
+    return edgePolicy.getClass().toString();
+  }
+  @Override
+  public void setNeighborFinder(String type){
+    NeighborFinderSetter nfs = new NeighborFinderSetter();
+    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+  }
+  @Override
+  public String getNeighborFinderType(){
+    return neighborFinder.getClass().toString();
+  }
+
   @Override
   protected List<Integer> getNearby(int row, int col) {
-    return gridIterator.getSquareComplete(row, col, currGrid);
+    return neighborFinder.getNeighbors(row, col, currGrid);
   }
 
   /**
@@ -84,6 +116,17 @@ public class SegregationModel extends Model {
     int c = emptySpots.get(idx) % numCols;
     emptySpots.remove(idx);
     addNewUpdates(r, c, state);
+  }
+
+  @Override
+  protected void setProb(ArrayList newProb) {
+    threshold = (double) newProb.get(0);
+    myRule = new SegregationRule(threshold, numCols, emptySpots);
+  }
+
+  @Override
+  public void changeSettings(ArrayList newProb) {
+    setProb(newProb);
   }
 
 }

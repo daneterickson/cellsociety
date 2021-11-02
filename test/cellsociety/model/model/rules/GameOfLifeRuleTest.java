@@ -43,7 +43,7 @@ public class GameOfLifeRuleTest {
   void testAllDead() {
     int row = 3;
     int col = 4;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 0, nearby, myGrid, edgePolicy);
     assertEquals(0, actual);
     actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
@@ -54,33 +54,33 @@ public class GameOfLifeRuleTest {
   @Test
   void testStableCell() {
     int row = 3;
-    int  col = 3;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    int col = 3;
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 0, nearby, myGrid, edgePolicy);
     assertEquals(0, actual);
     actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
-    assertEquals(1,actual);
+    assertEquals(1, actual);
   }
 
   @Test
   void testGenerateCell() {
     int row = 3;
     int col = 2;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 0, nearby, myGrid, edgePolicy);
     assertEquals(1, actual);
     actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
-    assertEquals(1,actual);
+    assertEquals(1, actual);
   }
 
   @Test
   void testRemoveCell() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 0, nearby, myGrid, edgePolicy);
     assertEquals(0, actual);
     actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
-    assertEquals(0,actual);
+    assertEquals(0, actual);
   }
 }

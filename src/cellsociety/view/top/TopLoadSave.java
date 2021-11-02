@@ -30,6 +30,7 @@ public class TopLoadSave {
 
   /**
    * Constructor that makes a top panel
+   *
    * @param stage
    * @param controller
    * @param resources
@@ -111,8 +112,7 @@ public class TopLoadSave {
         simFile.write(String.format("%s=%s\n", key.toString(), simValueMap.get(key).toString()));
       }
       simFile.close();
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
@@ -122,6 +122,7 @@ public class TopLoadSave {
     File savedCSV = fileChooser.showSaveDialog(myStage);
     return savedCSV;
   }
+
   private void saveSIM() {
     File saveFiles = openSaveFileDialog();
     saveCSVFile(saveFiles);
@@ -135,6 +136,7 @@ public class TopLoadSave {
 
   /**
    * Returns the myTopLoadSave element
+   *
    * @return myTopLoadSave
    */
   public Node getTopLoadSave() {
@@ -143,6 +145,7 @@ public class TopLoadSave {
 
   /**
    * Sets certain elements' labels to the language bundle's values
+   *
    * @param bundle
    * @return edited myTopLoadSave
    */

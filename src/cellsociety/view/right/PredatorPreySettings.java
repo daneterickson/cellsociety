@@ -36,6 +36,7 @@ public class PredatorPreySettings extends RightPanel {
 
   /**
    * Constructor that makes a specific right panel
+   *
    * @param bundle
    * @param controller
    */
@@ -45,16 +46,18 @@ public class PredatorPreySettings extends RightPanel {
 
   @Override
   protected void makeSettingsPanel(VBox rightPanel) {
-    rightPanel.getChildren().addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
+    rightPanel.getChildren()
+        .addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
   }
 
   @Override
-  protected Node makeButtons() {return makeGridLinesToggleButton();}
+  protected Node makeButtons() {
+    return makeGridLinesToggleButton();
+  }
 
   @Override
   protected Node makeSliders() {
     VBox sliderGroup = new VBox();
-
 
     ArrayList settingsPkg = new ArrayList(4);
     settingsPkg.add(0, START_FISH_REP);
@@ -62,17 +65,21 @@ public class PredatorPreySettings extends RightPanel {
     settingsPkg.add(2, START_SHARK_E);
     settingsPkg.add(3, START_E_GAINED);
 
-    Label fishRepLabel = makeALabel(super.getMyResource().getString("PredatorPreyFishRepLabel"), "fishRepLabel");
+    Label fishRepLabel = makeALabel(super.getMyResource().getString("PredatorPreyFishRepLabel"),
+        "fishRepLabel");
     Slider fishRepSlider = makeASlider(MIN_FISH_REP, MAX_FISH_REP, START_FISH_REP, "fishRepSlider",
         true, TICK_SPACING);
-    Label sharkRepLabel = makeALabel(super.getMyResource().getString("PredatorPreySharkRepLabel"), "sharkRepLabel");
+    Label sharkRepLabel = makeALabel(super.getMyResource().getString("PredatorPreySharkRepLabel"),
+        "sharkRepLabel");
     Slider sharkRepSlider = makeASlider(MIN_SHARK_REP, MAX_SHARK_REP, START_SHARK_REP,
         "sharkRepSlider", true, TICK_SPACING);
-    Label sharkELabel = makeALabel(super.getMyResource().getString("PredatorPreySharkEnergyLabel"), "sharkELabel");
+    Label sharkELabel = makeALabel(super.getMyResource().getString("PredatorPreySharkEnergyLabel"),
+        "sharkELabel");
     Slider sharkEnergySlider = makeASlider(MIN_SHARK_E, MAX_SHARK_E, START_SHARK_E,
         "sharkEnergySlider", true, TICK_SPACING);
 
-    Label fishEValLabel = makeALabel(super.getMyResource().getString("PredatorPreyEnergyGainedLabel"), "fishEValLabel");
+    Label fishEValLabel = makeALabel(
+        super.getMyResource().getString("PredatorPreyEnergyGainedLabel"), "fishEValLabel");
     Slider fishEnergyValueSlider = makeASlider(MIN_E_GAINED, MAX_E_GAINED, START_E_GAINED,
         "fishEValSlider", true, TICK_SPACING);
 
@@ -93,9 +100,6 @@ public class PredatorPreySettings extends RightPanel {
       slidersChanged(settingsPkg);
     }));
 
-
-
-
     sliderGroup.getChildren()
         .addAll(fishRepLabel, fishRepSlider, sharkRepLabel, sharkRepSlider, sharkELabel,
             sharkEnergySlider, fishEValLabel, fishEnergyValueSlider);
@@ -112,5 +116,6 @@ public class PredatorPreySettings extends RightPanel {
   }
 
   @Override
-  protected void setProbSettings(ArrayList probability) { }
+  protected void setProbSettings(ArrayList probability) {
+  }
 }

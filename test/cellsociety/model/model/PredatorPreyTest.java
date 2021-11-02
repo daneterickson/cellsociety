@@ -70,19 +70,19 @@ public class PredatorPreyTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PredatorPreyModel(myController, myGrid);
 
-    try{
-    myModel.updateModel(myGrid);
+    try {
+      myModel.updateModel(myGrid);
     } catch (NullPointerException e) {
 
     }
 //    System.out.println(" --- ");
     printgrid();
 
-    int parentShark = parseInt(myGrid.getModelCell(0,3).getCellProperty("StateNumber"));
+    int parentShark = parseInt(myGrid.getModelCell(0, 3).getCellProperty("StateNumber"));
     assertEquals(2, parentShark, "at (0,3) should be shark. got: " + parentShark);
-    int childShark = parseInt(myGrid.getModelCell(0,4).getCellProperty("StateNumber"));
+    int childShark = parseInt(myGrid.getModelCell(0, 4).getCellProperty("StateNumber"));
     assertEquals(2, childShark, "at (0,4) should be shark. got: " + childShark);
-    int childFish = parseInt(myGrid.getModelCell(1,4).getCellProperty("StateNumber"));
+    int childFish = parseInt(myGrid.getModelCell(1, 4).getCellProperty("StateNumber"));
     assertEquals(1, childFish, "at (1,4), should be fish. got: " + childFish);
 
   }
@@ -100,7 +100,7 @@ public class PredatorPreyTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PredatorPreyModel(myController, myGrid);
 
-    try{
+    try {
       myModel.updateModel(myGrid);
     } catch (NullPointerException e) {
 
@@ -111,10 +111,10 @@ public class PredatorPreyTest {
       System.out.println("Cannot print grid - Exception reached");
     }
 
-    int shark = parseInt(myGrid.getModelCell(0,3).getCellProperty("StateNumber"));
+    int shark = parseInt(myGrid.getModelCell(0, 3).getCellProperty("StateNumber"));
     assertEquals(2, shark, "at (0,3) should be shark. got: " + shark);
-    int PossibleFish1 = parseInt(myGrid.getModelCell(0,2).getCellProperty("StateNumber"));
-    int PossibleFish2 = parseInt(myGrid.getModelCell(1,3).getCellProperty("StateNumber"));
+    int PossibleFish1 = parseInt(myGrid.getModelCell(0, 2).getCellProperty("StateNumber"));
+    int PossibleFish2 = parseInt(myGrid.getModelCell(1, 3).getCellProperty("StateNumber"));
 
     assertEquals(0, PossibleFish1, "fish should be dead. got: " + PossibleFish1);
     assertEquals(0, PossibleFish2, "fish should be dead. got: " + PossibleFish2);
@@ -123,10 +123,10 @@ public class PredatorPreyTest {
   }
 
   private void printgrid() throws KeyNotFoundException {
-    for (int r = 0; r< myGrid.getNumRows();r++){
+    for (int r = 0; r < myGrid.getNumRows(); r++) {
       System.out.println(" ");
-      for (int c = 0; c< myGrid.getNumRows();c++){
-        System.out.print(myGrid.getModelCell(r,c).getCellProperty("StateNumber"));
+      for (int c = 0; c < myGrid.getNumRows(); c++) {
+        System.out.print(myGrid.getModelCell(r, c).getCellProperty("StateNumber"));
       }
     }
     System.out.println(" ");

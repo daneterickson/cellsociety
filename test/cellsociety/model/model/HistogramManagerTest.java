@@ -38,7 +38,7 @@ public class HistogramManagerTest {
     numCols = 5;
     type = "GameOfLife";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
-    myModel = new GameOfLifeModel(myController,myGrid);
+    myModel = new GameOfLifeModel(myController, myGrid);
 //    myController = new Controller(new Stage());
 //    histogram = new HistogramManager(myGrid);
 
@@ -52,11 +52,12 @@ public class HistogramManagerTest {
     type = "GameOfLife";
     HashMap test = myModel.getHistogramMap();
     Set<Integer> golKeys = test.keySet();
-    for (Integer key: golKeys){
+    for (Integer key : golKeys) {
       setString.append(key + " ");
     }
     expected = Set.of(0, 1);
-    assertEquals(expected, golKeys, "game of life keys should be dead and alive state. got: " + setString.toString());
+    assertEquals(expected, golKeys,
+        "game of life keys should be dead and alive state. got: " + setString.toString());
   }
 
   @Test
@@ -74,31 +75,32 @@ public class HistogramManagerTest {
     numCols = 5;
     type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
-    myModel = new SpreadingOfFireModel(myController,myGrid);
+    myModel = new SpreadingOfFireModel(myController, myGrid);
 
     test = myModel.getHistogramMap();
     Set<Integer> sofKeys = test.keySet();
-    for (Integer key: sofKeys){
+    for (Integer key : sofKeys) {
       setString.append(key + " ");
     }
 
-    expected = Set.of(0,1,2);
-    assertEquals(expected, sofKeys, "spreading of fire keys should be burn and tree state. got: " + setString.toString());
-    int tree =  test.get(1);
+    expected = Set.of(0, 1, 2);
+    assertEquals(expected, sofKeys,
+        "spreading of fire keys should be burn and tree state. got: " + setString.toString());
+    int tree = test.get(1);
     int burning = test.get(2);
-    assertEquals(7,burning,"should start of with 7 burning. got: " + burning);
-    assertEquals(7,tree,"should start of with 7 tree. got: " + tree);
+    assertEquals(7, burning, "should start of with 7 burning. got: " + burning);
+    assertEquals(7, tree, "should start of with 7 tree. got: " + tree);
 
     try {
       myModel.updateModel(myGrid);
-    }catch (NullPointerException e){
+    } catch (NullPointerException e) {
 
     }
 
     test = myModel.getHistogramMap();
-    tree =  test.get(1);
-    burning =  test.get(2);
-    assertEquals(0,burning,"should have 0 burning. got: " + burning);
-    assertEquals(7,tree,"should still have 7 tree. got: " + tree);
+    tree = test.get(1);
+    burning = test.get(2);
+    assertEquals(0, burning, "should have 0 burning. got: " + burning);
+    assertEquals(7, tree, "should still have 7 tree. got: " + tree);
   }
 }

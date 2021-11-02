@@ -36,6 +36,7 @@ public class GameOfLifeModelTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new GameOfLifeModel(myController, myGrid);
   }
+
   @Test
   void testGameOfLife() {
     int[][] expected = new int[][]{{0, 0, 0, 0, 0},

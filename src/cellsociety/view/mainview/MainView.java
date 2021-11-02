@@ -7,6 +7,7 @@ import cellsociety.view.center.CenterView;
 import cellsociety.view.center.GridView;
 import cellsociety.view.center.HistogramView;
 import cellsociety.view.center.SquareGridView;
+import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -45,6 +46,7 @@ public class MainView {
 
   /**
    * Constructor that makes a main view
+   *
    * @param stage
    * @param controller
    */
@@ -61,6 +63,7 @@ public class MainView {
 
   /**
    * Makes a new scene with a new borderpane and all elements of borderpane filled
+   *
    * @param width
    * @param height
    * @return scene
@@ -94,6 +97,7 @@ public class MainView {
       root.setCenter(myCenterView.getViewBox());
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       showError(e.getMessage());
+      e.printStackTrace();
     }
     myCenterView.updateView();
   }
@@ -108,18 +112,22 @@ public class MainView {
   /**
    * Toggles grid lines in the center
    */
-  public void toggleLines(){
+  public void toggleLines() {
     myCenterView.toggleLines();
   }
 
   /**
    * Sets the bottom panel to a new bottom panel
+   *
    * @param bundle
    */
-  public void updateBottomPanel(ResourceBundle bundle) { root.setBottom(mySimControl.setResource(bundle)); }
+  public void updateBottomPanel(ResourceBundle bundle) {
+    root.setBottom(mySimControl.setResource(bundle));
+  }
 
   /**
    * Sets the right panel to a new right panel
+   *
    * @param bundle
    * @param rightPanel
    */
@@ -130,6 +138,7 @@ public class MainView {
 
   /**
    * Updates the right panel with a new language
+   *
    * @param bundle
    */
   public void updateRightPanelLang(ResourceBundle bundle) {
@@ -138,6 +147,7 @@ public class MainView {
 
   /**
    * Updates the top panel with a new language
+   *
    * @param bundle
    */
   public void updateTopPanelLang(ResourceBundle bundle) {
@@ -146,15 +156,21 @@ public class MainView {
 
   /**
    * Updates the left panel with a new language
+   *
    * @param bundle
    */
-  public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
+  public void updateLeftPanel(ResourceBundle bundle) {
+    root.setLeft(myCellProperties.setResource(bundle));
+  }
 
   /**
    * update the left panel with a new sim properties
+   *
    * @param bundle
    */
-  public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
+  public void updateLeftView(ResourceBundle bundle) {
+    root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap()));
+  }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.
@@ -178,6 +194,7 @@ public class MainView {
 
   /**
    * Get left panel
+   *
    * @return
    */
   public CellProperties getMyCellProperties() {

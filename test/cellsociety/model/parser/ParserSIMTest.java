@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserSIMTest {
@@ -63,8 +64,8 @@ public class ParserSIMTest {
   @Test
   void testStatesColorMap() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/percolation/long_pipe.sim"));
-    String colors[] = {"FFFFFF","0000FF","000000"};
-    for (int i=0; i<colors.length; i++) {
+    String colors[] = {"FFFFFF", "0000FF", "000000"};
+    for (int i = 0; i < colors.length; i++) {
       String expected = colors[i];
       String actual = myParser.getInfo("StateColors").split(",")[i];
       assertEquals(expected, actual);

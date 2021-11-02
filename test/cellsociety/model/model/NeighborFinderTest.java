@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class NeighborFinderTest {
+
   private Grid myGrid;
   private int myStates[][];
   private int numRows;
@@ -45,63 +46,63 @@ public class NeighborFinderTest {
   }
 
   @Test
-  void testSquareComplete(){
+  void testSquareComplete() {
     myNeighborFinder = new SquareComplete();
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol, myGrid);
 
     int population = 0;
-    int row,col,state;
-    for (int i = 0; i<neighbors.size();i+=2) {
+    int row, col, state;
+    for (int i = 0; i < neighbors.size(); i += 2) {
       row = neighbors.get(i);
-      col = neighbors.get(i+1);
-      state = myGrid.getCellStateNumber(row,col);
+      col = neighbors.get(i + 1);
+      state = myGrid.getCellStateNumber(row, col);
       if (state != 0) {
         population += 1;
       }
     }
-    int empty = (neighbors.size()/2)-population;
+    int empty = (neighbors.size() / 2) - population;
     assertEquals(7, population, "(2,2) should have 7 neighbors. got: " + population);
     assertEquals(1, empty, "(2,2) should have 1 empty. got: " + empty);
 
   }
 
   @Test
-  void testSquareEdges(){
+  void testSquareEdges() {
     myNeighborFinder = new SquareEdges();
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol, myGrid);
 
     int population = 0;
-    int row,col,state;
-    for (int i = 0; i<neighbors.size();i+=2) {
+    int row, col, state;
+    for (int i = 0; i < neighbors.size(); i += 2) {
       row = neighbors.get(i);
-      col = neighbors.get(i+1);
-      state = myGrid.getCellStateNumber(row,col);
+      col = neighbors.get(i + 1);
+      state = myGrid.getCellStateNumber(row, col);
       if (state != 0) {
         population += 1;
       }
     }
-    int empty = (neighbors.size()/2)-population;
+    int empty = (neighbors.size() / 2) - population;
     assertEquals(3, population, "(2,2) should have 3 neighbors. got: " + population);
     assertEquals(1, empty, "(2,2) should have 1 empty. got: " + empty);
 
   }
 
   @Test
-  void testSquareCorners(){
+  void testSquareCorners() {
     myNeighborFinder = new SquareCorners();
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol, myGrid);
 
     int population = 0;
-    int row,col,state;
-    for (int i = 0; i<neighbors.size();i+=2) {
+    int row, col, state;
+    for (int i = 0; i < neighbors.size(); i += 2) {
       row = neighbors.get(i);
-      col = neighbors.get(i+1);
-      state = myGrid.getCellStateNumber(row,col);
+      col = neighbors.get(i + 1);
+      state = myGrid.getCellStateNumber(row, col);
       if (state != 0) {
         population += 1;
       }
     }
-    int empty = (neighbors.size()/2)-population;
+    int empty = (neighbors.size() / 2) - population;
     assertEquals(4, population, "(2,2) should have 4 neighbors. got: " + population);
     assertEquals(0, empty, "(2,2) should have 0 empty. got: " + empty);
 
@@ -115,24 +116,24 @@ public class NeighborFinderTest {
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
 
-    neighbors = myNeighborFinder.getNeighbors(currRow,currCol,myGrid);
+    neighbors = myNeighborFinder.getNeighbors(currRow, currCol, myGrid);
 
     population = 0;
-    for (int i = 0; i<neighbors.size();i+=2) {
+    for (int i = 0; i < neighbors.size(); i += 2) {
       row = neighbors.get(i);
-      col = neighbors.get(i+1);
-      state = myGrid.getCellStateNumber(row,col);
+      col = neighbors.get(i + 1);
+      state = myGrid.getCellStateNumber(row, col);
       if (state != 0) {
         population += 1;
       }
     }
-    empty = (neighbors.size()/2)-population;
+    empty = (neighbors.size() / 2) - population;
     assertEquals(3, population, "(2,2) should have 3 neighbors. got: " + population);
     assertEquals(1, empty, "(2,2) should have 1 empty. got: " + empty);
   }
 
   @Test
-  void testTriangleComplete(){
+  void testTriangleComplete() {
     myStates = new int[][]{
         {2, 2, 1, 2, 0},
         {1, 0, 1, 2, 0},
@@ -147,18 +148,18 @@ public class NeighborFinderTest {
 
     currRow = 1;
     currCol = 2;
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol, myGrid);
     System.out.println(neighbors);
     int burning = 0;
     int tree = 0;
-    int row,col,state;
-    for (int i = 0; i<neighbors.size();i+=2) {
+    int row, col, state;
+    for (int i = 0; i < neighbors.size(); i += 2) {
       row = neighbors.get(i);
-      col = neighbors.get(i+1);
-      state = myGrid.getCellStateNumber(row,col);
+      col = neighbors.get(i + 1);
+      state = myGrid.getCellStateNumber(row, col);
       if (state == 1) {
         tree += 1;
-      }else if (state == 2){
+      } else if (state == 2) {
         burning += 1;
       }
     }
@@ -168,7 +169,7 @@ public class NeighborFinderTest {
   }
 
   @Test
-  void testTriangleEdges(){
+  void testTriangleEdges() {
     myStates = new int[][]{
         {2, 2, 1, 2, 0},
         {1, 0, 1, 2, 0},
@@ -183,26 +184,27 @@ public class NeighborFinderTest {
 
     currRow = 1;
     currCol = 2;
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol, myGrid);
     System.out.println(neighbors);
     int burning = 0;
     int tree = 0;
-    int row,col,state;
-    for (int i = 0; i<neighbors.size();i+=2) {
+    int row, col, state;
+    for (int i = 0; i < neighbors.size(); i += 2) {
       row = neighbors.get(i);
-      col = neighbors.get(i+1);
-      state = myGrid.getCellStateNumber(row,col);
+      col = neighbors.get(i + 1);
+      state = myGrid.getCellStateNumber(row, col);
       if (state == 1) {
         tree += 1;
-      }else if (state == 2){
+      } else if (state == 2) {
         burning += 1;
       }
     }
     assertEquals(1, tree, "(2,1) should have 1 tree. got: " + tree);
     assertEquals(1, burning, "(2,1) should have 1 burning. got: " + burning);
   }
+
   @Test
-  void testTriangleVertices(){
+  void testTriangleVertices() {
     myStates = new int[][]{
         {2, 2, 1, 2, 0},
         {1, 0, 1, 2, 0},
@@ -217,18 +219,18 @@ public class NeighborFinderTest {
 
     currRow = 1;
     currCol = 2;
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol, myGrid);
     System.out.println(neighbors);
     int burning = 0;
     int tree = 0;
-    int row,col,state;
-    for (int i = 0; i<neighbors.size();i+=2) {
+    int row, col, state;
+    for (int i = 0; i < neighbors.size(); i += 2) {
       row = neighbors.get(i);
-      col = neighbors.get(i+1);
-      state = myGrid.getCellStateNumber(row,col);
+      col = neighbors.get(i + 1);
+      state = myGrid.getCellStateNumber(row, col);
       if (state == 1) {
         tree += 1;
-      }else if (state == 2){
+      } else if (state == 2) {
         burning += 1;
       }
     }

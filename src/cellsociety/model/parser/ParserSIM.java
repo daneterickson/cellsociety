@@ -42,7 +42,9 @@ public class ParserSIM extends Parser {
     Scanner s = new Scanner(file);
     while (s.hasNextLine()) {
       String line = s.nextLine();
-      if (line.charAt(0) == '#') continue;
+      if (line.charAt(0) == '#') {
+        continue;
+      }
       if (!line.contains("=")) {
         throw new InvalidFileException("Invalid SIM File");
       }

@@ -22,11 +22,11 @@ public class GameOfLifeCell extends ModelCell {
   /**
    * Constructor for a GameOfLifeCell object, which is extended from the ModelCell super class
    *
-   * @param i is the row position of the cell being created
-   * @param j is the column position of the cell being created
+   * @param i           is the row position of the cell being created
+   * @param j           is the column position of the cell being created
    * @param stateColors is a comma separated String of the state colors for each state
-   * @param parameters is a comma separated String of the parameters (may be "" for no parameters)
-   * @param state is the state of the cell being created
+   * @param parameters  is a comma separated String of the parameters (may be "" for no parameters)
+   * @param state       is the state of the cell being created
    */
   public GameOfLifeCell(int i, int j, String stateColors, String parameters, int state) {
     super(i, j, stateColors, parameters, state);
@@ -50,8 +50,10 @@ public class GameOfLifeCell extends ModelCell {
       assignNameColorMapTwoCases(deadName, DEFAULT_GREY, aliveName, aliveBlue);
     } else {
       String stateColors[] = myStartColors.split(PARAMETER_DELIMINATOR);
-      assignTwoCases(state, deadName, stateColors[EMPTY_STATE], aliveName, stateColors[ALIVE_STATE]);
-      assignNameColorMapTwoCases(deadName, stateColors[EMPTY_STATE], aliveName, stateColors[ALIVE_STATE]);
+      assignTwoCases(state, deadName, stateColors[EMPTY_STATE], aliveName,
+          stateColors[ALIVE_STATE]);
+      assignNameColorMapTwoCases(deadName, stateColors[EMPTY_STATE], aliveName,
+          stateColors[ALIVE_STATE]);
     }
   }
 

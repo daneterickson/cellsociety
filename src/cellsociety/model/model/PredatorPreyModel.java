@@ -19,9 +19,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
 /**
- * This is a subclass of Model. This model calculates the next states for the Predator Prey Simulation
- * *
+ * This is a subclass of Model. This model calculates the next states for the Predator Prey
+ * Simulation *
+ *
  * @Authors Albert Yuan, Dane Erickson, Aaric Han
  */
 public class PredatorPreyModel extends Model {
@@ -51,8 +53,9 @@ public class PredatorPreyModel extends Model {
 
   /**
    * This is the constructor for the Predator Prey Model
+   *
    * @param controller - the controller that connects the model and view
-   * @param grid - the current grid that holds the cells
+   * @param grid       - the current grid that holds the cells
    */
   public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller, grid);
@@ -62,7 +65,8 @@ public class PredatorPreyModel extends Model {
     sharkAttacks = new ArrayList<>();
     numCols = currGrid.getNumCols();
     getBaseParameters();
-    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction,
+        sharkReproduction,
         sharkEnergy, energyGain, newUpdates,
         sharkAttacks);
 
@@ -79,6 +83,7 @@ public class PredatorPreyModel extends Model {
 
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   *
    * @param type - the type of edgepolicy as a string
    */
   @Override
@@ -96,7 +101,9 @@ public class PredatorPreyModel extends Model {
   }
 
   /**
-   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * sets the neighborfinder to a new neighborfinder type by using reflection and
+   * neighborfindersetter class
+   *
    * @param type - the type of neighborfinder as a string
    */
   @Override
@@ -112,10 +119,10 @@ public class PredatorPreyModel extends Model {
   public String getNeighborFinderType() {
     return neighborFinder.getClass().toString();
   }
+
   /**
-   * overridden method that is called every step.
-   * first iterates through the grid for sharks since sharks can eat fish before they move
-   * then iterates through the grid for NOT sharks
+   * overridden method that is called every step. first iterates through the grid for sharks since
+   * sharks can eat fish before they move then iterates through the grid for NOT sharks
    */
   @Override
   public void updateModel(Grid currGrid) {
@@ -129,7 +136,8 @@ public class PredatorPreyModel extends Model {
   }
 
   /**
-   * returns a lambda that iterates through the grid while only considering a certain set of targets
+   * returns a lambda that iterates through the grid while only considering a certain set of
+   * targets
    */
   private Function<Integer, Consumer<Integer>> iterateGridLambda(Grid currGrid,
       Function<Integer, Function<Integer, Consumer<Integer>>> iteratorTarget) {
@@ -143,6 +151,7 @@ public class PredatorPreyModel extends Model {
       }
     };
   }
+
   /**
    * iterates thru the grid and only considers shark cells
    */
@@ -187,8 +196,8 @@ public class PredatorPreyModel extends Model {
   }
 
   /**
-   * overridden method that only calls getnearby and currrule.
-   * pred/prey doesn't check the return value of currRule
+   * overridden method that only calls getnearby and currrule. pred/prey doesn't check the return
+   * value of currRule
    */
   @Override
   protected void updateCell(int row, int col, int state) {
@@ -197,9 +206,8 @@ public class PredatorPreyModel extends Model {
   }
 
   /**
-   * Overridden method that updates the currGrid with new values
-   * First sets the cells at (row,col) to new states
-   * Then uses cell.setCellParameter to update fish/shark reproduction, etc
+   * Overridden method that updates the currGrid with new values First sets the cells at (row,col)
+   * to new states Then uses cell.setCellParameter to update fish/shark reproduction, etc
    */
   @Override
   protected void updateGrid() {
@@ -214,9 +222,11 @@ public class PredatorPreyModel extends Model {
       currGrid.updateCell(row, col, newState);
 
       if (newState == FISH_STATE) {
-        currGrid.getModelCell(row, col).setCellParameter(FishReproduction, (double) newReproduction);
+        currGrid.getModelCell(row, col)
+            .setCellParameter(FishReproduction, (double) newReproduction);
       } else if (newState == SHARK_STATE) {
-        currGrid.getModelCell(row, col).setCellParameter(SharkReproduction, (double) newReproduction);
+        currGrid.getModelCell(row, col)
+            .setCellParameter(SharkReproduction, (double) newReproduction);
         currGrid.getModelCell(row, col).setCellParameter(SharkEnergy, (double) newEnergy);
       }
     }
@@ -227,7 +237,7 @@ public class PredatorPreyModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return myRule.determineState(currRow, currCol, state, nearby,currGrid,edgePolicy);
+    return myRule.determineState(currRow, currCol, state, nearby, currGrid, edgePolicy);
   }
 
   /**
@@ -240,7 +250,8 @@ public class PredatorPreyModel extends Model {
     sharkEnergy = (int) newProb.get(2);
     energyGain = (int) newProb.get(3);
 
-    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+    myRule = new PredatorPreyRule(currGrid, numCols, numUpdates, fishReproduction,
+        sharkReproduction,
         sharkEnergy, energyGain, newUpdates,
         sharkAttacks);
   }

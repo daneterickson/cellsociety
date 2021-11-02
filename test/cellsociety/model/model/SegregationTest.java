@@ -53,13 +53,13 @@ public class SegregationTest {
       System.out.println();
       for (int col = 0; col < numCols; col++) {
         state = myGrid.getCellStateNumber(row, col);
-        if (row == 1 && col == 1){
+        if (row == 1 && col == 1) {
           assertEquals(0, state, row + ", " + col + "should be 0. got: " + state);
 
-        }else if (row == 3 && col == 3){
+        } else if (row == 3 && col == 3) {
           assertEquals(2, state, row + ", " + col + "should be 2. got: " + state);
 
-        }else{
+        } else {
           assertEquals(1, state, row + ", " + col + "should be 1. got: " + state);
         }
         System.out.print(" " + myGrid.getCellStateNumber(row, col));

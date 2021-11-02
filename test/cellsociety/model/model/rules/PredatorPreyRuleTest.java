@@ -55,55 +55,61 @@ public class PredatorPreyRuleTest {
   void testEmptyCell() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 0, nearby, myGrid, edgePolicy);
     assertEquals(0, actual, "empty cell should remain empty(0). got: " + actual);
   }
+
   @Test
   void testFishMoving() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
     assertEquals(0, actual, "fish should've moved. got: " + actual);
   }
+
   @Test
   void testFishCantMove() {
     int row = 2;
     int col = 3;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
     assertEquals(1, actual, "fish shouldn't be able to move. got: " + actual);
   }
+
   @Test
   void testSharkMove() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
     assertEquals(0, actual, "shark should move. got: " + actual);
   }
+
   @Test
   void testSharkCantMoveEdge() {
     int row = 1;
     int col = 4;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
     assertEquals(2, actual, "shark shouldn't be able to move. got: " + actual);
   }
+
   @Test
   void testSharkEating() {
     int row = 2;
     int col = 3;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
     assertEquals(0, actual, "shark should move. got: " + actual);
   }
+
   @Test
   void testSharkCantMove() {
     int row = 1;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
+    nearby = nf.getNeighbors(row, col, myGrid);
     int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
     assertEquals(2, actual, "shark shouldn't be able to move. got: " + actual);
 

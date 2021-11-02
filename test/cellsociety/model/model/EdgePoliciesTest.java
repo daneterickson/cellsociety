@@ -78,6 +78,7 @@ public class EdgePoliciesTest {
 
     assertEquals(2, result, "(-1,-1) should go to (4,4) = 2. got:" + result);
   }
+
   @Test
   void testSpheroid() {
 //     {{1, 1, 1, 1, 1},

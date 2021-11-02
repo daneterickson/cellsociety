@@ -23,6 +23,7 @@ public class PercolationTest {
   private String myStartColors;
   private String myParameters;
   private String type;
+
   @BeforeEach
   void setUp() {
     myStates = new int[][]{{0, 0, 0, 0, 0},
@@ -53,7 +54,7 @@ public class PercolationTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PercolationModel(myController, myGrid);
     ret = (String) getEndEdge.invoke(myModel);
-    assertEquals("right", ret, "end edge should be right. got: "+ret);
+    assertEquals("right", ret, "end edge should be right. got: " + ret);
 
     myStates = new int[][]{{0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0},
@@ -63,7 +64,7 @@ public class PercolationTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PercolationModel(myController, myGrid);
     ret = (String) getEndEdge.invoke(myModel);
-    assertEquals("top", ret, "end edge should be top. got: "+ret);
+    assertEquals("top", ret, "end edge should be top. got: " + ret);
   }
 
   @Test
@@ -81,7 +82,7 @@ public class PercolationTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PercolationModel(myController, myGrid);
     ret = (boolean) checkEnd.invoke(myModel);
-    assertEquals(false, ret, "game should not be over. got: "+ret);
+    assertEquals(false, ret, "game should not be over. got: " + ret);
 
     myStates = new int[][]{{1, 0, 0, 0, 0},
         {0, 0, 0, 0, 0},
@@ -91,6 +92,6 @@ public class PercolationTest {
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     myModel = new PercolationModel(myController, myGrid);
     ret = (boolean) checkEnd.invoke(myModel);
-    assertEquals(true, ret, "game SHOULD be over. got: "+ret);
+    assertEquals(true, ret, "game SHOULD be over. got: " + ret);
   }
 }

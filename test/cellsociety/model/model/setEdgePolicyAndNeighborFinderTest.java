@@ -45,12 +45,17 @@ public class setEdgePolicyAndNeighborFinderTest {
   void testPredPrey() throws NoSuchFieldException {
 
     myModel = new PredatorPreyModel(myController, myGrid);
-    assertEquals(true, myModel.getEdgePolicyType().contains("FiniteEdgePolicy"),"Pred/prey should have finite edge policy. got: "+myModel.getEdgePolicyType());
-    assertEquals(true, myModel.getNeighborFinderType().contains("SquareEdges"),"Pred/prey should have square edges neighbor finder. got: "+myModel.getNeighborFinderType());
+    assertEquals(true, myModel.getEdgePolicyType().contains("FiniteEdgePolicy"),
+        "Pred/prey should have finite edge policy. got: " + myModel.getEdgePolicyType());
+    assertEquals(true, myModel.getNeighborFinderType().contains("SquareEdges"),
+        "Pred/prey should have square edges neighbor finder. got: "
+            + myModel.getNeighborFinderType());
     myModel.setEdgePolicy("Spherical");
     myModel.setNeighborFinder("SquareCorners");
-    assertEquals(true, myModel.getEdgePolicyType().contains("SphericalEdgePolicy"), "edge policy should be spherical. got: " + myModel.getEdgePolicyType());
-    assertEquals(true, myModel.getNeighborFinderType().contains("SquareCorners"), "neighbor finder should be square corners. got: "+myModel.getNeighborFinderType());
+    assertEquals(true, myModel.getEdgePolicyType().contains("SphericalEdgePolicy"),
+        "edge policy should be spherical. got: " + myModel.getEdgePolicyType());
+    assertEquals(true, myModel.getNeighborFinderType().contains("SquareCorners"),
+        "neighbor finder should be square corners. got: " + myModel.getNeighborFinderType());
 
   }
 
@@ -58,12 +63,17 @@ public class setEdgePolicyAndNeighborFinderTest {
   void testGameOfLife() throws NoSuchFieldException {
 
     myModel = new GameOfLifeModel(myController, myGrid);
-    assertEquals(true, myModel.getEdgePolicyType().contains("FiniteEdgePolicy"),"Game of Life should have finite edge policy. got: "+myModel.getEdgePolicyType());
-    assertEquals(true, myModel.getNeighborFinderType().contains("SquareComplete"),"Game of Life should have square complete neighbor finder. got: "+myModel.getNeighborFinderType());
+    assertEquals(true, myModel.getEdgePolicyType().contains("FiniteEdgePolicy"),
+        "Game of Life should have finite edge policy. got: " + myModel.getEdgePolicyType());
+    assertEquals(true, myModel.getNeighborFinderType().contains("SquareComplete"),
+        "Game of Life should have square complete neighbor finder. got: "
+            + myModel.getNeighborFinderType());
     myModel.setEdgePolicy("Spherical");
     myModel.setNeighborFinder("SquareCorners");
-    assertEquals(true, myModel.getEdgePolicyType().contains("SphericalEdgePolicy"), "edge policy should be spherical. got: " + myModel.getEdgePolicyType());
-    assertEquals(true, myModel.getNeighborFinderType().contains("SquareCorners"), "neighbor finder should be square corners. got: "+myModel.getNeighborFinderType());
+    assertEquals(true, myModel.getEdgePolicyType().contains("SphericalEdgePolicy"),
+        "edge policy should be spherical. got: " + myModel.getEdgePolicyType());
+    assertEquals(true, myModel.getNeighborFinderType().contains("SquareCorners"),
+        "neighbor finder should be square corners. got: " + myModel.getNeighborFinderType());
 
   }
 }

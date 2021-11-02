@@ -21,6 +21,7 @@ import javafx.scene.transform.NonInvertibleTransformException;
  * @author Nick Strauch
  */
 public abstract class GridView extends CenterView {
+
   protected static final Color GRID_LINE_COLOR = Color.BLACK;
   protected static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   protected static final double GRID_LINE_SIZE = .04;
@@ -42,10 +43,11 @@ public abstract class GridView extends CenterView {
 
   /**
    * Constructor for a grid view
+   *
    * @param cellProps
    * @param controller
    */
-  public GridView(CellProperties cellProps, Controller controller){
+  public GridView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
     myCanvasList = new ArrayList<>();
     myAffineList = new ArrayList<>();
@@ -66,6 +68,7 @@ public abstract class GridView extends CenterView {
 
   /**
    * Getter method that returns the HBox which holds the canvases (grids).
+   *
    * @return HBox node that contains the canvas nodes.
    */
   @Override
@@ -87,12 +90,14 @@ public abstract class GridView extends CenterView {
       gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
       gc.setTransform(getAffineFromList(i));
       updateCellColors(gc);
-      if(linesAreOn()) {
+      if (linesAreOn()) {
         drawGridLines(gc);
       }
     }
     setCurrentGridNum(curGrid);
-    if(linesAreOn()) {drawSelectedGridIndicatorLines();}
+    if (linesAreOn()) {
+      drawSelectedGridIndicatorLines();
+    }
   }
 
   protected void findOptimalGridSizing(int numRows, int numCols) {
@@ -129,7 +134,7 @@ public abstract class GridView extends CenterView {
    * grid view.
    */
   @Override
-  public void initiateView(){
+  public void initiateView() {
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     myCanvasList.get(myController.getCurrentGridNumber()).setWidth(myGridWidth);
     myCanvasList.get(myController.getCurrentGridNumber()).setHeight(myGridHeight);
@@ -141,7 +146,7 @@ public abstract class GridView extends CenterView {
    * Add the view to the center
    */
   @Override
-  public void addViewToCenter(){
+  public void addViewToCenter() {
     myNumGridRowsList.add(0);
     myNumGridColsList.add(0);
     myController.addDefaultSimPropMap();
@@ -156,7 +161,7 @@ public abstract class GridView extends CenterView {
   }
 
 
-  private void updateOtherGridSizing(){
+  private void updateOtherGridSizing() {
     int curGridNum = myController.getCurrentGridNumber();
     for (int gridNum = 0; gridNum < curGridNum; gridNum++) {
       myController.setCurrentGridNumber(gridNum);
@@ -171,7 +176,7 @@ public abstract class GridView extends CenterView {
   }
 
   //This is the green outline around the selected grid
-  protected void drawSelectedGridIndicatorLines(){
+  protected void drawSelectedGridIndicatorLines() {
     Canvas curCanvas = myCanvasList.get(myController.getCurrentGridNumber());
     GraphicsContext gc = curCanvas.getGraphicsContext2D();
     gc.setTransform(myAffineList.get(myController.getCurrentGridNumber()));
@@ -179,17 +184,19 @@ public abstract class GridView extends CenterView {
     gc.setLineWidth(SELECTED_LINE_SIZE);
     int numRows = myNumGridRowsList.get(myController.getCurrentGridNumber());
     int numCols = myNumGridColsList.get(myController.getCurrentGridNumber());
-    gc.strokeLine(0,0,numCols, 0); //Draw Top Line
-    gc.strokeLine(0,numRows,numCols, numRows); //Draw Bottom Line
-    gc.strokeLine(0,0,0, numRows); //Draw Left Line
-    gc.strokeLine(numCols,0,numCols, numRows); //Draw Right Line
+    gc.strokeLine(0, 0, numCols, 0); //Draw Top Line
+    gc.strokeLine(0, numRows, numCols, numRows); //Draw Bottom Line
+    gc.strokeLine(0, 0, 0, numRows); //Draw Left Line
+    gc.strokeLine(numCols, 0, numCols, numRows); //Draw Right Line
   }
 
   private void handleCellClicked(MouseEvent mouseEvent) {
-    if(cursorOverCell) {
+    if (cursorOverCell) {
       try {
         myController.setCurrentGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
-        if(myController.getCurrentGridNumber() == -1){myController.setCurrentGridNumber(0);}
+        if (myController.getCurrentGridNumber() == -1) {
+          myController.setCurrentGridNumber(0);
+        }
         getMousePosOnGrid(mouseEvent);
         drawSelectedGridIndicatorLines();
       } catch (NonInvertibleTransformException e) {
@@ -206,9 +213,9 @@ public abstract class GridView extends CenterView {
   }
 
   private void handleCellHovered(MouseEvent mouseEvent) {
-    try{
+    try {
       getMousePosOnGrid(mouseEvent);
-    }catch(NonInvertibleTransformException e){
+    } catch (NonInvertibleTransformException e) {
       e.getMessage(); //Not possible to get to the exception due to the mouse position being localized to the canvas nodes
     }
     myCellProperties.updateCellCordLabel(myMousePos[0], myMousePos[1]);
@@ -219,16 +226,22 @@ public abstract class GridView extends CenterView {
     tempCanvas.setOnMouseClicked(e -> handleCellClicked(e));
     tempCanvas.setOnMouseMoved(e -> handleCellHovered(e));
     tempCanvas.setId("canvas");
-    if(myController.getCurrentGridNumber() == myCanvasList.size()) {myCanvasList.add(tempCanvas);}
-    else{myCanvasList.add(myController.getCurrentGridNumber(), tempCanvas);}
+    if (myController.getCurrentGridNumber() == myCanvasList.size()) {
+      myCanvasList.add(tempCanvas);
+    } else {
+      myCanvasList.add(myController.getCurrentGridNumber(), tempCanvas);
+    }
     addAffineToList();
   }
 
   private void addAffineToList() {
     Affine tempAffine = new Affine();
-    tempAffine.appendScale(myGridWidth / myNumGridColsList.get(myController.getCurrentGridNumber()), myGridHeight / myNumGridRowsList.get(myController.getCurrentGridNumber()));
-    if(myAffineList.size()>0){myAffineList.remove(myController.getCurrentGridNumber());}
-    myAffineList.add(myController.getCurrentGridNumber(),tempAffine);
+    tempAffine.appendScale(myGridWidth / myNumGridColsList.get(myController.getCurrentGridNumber()),
+        myGridHeight / myNumGridRowsList.get(myController.getCurrentGridNumber()));
+    if (myAffineList.size() > 0) {
+      myAffineList.remove(myController.getCurrentGridNumber());
+    }
+    myAffineList.add(myController.getCurrentGridNumber(), tempAffine);
   }
 
   private void setStyles() {
@@ -241,16 +254,19 @@ public abstract class GridView extends CenterView {
    * Not only useful for circular cases, but also a good approximation for cells that are almost
    * circular (hexagons, octagons, decagons, etc.).
    */
-  protected void getMousePositionForCircles(MouseEvent mouseEvent){
+  protected void getMousePositionForCircles(MouseEvent mouseEvent) {
     double cursorX = mouseEvent.getX();
     double cursorY = mouseEvent.getY();
     setCursorOverCell(false);
     try {
       Point2D modelXY = getAffineFromList(myController.getCurrentGridNumber()).inverseTransform(
           cursorX, cursorY);
-      Point2D center = new Point2D(((int) modelXY.getX()) + RADIUS, ((int) modelXY.getY()) + RADIUS);
-      double disToCenter = Math.sqrt(Math.pow(modelXY.getX()- center.getX(), 2) + Math.pow(modelXY.getY()- center.getY(), 2));
-      if(disToCenter <= RADIUS) {
+      Point2D center = new Point2D(((int) modelXY.getX()) + RADIUS,
+          ((int) modelXY.getY()) + RADIUS);
+      double disToCenter = Math.sqrt(
+          Math.pow(modelXY.getX() - center.getX(), 2) + Math.pow(modelXY.getY() - center.getY(),
+              2));
+      if (disToCenter <= RADIUS) {
         setCursorOverCell(true);
       }
       setMosPos(0, (int) modelXY.getX());
@@ -260,63 +276,63 @@ public abstract class GridView extends CenterView {
     }
   }
 
-  protected int getCanvasListSize(){
+  protected int getCanvasListSize() {
     return myCanvasList.size();
   }
 
-  protected Canvas getCanvasFromList(int index){
+  protected Canvas getCanvasFromList(int index) {
     return myCanvasList.get(index);
   }
 
-  protected Affine getAffineFromList(int index){
+  protected Affine getAffineFromList(int index) {
     return myAffineList.get(index);
   }
 
-  protected int getNumRows(int gridNumber){
+  protected int getNumRows(int gridNumber) {
     return myNumGridRowsList.get(gridNumber);
   }
 
-  protected int getNumCols(int gridNumber){
+  protected int getNumCols(int gridNumber) {
     return myNumGridColsList.get(gridNumber);
   }
 
-  protected void removeRowNumForGrid(int gridNumber){
+  protected void removeRowNumForGrid(int gridNumber) {
     myNumGridRowsList.remove(gridNumber);
   }
 
-  protected void removeColNumForGrid(int gridNumber){
+  protected void removeColNumForGrid(int gridNumber) {
     myNumGridColsList.remove(gridNumber);
   }
 
-  protected void addRowNumForGrid(int gridNum, int rows){
+  protected void addRowNumForGrid(int gridNum, int rows) {
     myNumGridRowsList.add(gridNum, rows);
   }
 
-  protected void addColNumForGrid(int gridNum, int cols){
+  protected void addColNumForGrid(int gridNum, int cols) {
     myNumGridColsList.add(gridNum, cols);
   }
 
-  protected double getBlockLength(){
+  protected double getBlockLength() {
     return myBlockLength;
   }
 
-  protected void setMosPos(int index, int value){
+  protected void setMosPos(int index, int value) {
     myMousePos[index] = value;
   }
 
-  protected int getCurrentGridNum(){
+  protected int getCurrentGridNum() {
     return myController.getCurrentGridNumber();
   }
 
-  protected void setCurrentGridNum(int newGridNumber){
+  protected void setCurrentGridNum(int newGridNumber) {
     myController.setCurrentGridNumber(newGridNumber);
   }
 
-  protected String getCellColor(int i, int j){
+  protected String getCellColor(int i, int j) {
     return myController.getCellColor(i, j);
   }
 
-  protected void setCursorOverCell(boolean overCell){
+  protected void setCursorOverCell(boolean overCell) {
     cursorOverCell = overCell;
   }
 

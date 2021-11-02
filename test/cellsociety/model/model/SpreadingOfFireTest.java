@@ -40,7 +40,6 @@ public class SpreadingOfFireTest {
   }
 
 
-
   @Test
   void testCurrRule()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {

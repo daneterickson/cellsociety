@@ -68,31 +68,31 @@ public class ParserCSVTest {
   @Test
   void testRectangularFile() throws CsvValidationException, IOException {
     myParser.readFile(new File("data/game_of_life/penta-decathlon.csv"));
-    int expected[][] = {{0,0,0,0,0,0,0,0,0,0,0},{
-        0,0,0,0,0,0,0,0,0,0,0},{
-        0,0,0,0,0,0,0,0,0,0,0},{
-        0,0,0,0,0,0,0,0,0,0,0},{
-        0,0,0,0,0,1,0,0,0,0,0},{
-        0,0,0,0,1,0,1,0,0,0,0},{
-        0,0,0,1,0,0,0,1,0,0,0},{
-        0,0,0,1,0,0,0,1,0,0,0},{
-        0,0,0,1,0,0,0,1,0,0,0},{
-        0,0,0,1,0,0,0,1,0,0,0},{
-        0,0,0,1,0,0,0,1,0,0,0},{
-        0,0,0,1,0,0,0,1,0,0,0},{
-        0,0,0,0,1,0,1,0,0,0,0},{
-        0,0,0,0,0,1,0,0,0,0,0},{
-        0,0,0,0,0,0,0,0,0,0,0},{
-        0,0,0,0,0,0,0,0,0,0,0},{
-        0,0,0,0,0,0,0,0,0,0,0},{
-        0,0,0,0,0,0,0,0,0,0,0}};
+    int expected[][] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0}, {
+        0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}, {
+        0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}, {
+        0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}, {
+        0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}, {
+        0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}, {
+        0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}, {
+        0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     assertEquals(11, myParser.getNumCols());
     assertEquals(18, myParser.getNumRows());
     checkStartStates(expected);
   }
 
   @Test
-  void testInvalidRowInputFile () {
+  void testInvalidRowInputFile() {
     Exception e = assertThrows(IOException.class, () -> {
       myParser.readFile(new File("data/game_of_life/invalid_rows.csv"));
     });
@@ -100,8 +100,8 @@ public class ParserCSVTest {
   }
 
   @Test
-  void testInvalidColInputFile () {
-     Exception e = assertThrows(IOException.class, () -> {
+  void testInvalidColInputFile() {
+    Exception e = assertThrows(IOException.class, () -> {
       myParser.readFile(new File("data/game_of_life/invalid_cols.csv"));
     });
     assertTrue(e.getMessage().contains("Invalid Number of Columns"));
@@ -109,8 +109,8 @@ public class ParserCSVTest {
 
 
   private void checkStartStates(int[][] expected) {
-    for (int row=0; row<myParser.getNumRows(); row++) {
-      for (int col=0; col<myParser.getNumCols(); col++) {
+    for (int row = 0; row < myParser.getNumRows(); row++) {
+      for (int col = 0; col < myParser.getNumCols(); col++) {
         assertEquals(expected[row][col], myParser.getStartStates()[row][col]);
       }
     }

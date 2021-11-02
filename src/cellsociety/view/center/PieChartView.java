@@ -23,6 +23,7 @@ public class PieChartView extends CenterView {
 
   /**
    * Constructor for a type of Centerview
+   *
    * @param cellProperties
    * @param controller
    */
@@ -54,6 +55,7 @@ public class PieChartView extends CenterView {
 
   /**
    * Return the view box which is a chart
+   *
    * @return myChart
    */
   @Override

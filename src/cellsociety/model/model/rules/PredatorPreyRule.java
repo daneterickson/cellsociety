@@ -63,6 +63,7 @@ public class PredatorPreyRule extends Rule {
     this.sharkAttacks = sharkAttacks;
     random = new Random();
   }
+
   /**
    * Overridden method to determine the state for a PredatorPreyRule
    *
@@ -81,9 +82,9 @@ public class PredatorPreyRule extends Rule {
     }
     try {
       if (state == FISH_STATE) {
-        return fishRules(currRow, currCol, state, nearby, grid,edgePolicy );
+        return fishRules(currRow, currCol, state, nearby, grid, edgePolicy);
       } else {
-        return sharkRules(currRow, currCol, state, nearby,grid,edgePolicy );
+        return sharkRules(currRow, currCol, state, nearby, grid, edgePolicy);
       }
     } catch (KeyNotFoundException e) {
       e.printStackTrace();
@@ -92,9 +93,9 @@ public class PredatorPreyRule extends Rule {
   }
 
   /**
-   * determines the cell state changes for a fish cell.
-   * if the fish can move, it sets the current cell to empty and adds the current fish states to newUpdates
-   * if reproduction = 0, it sets the current cell to fish, and adds the current fish states to newUpdates
+   * determines the cell state changes for a fish cell. if the fish can move, it sets the current
+   * cell to empty and adds the current fish states to newUpdates if reproduction = 0, it sets the
+   * current cell to fish, and adds the current fish states to newUpdates
    */
   private int fishRules(int currRow, int currCol, int state, List<Integer> nearby,
       Grid grid, EdgePolicies edgePolicy)
@@ -118,7 +119,7 @@ public class PredatorPreyRule extends Rule {
     //reproduce and move
     if (currReproduction == 0) {
 
-      move(eligibleSpaces,state, currReproduction, -1, false);
+      move(eligibleSpaces, state, currReproduction, -1, false);
 
       addNewUpdates(currRow, currCol, FISH_STATE, fishReproduction, -1);
       return FISH_STATE;
@@ -131,12 +132,11 @@ public class PredatorPreyRule extends Rule {
   }
 
   /**
-   * determines the cell state changes for a shark cell.
-   * if energy = 0; the cell becomes empty if the shark can move, it sets the current cell to empty
-   *    and adds the current shark states to newUpdates
-   * if the shark can eat, it sets the current cell to empty, sets attacked = true, and adds the
-   *    current shark states to newUpdates
-   * if reproduction = 0, it sets the current cell to shark, and adds the current shark states to newUpdates
+   * determines the cell state changes for a shark cell. if energy = 0; the cell becomes empty if
+   * the shark can move, it sets the current cell to empty and adds the current shark states to
+   * newUpdates if the shark can eat, it sets the current cell to empty, sets attacked = true, and
+   * adds the current shark states to newUpdates if reproduction = 0, it sets the current cell to
+   * shark, and adds the current shark states to newUpdates
    */
   private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby,
       Grid grid, EdgePolicies edgePolicy)
@@ -179,7 +179,6 @@ public class PredatorPreyRule extends Rule {
 
     //move
     move(eligibleSpaces, SHARK_STATE, currReproduction, currEnergy, attack);
-
 
     if (currReproduction == 0) {
       addNewUpdates(currRow, currCol, SHARK_STATE, sharkReproduction, sharkEnergy);
@@ -225,10 +224,10 @@ public class PredatorPreyRule extends Rule {
     if (currReproduction == 0) {
       currReproduction = sharkReproduction;
     }
-    int idx = random.nextInt(eligibleSpaces.size()/2);
+    int idx = random.nextInt(eligibleSpaces.size() / 2);
     idx = idx * 2;
     int newRow = eligibleSpaces.get(idx);
-    int newCol = eligibleSpaces.get(idx+1);
+    int newCol = eligibleSpaces.get(idx + 1);
 
     if (attack) {
       sharkAttacks.add(newRow * numCols + newCol);

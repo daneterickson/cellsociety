@@ -26,6 +26,7 @@ public class CircleTimeline extends CenterView {
 
   /**
    * Constructor for a type of centerview
+   *
    * @param cellProperties
    * @param controller
    */

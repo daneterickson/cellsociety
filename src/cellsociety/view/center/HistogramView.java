@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -42,11 +40,11 @@ public class HistogramView extends CenterView {
   private Map<Integer, Integer> myHistogramMap;
   private Map<Integer, String> myNameColorMap;
   private double totalNumCells;
-  private GraphicsContext gc;
   private Line xAxis;
 
   /**
    * Constructor for a type of centerview
+   *
    * @param cellProps
    * @param controller
    */
@@ -76,7 +74,7 @@ public class HistogramView extends CenterView {
   @Override
   public void initiateView() {
     myHistogramMap = myController.getHistogramMap();
-    totalNumCells = findTotalCells();
+    totalNumCells = findTotalCells(myHistogramMap);
     myNameColorMap = myController.getNamesAndColors();
     histogramElements.getChildren().clear();
     makeBars();
@@ -92,7 +90,8 @@ public class HistogramView extends CenterView {
     numbers.clear();
     numberBox.getChildren().clear();
     for (Integer stateNumber : myHistogramMap.keySet()) {
-      String percent = String.valueOf(Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%";
+      String percent = String.valueOf(
+          Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%";
       Text num = new Text(percent);
       numbers.add(stateNumber, num);
       numberBox.getChildren().add(num);
@@ -108,14 +107,6 @@ public class HistogramView extends CenterView {
       labelBox.getChildren().add(label);
     }
     histogramElements.getChildren().add(labelBox);
-  }
-
-  private double findTotalCells() {
-    int ret = 0;
-    for (Integer state : myHistogramMap.keySet()) {
-      ret += myHistogramMap.get(state);
-    }
-    return ret;
   }
 
   private void setStyles() {
@@ -148,11 +139,14 @@ public class HistogramView extends CenterView {
    */
   @Override
   public void updateView() {
-    if (myHistogramMap == null) initiateView();
+    if (myHistogramMap == null) {
+      initiateView();
+    }
     for (Integer stateNumber : myHistogramMap.keySet()) {
       bars.get(stateNumber).setHeight(
           Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * MAX_BAR_HEIGHT);
-      numbers.get(stateNumber).setText(String.valueOf(Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%");
+      numbers.get(stateNumber).setText(String.valueOf(
+          Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%");
     }
   }
 

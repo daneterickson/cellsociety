@@ -30,6 +30,7 @@ public class PercolationModel extends Model {
 
   /**
    * Constructor to make a new PercolationModel, which is extended from the Model super class
+   *
    * @param controller
    * @param grid
    */
@@ -52,6 +53,7 @@ public class PercolationModel extends Model {
 
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   *
    * @param type - the type of edgepolicy as a string
    */
   @Override
@@ -69,7 +71,9 @@ public class PercolationModel extends Model {
   }
 
   /**
-   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * sets the neighborfinder to a new neighborfinder type by using reflection and
+   * neighborfindersetter class
+   *
    * @param type - the type of neighborfinder as a string
    */
   @Override
@@ -87,7 +91,8 @@ public class PercolationModel extends Model {
   }
 
   /**
-   * iterates through the grid to determine where the starting edge is to calculate the ending edge.
+   * iterates through the grid to determine where the starting edge is to calculate the ending
+   * edge.
    */
   private String getEndEdge() {
     iterateGrid(row -> col -> {
@@ -115,8 +120,9 @@ public class PercolationModel extends Model {
   }
 
   /**
-   * Overrides updateModel from the superclass. Also checks for if the simulation has percolates, which
-   * will tell the controller to stop the animation in view
+   * Overrides updateModel from the superclass. Also checks for if the simulation has percolates,
+   * which will tell the controller to stop the animation in view
+   *
    * @param currGrid
    */
   @Override

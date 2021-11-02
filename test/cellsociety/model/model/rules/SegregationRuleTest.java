@@ -47,27 +47,27 @@ public class SegregationRuleTest {
   void testRemainEmpty() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
-    int actual = rule.determineState(row,col,0,nearby,myGrid,edgePolicy);
-    assertEquals(0,actual);
+    nearby = nf.getNeighbors(row, col, myGrid);
+    int actual = rule.determineState(row, col, 0, nearby, myGrid, edgePolicy);
+    assertEquals(0, actual);
   }
 
   @Test
   void testRemain1() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
-    int actual = rule.determineState(row,col,1,nearby,myGrid,edgePolicy);
-    assertEquals(1,actual);
+    nearby = nf.getNeighbors(row, col, myGrid);
+    int actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
+    assertEquals(1, actual);
   }
 
   @Test
   void testMoveSpots() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
-    int actual = rule.determineState(row,col,2,nearby,myGrid,edgePolicy);
-    assertEquals(0,actual);
+    nearby = nf.getNeighbors(row, col, myGrid);
+    int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
+    assertEquals(0, actual);
   }
 
 }

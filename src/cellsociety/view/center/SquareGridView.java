@@ -3,7 +3,6 @@ package cellsociety.view.center;
 import cellsociety.controller.Controller;
 import cellsociety.view.left.CellProperties;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;

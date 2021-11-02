@@ -36,13 +36,11 @@ public class PredatorPreySettings extends RightPanel {
 
   @Override
   protected void makeSettingsPanel(VBox rightPanel) {
-    rightPanel.getChildren().addAll(makeSliders());
+    rightPanel.getChildren().addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
   }
 
   @Override
-  protected Node makeButtons() {
-    return null;
-  }
+  protected Node makeButtons() {return makeGridLinesToggleButton();}
 
   @Override
   protected Node makeSliders() {

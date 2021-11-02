@@ -11,9 +11,9 @@ public class CellProperties {
 
   private String RESOURCE = "cellsociety.view.left.";
   private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
+  private static final int SPACING = 40;
 
-  private final String DEFAULT_SIM = "Game Of Life";
-  private final String STATE_COLOR_TITLE = "Color Key:";
+  private String stateColorTitle;
   private int myCurrentX;
   private int myCurrentY;
   private String myCurrentState;
@@ -28,7 +28,9 @@ public class CellProperties {
   public CellProperties(Controller controller,ResourceBundle resource){
     myController = controller;
     myResource = resource;
+    stateColorTitle = myResource.getString("ColorKey");
     myCellProperties = new VBox();
+    myCellProperties.setSpacing(SPACING);
     myCellProperties.getChildren().add(makeCellPropLabels());
     setStyles();
   }
@@ -49,7 +51,7 @@ public class CellProperties {
   public void updateCellCordLabel(int currentX, int currentY){
     myCurrentX = currentX;
     myCurrentY = currentY;
-    myCellCoordinatesLabel.setText("("+myCurrentX+", "+myCurrentY+")");
+    myCellCoordinatesLabel.setText(String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
   }
 
   /**
@@ -70,7 +72,7 @@ public class CellProperties {
   }
 
   private Node initializeCellCordLabel(){
-    myCellCoordinatesLabel = new Label("("+myCurrentX+", "+myCurrentY+")");
+    myCellCoordinatesLabel = new Label(String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
     return myCellCoordinatesLabel;
   }
 

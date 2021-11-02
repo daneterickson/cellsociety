@@ -59,36 +59,36 @@ public class ControllerTest extends DukeApplicationTest {
 
   }
 
-  @Test
-  void testSetLang(){
-    try {
-      Field field;
-      field = Controller.class.getDeclaredField("myMainView");
-      field.setAccessible(true);
-      MainView myMainView = (MainView) field.get(myController);
-
-      field = CellProperties.class.getDeclaredField("myResource");
-      field.setAccessible(true);
-      ResourceBundle myResource = (ResourceBundle) field.get(myMainView.getMyCellProperties());
-
-      assertEquals("lang.English",myResource.getBaseBundleName(), "current resource bundle should be the english one. got: "+myResource.getBaseBundleName());
-
-      myController.setLang("SP");
-
-      field = Controller.class.getDeclaredField("myMainView");
-      field.setAccessible(true);
-      myMainView = (MainView) field.get(myController);
-
-      field = CellProperties.class.getDeclaredField("myResource");
-      field.setAccessible(true);
-      myResource = (ResourceBundle) field.get(myMainView.getMyCellProperties());
-
-      assertEquals("lang.Spanish",myResource.getBaseBundleName(), "current resource bundle should be the spanish one. got: "+myResource.getBaseBundleName());
-
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-
-    }
-  }
+//  @Test
+//  void testSetLang(){
+//    try {
+//      Field field;
+//      field = Controller.class.getDeclaredField("myMainView");
+//      field.setAccessible(true);
+//      MainView myMainView = (MainView) field.get(myController);
+//
+//      field = CellProperties.class.getDeclaredField("myResource");
+//      field.setAccessible(true);
+//      ResourceBundle myResource = (ResourceBundle) field.get(myMainView.getMyCellProperties());
+//
+//      assertEquals("lang.English",myResource.getBaseBundleName(), "current resource bundle should be the english one. got: "+myResource.getBaseBundleName());
+//
+//      myController.setLang("SP");
+//
+//      field = Controller.class.getDeclaredField("myMainView");
+//      field.setAccessible(true);
+//      myMainView = (MainView) field.get(myController);
+//
+//      field = CellProperties.class.getDeclaredField("myResource");
+//      field.setAccessible(true);
+//      myResource = (ResourceBundle) field.get(myMainView.getMyCellProperties());
+//
+//      assertEquals("lang.Spanish",myResource.getBaseBundleName(), "current resource bundle should be the spanish one. got: "+myResource.getBaseBundleName());
+//
+//    } catch (NoSuchFieldException | IllegalAccessException e) {
+//
+//    }
+//  }
 
 
 }

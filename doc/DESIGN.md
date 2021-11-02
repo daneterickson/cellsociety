@@ -16,9 +16,9 @@
 ## Design goals
 
 #### What Features are Easy to Add
-* Adding the different game models. All the models iterated through the grid, retrieved the 
+* Adding the different game models and game model cells. All the models iterated through the grid, retrieved the 
 neighboring cell states, and then changed the cell based on the neighbors
-* 
+* View Panels because we used the borderpane class
 ## High-level Design
 
 #### Core Classes
@@ -39,10 +39,23 @@ neighboring cell states, and then changed the cell based on the neighbors
 * Main 
 
 ## Assumptions that Affect the Design
-*
+* Sim file contents
+  * key names, order of the states, state numbers (ie fish = 1, shark = 2)
+* At start, the user load simfile 
+* The user knows what each color represents in gridview
+* To reset, the user must load a simfile
+* The user only speaks English or Spanish
+* When there are multiple grids, the user plans on playing all of them 
 
 #### Features Affected by Assumptions
-*
+* When we parse the file and send the data to the model, we use iterate through each line of the sim 
+file. For example, in predator/prey we assume the string comes in like "1,2,3,4" so sharkreproduction 
+is 1, fishreproduction is 2, and so on.
+* If the user doesn't load a simfile and tries to save, it causes errors
+* The Color State Label doesn't exist
+* We don't a reset button.
+* We only implemented Spanish and English
+* The play button plays all the grids' animations
 
 ## Significant differences from Original Plan
 We didn't drift too far from the original plan except for we added a ton more methods and classes.
@@ -60,7 +73,9 @@ Intead the model and view shared one grid object.
 It was pretty easy to add all the new features. The only hard part was making it. Nick spent a considerable
 amount of time figuring out how to do hexagons/triangles, but only because of the math that it took.
 For the most part our design made it very easy to add new features. To add new edge policies and 
-neighborfinders, we just extracted the entire process into a class and used inheritance/interfaces.
+neighborfinders, we just extracted the entire process into a class and used inheritance/interfaces. 
+To
 
 #### Other Features not yet Done
-
+* Correct Hexagon arrangement and neighbor finding
+* Choosing which colors represent each state

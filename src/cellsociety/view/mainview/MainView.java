@@ -26,7 +26,8 @@ import javafx.stage.Stage;
 
 public class MainView {
 
-  private static final String CENTER_PATH = "cellsociety.view.center.%s";
+  public static final String VIEW_TYPE_CLASS_NAME = "cellsociety.view.center.%s";
+
   private Stage myStage;
   private CellProperties myCellProperties;
   private SimControl mySimControl;
@@ -68,7 +69,7 @@ public class MainView {
    * @throws ClassNotFoundException is thrown if the reflection fails and there's no matching class
    */
   public void assignViewType(String viewType) {
-    String className = String.format("cellsociety.view.center.%sView", viewType.replaceAll(" ",""));
+    String className = String.format(VIEW_TYPE_CLASS_NAME, viewType);
     try {
       Class<?> clazz = Class.forName(className);
       myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class,

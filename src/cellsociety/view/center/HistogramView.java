@@ -19,7 +19,6 @@ import javafx.scene.text.Text;
 public class HistogramView extends CenterView {
 
   public static final int CANVAS_WIDTH = 700;
-  public static final int CANVAS_HEIGHT = 500;
   public static final int AXIS_LENGTH = 500;
   public static final int BAR_SPACING = 50;
   public static final int BAR_WIDTH = 100;
@@ -27,7 +26,6 @@ public class HistogramView extends CenterView {
   public static final int BOTTOM_SPACING = 15;
   public static final int LABEL_SPACING = BAR_WIDTH + BAR_SPACING / 2;
 
-  private Canvas myCanvas;
   private Controller myController;
   private HBox barBox;
   private HBox labelBox;
@@ -41,6 +39,7 @@ public class HistogramView extends CenterView {
   private GraphicsContext gc;
   private Line xAxis;
 
+
   public HistogramView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
     barBox = new HBox(BAR_SPACING);
@@ -52,8 +51,6 @@ public class HistogramView extends CenterView {
     histogramElements = new VBox(0);
     histogramElements.setAlignment(Pos.BOTTOM_CENTER);
     setStyles();
-    myCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-    gc = myCanvas.getGraphicsContext2D();
     myController = controller;
     bars = new ArrayList<>();
     numbers = new ArrayList<>();

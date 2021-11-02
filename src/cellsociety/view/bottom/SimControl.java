@@ -3,6 +3,7 @@ package cellsociety.view.bottom;
 import cellsociety.controller.Controller;
 import cellsociety.view.center.CenterView;
 import cellsociety.view.left.CellProperties;
+import java.awt.Choice;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -173,8 +174,8 @@ public class SimControl {
     ChoiceBox views = new ChoiceBox();
     views.getItems().addAll(myResources.getString("ViewTypes").split(","));
     views.setOnAction(e -> {
-      myController.updateCenterViewType(views.getValue().toString()); });
     views.setId("viewChoiceBox");
+    myController.updateCenterViewType(myResources.getString(views.getValue().toString())); });
     return views;
   }
 
@@ -214,6 +215,15 @@ public class SimControl {
     addGrid.setText(bundle.getString("AddGrid"));
     buttons.getChildren().set(2, addGrid);
     mySimControl.getChildren().set(0, buttons);
+
+    ChoiceBox choice = new ChoiceBox();
+    choice.getItems().addAll(bundle.getString("ViewTypes").split(","));
+    choice.setOnAction(e -> {
+      myController.updateCenterViewType(bundle.getString(choice.getValue().toString()));
+    });
+    mySimControl.getChildren().set(2, choice);
+
+
     setStyles();
     return mySimControl;
   }

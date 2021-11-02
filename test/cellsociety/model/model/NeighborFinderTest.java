@@ -9,6 +9,9 @@ import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
 import cellsociety.model.model.utils.NeighborFinders.SquareCorners;
 import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
+import cellsociety.model.model.utils.NeighborFinders.TriangleComplete;
+import cellsociety.model.model.utils.NeighborFinders.TriangleEdges;
+import cellsociety.model.model.utils.NeighborFinders.TriangleVertices;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -128,5 +131,109 @@ public class NeighborFinderTest {
     assertEquals(1, empty, "(2,2) should have 1 empty. got: " + empty);
   }
 
+  @Test
+  void testTriangleComplete(){
+    myStates = new int[][]{
+        {2, 2, 1, 2, 0},
+        {1, 0, 1, 2, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0}};
+    numRows = 5;
+    numCols = 5;
+    String type = "SpreadingOfFire";
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
+    myNeighborFinder = new TriangleComplete(edgePolicy);
 
+    currRow = 1;
+    currCol = 2;
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    System.out.println(neighbors);
+    int burning = 0;
+    int tree = 0;
+    int row,col,state;
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state == 1) {
+        tree += 1;
+      }else if (state == 2){
+        burning += 1;
+      }
+    }
+    assertEquals(5, tree, "(2,1) should have 5 tree. got: " + tree);
+    assertEquals(4, burning, "(2,1) should have 4 burning. got: " + burning);
+
+  }
+
+  @Test
+  void testTriangleEdges(){
+    myStates = new int[][]{
+        {2, 2, 1, 2, 0},
+        {1, 0, 1, 2, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0}};
+    numRows = 5;
+    numCols = 5;
+    String type = "SpreadingOfFire";
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
+    myNeighborFinder = new TriangleEdges(edgePolicy);
+
+    currRow = 1;
+    currCol = 2;
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    System.out.println(neighbors);
+    int burning = 0;
+    int tree = 0;
+    int row,col,state;
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state == 1) {
+        tree += 1;
+      }else if (state == 2){
+        burning += 1;
+      }
+    }
+    assertEquals(1, tree, "(2,1) should have 1 tree. got: " + tree);
+    assertEquals(1, burning, "(2,1) should have 1 burning. got: " + burning);
+  }
+  @Test
+  void testTriangleVertices(){
+    myStates = new int[][]{
+        {2, 2, 1, 2, 0},
+        {1, 0, 1, 2, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0}};
+    numRows = 5;
+    numCols = 5;
+    String type = "SpreadingOfFire";
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
+    myNeighborFinder = new TriangleVertices(edgePolicy);
+
+    currRow = 1;
+    currCol = 2;
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    System.out.println(neighbors);
+    int burning = 0;
+    int tree = 0;
+    int row,col,state;
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state == 1) {
+        tree += 1;
+      }else if (state == 2){
+        burning += 1;
+      }
+    }
+    assertEquals(4, tree, "(2,1) should have 4 tree. got: " + tree);
+    assertEquals(3, burning, "(2,1) should have 3 burning. got: " + burning);
+
+  }
 }

@@ -4,7 +4,6 @@ import static java.lang.Integer.parseInt;
 
 
 import cellsociety.model.Grid;
-import cellsociety.model.exceptions.KeyNotFoundException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,8 +39,8 @@ public class HistogramManager {
    */
   private List<String> getCellStateNames() {
     List<Field> declaredFields = new ArrayList<>();
-    List<Field> childFields = List.of(currGrid.getCell(0, 0).getClass().getDeclaredFields());
-    List<Field> parentFields = List.of(currGrid.getCell(0, 0).getClass().getSuperclass().getDeclaredFields());
+    List<Field> childFields = List.of(currGrid.getModelCell(0, 0).getClass().getDeclaredFields());
+    List<Field> parentFields = List.of(currGrid.getModelCell(0, 0).getClass().getSuperclass().getDeclaredFields());
 
     declaredFields.addAll(childFields);
     declaredFields.addAll(parentFields);
@@ -67,7 +66,7 @@ public class HistogramManager {
     cellStates = new HashMap<>();
     for (String state : getCellStateNames()) {
       try {
-        Field f = currGrid.getCell(0, 0).getClass().getField(state);
+        Field f = currGrid.getModelCell(0, 0).getClass().getField(state);
         Class<?> t = f.getType();
         if (t == int.class) {
           cellStates.putIfAbsent(f.getInt(null), state);

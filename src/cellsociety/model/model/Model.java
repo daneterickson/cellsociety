@@ -6,13 +6,10 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
-import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
 import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.Rule;
 import cellsociety.model.model.utils.HistogramManager;
-import cellsociety.model.model.utils.NeighborFinders.NeighborFinderSetter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,7 +78,7 @@ public abstract class Model {
     iterateGrid(row -> col -> {
       String currState = null;
       try {
-        currState = currGrid.getCell(row, col).getCellProperty(stateNumber);
+        currState = currGrid.getModelCell(row, col).getCellProperty(stateNumber);
       } catch (KeyNotFoundException e) {
         //TODO: handle exception
         System.out.println("Invalid Property");
@@ -99,7 +96,7 @@ public abstract class Model {
     iterateGrid(row -> col -> {
       String currState = null;
       try {
-        currState = currGrid.getCell(row, col).getCellProperty(stateNumber);
+        currState = currGrid.getModelCell(row, col).getCellProperty(stateNumber);
       } catch (KeyNotFoundException e) {
         //TODO: handle exception
         System.out.println("Invalid Property");
@@ -126,14 +123,14 @@ public abstract class Model {
     int currCol = 0;
     while (true) {
       try {
-        currGrid.getCell(currRow, currCol).getCellProperty(stateNumber);
+        currGrid.getModelCell(currRow, currCol).getCellProperty(stateNumber);
         gridIterationAction.apply(currRow).accept(currCol);
         currCol += 1;
       } catch (IndexOutOfBoundsException | KeyNotFoundException xOutOfBounds) {
         try {
           currCol = 0;
           currRow += 1;
-          currGrid.getCell(currRow, currCol).getCellProperty(stateNumber);
+          currGrid.getModelCell(currRow, currCol).getCellProperty(stateNumber);
         } catch (IndexOutOfBoundsException | KeyNotFoundException yOutOfBounds) {
           break;
         }

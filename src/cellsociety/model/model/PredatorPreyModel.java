@@ -102,7 +102,7 @@ public class PredatorPreyModel extends Model {
       Function<Integer, Function<Integer, Consumer<Integer>>> iteratorTarget) {
     return row -> col -> {
       try {
-        String currState = currGrid.getCell(row, col).getCellProperty("StateNumber");
+        String currState = currGrid.getModelCell(row, col).getCellProperty("StateNumber");
         int stateAsInt = parseInt(currState);
         iteratorTarget.apply(row).apply(col).accept(stateAsInt);
       } catch (KeyNotFoundException e) {
@@ -130,11 +130,11 @@ public class PredatorPreyModel extends Model {
   private void getBaseParameters() {
     try {
       fishReproduction = (int) Math.round(
-          currGrid.getCell(0, 0).getCellParameter(FishReproduction));
+          currGrid.getModelCell(0, 0).getCellParameter(FishReproduction));
       sharkReproduction = (int) Math.round(
-          currGrid.getCell(0, 0).getCellParameter(SharkReproduction));
-      sharkEnergy = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergy));
-      energyGain = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergyGain));
+          currGrid.getModelCell(0, 0).getCellParameter(SharkReproduction));
+      sharkEnergy = (int) Math.round(currGrid.getModelCell(0, 0).getCellParameter(SharkEnergy));
+      energyGain = (int) Math.round(currGrid.getModelCell(0, 0).getCellParameter(SharkEnergyGain));
     } catch (KeyNotFoundException e) {
       // TODO: handle exception
     }
@@ -164,10 +164,10 @@ public class PredatorPreyModel extends Model {
       currGrid.updateCell(row, col, newState);
 
       if (newState == FISH_STATE) {
-        currGrid.getCell(row, col).setCellParameter(FishReproduction, (double) newReproduction);
+        currGrid.getModelCell(row, col).setCellParameter(FishReproduction, (double) newReproduction);
       } else if (newState == SHARK_STATE) {
-        currGrid.getCell(row, col).setCellParameter(SharkReproduction, (double) newReproduction);
-        currGrid.getCell(row, col).setCellParameter(SharkEnergy, (double) newEnergy);
+        currGrid.getModelCell(row, col).setCellParameter(SharkReproduction, (double) newReproduction);
+        currGrid.getModelCell(row, col).setCellParameter(SharkEnergy, (double) newEnergy);
       }
     }
   }

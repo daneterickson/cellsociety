@@ -8,12 +8,8 @@ import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -135,11 +131,11 @@ public class PredatorPreyTest {
 //    System.out.println(" --- ");
     printgrid();
 
-    int parentShark = parseInt(myGrid.getCell(0,3).getCellProperty("StateNumber"));
+    int parentShark = parseInt(myGrid.getModelCell(0,3).getCellProperty("StateNumber"));
     assertEquals(2, parentShark, "at (0,3) should be shark. got: " + parentShark);
-    int childShark = parseInt(myGrid.getCell(0,4).getCellProperty("StateNumber"));
+    int childShark = parseInt(myGrid.getModelCell(0,4).getCellProperty("StateNumber"));
     assertEquals(2, childShark, "at (0,4) should be shark. got: " + childShark);
-    int childFish = parseInt(myGrid.getCell(1,4).getCellProperty("StateNumber"));
+    int childFish = parseInt(myGrid.getModelCell(1,4).getCellProperty("StateNumber"));
     assertEquals(1, childFish, "at (1,4), should be fish. got: " + childFish);
 
   }
@@ -168,10 +164,10 @@ public class PredatorPreyTest {
       System.out.println("Cannot print grid - Exception reached");
     }
 
-    int shark = parseInt(myGrid.getCell(0,3).getCellProperty("StateNumber"));
+    int shark = parseInt(myGrid.getModelCell(0,3).getCellProperty("StateNumber"));
     assertEquals(2, shark, "at (0,3) should be shark. got: " + shark);
-    int PossibleFish1 = parseInt(myGrid.getCell(0,2).getCellProperty("StateNumber"));
-    int PossibleFish2 = parseInt(myGrid.getCell(1,3).getCellProperty("StateNumber"));
+    int PossibleFish1 = parseInt(myGrid.getModelCell(0,2).getCellProperty("StateNumber"));
+    int PossibleFish2 = parseInt(myGrid.getModelCell(1,3).getCellProperty("StateNumber"));
 
     assertEquals(0, PossibleFish1, "fish should be dead. got: " + PossibleFish1);
     assertEquals(0, PossibleFish2, "fish should be dead. got: " + PossibleFish2);
@@ -183,7 +179,7 @@ public class PredatorPreyTest {
     for (int r = 0; r< myGrid.getNumRows();r++){
       System.out.println(" ");
       for (int c = 0; c< myGrid.getNumRows();c++){
-        System.out.print(myGrid.getCell(r,c).getCellProperty("StateNumber"));
+        System.out.print(myGrid.getModelCell(r,c).getCellProperty("StateNumber"));
       }
     }
     System.out.println(" ");

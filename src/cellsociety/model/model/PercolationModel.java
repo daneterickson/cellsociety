@@ -66,7 +66,7 @@ public class PercolationModel extends Model {
   private String getEndEdge() {
     iterateGrid(row-> col -> {
       try {
-        if (parseInt(currGrid.getCell(row,col).getCellProperty("StateNumber")) == WATER_STATE){
+        if (parseInt(currGrid.getModelCell(row,col).getCellProperty("StateNumber")) == WATER_STATE){
           if (row == 0){
             endEdge = "bottom";
           }
@@ -101,7 +101,7 @@ public class PercolationModel extends Model {
         int r = 0;
         for (int c = 0; c < currGrid.getNumCols();c++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
+            if (parseInt(currGrid.getModelCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {
@@ -113,7 +113,7 @@ public class PercolationModel extends Model {
         int r = currGrid.getNumRows() - 1;
         for (int c = 0; c < currGrid.getNumCols();c++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
+            if (parseInt(currGrid.getModelCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {
@@ -125,7 +125,7 @@ public class PercolationModel extends Model {
         int c = 0;
         for (int r = 0; r < currGrid.getNumRows();r++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
+            if (parseInt(currGrid.getModelCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {
@@ -137,7 +137,7 @@ public class PercolationModel extends Model {
         int c = currGrid.getNumCols() - 1;
         for (int r = 0; r < currGrid.getNumRows();r++){
           try {
-            if (parseInt(currGrid.getCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
+            if (parseInt(currGrid.getModelCell(r,c).getCellProperty("StateNumber")) == WATER_STATE){
               return true;
             }
           } catch (KeyNotFoundException e) {

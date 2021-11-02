@@ -29,7 +29,7 @@ public abstract class NeighborFinder {
 
     while (idx < 4) {
       try {
-        state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
+        state = parseInt(grid.getModelCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
         neighbors.add(idx, state);
       } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
         neighbors.add(idx, edgePolicy.policy(row + y[idx],col + x[idx],grid));
@@ -53,7 +53,7 @@ public abstract class NeighborFinder {
 
     while (idx < 4) {
       try {
-        state = parseInt(grid.getCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
+        state = parseInt(grid.getModelCell(row + y[idx], col + x[idx]).getCellProperty("StateNumber"));
         neighbors.add(idx, state);
       } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
         neighbors.add(idx, edgePolicy.policy(row + y[idx],col + x[idx],grid));
@@ -82,7 +82,7 @@ public abstract class NeighborFinder {
           continue;
         }
         try {
-          state = parseInt(grid.getCell(row + y, col + x).getCellProperty("StateNumber"));
+          state = parseInt(grid.getModelCell(row + y, col + x).getCellProperty("StateNumber"));
           neighbors.add(idx, state);
         } catch (IndexOutOfBoundsException | KeyNotFoundException e) {
           //handles edge cases

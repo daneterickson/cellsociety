@@ -32,7 +32,7 @@ public class SpreadingOfFireModel extends Model {
     getBaseInstanceVariables();
     random = new Random();
     try {
-      probCatch = currGrid.getCell(0, 0).getCellParameter("ProbCatch");
+      probCatch = currGrid.getModelCell(0, 0).getCellParameter("ProbCatch");
     }catch (Exception e){
       System.out.println("invalid probCatch variable");
       probCatch = 0.5;

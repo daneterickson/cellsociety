@@ -137,6 +137,10 @@ public class Controller {
     myModelsList.add(new GameOfLifeModel(this, defaultGrid));
   }
 
+  public void toggleCenterLines(){
+    myMainView.toggleLines();
+  }
+
   public void openSIMFile(File simFile) {
     try {
       readSIMFile(simFile);
@@ -189,28 +193,6 @@ public class Controller {
     myGridsList.remove(currentGridNumber);
     myGridsList.add(currentGridNumber, new Grid(myParserCSV.getNumRows(), myParserCSV.getNumCols(), myParserCSV.getStartStates(), myParserSIM.getInfo("StateColors"), myParserSIM.getInfo("Parameters"), myParserSIM.getInfo("Type")));
   }
-
-
-//  private void makeProbStates(int rows, int cols, int numFilled, String type) {
-//
-//  }
-//
-//  private void makeRandomStates(int rows, int cols, int numFilled, String type) {
-//    int states[][]s = new int[rows][cols];
-//    int fill = 0;
-//    int numCases = 3;
-//    Random rand = new Random();
-//    if (type.equals("GameOfLife")) numCases = 2;
-//    while (fill < numFilled) {
-//      int state = rand.nextInt(numCases);
-//      int r = rand.nextInt(rows);
-//      int c = rand.nextInt(cols);
-//      if (states[r][c] == 0) {
-//        states[r][c] = state;
-//        fill++;
-//      }
-//    }
-//  }
 
 
   private void readSIMFile(File simFile)
@@ -279,7 +261,14 @@ public class Controller {
 
   private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){
     return new Grid(height, width, cellStates, stateColors, parameters, type);
+  }
 
+  public void setEdgePolicy(String policy){
+    myModelsList.get(currentGridNumber).setEdgePolicy(policy);
+  }
+
+  public void setNeighborFinder(String type){
+    myModelsList.get(currentGridNumber).setNeighborFinder(type);
   }
 
 }

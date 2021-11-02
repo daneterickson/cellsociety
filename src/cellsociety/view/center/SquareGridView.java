@@ -3,15 +3,23 @@ package cellsociety.view.center;
 import cellsociety.controller.Controller;
 import cellsociety.view.left.CellProperties;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.NonInvertibleTransformException;
 
+/**
+ * This is a subclass of Grid View
+ *
+ * @author Nick Strauch
+ */
 public class SquareGridView extends GridView {
 
-
+  /**
+   * Constructor for a type of GridView
+   * @param cellProps
+   * @param controller
+   */
   public SquareGridView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
   }

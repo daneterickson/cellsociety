@@ -15,8 +15,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 
+/**
+ * This is the class that makes the calculations and grids
+ *
+ * @author Nick Strauch
+ */
 public abstract class GridView extends CenterView {
-  //TODO Make these temporary hardcoded values dependent on the window size or Model values ASAP
   protected static final Color GRID_LINE_COLOR = Color.BLACK;
   protected static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   protected static final double GRID_LINE_SIZE = .04;
@@ -36,7 +40,11 @@ public abstract class GridView extends CenterView {
   private double myBlockLength;
   private boolean cursorOverCell;
 
-
+  /**
+   * Constructor for a grid view
+   * @param cellProps
+   * @param controller
+   */
   public GridView(CellProperties cellProps, Controller controller){
     super(cellProps, controller);
     myCanvasList = new ArrayList<>();
@@ -79,10 +87,12 @@ public abstract class GridView extends CenterView {
       gc.clearRect(0, 0, curCanvas.getWidth(), curCanvas.getHeight());
       gc.setTransform(getAffineFromList(i));
       updateCellColors(gc);
-      drawGridLines(gc);
+      if(linesAreOn()) {
+        drawGridLines(gc);
+      }
     }
     setCurrentGridNum(curGrid);
-    drawSelectedGridIndicatorLines();
+    if(linesAreOn()) {drawSelectedGridIndicatorLines();}
   }
 
   protected void findOptimalGridSizing(int numRows, int numCols) {
@@ -127,6 +137,9 @@ public abstract class GridView extends CenterView {
     updateView();
   }
 
+  /**
+   * Add the view to the center
+   */
   @Override
   public void addViewToCenter(){
     myNumGridRowsList.add(0);
@@ -138,10 +151,10 @@ public abstract class GridView extends CenterView {
     myController.makeNewDefaultSimulation();
     findOptimalGridSizing(myController.getNumGridRows(), myController.getNumGridCols());
     addCanvasToList();
-    //myGridHolder.getChildren().add(myCanvasList.get(myGridNum));
     initiateView();
     updateOtherGridSizing();
   }
+
 
   private void updateOtherGridSizing(){
     int curGridNum = myController.getCurrentGridNumber();
@@ -176,6 +189,7 @@ public abstract class GridView extends CenterView {
     if(cursorOverCell) {
       try {
         myController.setCurrentGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
+        if(myController.getCurrentGridNumber() == -1){myController.setCurrentGridNumber(0);}
         getMousePosOnGrid(mouseEvent);
         drawSelectedGridIndicatorLines();
       } catch (NonInvertibleTransformException e) {
@@ -195,7 +209,7 @@ public abstract class GridView extends CenterView {
     try{
       getMousePosOnGrid(mouseEvent);
     }catch(NonInvertibleTransformException e){
-      e.getMessage();
+      e.getMessage(); //Not possible to get to the exception due to the mouse position being localized to the canvas nodes
     }
     myCellProperties.updateCellCordLabel(myMousePos[0], myMousePos[1]);
   }

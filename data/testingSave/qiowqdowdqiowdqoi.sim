@@ -1,0 +1,6 @@
+Type=SpreadingOfFire
+Description=A single flame in the middle of a screen of trees with empty cells along outer the border
+Parameters=0.55
+Title=Single Flame
+Author=Dane Erickson
+InitialStates=testingSave/qiowqdowdqiowdqoi.csv

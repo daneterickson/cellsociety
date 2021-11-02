@@ -9,6 +9,11 @@ import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 
+/**
+ * This is a subclass of Centerview
+ *
+ * @author Dane Erickson
+ */
 public class PieChartView extends CenterView {
 
   private Map<Integer, Integer> myPieChartMap;
@@ -16,6 +21,11 @@ public class PieChartView extends CenterView {
   private Map<Integer, String> myNameColorMap;
   private PieChart myChart;
 
+  /**
+   * Constructor for a type of Centerview
+   * @param cellProperties
+   * @param controller
+   */
   public PieChartView(CellProperties cellProperties, Controller controller) {
     super(cellProperties, controller);
     myController = controller;
@@ -34,16 +44,26 @@ public class PieChartView extends CenterView {
     myChart = new PieChart(pieChartData);
   }
 
+  /**
+   * Updates view by initating view
+   */
   @Override
   public void updateView() {
     initiateView();
   }
 
+  /**
+   * Return the view box which is a chart
+   * @return myChart
+   */
   @Override
   public Node getViewBox() {
     return myChart;
   }
 
+  /**
+   * Does nothing
+   */
   @Override
   public void addViewToCenter() {
 

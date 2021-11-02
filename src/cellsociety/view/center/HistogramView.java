@@ -16,6 +16,12 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+
+/**
+ * This is a subclass of Grid View
+ *
+ * @author Dane Erickson, Nick Strauch
+ */
 public class HistogramView extends CenterView {
 
   public static final int CANVAS_WIDTH = 700;
@@ -36,6 +42,14 @@ public class HistogramView extends CenterView {
   private Map<Integer, Integer> myHistogramMap;
   private Map<Integer, String> myNameColorMap;
   private double totalNumCells;
+  private GraphicsContext gc;
+  private Line xAxis;
+
+  /**
+   * Constructor for a type of centerview
+   * @param cellProps
+   * @param controller
+   */
 
   public HistogramView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
@@ -112,8 +126,8 @@ public class HistogramView extends CenterView {
   private void makeAxisLine() {
     double startX = CANVAS_WIDTH / 2 - AXIS_LENGTH / 2;
     double endX = CANVAS_WIDTH / 2 + AXIS_LENGTH / 2;
-    Line xaxis = new Line(startX, 0, endX, 0);
-    histogramElements.getChildren().add(xaxis);
+    xAxis = new Line(startX, 0, endX, 0);
+    histogramElements.getChildren().add(xAxis);
   }
 
   private void makeBars() {
@@ -152,7 +166,12 @@ public class HistogramView extends CenterView {
     return histogramElements;
   }
 
+  /**
+   * Doesn't add view to center
+   */
   @Override
-  public void addViewToCenter() {}
+  public void addViewToCenter() {
+    return;
+  }
 
 }

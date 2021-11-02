@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This is a subclass of Model. This model calculates the next states for the Segregation Simulation
+ *
+ * @Authors Albert Yuan, Dane Erickson, Aaric Han
+ */
 public class SegregationModel extends Model {
   //base class variables
   private Grid currGrid;
@@ -31,6 +36,11 @@ public class SegregationModel extends Model {
   private Random random;
   private int numCols;
 
+  /**
+   * This is the constructor for the Segregation Simulation
+   * @param controller - the controller that connects the view and model
+   * @param grid - the current grid that holds the cells
+   */
   public SegregationModel(Controller controller, Grid grid) {
     super(controller, grid);
     getBaseInstanceVariables();
@@ -73,14 +83,16 @@ public class SegregationModel extends Model {
   }
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   * @param type - the type of edgepolicy as a string
    */
   @Override
   public void setEdgePolicy(String type) {
     EdgePolicySetter eps = new EdgePolicySetter();
     edgePolicy = eps.setEdgePolicy(type);
   }
+
   /**
-   * returns the current edgepolicy type as a string
+   * @return the current edgepolicy type as a string
    */
   @Override
   public String getEdgePolicyType() {
@@ -89,14 +101,16 @@ public class SegregationModel extends Model {
 
   /**
    * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * @param type - the type of neighborfinder as a string
    */
   @Override
   public void setNeighborFinder(String type) {
     NeighborFinderSetter nfs = new NeighborFinderSetter();
     neighborFinder = nfs.setNeighborFinder(type);
   }
+
   /**
-   * returns the current neighborfinder type as a string
+   * @return the current neighborfinder type as a string
    */
   @Override
   public String getNeighborFinderType() {
@@ -139,12 +153,5 @@ public class SegregationModel extends Model {
     myRule = new SegregationRule(threshold);
   }
 
-  /**
-   * changes the threshold probability to a new value
-   */
-  @Override
-  public void changeSettings(ArrayList newProb) {
-    setProb(newProb);
-  }
 
 }

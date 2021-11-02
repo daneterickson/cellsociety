@@ -28,7 +28,11 @@ public class PercolationModel extends Model {
   private Rule myRule;
   private String endEdge;
 
-
+  /**
+   * Constructor to make a new PercolationModel, which is extended from the Model super class
+   * @param controller
+   * @param grid
+   */
   public PercolationModel(Controller controller, Grid grid) {
     super(controller, grid);
     getBaseInstanceVariables();
@@ -48,14 +52,16 @@ public class PercolationModel extends Model {
 
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   * @param type - the type of edgepolicy as a string
    */
   @Override
   public void setEdgePolicy(String type) {
     EdgePolicySetter eps = new EdgePolicySetter();
     edgePolicy = eps.setEdgePolicy(type);
   }
+
   /**
-   * returns the current edgepolicy type as a string
+   * @return the current edgepolicy type as a string
    */
   @Override
   public String getEdgePolicyType() {
@@ -64,14 +70,16 @@ public class PercolationModel extends Model {
 
   /**
    * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * @param type - the type of neighborfinder as a string
    */
   @Override
   public void setNeighborFinder(String type) {
     NeighborFinderSetter nfs = new NeighborFinderSetter();
     neighborFinder = nfs.setNeighborFinder(type);
   }
+
   /**
-   * returns the current neighborfinder type as a string
+   * @return the current neighborfinder type as a string
    */
   @Override
   public String getNeighborFinderType() {
@@ -106,6 +114,11 @@ public class PercolationModel extends Model {
     return endEdge;
   }
 
+  /**
+   * Overrides updateModel from the superclass. Also checks for if the simulation has percolates, which
+   * will tell the controller to stop the animation in view
+   * @param currGrid
+   */
   @Override
   public void updateModel(Grid currGrid) {
     super.updateModel(currGrid);

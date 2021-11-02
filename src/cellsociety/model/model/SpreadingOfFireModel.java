@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This is a subclass of Model. This model calculates the next states for the Spreading of Fire Simulation
+ *
+ * @Authors Albert Yuan, Dane Erickson, Aaric Han
+ */
 public class SpreadingOfFireModel extends Model {
   //base class variables
   private Grid currGrid;
@@ -27,6 +32,11 @@ public class SpreadingOfFireModel extends Model {
   private double probCatch;
   private Random random;
 
+  /**
+   * This is the constructor for the Spreading Of Fire Model
+   * @param controller - the controller that connects the model and view
+   * @param grid - the current grid that holds the cells
+   */
   public SpreadingOfFireModel(Controller controller, Grid grid) {
     super(controller, grid);
     getBaseInstanceVariables();
@@ -49,23 +59,39 @@ public class SpreadingOfFireModel extends Model {
     neighborFinder = new SquareEdges();
     numUpdates = getNumUpdates();
   }
-
+  /**
+   * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   * @param type - the type of edgepolicy as a string
+   */
   @Override
-  public void setEdgePolicy(String type){
+  public void setEdgePolicy(String type) {
     EdgePolicySetter eps = new EdgePolicySetter();
     edgePolicy = eps.setEdgePolicy(type);
   }
+
+  /**
+   * @return the current edgepolicy type as a string
+   */
   @Override
-  public String getEdgePolicyType(){
+  public String getEdgePolicyType() {
     return edgePolicy.getClass().toString();
   }
+
+  /**
+   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * @param type - the type of neighborfinder as a string
+   */
   @Override
-  public void setNeighborFinder(String type){
+  public void setNeighborFinder(String type) {
     NeighborFinderSetter nfs = new NeighborFinderSetter();
     neighborFinder = nfs.setNeighborFinder(type);
   }
+
+  /**
+   * @return the current neighborfinder type as a string
+   */
   @Override
-  public String getNeighborFinderType(){
+  public String getNeighborFinderType() {
     return neighborFinder.getClass().toString();
   }
 
@@ -89,14 +115,6 @@ public class SpreadingOfFireModel extends Model {
   protected void setProb(ArrayList newProb) {
     probCatch = (double) newProb.get(0);
     myRule = new SpreadingOfFireRule(probCatch);
-  }
-
-  /**
-   * Overridden method that sets the new probability of catching on fire
-   */
-  @Override
-  public void changeSettings(ArrayList newProb) {
-    setProb(newProb);
   }
 
 }

@@ -19,7 +19,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
+/**
+ * This is a subclass of Model. This model calculates the next states for the Predator Prey Simulation
+ * *
+ * @Authors Albert Yuan, Dane Erickson, Aaric Han
+ */
 public class PredatorPreyModel extends Model {
 
   //base class variables
@@ -45,7 +49,11 @@ public class PredatorPreyModel extends Model {
   private int numCols;
   private Rule myRule;
 
-
+  /**
+   * This is the constructor for the Predator Prey Model
+   * @param controller - the controller that connects the model and view
+   * @param grid - the current grid that holds the cells
+   */
   public PredatorPreyModel(Controller controller, Grid grid) {
     super(controller, grid);
     getBaseInstanceVariables();
@@ -68,16 +76,19 @@ public class PredatorPreyModel extends Model {
     edgePolicy = getEdgePolicy();
     neighborFinder = new SquareEdges();
   }
+
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   * @param type - the type of edgepolicy as a string
    */
   @Override
   public void setEdgePolicy(String type) {
     EdgePolicySetter eps = new EdgePolicySetter();
     edgePolicy = eps.setEdgePolicy(type);
   }
+
   /**
-   * returns the current edgepolicy type as a string
+   * @return the current edgepolicy type as a string
    */
   @Override
   public String getEdgePolicyType() {
@@ -86,20 +97,21 @@ public class PredatorPreyModel extends Model {
 
   /**
    * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * @param type - the type of neighborfinder as a string
    */
   @Override
   public void setNeighborFinder(String type) {
     NeighborFinderSetter nfs = new NeighborFinderSetter();
     neighborFinder = nfs.setNeighborFinder(type);
   }
+
   /**
-   * returns the current neighborfinder type as a string
+   * @return the current neighborfinder type as a string
    */
   @Override
   public String getNeighborFinderType() {
     return neighborFinder.getClass().toString();
   }
-
   /**
    * overridden method that is called every step.
    * first iterates through the grid for sharks since sharks can eat fish before they move
@@ -233,13 +245,6 @@ public class PredatorPreyModel extends Model {
         sharkAttacks);
   }
 
-  /**
-   * overridden method that is used to set new game state values
-   */
-  @Override
-  public void changeSettings(ArrayList newProb) {
-    setProb(newProb);
-  }
 
 }
 

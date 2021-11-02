@@ -27,11 +27,11 @@ public class rightViewTest extends DukeApplicationTest {
   @Test
   public void testTogglingGridLinesForMultipleGridTypes(){
     clickOn(myLineToggleButton);
-    select(myChoiceBox, "Triangle Grid");
+    select(myChoiceBox, "TriangleGrid");
     clickOn(myLineToggleButton);
-    select(myChoiceBox, "Circle Grid");
+    select(myChoiceBox, "CircleGrid");
     clickOn(myLineToggleButton);
-    select(myChoiceBox, "Hexagon Grid");
+    select(myChoiceBox, "HexagonGrid");
     clickOn(myLineToggleButton);
   }
 

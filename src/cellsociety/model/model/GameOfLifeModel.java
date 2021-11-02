@@ -37,23 +37,35 @@ public class GameOfLifeModel extends Model {
     neighborFinder = new SquareComplete();
     numUpdates = getNumUpdates();
   }
-
+  /**
+   * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   */
   @Override
-  public void setEdgePolicy(String type){
+  public void setEdgePolicy(String type) {
     EdgePolicySetter eps = new EdgePolicySetter();
     edgePolicy = eps.setEdgePolicy(type);
   }
+  /**
+   * returns the current edgepolicy type as a string
+   */
   @Override
-  public String getEdgePolicyType(){
+  public String getEdgePolicyType() {
     return edgePolicy.getClass().toString();
   }
+
+  /**
+   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   */
   @Override
-  public void setNeighborFinder(String type){
+  public void setNeighborFinder(String type) {
     NeighborFinderSetter nfs = new NeighborFinderSetter();
     neighborFinder = nfs.setNeighborFinder(type);
   }
+  /**
+   * returns the current neighborfinder type as a string
+   */
   @Override
-  public String getNeighborFinderType(){
+  public String getNeighborFinderType() {
     return neighborFinder.getClass().toString();
   }
 

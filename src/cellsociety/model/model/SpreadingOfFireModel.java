@@ -68,6 +68,7 @@ public class SpreadingOfFireModel extends Model {
   public String getNeighborFinderType(){
     return neighborFinder.getClass().toString();
   }
+
   @Override
   protected List<Integer> getNearby(int row, int col) {
     return neighborFinder.getNeighbors(row, col, currGrid);
@@ -81,12 +82,18 @@ public class SpreadingOfFireModel extends Model {
     return myRule.determineState(currRow, currCol, state, nearby,currGrid,edgePolicy);
   }
 
+  /**
+   * helper method used to set probCatch to a new value
+   */
   @Override
   protected void setProb(ArrayList newProb) {
     probCatch = (double) newProb.get(0);
     myRule = new SpreadingOfFireRule(probCatch);
   }
 
+  /**
+   * Overridden method that sets the new probability of catching on fire
+   */
   @Override
   public void changeSettings(ArrayList newProb) {
     setProb(newProb);

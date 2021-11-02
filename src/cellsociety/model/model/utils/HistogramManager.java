@@ -26,7 +26,6 @@ public class HistogramManager {
    */
   private void initHistogram() {
     histogram = new HashMap<>();
-    String name;
     for (Integer state : cellStates.keySet()) {
       histogram.put(state, 0);
     }
@@ -71,9 +70,7 @@ public class HistogramManager {
         if (t == int.class) {
           cellStates.putIfAbsent(f.getInt(null), state);
         }
-      } catch (NoSuchFieldException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
+      } catch (NoSuchFieldException | IllegalAccessException e) {
         e.printStackTrace();
       }
     }
@@ -91,7 +88,6 @@ public class HistogramManager {
    * adds the given values to the histogram
    */
   public void add(Integer cellStateNum, int amount) {
-//    String name = cellStates.get(cellStateNum);
     int total = histogram.get(cellStateNum) + amount;
     histogram.put(cellStateNum, total);
   }

@@ -71,23 +71,35 @@ public class SegregationModel extends Model {
     neighborFinder = new SquareComplete();
     numUpdates = getNumUpdates();
   }
-
+  /**
+   * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   */
   @Override
-  public void setEdgePolicy(String type){
+  public void setEdgePolicy(String type) {
     EdgePolicySetter eps = new EdgePolicySetter();
     edgePolicy = eps.setEdgePolicy(type);
   }
+  /**
+   * returns the current edgepolicy type as a string
+   */
   @Override
-  public String getEdgePolicyType(){
+  public String getEdgePolicyType() {
     return edgePolicy.getClass().toString();
   }
+
+  /**
+   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   */
   @Override
-  public void setNeighborFinder(String type){
+  public void setNeighborFinder(String type) {
     NeighborFinderSetter nfs = new NeighborFinderSetter();
     neighborFinder = nfs.setNeighborFinder(type);
   }
+  /**
+   * returns the current neighborfinder type as a string
+   */
   @Override
-  public String getNeighborFinderType(){
+  public String getNeighborFinderType() {
     return neighborFinder.getClass().toString();
   }
 
@@ -98,6 +110,7 @@ public class SegregationModel extends Model {
 
   /**
    * current rule for Segregation. returns EMPTY/RACE1/RACE2 state
+   * relocates the state to an empty cell by calling relocate
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
@@ -109,6 +122,9 @@ public class SegregationModel extends Model {
     return newState;
   }
 
+  /**
+   * takes a random empty cell from emptyspots and sets its state to state
+   */
   private void relocate(int state) {
     int idx = random.nextInt(emptySpots.size());
     int r = emptySpots.get(idx) / numCols;
@@ -123,6 +139,9 @@ public class SegregationModel extends Model {
     myRule = new SegregationRule(threshold);
   }
 
+  /**
+   * changes the threshold probability to a new value
+   */
   @Override
   public void changeSettings(ArrayList newProb) {
     setProb(newProb);

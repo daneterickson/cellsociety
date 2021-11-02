@@ -4,6 +4,8 @@ import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 import static cellsociety.model.cell.SpreadingOfFireCell.BURN_STATE;
 import static cellsociety.model.cell.SpreadingOfFireCell.TREE_STATE;
 
+import cellsociety.model.Grid;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.List;
 import java.util.Random;
 
@@ -27,7 +29,6 @@ public class SpreadingOfFireRule extends Rule {
     myProbCatch = probCatch;
     random = new Random();
   }
-
   /**
    * Overridden method to determine the state for a SpreadingOfFireRule
    *
@@ -37,13 +38,17 @@ public class SpreadingOfFireRule extends Rule {
    * @param nearby  is a list of the states of the nearby cells
    * @return the new state for the cell being evaluated
    */
+
   @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
+  public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
+      EdgePolicies edgePolicy) {
     if (state == EMPTY_STATE || state == BURN_STATE) {
       return EMPTY_STATE;
     }
-    for (int neighborState : nearby) {
-      if (neighborState == BURN_STATE) {
+
+    for (int i = 0; i<nearby.size();i+=2) {
+      int nearbystate = getState(nearby.get(i),nearby.get(i+1), grid, edgePolicy);
+      if (nearbystate == BURN_STATE) {
         if (random.nextFloat() < myProbCatch) {
           return BURN_STATE;
         }
@@ -51,5 +56,7 @@ public class SpreadingOfFireRule extends Rule {
       }
     }
     return TREE_STATE;
+
   }
+
 }

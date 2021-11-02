@@ -14,8 +14,13 @@ import cellsociety.view.top.TopLoadSave;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 
@@ -32,7 +37,7 @@ public class MainView {
   private BorderPane root;
   private CenterView myCenterView;
 
-  public MainView(Stage stage, Controller controller){
+  public MainView(Stage stage, Controller controller) {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     myController = controller;
     myStage = stage;
@@ -54,16 +59,24 @@ public class MainView {
     return scene;
   }
 
-  public void assignViewType(String viewType) throws ClassNotFoundException {
-    String className = String.format(CENTER_PATH, viewType);
-    Class<?> clazz = Class.forName(className);
+  /**
+   * Uses reflection to create the correct CenterView object based on which view type (Histogram,
+   * Square Grid, Triangle Grid, etc.) the user inputs. getViewBox() is then called on that Object
+   * to get the Node for the view type that is placed in the BorderPane.
+   *
+   * @param viewType is the name of the CenterView subclass for the view type
+   * @throws ClassNotFoundException is thrown if the reflection fails and there's no matching class
+   */
+  public void assignViewType(String viewType) {
+    String className = String.format("cellsociety.view.center.%sView", viewType.replaceAll(" ",""));
     try {
-      myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class, Controller.class)
+      Class<?> clazz = Class.forName(className);
+      myCenterView = (CenterView) clazz.getDeclaredConstructor(CellProperties.class,
+              Controller.class)
           .newInstance(myCellProperties, myController);
       root.setCenter(myCenterView.getViewBox());
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      System.out.println("Method Not Found");
-      e.printStackTrace();
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
+      showError(e.getMessage());
     }
     myCenterView.updateView();
   }
@@ -79,28 +92,50 @@ public class MainView {
     myCenterView.toggleLines();
   }
 
+  public void updateBottomPanel(ResourceBundle bundle) { root.setBottom(mySimControl.setResource(bundle)); }
+
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
     myRightPanel = rightPanel;
     root.setRight(myRightPanel.setResource(bundle));
   }
+
   public void updateRightPanelLang(ResourceBundle bundle) {
     root.setRight(myRightPanel.setResource(bundle));
   }
+
+  public void updateTopPanelLang(ResourceBundle bundle) {
+    root.setTop(myTopLoadSave.setResource(bundle));
+  }
+
   public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
   public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
 
   /**
    * Updates the canvas (grid) in the view and changes the scaling.
    */
-  public void initiateCenterView(){
+  public void initiateCenterView() {
     myCenterView.initiateView();
   }
 
-  public CellProperties getMyCellProperties() { return myCellProperties; }
+  /**
+   * Displays the error from reading the SIM File as an Alert in the GUI. Displays the Title of the
+   * error as well as the error message to the user.
+   *
+   * @param message is the String that is displayed on the Alert in the GUI
+   */
+  public void showError(String message) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("SIM File Error");
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+  public CellProperties getMyCellProperties() {
+    return myCellProperties;
+  }
 
   public TopLoadSave getTopLoadSave() {
     return myTopLoadSave;
   }
-
 
 }

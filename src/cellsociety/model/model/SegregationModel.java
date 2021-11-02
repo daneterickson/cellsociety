@@ -42,10 +42,10 @@ public class SegregationModel extends Model {
     try{
       threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
     } catch(Exception e){
-      System.out.println("invalid threshold variable");
+      // TODO: catch threshold exception
       threshold = 0.5;
     }
-    myRule = new SegregationRule(threshold, numCols, emptySpots);
+    myRule = new SegregationRule(threshold);
   }
 
   private void findEmptyCells(Grid grid) {
@@ -54,8 +54,7 @@ public class SegregationModel extends Model {
       try {
         state = parseInt(grid.getCell(row, col).getCellProperty("StateNumber"));
       } catch (KeyNotFoundException e) {
-        // TODO: handle exception
-        System.out.println("Invalid Property");
+        // TODO: handle exception - invalid properties
       }
       if (state == EMPTY_STATE) {
         emptySpots.add(row * numCols + col);
@@ -102,7 +101,7 @@ public class SegregationModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    int newState = myRule.determineState(currRow,currCol,state,nearby);
+    int newState = myRule.determineState(currRow,currCol,state,nearby,currGrid,edgePolicy);
     if (myRule.relocationStatus()) {
       relocate(state);
       emptySpots.add(currRow * numCols + currCol);
@@ -121,7 +120,7 @@ public class SegregationModel extends Model {
   @Override
   protected void setProb(ArrayList newProb) {
     threshold = (double) newProb.get(0);
-    myRule = new SegregationRule(threshold, numCols, emptySpots);
+    myRule = new SegregationRule(threshold);
   }
 
   @Override

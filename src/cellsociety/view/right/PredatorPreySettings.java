@@ -95,7 +95,6 @@ public class PredatorPreySettings extends RightPanel {
 
   private void slidersChanged(ArrayList settingsToSend) {
     setProbSettings(settingsToSend);
-    System.out.println("Changed");
   }
 
   @Override

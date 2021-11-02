@@ -27,11 +27,11 @@ public class SegregationTest {
 
   @BeforeEach
   void setUp() {
-    myStates = new int[][]{{0, 0, 0, 0, 0},
-        {0, 2, 1, 2, 0},
-        {0, 0, 1, 2, 0},
-        {0, 1, 1, 1, 0},
-        {0, 0, 0, 0, 0}};
+    myStates = new int[][]{{1, 1, 1, 1, 1},
+        {1, 2, 1, 1, 1},
+        {1, 1, 1, 1, 1},
+        {1, 1, 1, 0, 1},
+        {1, 1, 1, 1, 1}};
 
     numRows = 5;
     numCols = 5;
@@ -41,50 +41,29 @@ public class SegregationTest {
   }
 
   @Test
-  void testGetNearby()
+  void test1vMany()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method getNearby = Model.class.getDeclaredMethod("getNearby", int.class, int.class);
-    getNearby.setAccessible(true);
+    try {
+      myModel.updateModel(myGrid);
+    } catch (NullPointerException e) {
 
-    ArrayList<Integer> neighbors = (ArrayList<Integer>) getNearby.invoke(myModel, 2, 2);
+    }
+    int state;
+    for (int row = 0; row < numRows; row++) {
+      System.out.println();
+      for (int col = 0; col < numCols; col++) {
+        state = myGrid.getCellStateNumber(row, col);
+        if (row == 1 && col == 1){
+          assertEquals(0, state, row + ", " + col + "should be 0. got: " + state);
 
-    int race1 = 0;
-    int race2 = 0;
-    for (int i : neighbors) {
-      if (i == 1) {
-        race1 += 1;
-      } else if (i == 2) {
-        race2 += 1;
+        }else if (row == 3 && col == 3){
+          assertEquals(2, state, row + ", " + col + "should be 2. got: " + state);
+
+        }else{
+          assertEquals(1, state, row + ", " + col + "should be 1. got: " + state);
+        }
+        System.out.print(" " + myGrid.getCellStateNumber(row, col));
       }
     }
-    assertEquals(4, race1, "(2,2) should have 4 race1 neighbors. got: " + race1);
-    assertEquals(3, race2, "(2,2) should have 3 race2 neighbors. got: " + race2);
-  }
-
-  @Test
-  void testCurrRule()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
-        List.class);
-    currRule.setAccessible(true);
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-
-    //empty cell
-    list = Arrays.asList(0, 0, 0, 1, 2, 0, 1, 0);
-    ret = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
-    assertEquals(0, ret, "empty cell should remain empty(0). got: " + ret);
-
-    //Over threshold
-    list = Arrays.asList(0, 0, 0, 1, 2, 1, 1, 0);
-    ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
-    assertEquals(1, ret, "Cell state should stay the same. got: " + ret);
-
-    //Under threshold
-    list = Arrays.asList(0, 0, 0, 1, 2, 2, 2, 0);
-    ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
-    assertEquals(0, ret, "Cell should be vacated. got: " + ret);
   }
 }

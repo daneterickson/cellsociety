@@ -1,5 +1,6 @@
 package cellsociety.model.parser;
 import cellsociety.model.Grid;
+import cellsociety.model.exceptions.InvalidFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ public class RandomStatesTest {
 
 
   @Test
-  void testRandomNumFilled() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomNumFilled() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_num_filled.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -25,7 +26,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomNumFilledRows() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomNumFilledRows() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_num_filled.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -33,7 +34,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomNumFilledCols() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomNumFilledCols() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_num_filled.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -41,7 +42,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs2Rows() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs2Rows() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_probs2_alive.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -49,7 +50,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs2Cols() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs2Cols() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_probs2_alive.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -57,7 +58,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs2Alive() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs2Alive() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_probs2_alive.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -69,7 +70,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs2Dead() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs2Dead() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_probs2_dead.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -81,7 +82,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs2() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs2() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/game_of_life/random_probs2_equal.sim"));
     RandomStates rs = new RandomStates(myParser, 1);
     Grid grid = rs.makeGrid();
@@ -94,7 +95,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandom3NumFilled() throws FileNotFoundException, NoSuchFieldException {
+  void testRandom3NumFilled() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/spreading_of_fire/random_num3_filled.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -108,7 +109,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs3Rows() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs3Rows() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_empty.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -116,7 +117,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs3Cols() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs3Cols() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_empty.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -124,7 +125,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs3Empty() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs3Empty() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_empty.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -136,7 +137,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs3Tree() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs3Tree() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_tree.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -148,7 +149,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs3Burn() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs3Burn() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_burn.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
@@ -160,7 +161,7 @@ public class RandomStatesTest {
   }
 
   @Test
-  void testRandomProbs3() throws FileNotFoundException, NoSuchFieldException {
+  void testRandomProbs3() throws FileNotFoundException, InvalidFileException {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_equal.sim"));
     RandomStates rs = new RandomStates(myParser, 1);
     Grid grid = rs.makeGrid();

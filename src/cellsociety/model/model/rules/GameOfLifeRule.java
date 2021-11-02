@@ -3,6 +3,8 @@ package cellsociety.model.model.rules;
 import static cellsociety.model.cell.GameOfLifeCell.ALIVE_STATE;
 import static cellsociety.model.cell.GameOfLifeCell.DEAD_STATE;
 
+import cellsociety.model.Grid;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.List;
 
 /**
@@ -15,16 +17,17 @@ public class GameOfLifeRule extends Rule {
    *
    * @param currRow is the current row of the cell being evaluated
    * @param currCol is the current column of the cell being evaluated
-   * @param state is the current state of the cell being evaluated
-   * @param nearby is a list of the states of the nearby cells
+   * @param state   is the current state of the cell being evaluated
+   * @param nearby  is a list of the states of the nearby cells
    * @return the new state for the cell being evaluated
    */
-
   @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
+  public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
+      EdgePolicies edgePolicy) {
     int population = 0;
-    for (int i : nearby) {
-      if (i == ALIVE_STATE) {
+    for (int i = 0; i<nearby.size();i+=2) {
+      int nearbystate = getState(nearby.get(i),nearby.get(i+1), grid, edgePolicy);
+      if (nearbystate == ALIVE_STATE) {
         population += 1;
       }
     }

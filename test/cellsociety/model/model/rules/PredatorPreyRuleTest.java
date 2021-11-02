@@ -3,13 +3,11 @@ package cellsociety.model.model.rules;
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
-import cellsociety.model.exceptions.KeyNotFoundException;
-import cellsociety.model.model.Model;
-import cellsociety.model.model.PredatorPreyModel;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
+import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
+import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,28 +16,29 @@ import org.junit.jupiter.api.Test;
 
 public class PredatorPreyRuleTest {
 
-  private Rule myRule;
+  private Rule rule;
   private Grid myGrid;
-  private int[][] myStates;
+  private int myStates[][];
   private int numRows;
   private int numCols;
-  private Controller myController;
-  private String myParameters;
+  private List nearby;
   private String myStartColors;
-  private String type;
+  private String myParameters;
+  private NeighborFinder nf;
+  private EdgePolicies edgePolicy;
 
   @BeforeEach
   void setUp() {
-    myStates = new int[][]{{0, 0, 0, 0, 0},
-        {0, 2, 1, 2, 0},
-        {0, 0, 1, 2, 0},
-        {0, 1, 1, 1, 0},
-        {0, 0, 0, 0, 0}};
-    myParameters = "3,3,3,3";
+    edgePolicy = new FiniteEdgePolicy();
+    nf = new SquareEdges(edgePolicy);
+    myStates = new int[][]{{0, 2, 0, 0, 2},
+        {2, 0, 2, 2, 0},
+        {0, 2, 1, 0, 2},
+        {1, 0, 0, 1, 0},
+        {1, 1, 1, 1, 0}};
     numRows = 5;
     numCols = 5;
-    type = "PredatorPrey";
-    //fishrepro=3, sharkrepro=3, sharkenergy=1
+    String type = "PredatorPrey";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     int numUpdates = 5;
     int fishReproduction = 3;
@@ -48,88 +47,66 @@ public class PredatorPreyRuleTest {
     int energyGain = 1;
     ArrayList<Integer> newUpdates = new ArrayList();
     ArrayList<Integer> sharkAttacks = new ArrayList();
-    myRule = new PredatorPreyRule(myGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
+    rule = new PredatorPreyRule(myGrid, numCols, numUpdates, fishReproduction, sharkReproduction,
         sharkEnergy, energyGain, newUpdates,
         sharkAttacks);
   }
 
   @Test
   void testEmptyCell() {
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-
-    list = Arrays.asList(0, 0, 0, 1);
-    ret = myRule.determineState(currRow, currCol, 0, list);
-    assertEquals(0, ret, "empty cell should remain empty(0). got: " + ret);
+    int row = 3;
+    int col = 1;
+    nearby = nf.getNeighbors(row,col,myGrid);
+    int actual = rule.determineState(row, col, 0, nearby, myGrid, edgePolicy);
+    assertEquals(0, actual, "empty cell should remain empty(0). got: " + actual);
   }
   @Test
   void testFishMoving() {
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-    //fish moving
-    list = Arrays.asList(0, 2, 1, 1);
-    ret = myRule.determineState(currRow, currCol, 1, list);
-    assertEquals(0, ret, "fish should've moved. got: " + ret);
+    int row = 3;
+    int col = 1;
+    nearby = nf.getNeighbors(row,col,myGrid);
+    int actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
+    assertEquals(0, actual, "fish should've moved. got: " + actual);
   }
   @Test
   void testFishCantMove() {
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-    //fish cant move
-    list = Arrays.asList(1, 2, 1, 1);
-    ret = myRule.determineState(currRow, currCol, 1, list);
-    assertEquals(1, ret, "fish shouldn't be able to move. got: " + ret);
+    int row = 2;
+    int col = 3;
+    nearby = nf.getNeighbors(row,col,myGrid);
+    int actual = rule.determineState(row, col, 1, nearby, myGrid, edgePolicy);
+    assertEquals(1, actual, "fish shouldn't be able to move. got: " + actual);
   }
   @Test
   void testSharkMove() {
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-    //shark moving
-    list = Arrays.asList(0, 2, 2, 2);
-    ret = myRule.determineState(currRow, currCol, 2, list);
-    assertEquals(0, ret, "shark should move. got: " + ret);
+    int row = 3;
+    int col = 1;
+    nearby = nf.getNeighbors(row,col,myGrid);
+    int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
+    assertEquals(0, actual, "shark should move. got: " + actual);
   }
   @Test
-  void testSharkCantMove() {
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-
-    //shark cant move
-    list = Arrays.asList(2, 2, 2, 2);
-    ret = myRule.determineState(currRow, currCol, 2, list);
-    assertEquals(2, ret, "shark shouldn't be able to move. got: " + ret);
+  void testSharkCantMoveEdge() {
+    int row = 1;
+    int col = 4;
+    nearby = nf.getNeighbors(row,col,myGrid);
+    int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
+    assertEquals(2, actual, "shark shouldn't be able to move. got: " + actual);
   }
   @Test
   void testSharkEating() {
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-    //shark eating
-    list = Arrays.asList(1, 2, 2, 2);
-    ret = myRule.determineState(currRow, currCol, 2, list);
-    assertEquals(0, ret, "shark should move. got: " + ret);
+    int row = 2;
+    int col = 3;
+    nearby = nf.getNeighbors(row,col,myGrid);
+    int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
+    assertEquals(0, actual, "shark should move. got: " + actual);
   }
   @Test
-  void testCantMoveEdge() {
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-    //shark cant move edge
-    list = Arrays.asList(0, 2, 2, 2);
-    ret = myRule.determineState( 0, currCol, 2, list);
-    assertEquals(2, ret, "shark shouldn't be able to move. got: " + ret);
+  void testSharkCantMove() {
+    int row = 1;
+    int col = 1;
+    nearby = nf.getNeighbors(row,col,myGrid);
+    int actual = rule.determineState(row, col, 2, nearby, myGrid, edgePolicy);
+    assertEquals(2, actual, "shark shouldn't be able to move. got: " + actual);
 
   }
 }

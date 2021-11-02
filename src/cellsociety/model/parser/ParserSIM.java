@@ -1,5 +1,6 @@
 package cellsociety.model.parser;
 
+import cellsociety.model.exceptions.InvalidFileException;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,16 +35,23 @@ public class ParserSIM extends Parser {
    *                              simulation properties
    */
   @Override
-  public void readFile(File file) throws FileNotFoundException, NoSuchFieldException {
+  public void readFile(File file) throws FileNotFoundException, InvalidFileException {
+    mySimulationProperties.clear();
     Scanner s = new Scanner(file);
     while (s.hasNextLine()) {
       String line = s.nextLine();
       if (line.charAt(0) == '#') continue;
+      if (!line.contains("=")) {
+        throw new InvalidFileException("Invalid SIM File");
+      }
       String words[] = line.split("=");
       mySimulationProperties.put(words[0], words[1]);
       if (!Arrays.asList(SIM_FILE_KEYS).contains(words[0])) {
-        throw new NoSuchFieldException("Invalid Key");
+        throw new InvalidFileException("Invalid Key in SIM File");
       }
+    }
+    if (mySimulationProperties.keySet().size() == 0) {
+      throw new InvalidFileException("Empty SIM File");
     }
   }
 

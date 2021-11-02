@@ -26,7 +26,7 @@ public class ParserCSV extends Parser {
    * @throws IOException            may be thrown from the CSVReader readNext() method
    */
   @Override
-  public void readFile(File file) throws IOException, CsvValidationException {
+  public void readFile(File file) throws IOException, CsvValidationException, NumberFormatException {
     CSVReader reader = new CSVReader(new FileReader(file));
     String[] nextLine;
     int row = 1;
@@ -37,21 +37,24 @@ public class ParserCSV extends Parser {
         continue;
       }
       if (nextLine.length != numCols) {
-        throw new IOException();
+        throw new IOException("Invalid Number of Columns");
       }
       for (int j = 0; j < numCols; j++) {
-        startStates[row - 2][j] = Integer.valueOf(nextLine[j]);
+        startStates[row - 2][j] = Integer.parseInt(nextLine[j]);
       }
       row++;
     }
+    if (row == 1) {
+      throw new IOException("Empty CSV File");
+    }
     if (row - 2 != numRows && row != 1) {
-      throw new IOException();
+      throw new IOException("Invalid Number of Rows");
     }
   }
 
-  private void findRowsCols(String[] nextLine) {
-    numCols = Integer.valueOf(nextLine[0]);
-    numRows = Integer.valueOf(nextLine[1]);
+  private void findRowsCols(String[] nextLine) throws NumberFormatException {
+    numCols = Integer.parseInt(nextLine[0]);
+    numRows = Integer.parseInt(nextLine[1]);
     startStates = new int[numRows][numCols];
   }
 

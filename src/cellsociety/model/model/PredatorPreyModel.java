@@ -107,7 +107,6 @@ public class PredatorPreyModel extends Model {
         iteratorTarget.apply(row).apply(col).accept(stateAsInt);
       } catch (KeyNotFoundException e) {
         // TODO: handle exception
-        System.out.println("Invalid Property");
       }
     };
   }
@@ -138,7 +137,6 @@ public class PredatorPreyModel extends Model {
       energyGain = (int) Math.round(currGrid.getCell(0, 0).getCellParameter(SharkEnergyGain));
     } catch (KeyNotFoundException e) {
       // TODO: handle exception
-      System.out.println("Invalid Parameter");
     }
   }
 
@@ -149,8 +147,6 @@ public class PredatorPreyModel extends Model {
 
   @Override
   protected void updateCell(int row, int col, int state) {
-//    System.out.println("updatecell" + row + " " + col);
-
     List<Integer> nearby = getNearby(row, col);
     currRule(row, col, state, nearby);
   }
@@ -165,8 +161,6 @@ public class PredatorPreyModel extends Model {
       newState = newUpdates.get(idx + 2);
       newReproduction = newUpdates.get(idx + 3);
       newEnergy = newUpdates.get(idx + 4);
-//      System.out.println(
-//          row + " " + col + " " + newState + " " + newReproduction + " " + newEnergy);
       currGrid.updateCell(row, col, newState);
 
       if (newState == FISH_STATE) {
@@ -183,7 +177,7 @@ public class PredatorPreyModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return myRule.determineState(currRow, currCol, state, nearby);
+    return myRule.determineState(currRow, currCol, state, nearby,currGrid,edgePolicy);
   }
 
   @Override

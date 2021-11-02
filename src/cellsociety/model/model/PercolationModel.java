@@ -82,7 +82,6 @@ public class PercolationModel extends Model {
         }
       } catch (KeyNotFoundException e) {
         //TODO: handle exception
-        System.out.println("Invalid Property");
       }
     });
     return endEdge;
@@ -107,7 +106,6 @@ public class PercolationModel extends Model {
             }
           } catch (KeyNotFoundException e) {
             //TODO: handle exception
-            System.out.println("Invalid Property");
           }
         }
       }
@@ -120,7 +118,6 @@ public class PercolationModel extends Model {
             }
           } catch (KeyNotFoundException e) {
             //TODO: handle exception
-            System.out.println("Invalid Property");
           }
         }
       }
@@ -133,7 +130,6 @@ public class PercolationModel extends Model {
             }
           } catch (KeyNotFoundException e) {
             //TODO: handle exception
-            System.out.println("Invalid Property");
           }
         }
       }
@@ -146,7 +142,6 @@ public class PercolationModel extends Model {
             }
           } catch (KeyNotFoundException e) {
             //TODO: handle exception
-            System.out.println("Invalid Property");
           }
         }
       }
@@ -167,7 +162,7 @@ public class PercolationModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return myRule.determineState(currRow, currCol, state, nearby);
+    return myRule.determineState(currRow, currCol, state, nearby,currGrid,edgePolicy);
   }
 
 }

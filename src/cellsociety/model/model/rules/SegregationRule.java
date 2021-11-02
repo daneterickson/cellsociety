@@ -2,24 +2,21 @@ package cellsociety.model.model.rules;
 
 import static cellsociety.model.cell.ModelCell.EMPTY_STATE;
 
-import java.util.ArrayList;
+import cellsociety.model.Grid;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.List;
 
 public class SegregationRule extends Rule {
 
   private double myThreshold;
-  private int myNumCols;
-  private ArrayList<Integer> myEmptySpots;
   private boolean relocateCheck = false;
 
   /**
    * Subclass of Rule that makes a rule for the Segregation simulation to find a cell's new state
    */
-  public SegregationRule(double threshold, int numCols, ArrayList<Integer> emptySpots) {
+  public SegregationRule(double threshold) {
 
     myThreshold = threshold;
-    myNumCols = numCols;
-    myEmptySpots = emptySpots;
   }
 
   /**
@@ -31,20 +28,21 @@ public class SegregationRule extends Rule {
    * @param nearby  is a list of the states of the nearby cells
    * @return the new state for the cell being evaluated
    */
+
   @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
+  public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
+      EdgePolicies edgePolicy){
     relocateCheck = false;
     if (state == EMPTY_STATE) {
       return EMPTY_STATE;
     }
-    double allyPercentage = getAllyPercentage(state, nearby);
+    double allyPercentage = getAllyPercentage(state, nearby, grid, edgePolicy);
     if (allyPercentage < myThreshold) {
       relocateCheck = true;
       return EMPTY_STATE;
     }
     return state;
   }
-
   /**
    * Getter method that gets the relocation status to know when to relocate a cell. Relocation
    * Status determined in determineState() method.
@@ -55,15 +53,17 @@ public class SegregationRule extends Rule {
     return relocateCheck;
   }
 
-  private double getAllyPercentage(int state, List<Integer> nearby) {
+  private double getAllyPercentage(int state, List<Integer> nearby, Grid grid,
+      EdgePolicies edgePolicy) {
     double totalNeighbors = 0;
     double allies = 0;
-    for (int i : nearby) {
-      if (i != EMPTY_STATE) {
+    for (int i = 0; i<nearby.size();i+=2) {
+      int nearbystate = getState(nearby.get(i),nearby.get(i+1), grid, edgePolicy);
+      if (nearbystate != EMPTY_STATE) {
         totalNeighbors += 1;
       }
-      if (i == state) {
-        allies++;
+      if(nearbystate == state){
+        allies += 1;
       }
     }
     return allies / totalNeighbors;

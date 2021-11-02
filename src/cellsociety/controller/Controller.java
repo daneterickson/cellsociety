@@ -8,12 +8,10 @@ import cellsociety.model.model.Model;
 import cellsociety.model.parser.ParserCSV;
 import cellsociety.model.parser.ParserSIM;
 import cellsociety.model.parser.RandomStates;
-import cellsociety.view.left.CellProperties;
 import cellsociety.view.mainview.MainView;
 import cellsociety.view.right.RightPanel;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -118,7 +116,7 @@ public class Controller {
 
   public String getCellColor(int i, int j){
     try {
-      return myGridsList.get(currentGridNumber).getCell(i, j).getCellProperty("StateColor");
+      return myGridsList.get(currentGridNumber).getViewCell(i, j).getCellProperty("StateColor");
     } catch (KeyNotFoundException e) {
       myMainView.showError("State Color Not Available");
       return "000000"; // default black
@@ -130,7 +128,7 @@ public class Controller {
   }
 
   public Map getNamesAndColors() {
-    return myGridsList.get(0).getCell(0,0).getNameColorMap();
+    return myGridsList.get(0).getViewCell(0,0).getNameColorMap();
   }
 
   public void makeNewDefaultSimulation(){

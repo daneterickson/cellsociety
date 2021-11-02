@@ -4,10 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import cellsociety.model.cell.GameOfLifeCell;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +42,7 @@ public class GridTest {
   void testCellType() {
     for (int row = 0; row < numRows; row++) {
       for (int col = 0; col < numCols; col++) {
-        assertEquals(GameOfLifeCell.class, myGrid.getCell(row, col).getClass());
+        assertEquals(GameOfLifeCell.class, myGrid.getModelCell(row, col).getClass());
       }
     }
   }

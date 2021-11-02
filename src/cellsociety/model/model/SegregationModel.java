@@ -40,7 +40,7 @@ public class SegregationModel extends Model {
     emptySpots = new ArrayList<>();
     findEmptyCells(grid);
     try{
-      threshold = currGrid.getCell(0,0).getCellParameter("Threshold");
+      threshold = currGrid.getModelCell(0,0).getCellParameter("Threshold");
     } catch(Exception e){
       // TODO: catch threshold exception
       threshold = 0.5;
@@ -52,7 +52,7 @@ public class SegregationModel extends Model {
     iterateGrid(row -> col -> {
       int state = 0;
       try {
-        state = parseInt(grid.getCell(row, col).getCellProperty("StateNumber"));
+        state = parseInt(grid.getModelCell(row, col).getCellProperty("StateNumber"));
       } catch (KeyNotFoundException e) {
         // TODO: handle exception - invalid properties
       }

@@ -101,7 +101,7 @@ public class PredatorPreyRule extends Rule {
       throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
     int currReproduction = (int) Math.round(
-        currGrid.getCell(currRow, currCol).getCellParameter(FishReproduction));
+        currGrid.getModelCell(currRow, currCol).getCellParameter(FishReproduction));
 
     eligibleSpaces = getEligibleSpaces(nearby, EMPTY_STATE);
     //update reproduction value
@@ -143,9 +143,9 @@ public class PredatorPreyRule extends Rule {
     ArrayList<Integer> eligibleSpaces;
     boolean attack = false;
     int currReproduction = (int) Math.round(
-        currGrid.getCell(currRow, currCol).getCellParameter(SharkReproduction));
+        currGrid.getModelCell(currRow, currCol).getCellParameter(SharkReproduction));
     int currEnergy = (int) Math.round(
-        currGrid.getCell(currRow, currCol).getCellParameter(SharkEnergy));
+        currGrid.getModelCell(currRow, currCol).getCellParameter(SharkEnergy));
 
     currEnergy--;
     //update reproduction value

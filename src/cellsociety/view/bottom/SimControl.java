@@ -173,7 +173,7 @@ public class SimControl {
     ChoiceBox views = new ChoiceBox();
     views.getItems().addAll(myResources.getString("ViewTypes").split(","));
     views.setOnAction(e -> {
-      myController.updateCenterViewType(views.getValue().toString()); });
+      myController.updateCenterViewType(myResources.getString(views.getValue().toString())); });
     return views;
   }
 

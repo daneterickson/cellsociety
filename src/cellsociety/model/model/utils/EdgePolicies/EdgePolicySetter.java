@@ -7,7 +7,8 @@ public class EdgePolicySetter {
 
   /**
    * Takes a string and uses reflection to instantiate a new edgepolicy
-   * returns the new edgepolicy object
+   * @param type - the edgepolicy type
+   * @return new edgePolicies object
    */
   public EdgePolicies setEdgePolicy(String type) {
     String edgePolicyType = String.format("cellsociety.model.model.utils.EdgePolicies.%sEdgePolicy", type);

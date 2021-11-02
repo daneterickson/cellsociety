@@ -6,8 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 public class NeighborFinderSetter {
 
   /**
-   * Takes a string and uses reflection to instantiate a new neighborfinder
-   * returns the new neighborfinder object
+   * Takes a string and uses reflection to instantiate a new NeighborFinder
+   * @param type - the NeighborFinder type as a string
+   * @return new NeighborFinder object
    */
   public NeighborFinder setNeighborFinder(String type) {
     String neighborFinderType = String.format("cellsociety.model.model.utils.NeighborFinders.%s",

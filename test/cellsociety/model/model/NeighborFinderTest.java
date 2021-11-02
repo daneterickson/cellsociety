@@ -9,6 +9,7 @@ import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
 import cellsociety.model.model.utils.NeighborFinders.SquareCorners;
 import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
+import cellsociety.model.model.utils.NeighborFinders.TriangleComplete;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +23,8 @@ public class NeighborFinderTest {
   private String myParameters;
   private NeighborFinder myNeighborFinder;
   private EdgePolicies edgePolicy;
-  private int row;
-  private int col;
+  private int currRow;
+  private int currCol;
 
   @BeforeEach
   void setUp() {
@@ -37,22 +38,26 @@ public class NeighborFinderTest {
     numCols = 5;
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
-    row = 2;
-    col = 2;
+    currRow = 2;
+    currCol = 2;
   }
 
   @Test
   void testSquareComplete(){
     myNeighborFinder = new SquareComplete(edgePolicy);
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
 
     int population = 0;
-    for (int i : neighbors) {
-      if (i != 0) {
+    int row,col,state;
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state != 0) {
         population += 1;
       }
     }
-    int empty = neighbors.size()-population;
+    int empty = (neighbors.size()/2)-population;
     assertEquals(7, population, "(2,2) should have 7 neighbors. got: " + population);
     assertEquals(1, empty, "(2,2) should have 1 empty. got: " + empty);
 
@@ -61,15 +66,19 @@ public class NeighborFinderTest {
   @Test
   void testSquareEdges(){
     myNeighborFinder = new SquareEdges(edgePolicy);
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
 
     int population = 0;
-    for (int i : neighbors) {
-      if (i != 0) {
+    int row,col,state;
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state != 0) {
         population += 1;
       }
     }
-    int empty = neighbors.size()-population;
+    int empty = (neighbors.size()/2)-population;
     assertEquals(3, population, "(2,2) should have 3 neighbors. got: " + population);
     assertEquals(1, empty, "(2,2) should have 1 empty. got: " + empty);
 
@@ -78,15 +87,19 @@ public class NeighborFinderTest {
   @Test
   void testSquareCorners(){
     myNeighborFinder = new SquareCorners(edgePolicy);
-    List<Integer> neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
 
     int population = 0;
-    for (int i : neighbors) {
-      if (i != 0) {
+    int row,col,state;
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state != 0) {
         population += 1;
       }
     }
-    int empty = neighbors.size()-population;
+    int empty = (neighbors.size()/2)-population;
     assertEquals(4, population, "(2,2) should have 4 neighbors. got: " + population);
     assertEquals(0, empty, "(2,2) should have 0 empty. got: " + empty);
 
@@ -100,18 +113,55 @@ public class NeighborFinderTest {
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
 
-    neighbors = myNeighborFinder.getNeighbors(row,col,myGrid);
+    neighbors = myNeighborFinder.getNeighbors(currRow,currCol,myGrid);
 
     population = 0;
-    for (int i : neighbors) {
-      if (i != 0) {
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state != 0) {
         population += 1;
       }
     }
-    empty = neighbors.size()-population;
+    empty = (neighbors.size()/2)-population;
     assertEquals(3, population, "(2,2) should have 3 neighbors. got: " + population);
     assertEquals(1, empty, "(2,2) should have 1 empty. got: " + empty);
   }
 
+  @Test
+  void testTriangleComplete(){
+    myStates = new int[][]{
+        {2, 2, 1, 2, 0},
+        {1, 0, 1, 2, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0}};
+    numRows = 5;
+    numCols = 5;
+    String type = "SpreadingOfFire";
+    myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
+    myNeighborFinder = new TriangleComplete(edgePolicy);
 
+    currRow = 1;
+    currCol = 2;
+    List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
+    System.out.println(neighbors);
+    int burning = 0;
+    int tree = 0;
+    int row,col,state;
+    for (int i = 0; i<neighbors.size();i+=2) {
+      row = neighbors.get(i);
+      col = neighbors.get(i+1);
+      state = myGrid.getCellStateNumber(row,col);
+      if (state == 1) {
+        tree += 1;
+      }else if (state == 2){
+        burning += 1;
+      }
+    }
+    assertEquals(5, tree, "(2,2) should have 5 tree. got: " + tree);
+    assertEquals(4, burning, "(2,2) should have 4 burning. got: " + burning);
+
+  }
 }

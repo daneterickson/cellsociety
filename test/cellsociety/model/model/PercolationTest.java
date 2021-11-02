@@ -38,40 +38,6 @@ public class PercolationTest {
     myModel = new PercolationModel(myController, myGrid);
   }
 
-
-  @Test
-  void testCurrRule()
-      throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    Method currRule = Model.class.getDeclaredMethod("currRule", int.class, int.class, int.class,
-        List.class);
-    currRule.setAccessible(true);
-
-    int ret;
-    List<Integer> list;
-    int currRow = 2;
-    int currCol = 2;
-
-    //water cell
-    list = Arrays.asList(0, 1, 0, 2, 0, 1, 2, 0);
-    ret = (int) currRule.invoke(myModel, currRow, currCol, 1, list);
-    assertEquals(1, ret, "water cell should remain water(1). got: " + ret);
-
-    //barrier cell
-    list = Arrays.asList(0, 1, 0, 2, 0, 1, 2, 0);
-    ret = (int) currRule.invoke(myModel, currRow, currCol, 2, list);
-    assertEquals(2, ret, "barrier cell should remain barrier(2). got: " + ret);
-
-    //empty cell no water
-    list = Arrays.asList(0, 2, 0, 2, 0, 2, 2, 0);
-    ret = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
-    assertEquals(0, ret, "empty cell should remain empty(0) bc no water. got: " + ret);
-
-    //empty cell with water
-    list = Arrays.asList(0, 1, 0, 2, 0, 0, 2, 0);
-    ret = (int) currRule.invoke(myModel, currRow, currCol, 0, list);
-    assertEquals(1, ret, "empty cell should be filled with water(1). got: " + ret);
-  }
-
   @Test
   void testFindEndEdge()
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {

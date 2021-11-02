@@ -6,6 +6,7 @@ import static cellsociety.model.cell.PredatorPreyCell.SHARK_STATE;
 
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -62,7 +63,6 @@ public class PredatorPreyRule extends Rule {
     this.sharkAttacks = sharkAttacks;
     random = new Random();
   }
-
   /**
    * Overridden method to determine the state for a PredatorPreyRule
    *
@@ -72,35 +72,38 @@ public class PredatorPreyRule extends Rule {
    * @param nearby  is a list of the states of the nearby cells
    * @return the new state for the cell being evaluated
    */
+
   @Override
-  public int determineState(int currRow, int currCol, int state, List<Integer> nearby) {
+  public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
+      EdgePolicies edgePolicy) {
     if (state == EMPTY_STATE) {
       return EMPTY_STATE;
     }
     try {
       if (state == FISH_STATE) {
-        return fishRules(currRow, currCol, state, nearby);
+        return fishRules(currRow, currCol, state, nearby, grid,edgePolicy );
       } else {
-        return sharkRules(currRow, currCol, state, nearby);
+        return sharkRules(currRow, currCol, state, nearby,grid,edgePolicy );
       }
     } catch (KeyNotFoundException e) {
       e.printStackTrace();
     }
-  return EMPTY_STATE;
+    return EMPTY_STATE;
   }
 
   /**
-   * determines the cell state changes for a fish cell.
-   * if the fish can move, it sets the current cell to empty and adds the current fish states to newUpdates
-   * if reproduction = 0, it sets the current cell to fish, and adds the current fish states to newUpdates
+   * determines the cell state changes for a fish cell. if the fish can move, it sets the current
+   * cell to empty and adds the current fish states to newUpdates if reproduction = 0, it sets the
+   * current cell to fish, and adds the current fish states to newUpdates
    */
-  private int fishRules(int currRow, int currCol, int state, List<Integer> nearby)
+  private int fishRules(int currRow, int currCol, int state, List<Integer> nearby,
+      Grid grid, EdgePolicies edgePolicy)
       throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
     int currReproduction = (int) Math.round(
         currGrid.getModelCell(currRow, currCol).getCellParameter(FishReproduction));
 
-    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
+    eligibleSpaces = getEligibleSpaces(nearby, EMPTY_STATE);
     //update reproduction value
     if (currReproduction > 0) {
       currReproduction--;
@@ -114,26 +117,28 @@ public class PredatorPreyRule extends Rule {
 
     //reproduce and move
     if (currReproduction == 0) {
-      move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
-          currReproduction, -1, false);
+
+      move(eligibleSpaces,state, currReproduction, -1, false);
+
       addNewUpdates(currRow, currCol, FISH_STATE, fishReproduction, -1);
       return FISH_STATE;
     }
 
-    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), state,
-        currReproduction, -1, false);
+    move(eligibleSpaces, state, currReproduction, -1, false);
+
     addNewUpdates(currRow, currCol, EMPTY_STATE, -1, -1);
     return EMPTY_STATE;
   }
 
   /**
-   * determines the cell state changes for a shark cell.
-   * if energy = 0; the cell becomes empty
-   * if the shark can move, it sets the current cell to empty and adds the current shark states to newUpdates
-   * if the shark can eat, it sets the current cell to empty, sets attacked = true, and adds the current shark states to newUpdates
-   * if reproduction = 0, it sets the current cell to shark, and adds the current shark states to newUpdates
+   * determines the cell state changes for a shark cell. if energy = 0; the cell becomes empty if
+   * the shark can move, it sets the current cell to empty and adds the current shark states to
+   * newUpdates if the shark can eat, it sets the current cell to empty, sets attacked = true, and
+   * adds the current shark states to newUpdates if reproduction = 0, it sets the current cell to
+   * shark, and adds the current shark states to newUpdates
    */
-  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby)
+  private int sharkRules(int currRow, int currCol, int state, List<Integer> nearby,
+      Grid grid, EdgePolicies edgePolicy)
       throws KeyNotFoundException {
     ArrayList<Integer> eligibleSpaces;
     boolean attack = false;
@@ -147,31 +152,33 @@ public class PredatorPreyRule extends Rule {
     if (currReproduction > 0) {
       currReproduction--;
     }
+
     //dead
     if (currEnergy <= 0) {
       addNewUpdates(currRow, currCol, EMPTY_STATE, sharkReproduction, sharkEnergy);
       return EMPTY_STATE;
     }
 
-    eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, FISH_STATE);
+    eligibleSpaces = getEligibleSpaces(nearby, FISH_STATE);
 
     //try to eat
-    if (eligibleSpaces.size() >= 1) {
+    if (eligibleSpaces.size() >= 2) {
+
       currEnergy += energyGain;
       attack = true;
     } else {
-      eligibleSpaces = getEligibleSpaces(currRow, currCol, nearby, EMPTY_STATE);
+      eligibleSpaces = getEligibleSpaces(nearby, EMPTY_STATE);
     }
 
     //shark can't move
-    if (eligibleSpaces.size() < 1) {
+    if (eligibleSpaces.size() < 2) {
       addNewUpdates(currRow, currCol, SHARK_STATE, currReproduction, currEnergy);
       return SHARK_STATE;
     }
+
     //move
-    move(currRow, currCol, eligibleSpaces.get(random.nextInt(eligibleSpaces.size())), SHARK_STATE,
-        currReproduction,
-        currEnergy, attack);
+    move(eligibleSpaces, SHARK_STATE, currReproduction, currEnergy, attack);
+
 
     if (currReproduction == 0) {
       addNewUpdates(currRow, currCol, SHARK_STATE, sharkReproduction, sharkEnergy);
@@ -188,17 +195,21 @@ public class PredatorPreyRule extends Rule {
    * finds eligible spaces that the current cell can move to based on the allowed 'eligible' cell
    * state.
    */
-  private ArrayList<Integer> getEligibleSpaces(int currRow, int currCol, List<Integer> nearby,
+  private ArrayList<Integer> getEligibleSpaces(List<Integer> nearby,
       int eligible) {
     ArrayList<Integer> ret = new ArrayList<>();
-    for (int idx = 0; idx < nearby.size(); idx++) {
-      if (!inBounds(currRow, currCol, idx) || occupiedSpace(currRow, currCol, idx)) {
+    int row, col, state;
+
+    for (int idx = 0; idx < nearby.size(); idx += 2) {
+      row = nearby.get(idx);
+      col = nearby.get(idx + 1);
+      if (!inBounds(row, col) || occupiedSpace(row, col)) {
         continue;
       }
-
-      if (nearby.get(idx) == eligible) {
-//        System.out.println("geteligible  "+currRow + " " + currCol + " " + idx);
-        ret.add(idx);
+      state = currGrid.getCellStateNumber(row, col);
+      if (state == eligible) {
+        ret.add(row);
+        ret.add(col);
       }
     }
     return ret;
@@ -207,19 +218,17 @@ public class PredatorPreyRule extends Rule {
   /**
    * moves the current cell to a new location and then adds the new properties to newUpdates
    */
-  private void move(int currRow, int currCol, int idx, int state, int currReproduction,
+  private void move(List<Integer> eligibleSpaces, int state,
+      int currReproduction,
       int currEnergy, boolean attack) {
     if (currReproduction == 0) {
       currReproduction = sharkReproduction;
     }
-    int newRow = currRow;
-    int newCol = currCol;
-    switch (idx) {
-      case 0 -> newRow -= 1;
-      case 1 -> newRow += 1;
-      case 2 -> newCol += 1;
-      case 3 -> newCol -= 1;
-    }
+    int idx = random.nextInt(eligibleSpaces.size()/2);
+    idx = idx * 2;
+    int newRow = eligibleSpaces.get(idx);
+    int newCol = eligibleSpaces.get(idx+1);
+
     if (attack) {
       sharkAttacks.add(newRow * numCols + newCol);
     }
@@ -229,34 +238,25 @@ public class PredatorPreyRule extends Rule {
   /**
    * checks that a possible move is in bounds.
    */
-  private boolean inBounds(int currRow, int currCol, int idx) {
-    //nearby = [north,south,east,west]
-    boolean ret = switch (idx) {
-      case 0 -> currRow - 1 >= 0;
-      case 1 -> currRow + 1 < currGrid.getNumRows();
-      case 2 -> currCol + 1 < currGrid.getNumCols();
-      case 3 -> currCol - 1 >= 0;
-      default -> false;
-    };
-//    if (ret) System.out.println("in bounds "+currRow+" "+currCol+" "+idx);
-    return ret;
+  private boolean inBounds(int row, int col) {
+    if (row < 0 || row >= currGrid.getNumRows()) {
+      return false;
+    }
+    if (col < 0 || col >= currGrid.getNumCols()) {
+      return false;
+    }
+    return true;
   }
 
   /**
    * determines if the specified row and col have been moved to
+   *
+   * @param row
+   * @param col
    */
-  private boolean occupiedSpace(int currRow, int currCol, int idx) {
-    //nearby = [north,south,east,west]
-    switch (idx) {
-      case 0 -> currRow--;
-      case 1 -> currRow++;
-      case 2 -> currCol++;
-      case 3 -> currCol--;
-      default -> throw new IllegalStateException("Unexpected value: " + idx);
-    }
-
+  private boolean occupiedSpace(int row, int col) {
     for (int i = 0; i < newUpdates.size(); i += numUpdates) {
-      if (newUpdates.get(i) == currRow && newUpdates.get(i + 1) == currCol) {
+      if (newUpdates.get(i) == row && newUpdates.get(i + 1) == col) {
         return true;
       }
     }

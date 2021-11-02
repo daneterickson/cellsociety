@@ -78,7 +78,7 @@ public class SpreadingOfFireModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return myRule.determineState(currRow, currCol, state, nearby);
+    return myRule.determineState(currRow, currCol, state, nearby,currGrid,edgePolicy);
   }
 
   @Override

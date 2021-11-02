@@ -23,7 +23,7 @@ public class SegregationSettings extends RightPanel{
 
   @Override
   protected void makeSettingsPanel(VBox rightPanel){
-    rightPanel.getChildren().addAll(makeSliders(), makeButtons());
+    rightPanel.getChildren().addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
   }
 
   @Override

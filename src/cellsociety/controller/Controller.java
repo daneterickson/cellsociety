@@ -263,7 +263,14 @@ public class Controller {
 
   private Grid makeDefaultGrid(int height, int width, int[][] cellStates, String stateColors, String parameters, String type){
     return new Grid(height, width, cellStates, stateColors, parameters, type);
+  }
 
+  public void setEdgePolicy(String policy){
+    myModelsList.get(currentGridNumber).setEdgePolicy(policy);
+  }
+
+  public void setNeighborFinder(String type){
+    myModelsList.get(currentGridNumber).setNeighborFinder(type);
   }
 
 }

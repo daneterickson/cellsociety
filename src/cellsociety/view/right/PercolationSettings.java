@@ -14,7 +14,7 @@ public class PercolationSettings extends RightPanel{
   }
 
   @Override
-  public void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeButtons());}
+  public void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());}
 
   @Override
   protected Node makeButtons(){

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
@@ -96,6 +97,22 @@ public abstract class RightPanel {
     lineToggle.setId("toggleGridLines");
     lineToggle.setOnAction(e -> myController.toggleCenterLines());
     return lineToggle;
+  }
+
+  protected ChoiceBox makeEdgeCaseChoiceBox(){
+    ChoiceBox edgeCaseChooser = new ChoiceBox();
+    edgeCaseChooser.getItems().addAll(myResource.getString("EdgeTypes").split(","));
+    edgeCaseChooser.setOnAction(e -> myController.setEdgePolicy(edgeCaseChooser.getValue().toString()));
+    edgeCaseChooser.setId("edgeCaseChooser");
+    return edgeCaseChooser;
+  }
+
+  protected ChoiceBox makeNeighborChoiceBox(){
+    ChoiceBox neighborChooser = new ChoiceBox();
+    neighborChooser.getItems().addAll(myResource.getString("NeighborTypes").split(","));
+    neighborChooser.setOnAction(e -> myController.setNeighborFinder(neighborChooser.getValue().toString()));
+    neighborChooser.setId("neighborChooser");
+    return neighborChooser;
   }
 
 }

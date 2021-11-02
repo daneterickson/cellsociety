@@ -14,7 +14,7 @@ public class GameOfLifeSettings extends RightPanel{
   }
 
   @Override
-  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeButtons());}
+  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());}
 
   @Override
   protected Node makeButtons(){

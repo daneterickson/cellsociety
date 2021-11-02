@@ -20,7 +20,7 @@ public class SpreadingOfFireSettings extends RightPanel{
   }
 
   @Override
-  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeSliders(), makeButtons());}
+  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());}
 
   @Override
   protected Node makeButtons(){return makeGridLinesToggleButton();}

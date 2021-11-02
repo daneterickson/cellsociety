@@ -15,7 +15,8 @@ public abstract class RightPanel {
   private VBox theRightPanel;
   private static final int NUM_MINOR_TICKS = 2;
   protected static final String RESOURCE = "cellsociety.view.right.";
-  protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "RightSettings.css";
+  protected static final String STYLESHEET = String.format("/%sRightSettings.css", RESOURCE.replace(".", "/"));
+
   private static final String CENTER_PATH = "cellsociety.view.center.%s";
 
 

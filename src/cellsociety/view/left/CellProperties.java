@@ -9,8 +9,8 @@ import javafx.scene.layout.VBox;
 
 public class CellProperties {
 
-  private String RESOURCE = "cellsociety.view.left.";
-  private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
+  private static final String RESOURCE = "cellsociety.view.left.";
+  protected static final String STYLESHEET = String.format("/%sCellProp.css", RESOURCE.replace(".", "/"));
   private static final int SPACING = 40;
 
   private String stateColorTitle;

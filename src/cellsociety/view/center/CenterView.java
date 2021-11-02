@@ -10,7 +10,7 @@ public abstract class CenterView {
   protected static final int ELEMENT_SPACING = 10;
   private boolean gridLinesOn;
   protected static final String RESOURCE = "cellsociety.view.center.";
-  protected static final String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "CenterView.css";
+  protected static final String STYLESHEET = String.format("/%sCenterView.css", RESOURCE.replace(".", "/"));
 
   public CenterView(CellProperties cellProperties, Controller controller){
     gridLinesOn = true;

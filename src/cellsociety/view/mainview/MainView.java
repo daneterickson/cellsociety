@@ -89,6 +89,10 @@ public class MainView {
     myCenterView.updateView();
   }
 
+  public void toggleLines(){
+    myCenterView.toggleLines();
+  }
+
   public void updateBottomPanel(ResourceBundle bundle) { root.setBottom(mySimControl.setResource(bundle)); }
 
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {

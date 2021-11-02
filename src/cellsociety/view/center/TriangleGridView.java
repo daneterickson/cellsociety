@@ -100,7 +100,7 @@ public class TriangleGridView extends GridView {
   //TODO dont allow the far right triangle pieces. Do this by making sure mosPosX != numCols
   private void selectCorrectTriangle(Point2D modelAffineXY, double correctedX, double correctedY, double triLength) {
     if (((int) modelAffineXY.getX() % 2 == 0 && (int)modelAffineXY.getY() % 2 == 0) ||
-        ((int) modelAffineXY.getX() % 2 != 0 && (int)modelAffineXY.getY() % 2 != 0)) { //Top to bottom diagonal
+        ((int) modelAffineXY.getX() % 2 != 0 && (int)modelAffineXY.getY() % 2 != 0)) {
       if (correctedX >= correctedY) {
         setMosPos(0, (int) modelAffineXY.getX() + 1);
       } else {

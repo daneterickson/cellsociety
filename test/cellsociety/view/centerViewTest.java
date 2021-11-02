@@ -25,7 +25,6 @@ public class centerViewTest extends DukeApplicationTest {
   @BeforeEach
   public void setUp(){
     myGrid = lookup("#canvas").query();
-    myChoiceBox = lookup("#viewChoiceBox").query();
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         if(myController.getCellStateNumber(j,i) == 1){
@@ -68,7 +67,8 @@ public class centerViewTest extends DukeApplicationTest {
 
   @Test
   public void testChangingToTriangleThenClickingOnGrid(){
-    select(myChoiceBox, "Triangle Grid");
+    myChoiceBox = lookup("#viewChoiceBox").query();
+    select(myChoiceBox, "TriangleGrid");
     myGrid = lookup("#canvas").query();
     clickOn(myGrid, 30, 50);
     clickOn(myGrid, 100, 100);
@@ -79,7 +79,8 @@ public class centerViewTest extends DukeApplicationTest {
 
   @Test
   public void testChangingToCircleThenClickingOnGrid(){
-    select(myChoiceBox, "Circle Grid");
+    myChoiceBox = lookup("#viewChoiceBox").query();
+    select(myChoiceBox, "CircleGrid");
     myGrid = lookup("#canvas").query();
     clickOn(myGrid, 35, 35);
     clickOn(myGrid, 100, 100);
@@ -90,7 +91,8 @@ public class centerViewTest extends DukeApplicationTest {
 
   @Test
   public void testChangingToHexagonThenClickingOnGrid(){
-    select(myChoiceBox, "Hexagon Grid");
+    myChoiceBox = lookup("#viewChoiceBox").query();
+    select(myChoiceBox, "HexagonGrid");
     myGrid = lookup("#canvas").query();
     clickOn(myGrid, 35, 35);
     clickOn(myGrid, 100, 100);
@@ -101,6 +103,7 @@ public class centerViewTest extends DukeApplicationTest {
 
   @Test
   public void testChangingToHistogramThenRunningAFewSteps(){
+    myChoiceBox = lookup("#viewChoiceBox").query();
     select(myChoiceBox, "Histogram");
     myStepButton = lookup("#stepButton").query();
     clickOn(myStepButton);

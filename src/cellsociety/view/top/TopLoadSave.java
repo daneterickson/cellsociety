@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -18,7 +17,7 @@ import javafx.stage.Stage;
 public class TopLoadSave {
 
   private String RESOURCE = "cellsociety.view.top.";
-  private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "TopLoadSave.css";
+  private String STYLESHEET = String.format("/%sTopLoadSave.css", RESOURCE.replace(".", "/"));
 
   private HBox myTopLoadSave;
   private Stage myStage;
@@ -60,7 +59,7 @@ public class TopLoadSave {
 
   private void loadSIMFile() {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Load SIM File");
+    fileChooser.setTitle(myResources.getString("LoadSim"));
     fileChooser.getExtensionFilters().addAll(new ExtensionFilter("SIM", "*.sim"));
     File selectedFile = fileChooser.showOpenDialog(myStage);
     if (selectedFile == null) {
@@ -70,11 +69,11 @@ public class TopLoadSave {
   }
 
   private void saveCSVFile(File saveFile) {
-    File CSV = new File(saveFile.toString() + ".csv");
+    File CSV = new File(String.format("%s.csv", saveFile.toString()));
     Grid tempGrid = myController.getGrid();
     try {
       PrintWriter csvFile = new PrintWriter(CSV);
-      csvFile.write(tempGrid.getNumCols() + "," + tempGrid.getNumRows() + "\n");
+      csvFile.write(String.format("%s,%s\n", tempGrid.getNumCols(), tempGrid.getNumRows()));
       for (int i = 0; i < tempGrid.getNumRows(); i++) {
         StringBuilder rowCSV = new StringBuilder();
         for (int j = 0; j < tempGrid.getNumCols(); j++) {
@@ -94,13 +93,13 @@ public class TopLoadSave {
   }
 
   private void saveSimFile(File saveFile) {
-    File SIM = new File(saveFile.toString() + ".sim");
+    File SIM = new File(String.format("%s.sim", saveFile.toString()));
     Map simValueMap = myController.getSimPropertiesMap();
-    simValueMap.put("InitialStates", "testingSave/" + saveFile.getName() + ".csv");
+    simValueMap.put("InitialStates", String.format("testingSave/%s.csv", saveFile.getName()));
     try {
       PrintWriter simFile = new PrintWriter(SIM);
       for (Object key : simValueMap.keySet()) {
-        simFile.write(key.toString() + "=" + simValueMap.get(key).toString() + "\n");
+        simFile.write(String.format("%s=%s\n", key.toString(), simValueMap.get(key).toString()));
       }
       simFile.close();
     }

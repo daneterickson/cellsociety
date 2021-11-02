@@ -11,18 +11,28 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
+/**
+ * This is the abstract class that makes the right panel of main view
+ *
+ * @author Aaric Han, Nick Strauch
+ */
+
+
 public abstract class RightPanel {
   private VBox theRightPanel;
   private static final int NUM_MINOR_TICKS = 2;
-  protected static final String RESOURCE = "cellsociety.view.right.";
-  protected static final String STYLESHEET = String.format("/%sRightSettings.css", RESOURCE.replace(".", "/"));
-
+  private static final String RESOURCE = "cellsociety.view.right.";
+  private static final String STYLESHEET = String.format("/%sRightSettings.css", RESOURCE.replace(".", "/"));
   private static final String CENTER_PATH = "cellsociety.view.center.%s";
-
 
   private ResourceBundle myResource;
   private Controller myController;
 
+  /**
+   * Constructor that makes a right panel
+   * @param bundle
+   * @param controller
+   */
   public RightPanel(ResourceBundle bundle, Controller controller) {
     myResource = bundle;
     myController = controller;
@@ -76,12 +86,6 @@ public abstract class RightPanel {
     return theLabel;
   }
 
-  public VBox getTheRightPanel() {
-    return theRightPanel;
-  }
-
-  public ResourceBundle getMyResource() { return myResource; }
-
   public Node setResource(ResourceBundle bundle) {
     myResource = bundle;
     theRightPanel = new VBox();
@@ -115,5 +119,19 @@ public abstract class RightPanel {
     neighborChooser.setId("neighborChooser");
     return neighborChooser;
   }
+
+  /**
+   * Gets the right panel
+   * @return theRightPanel
+   */
+  public VBox getTheRightPanel() {
+    return theRightPanel;
+  }
+
+  /**
+   * Gets the right panel resource bundle
+   * @return myResource
+   */
+  public ResourceBundle getMyResource() { return myResource; }
 
 }

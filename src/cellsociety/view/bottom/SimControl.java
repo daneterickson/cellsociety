@@ -19,11 +19,11 @@ import javafx.util.Duration;
 
 /**
  * SimControl - Simulation Control View
- * <p>
+ *
  * This class makes elements that are used on the bottom of the display The elements include start,
  * pause, stop, and step buttons
  *
- * @author Aaric Han
+ * @author Aaric Han, Nick Strauch
  */
 
 public class SimControl {
@@ -209,6 +209,11 @@ public class SimControl {
     return mySimControl;
   }
 
+  /**
+   * Updates the component with a new language
+   * @param bundle
+   * @return mySimControl
+   */
   public Node setResource(ResourceBundle bundle) {
     HBox buttons = (HBox) mySimControl.getChildren().get(0);
     Button addGrid = (Button) buttons.getChildren().get(2);
@@ -222,7 +227,6 @@ public class SimControl {
       myController.updateCenterViewType(bundle.getString(choice.getValue().toString()));
     });
     mySimControl.getChildren().set(2, choice);
-
 
     setStyles();
     return mySimControl;

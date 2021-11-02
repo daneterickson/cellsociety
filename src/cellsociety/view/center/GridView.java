@@ -15,6 +15,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 
+/**
+ * This is the class that makes the calculations and grids
+ *
+ * @author Nick Strauch
+ */
 public abstract class GridView extends CenterView {
   protected static final Color GRID_LINE_COLOR = Color.BLACK;
   protected static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
@@ -35,7 +40,11 @@ public abstract class GridView extends CenterView {
   private double myBlockLength;
   private boolean cursorOverCell;
 
-
+  /**
+   * Constructor for a grid view
+   * @param cellProps
+   * @param controller
+   */
   public GridView(CellProperties cellProps, Controller controller){
     super(cellProps, controller);
     myCanvasList = new ArrayList<>();
@@ -128,6 +137,9 @@ public abstract class GridView extends CenterView {
     updateView();
   }
 
+  /**
+   * Add the view to the center
+   */
   @Override
   public void addViewToCenter(){
     myNumGridRowsList.add(0);

@@ -8,12 +8,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.NonInvertibleTransformException;
 
+/**
+ * This is a subclass of Grid View
+ *
+ * @author Nick Strauch
+ */
 public class TriangleGridView extends GridView {
   private static final int NUM_VERTEXES = 3;
   private static final int POINT0 = 0;
   private static final int POINT1 = 1;
   private static final int POINT2 = 2;
 
+  /**
+   * Constructor for a type of grid view
+   * @param cellProps
+   * @param controller
+   */
   public TriangleGridView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
   }
@@ -96,8 +106,6 @@ public class TriangleGridView extends GridView {
     double correctedY = cursorY - ((int) modelAffineXY.getY()) * triLength;
     selectCorrectTriangle(modelAffineXY, correctedX, correctedY, triLength);
   }
-
-  //TODO dont allow the far right triangle pieces. Do this by making sure mosPosX != numCols
   private void selectCorrectTriangle(Point2D modelAffineXY, double correctedX, double correctedY, double triLength) {
     if (((int) modelAffineXY.getX() % 2 == 0 && (int)modelAffineXY.getY() % 2 == 0) ||
         ((int) modelAffineXY.getX() % 2 != 0 && (int)modelAffineXY.getY() % 2 != 0)) {

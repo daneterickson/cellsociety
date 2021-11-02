@@ -3,6 +3,11 @@ package cellsociety.model.model.utils.NeighborFinders;
 import cellsociety.model.Grid;
 import java.util.List;
 
+/**
+ * subclass of NeighborFinder. Represents the SquareEdges NeighborFinder
+ *
+ * @Author Albert Yuan
+ */
 public class SquareEdges extends NeighborFinder implements NeighborFinderInterface {
 
   /**

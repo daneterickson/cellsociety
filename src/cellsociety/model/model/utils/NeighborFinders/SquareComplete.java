@@ -3,6 +3,11 @@ package cellsociety.model.model.utils.NeighborFinders;
 import cellsociety.model.Grid;
 import java.util.List;
 
+/**
+ * subclass of NeighborFinder. Represents the SquareComplete NeighborFinder
+ *
+ * @Author Albert Yuan
+ */
 public class SquareComplete extends NeighborFinder implements NeighborFinderInterface {
 
   /**

@@ -5,6 +5,7 @@ import cellsociety.model.Grid;
 /**
  * Abstract class that represents the edgepolicy. an edgepolicy class takes an out of bounds coordinate
  * and return a state based on the policy
+ *
  * @Author Albert Yuan
  */
 public abstract class EdgePolicies {

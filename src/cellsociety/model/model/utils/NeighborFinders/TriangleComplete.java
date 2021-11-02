@@ -3,6 +3,11 @@ package cellsociety.model.model.utils.NeighborFinders;
 import cellsociety.model.Grid;
 import java.util.List;
 
+/**
+ * subclass of NeighborFinder. Represents the TriangleComplete NeighborFinder
+ *
+ * @Author Albert Yuan
+ */
 public class TriangleComplete extends NeighborFinder implements NeighborFinderInterface {
 
   /**

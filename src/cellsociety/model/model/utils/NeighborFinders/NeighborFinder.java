@@ -1,16 +1,26 @@
 package cellsociety.model.model.utils.NeighborFinders;
 
-import static java.lang.Integer.parseInt;
-
 import cellsociety.model.Grid;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract class that represents the NeighborFinder. A NeighborFinder class takes a coordinate
+ * and returns a list of all the neighbors' coordinates
+ *
+ * @Author Albert Yuan
+ */
 public abstract class NeighborFinder {
 
-  public NeighborFinder() {
-  }
+  public NeighborFinder() {}
 
+  /**
+   * abstract class that will be called in each NeighborFinder. Calls a method below.
+   * @param row - the row of the out of bounds coordinate
+   * @param col - the column of the out of bounds coordinate
+   * @param grid - the current grid that's holding all the cells
+   * @return a List of (row1, col1, ...) for each neighbor
+   */
   public abstract List<Integer> getNeighbors(int row, int col, Grid grid);
 
   /**

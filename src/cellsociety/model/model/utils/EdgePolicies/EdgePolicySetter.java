@@ -4,7 +4,7 @@ import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * helper class that takes a string and returns an edgepolicy. Allows the user to pick from a drop down list
+ * helper class that takes a string and returns an edgepolicy. Allows the user to pick from a dropdown list
  * of strings and change the edge policy
  *
  * @Author Albert Yuan

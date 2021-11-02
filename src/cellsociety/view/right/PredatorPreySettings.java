@@ -10,6 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
+/**
+ * This is subclass of right panel
+ *
+ * @author Aaric Han, Nick Strauch
+ */
 public class PredatorPreySettings extends RightPanel {
 
   private static final int MIN_FISH_REP = 1;
@@ -29,7 +34,11 @@ public class PredatorPreySettings extends RightPanel {
 
   private static final int TICK_SPACING = 5;
 
-
+  /**
+   * Constructor that makes a specific right panel
+   * @param bundle
+   * @param controller
+   */
   public PredatorPreySettings(ResourceBundle bundle, Controller controller) {
     super(bundle, controller);
   }

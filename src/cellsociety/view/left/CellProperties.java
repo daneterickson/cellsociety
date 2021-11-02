@@ -7,6 +7,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * This is the Left panel where a cell's info and the simulation info is shown
+ *
+ * @author Aaric Han, Nick Strauch
+ */
+
+
 public class CellProperties {
 
   private static final String RESOURCE = "cellsociety.view.left.";
@@ -24,7 +31,11 @@ public class CellProperties {
   private ResourceBundle myResource;
   private Controller myController;
 
-
+  /**
+   * Constructor to make a new Left panel
+   * @param controller
+   * @param resource
+   */
   public CellProperties(Controller controller,ResourceBundle resource){
     myController = controller;
     myResource = resource;
@@ -94,6 +105,11 @@ public class CellProperties {
     mySimTypeLabel.getStyleClass().add("simTypeLabel");
   }
 
+  /**
+   * Sets the resource bundle and makes new left panel labels
+   * @param bundle
+   * @return the new myCellProperties
+   */
   public Node setResource(ResourceBundle bundle) {
     myResource = bundle;
     myCellProperties = new VBox();
@@ -102,6 +118,12 @@ public class CellProperties {
     return myCellProperties;
   }
 
+  /**
+   * Sets the resource bundle and makes new left panel labels
+   * @param bundle
+   * @param simProps
+   * @return the new myCellProperties
+   */
   public Node updateLeftView(ResourceBundle bundle, Map simProps) {
     myResource = bundle;
     myCellProperties = new VBox();
@@ -121,8 +143,6 @@ public class CellProperties {
     myCellProperties.getChildren().add(myCellCoordinatesLabel);
     myCellProperties.getChildren().add(color);
     setStyles();
-
-
     return myCellProperties;
   }
 

@@ -14,16 +14,26 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
+/**
+ * This class makes top part of the main view
+ *
+ * @author Aaric Han, Nick Strauch
+ */
 public class TopLoadSave {
 
   private String RESOURCE = "cellsociety.view.top.";
   private String STYLESHEET = String.format("/%sTopLoadSave.css", RESOURCE.replace(".", "/"));
-
   private HBox myTopLoadSave;
   private Stage myStage;
   private Controller myController;
   private ResourceBundle myResources;
 
+  /**
+   * Constructor that makes a top panel
+   * @param stage
+   * @param controller
+   * @param resources
+   */
   public TopLoadSave(Stage stage, Controller controller, ResourceBundle resources) {
     myStage = stage;
     myResources = resources;
@@ -84,7 +94,6 @@ public class TopLoadSave {
           }
         }
         csvFile.write(rowCSV.toString());
-
       }
       csvFile.close();
     } catch (IOException e) {
@@ -124,10 +133,19 @@ public class TopLoadSave {
     return disp;
   }
 
+  /**
+   * Returns the myTopLoadSave element
+   * @return myTopLoadSave
+   */
   public Node getTopLoadSave() {
     return myTopLoadSave;
   }
 
+  /**
+   * Sets certain elements' labels to the language bundle's values
+   * @param bundle
+   * @return edited myTopLoadSave
+   */
   public Node setResource(ResourceBundle bundle) {
     myResources = bundle;
     myTopLoadSave = new HBox();

@@ -16,6 +16,12 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+
+/**
+ * This is a subclass of Grid View
+ *
+ * @author Dane Erickson, Nick Strauch
+ */
 public class HistogramView extends CenterView {
 
   public static final int CANVAS_WIDTH = 700;
@@ -39,6 +45,11 @@ public class HistogramView extends CenterView {
   private GraphicsContext gc;
   private Line xAxis;
 
+  /**
+   * Constructor for a type of centerview
+   * @param cellProps
+   * @param controller
+   */
 
   public HistogramView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
@@ -155,7 +166,12 @@ public class HistogramView extends CenterView {
     return histogramElements;
   }
 
+  /**
+   * Doesn't add view to center
+   */
   @Override
-  public void addViewToCenter() {}
+  public void addViewToCenter() {
+    return;
+  }
 
 }

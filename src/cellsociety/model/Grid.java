@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * Class to create a Grid object, which stores all the ModelCells at their correct location.
+ *
+ * @Author Dane Erickson
  */
 public class Grid {
 

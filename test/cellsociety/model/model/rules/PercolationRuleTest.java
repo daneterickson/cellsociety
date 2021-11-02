@@ -7,7 +7,6 @@ import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.utils.NeighborFinders.SquareComplete;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ public class PercolationRuleTest {
   @BeforeEach
   void setUp() {
     edgePolicy = new FiniteEdgePolicy();
-    nf = new SquareComplete(edgePolicy);
+    nf = new SquareComplete();
     myStates = new int[][]{{0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0},

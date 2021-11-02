@@ -4,6 +4,8 @@ import java.util.ResourceBundle;
 
 /**
  * Subclass of ModelCell that makes a cell for each spot in Predator Prey simulation
+ *
+ * @Author Dane Erickson, Albert Yuan
  */
 public class PredatorPreyCell extends ModelCell {
 

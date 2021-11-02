@@ -9,7 +9,6 @@ import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.utils.NeighborFinders.SquareEdges;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,7 @@ public class PredatorPreyRuleTest {
   @BeforeEach
   void setUp() {
     edgePolicy = new FiniteEdgePolicy();
-    nf = new SquareEdges(edgePolicy);
+    nf = new SquareEdges();
     myStates = new int[][]{{0, 2, 0, 0, 2},
         {2, 0, 2, 2, 0},
         {0, 2, 1, 0, 2},

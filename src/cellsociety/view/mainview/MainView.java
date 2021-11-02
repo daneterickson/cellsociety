@@ -24,6 +24,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+/**
+ * This is the MainView where all view components are made and stored
+ *
+ * @author Aaric Han, Nick Strauch, Dane Erickson
+ */
 
 public class MainView {
 
@@ -39,6 +44,11 @@ public class MainView {
   private BorderPane root;
   private CenterView myCenterView;
 
+  /**
+   * Constructor that makes a main view
+   * @param stage
+   * @param controller
+   */
   public MainView(Stage stage, Controller controller) {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     myController = controller;
@@ -50,6 +60,12 @@ public class MainView {
     mySimControl = new SimControl(myCenterView, myController, myResources, myCellProperties);
   }
 
+  /**
+   * Makes a new scene with a new borderpane and all elements of borderpane filled
+   * @param width
+   * @param height
+   * @return scene
+   */
   public Scene makeScene(int width, int height) {
     root = new BorderPane();
     root.setCenter(myCenterView.getViewBox());
@@ -91,22 +107,55 @@ public class MainView {
     myCenterView.updateView();
   }
 
+  /**
+   * Toggles grid lines in the center
+   */
+  public void toggleLines(){
+    myCenterView.toggleLines();
+  }
+
+  /**
+   * Sets the bottom panel to a new bottom panel
+   * @param bundle
+   */
   public void updateBottomPanel(ResourceBundle bundle) { root.setBottom(mySimControl.setResource(bundle)); }
 
+  /**
+   * Sets the right panel to a new right panel
+   * @param bundle
+   * @param rightPanel
+   */
   public void updateRightPanel(ResourceBundle bundle, RightPanel rightPanel) {
     myRightPanel = rightPanel;
     root.setRight(myRightPanel.setResource(bundle));
   }
 
+  /**
+   * Updates the right panel with a new language
+   * @param bundle
+   */
   public void updateRightPanelLang(ResourceBundle bundle) {
     root.setRight(myRightPanel.setResource(bundle));
   }
 
+  /**
+   * Updates the top panel with a new language
+   * @param bundle
+   */
   public void updateTopPanelLang(ResourceBundle bundle) {
     root.setTop(myTopLoadSave.setResource(bundle));
   }
 
+  /**
+   * Updates the left panel with a new language
+   * @param bundle
+   */
   public void updateLeftPanel(ResourceBundle bundle) { root.setLeft(myCellProperties.setResource(bundle)); }
+
+  /**
+   * update the left panel with a new sim properties
+   * @param bundle
+   */
   public void updateLeftView(ResourceBundle bundle) { root.setLeft(myCellProperties.updateLeftView(bundle, myController.getSimPropertiesMap())); }
 
   /**
@@ -129,12 +178,11 @@ public class MainView {
     alert.showAndWait();
   }
 
+  /**
+   * Get left panel
+   * @return
+   */
   public CellProperties getMyCellProperties() {
     return myCellProperties;
   }
-
-  public TopLoadSave getTopLoadSave() {
-    return myTopLoadSave;
-  }
-
 }

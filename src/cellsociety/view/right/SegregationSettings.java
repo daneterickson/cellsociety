@@ -9,6 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
+/**
+ * This is subclass of right panel
+ *
+ * @author Aaric Han, Nick Strauch
+ */
+
+
 public class SegregationSettings extends RightPanel{
   private final double MIN_SIMILARITY = 0;
   private final double MAX_SIMILARITY = 1;
@@ -16,19 +23,23 @@ public class SegregationSettings extends RightPanel{
 
   private static final double TICK_SPACING = .1;
 
-
+  /**
+   * Constructor that makes a specific right panel
+   * @param bundle
+   * @param controller
+   */
   public SegregationSettings(ResourceBundle bundle, Controller controller){
     super(bundle, controller);
   }
 
   @Override
   protected void makeSettingsPanel(VBox rightPanel){
-    rightPanel.getChildren().addAll(makeSliders());
+    rightPanel.getChildren().addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
   }
 
   @Override
   protected Node makeButtons(){
-    return null;
+    return makeGridLinesToggleButton();
   }
 
   @Override

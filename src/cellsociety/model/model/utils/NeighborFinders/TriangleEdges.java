@@ -4,14 +4,14 @@ import cellsociety.model.Grid;
 import java.util.List;
 
 /**
- * subclass of NeighborFinder. Represents the TriangleComplete NeighborFinder
+ * subclass of NeighborFinder. Represents the TriangleEdges NeighborFinder
  *
  * @Author Albert Yuan
  */
-public class TriangleComplete extends NeighborFinder implements NeighborFinderInterface {
+public class TriangleEdges extends NeighborFinder implements NeighborFinderInterface {
 
   /**
-   * Overridden method that calls getTriangleComplete
+   * Overridden method that calls getTriangleEdges
    * @param row - the row of the cell that's being examined
    * @param col - the column of the cell that's being examined
    * @param grid - the current grid that is being used
@@ -19,7 +19,7 @@ public class TriangleComplete extends NeighborFinder implements NeighborFinderIn
    */
   @Override
   public List<Integer> getNeighbors(int row, int col, Grid grid){
-    return getTriangleComplete(row,col);
+    return getTriangleEdges(row,col);
   }
 
 }

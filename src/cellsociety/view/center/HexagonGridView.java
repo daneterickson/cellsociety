@@ -6,9 +6,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+/**
+ * This is a subclass of Grid View
+ *
+ * @author Nick Strauch
+ */
 public class HexagonGridView extends GridView{
   private int NUM_VERTEXES = 6;
 
+  /**
+   * Constructor for a type of grid view
+   * @param cellProperties
+   * @param controller
+   */
   public HexagonGridView(CellProperties cellProperties, Controller controller){
     super(cellProperties, controller);
   }

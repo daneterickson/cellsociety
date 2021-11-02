@@ -9,12 +9,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class represents the histogram data that is used to display the simulation as a histogram or
+ * some other graph.
+ *
+ * @Author albert
+ */
 public class HistogramManager {
 
   private HashMap<Integer, String> cellStates;
   private HashMap<Integer, Integer> histogram;
   private Grid currGrid;
 
+  /**
+   * Constructor for the HistogramManager
+   * @param grid - the current grid that holds all the cells
+   */
   public HistogramManager(Grid grid) {
     currGrid = grid;
     getCellStateValues();
@@ -26,7 +36,6 @@ public class HistogramManager {
    */
   private void initHistogram() {
     histogram = new HashMap<>();
-    String name;
     for (Integer state : cellStates.keySet()) {
       histogram.put(state, 0);
     }
@@ -71,9 +80,7 @@ public class HistogramManager {
         if (t == int.class) {
           cellStates.putIfAbsent(f.getInt(null), state);
         }
-      } catch (NoSuchFieldException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
+      } catch (NoSuchFieldException | IllegalAccessException e) {
         e.printStackTrace();
       }
     }
@@ -89,9 +96,10 @@ public class HistogramManager {
 
   /**
    * adds the given values to the histogram
+   * @param cellStateNum - the key corresponding to a certain cell state
+   * @param amount - the amount to add to the hashmap for the given key
    */
   public void add(Integer cellStateNum, int amount) {
-//    String name = cellStates.get(cellStateNum);
     int total = histogram.get(cellStateNum) + amount;
     histogram.put(cellStateNum, total);
   }

@@ -4,6 +4,8 @@ import java.util.ResourceBundle;
 
 /**
  * Subclass of ModelCell that makes a cell for each spot in Percolation simulation
+ *
+ * @Author Dane Erickson
  */
 public class PercolationCell extends ModelCell {
 

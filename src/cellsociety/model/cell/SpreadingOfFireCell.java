@@ -4,6 +4,8 @@ import java.util.ResourceBundle;
 
 /**
  * Subclass of ModelCell that makes a cell for each spot in Spreading Of Fire simulation
+ *
+ * @Author Dane Erickson
  */
 public class SpreadingOfFireCell extends ModelCell {
 

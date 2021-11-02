@@ -7,13 +7,20 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * This is the Left panel where a cell's info and the simulation info is shown
+ *
+ * @author Aaric Han, Nick Strauch
+ */
+
+
 public class CellProperties {
 
-  private String RESOURCE = "cellsociety.view.left.";
-  private String STYLESHEET = "/"+RESOURCE.replace(".", "/")+"CellProp.css";
+  private static final String RESOURCE = "cellsociety.view.left.";
+  protected static final String STYLESHEET = String.format("/%sCellProp.css", RESOURCE.replace(".", "/"));
+  private static final int SPACING = 40;
 
-  private final String DEFAULT_SIM = "Game Of Life";
-  private final String STATE_COLOR_TITLE = "Color Key:";
+  private String stateColorTitle;
   private int myCurrentX;
   private int myCurrentY;
   private String myCurrentState;
@@ -24,11 +31,17 @@ public class CellProperties {
   private ResourceBundle myResource;
   private Controller myController;
 
-
+  /**
+   * Constructor to make a new Left panel
+   * @param controller
+   * @param resource
+   */
   public CellProperties(Controller controller,ResourceBundle resource){
     myController = controller;
     myResource = resource;
+    stateColorTitle = myResource.getString("ColorKey");
     myCellProperties = new VBox();
+    myCellProperties.setSpacing(SPACING);
     myCellProperties.getChildren().add(makeCellPropLabels());
     setStyles();
   }
@@ -49,7 +62,7 @@ public class CellProperties {
   public void updateCellCordLabel(int currentX, int currentY){
     myCurrentX = currentX;
     myCurrentY = currentY;
-    myCellCoordinatesLabel.setText("("+myCurrentX+", "+myCurrentY+")");
+    myCellCoordinatesLabel.setText(String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
   }
 
   /**
@@ -65,13 +78,12 @@ public class CellProperties {
     labelBox.getChildren().add(initializeSimTypeLabel());
     labelBox.getChildren().add(makeCellCordTitle());
     labelBox.getChildren().add(initializeCellCordLabel());
-    labelBox.getChildren().add(makeStateColorTitle());
 
     return labelBox;
   }
 
   private Node initializeCellCordLabel(){
-    myCellCoordinatesLabel = new Label("("+myCurrentX+", "+myCurrentY+")");
+    myCellCoordinatesLabel = new Label(String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
     return myCellCoordinatesLabel;
   }
 
@@ -86,16 +98,6 @@ public class CellProperties {
     return mySimTypeLabel;
   }
 
-  private Node makeStateColorTitle(){
-    Label title = new Label(STATE_COLOR_TITLE);
-    title.getStyleClass().add("stateColorsTitle");
-    return title;
-  }
-  /*private Node initializeCellStateLabel(myCurrentState){
-    myCellStateLabel = new Label();
-    return myCellStateLabel;
-  }*/
-
   private void setStyles() {
     myCellProperties.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     myCellProperties.getStyleClass().add("root");
@@ -103,6 +105,11 @@ public class CellProperties {
     mySimTypeLabel.getStyleClass().add("simTypeLabel");
   }
 
+  /**
+   * Sets the resource bundle and makes new left panel labels
+   * @param bundle
+   * @return the new myCellProperties
+   */
   public Node setResource(ResourceBundle bundle) {
     myResource = bundle;
     myCellProperties = new VBox();
@@ -111,6 +118,12 @@ public class CellProperties {
     return myCellProperties;
   }
 
+  /**
+   * Sets the resource bundle and makes new left panel labels
+   * @param bundle
+   * @param simProps
+   * @return the new myCellProperties
+   */
   public Node updateLeftView(ResourceBundle bundle, Map simProps) {
     myResource = bundle;
     myCellProperties = new VBox();
@@ -130,8 +143,6 @@ public class CellProperties {
     myCellProperties.getChildren().add(myCellCoordinatesLabel);
     myCellProperties.getChildren().add(color);
     setStyles();
-
-
     return myCellProperties;
   }
 

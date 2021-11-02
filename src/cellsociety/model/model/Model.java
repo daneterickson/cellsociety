@@ -6,6 +6,7 @@ import cellsociety.controller.Controller;
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.KeyNotFoundException;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+import cellsociety.model.model.utils.EdgePolicies.EdgePolicySetter;
 import cellsociety.model.model.utils.EdgePolicies.FiniteEdgePolicy;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import cellsociety.model.model.rules.Rule;
@@ -16,6 +17,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * This is the abstract class for all the models. Models go through each cell in the grid
+ * and calculate their next states. Then the grid is updated with these new states
+ *
+ * @Authors Albert Yuan, Dane Erickson, Aaric Han
+ */
 public abstract class Model {
 
   private Rule myRule;
@@ -38,9 +45,26 @@ public abstract class Model {
     updateHistogram();
   }
 
+  /**
+   * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   * @param type - the type of edgepolicy as a string
+   */
   public abstract void setEdgePolicy(String type);
+
+  /**
+   * @return the current edgepolicy type as a string
+   */
   public abstract String getEdgePolicyType();
+
+  /**
+   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * @param type - the type of neighborfinder as a string
+   */
   public abstract void setNeighborFinder(String type);
+
+  /**
+   * @return the current neighborfinder type as a string
+   */
   public abstract String getNeighborFinderType( );
 
 
@@ -72,6 +96,11 @@ public abstract class Model {
     return myController;
   }
 
+  /**
+   * Method to be called every step. Iterates through the grid and calculates the new state of the cell.
+   * Then updates the grid, updates the histogram tracker, and tells the view to update
+   * @param currGrid - the current grid that is holding all the cells
+   */
   public void updateModel(Grid currGrid) {
     newUpdates.clear();
     this.currGrid = currGrid;
@@ -108,7 +137,7 @@ public abstract class Model {
   }
 
   /**
-   * returns a hashmap of [cell state names : amount]
+   * @return a hashmap of [cell state names : amount]
    */
   public HashMap getHistogramMap(){
     return histogram.getHistogramManager();

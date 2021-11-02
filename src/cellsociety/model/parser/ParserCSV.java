@@ -9,6 +9,8 @@ import java.io.IOException;
 /**
  * Subclass of the Parser hierarchy that is used to parse a CSV file of the start states for each
  * cell in the grid.
+ *
+ * @Author Dane Erickson
  */
 public class ParserCSV extends Parser {
 

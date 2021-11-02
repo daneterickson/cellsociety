@@ -29,7 +29,7 @@ public class SegregationRuleTest {
   @BeforeEach
   void setUp() {
     edgePolicy = new FiniteEdgePolicy();
-    nf = new SquareComplete(edgePolicy);
+    nf = new SquareComplete();
     myStates = new int[][]{{0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0},
         {1, 1, 1, 0, 0},

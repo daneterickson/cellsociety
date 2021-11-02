@@ -31,7 +31,7 @@ public class EdgePoliciesTest {
         {2, 2, 2, 2, 2}};
     numRows = 5;
     numCols = 5;
-    String type = "SpreadingOfFire";
+    String type = "GameOfLife";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
     row = 2;
     col = 2;

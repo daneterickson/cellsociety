@@ -3,6 +3,7 @@ package cellsociety.view.bottom;
 import cellsociety.controller.Controller;
 import cellsociety.view.center.CenterView;
 import cellsociety.view.left.CellProperties;
+import java.awt.Choice;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,19 +19,19 @@ import javafx.util.Duration;
 
 /**
  * SimControl - Simulation Control View
- * <p>
+ *
  * This class makes elements that are used on the bottom of the display The elements include start,
  * pause, stop, and step buttons
  *
- * @author Aaric Han
+ * @author Aaric Han, Nick Strauch
  */
 
 public class SimControl {
 
   private String RESOURCE = "cellsociety.view.bottom.";
-  private String STYLESHEET = "/" + RESOURCE.replace(".", "/") + "SimControl.css";
-  private String ICONS = "/" + RESOURCE.replace(".", "/") + "SimControlIcons/";
-  private String SLIDER_ICONS = "/" + RESOURCE.replace(".", "/") + "SliderIcons/";
+  private String STYLESHEET = String.format("/%sSimControl.css", RESOURCE.replace(".", "/"));
+  private String ICONS = String.format("/%sSimControlIcons/", RESOURCE.replace(".", "/"));
+  private String SLIDER_ICONS = String.format("/%sSliderIcons/",RESOURCE.replace(".", "/"));
 
   private static final int BUTTON_SPACING = 15;
   private static final int BUTTON_SLIDER_SPACING = 15;
@@ -40,7 +41,8 @@ public class SimControl {
   private static final double MAX_SLIDER_VAL = 3;
   private static final double INITIAL_RATE = 1;
   private static final int ICON_SIZE = 20;
-  private static final String ADD_GRID_BUTTON_TEXT = "Add Grid"; //TODO replace hardcoded string
+  private static final String EN = "EN";
+  private static final String ES = "ES";
 
   private double myAnimationRate;
   private VBox mySimControl;
@@ -51,12 +53,11 @@ public class SimControl {
   private ResourceBundle myResources;
   private CellProperties myCellProperties;
 
-  private ImageView playIcon = new ImageView(ICONS + "play.png");
-  private ImageView pauseIcon = new ImageView(ICONS + "pause.png");
-  private ImageView stopIcon = new ImageView(ICONS + "stop.png");
-  private ImageView stepIcon = new ImageView(ICONS + "step.png");
-  private ImageView turtleIcon = new ImageView(SLIDER_ICONS + "turtle.png");
-  private ImageView rabbitIcon = new ImageView(SLIDER_ICONS + "rabbit.png");
+  private ImageView playIcon = new ImageView(String.format("%splay.png", ICONS));
+  private ImageView pauseIcon = new ImageView(String.format("%spause.png", ICONS));
+  private ImageView stepIcon = new ImageView(String.format("%sstep.png", ICONS));
+  private ImageView turtleIcon = new ImageView(String.format("%sturtle.png", SLIDER_ICONS));
+  private ImageView rabbitIcon = new ImageView(String.format("%srabbit.png", SLIDER_ICONS));
 
 
   public SimControl(CenterView centerView, Controller controller, ResourceBundle resources,
@@ -161,7 +162,7 @@ public class SimControl {
   }
 
   private Button makeAddGridButton(){
-    Button button = new Button(ADD_GRID_BUTTON_TEXT);
+    Button button = new Button(myResources.getString("AddGrid"));
     button.setOnAction(e -> myCenterView.addViewToCenter());
     button.getStyleClass().add("addGridButton");
     button.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -173,13 +174,14 @@ public class SimControl {
     ChoiceBox views = new ChoiceBox();
     views.getItems().addAll(myResources.getString("ViewTypes").split(","));
     views.setOnAction(e -> {
-      myController.updateCenterViewType(myResources.getString(views.getValue().toString())); });
+    myController.updateCenterViewType(myResources.getString(views.getValue().toString())); });
+    views.setId("viewChoiceBox");
     return views;
   }
 
   private Node makeLangButton() {
     HBox langHBox = new HBox();
-    Button langButton = new Button("EN");
+    Button langButton = new Button(EN);
     langButton.setOnAction(e -> toggleLanguage(langButton));
     langHBox.getChildren().add(langButton);
     langHBox.getStyleClass().add("buttons");
@@ -187,13 +189,13 @@ public class SimControl {
   }
 
   private void toggleLanguage(Button langButton) {
-    if (langButton.getText().equals("EN")) {
-      langButton.setText("ES");
-      myController.setLang("ES");
+    if (langButton.getText().equals(EN)) {
+      langButton.setText(ES);
+      myController.setLang(ES);
     }
     else {
-      langButton.setText("EN");
-      myController.setLang("EN");
+      langButton.setText(EN);
+      myController.setLang(EN);
     }
   }
 
@@ -207,12 +209,25 @@ public class SimControl {
     return mySimControl;
   }
 
+  /**
+   * Updates the component with a new language
+   * @param bundle
+   * @return mySimControl
+   */
   public Node setResource(ResourceBundle bundle) {
     HBox buttons = (HBox) mySimControl.getChildren().get(0);
     Button addGrid = (Button) buttons.getChildren().get(2);
     addGrid.setText(bundle.getString("AddGrid"));
     buttons.getChildren().set(2, addGrid);
     mySimControl.getChildren().set(0, buttons);
+
+    ChoiceBox choice = new ChoiceBox();
+    choice.getItems().addAll(bundle.getString("ViewTypes").split(","));
+    choice.setOnAction(e -> {
+      myController.updateCenterViewType(bundle.getString(choice.getValue().toString()));
+    });
+    mySimControl.getChildren().set(2, choice);
+
     setStyles();
     return mySimControl;
   }

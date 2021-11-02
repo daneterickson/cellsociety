@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is a subclass of Model. This model calculates the next states for the Game of Life Simulation
+ * This is a subclass of Model. This model calculates the next states for the Game of Life
+ * Simulation
  *
  * @Authors Albert Yuan, Dane Erickson, Aaric Han
  */
 public class GameOfLifeModel extends Model {
+
   //base class variables
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
@@ -29,7 +31,7 @@ public class GameOfLifeModel extends Model {
 
   /**
    * @param controller - controller that communicates between model and view
-   * @param grid - the grid that holds the current cells
+   * @param grid       - the grid that holds the current cells
    */
   public GameOfLifeModel(Controller controller, Grid grid) {
     super(controller, grid);
@@ -49,6 +51,7 @@ public class GameOfLifeModel extends Model {
 
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   *
    * @param type - the type of edgepolicy as a string
    */
   @Override
@@ -66,7 +69,9 @@ public class GameOfLifeModel extends Model {
   }
 
   /**
-   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * sets the neighborfinder to a new neighborfinder type by using reflection and
+   * neighborfindersetter class
+   *
    * @param type - the type of neighborfinder as a string
    */
   @Override
@@ -93,7 +98,7 @@ public class GameOfLifeModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return myRule.determineState(currRow, currCol, state, nearby,currGrid, edgePolicy);
+    return myRule.determineState(currRow, currCol, state, nearby, currGrid, edgePolicy);
   }
 
 }

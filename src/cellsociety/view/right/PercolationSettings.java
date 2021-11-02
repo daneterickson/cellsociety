@@ -13,34 +13,41 @@ import javafx.scene.layout.VBox;
  * @author Aaric Han, Nick Strauch
  */
 
-public class PercolationSettings extends RightPanel{
+public class PercolationSettings extends RightPanel {
 
   /**
    * Constructor that makes a specific right panel
+   *
    * @param bundle
    * @param controller
    */
-  public PercolationSettings(ResourceBundle bundle, Controller controller){
+  public PercolationSettings(ResourceBundle bundle, Controller controller) {
     super(bundle, controller);
   }
 
   @Override
-  public void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());}
+  public void makeSettingsPanel(VBox rightPanel) {
+    rightPanel.getChildren()
+        .addAll(makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
+  }
 
   @Override
-  protected Node makeButtons(){
+  protected Node makeButtons() {
     return makeGridLinesToggleButton();
   }
 
   @Override
-  protected Node makeSliders(){return null;}
-
-  @Override
-  protected Node makeTextBox(){
+  protected Node makeSliders() {
     return null;
   }
 
   @Override
-  protected void setProbSettings(ArrayList probability) { }
+  protected Node makeTextBox() {
+    return null;
+  }
+
+  @Override
+  protected void setProbSettings(ArrayList probability) {
+  }
 
 }

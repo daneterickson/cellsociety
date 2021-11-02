@@ -25,8 +25,8 @@ public class GameOfLifeRule extends Rule {
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
       EdgePolicies edgePolicy) {
     int population = 0;
-    for (int i = 0; i<nearby.size();i+=2) {
-      int nearbystate = getState(nearby.get(i),nearby.get(i+1), grid, edgePolicy);
+    for (int i = 0; i < nearby.size(); i += 2) {
+      int nearbystate = getState(nearby.get(i), nearby.get(i + 1), grid, edgePolicy);
       if (nearbystate == ALIVE_STATE) {
         population += 1;
       }

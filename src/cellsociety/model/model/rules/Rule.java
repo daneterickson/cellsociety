@@ -24,13 +24,13 @@ public abstract class Rule {
       Grid grid, EdgePolicies edgePolicy);
 
   protected int getState(int row, int col, Grid grid,
-      EdgePolicies edgePolicy){
-    try{
-      return grid.getCellStateNumber(row,col);
-    }catch (IndexOutOfBoundsException e){
+      EdgePolicies edgePolicy) {
+    try {
+      return grid.getCellStateNumber(row, col);
+    } catch (IndexOutOfBoundsException e) {
 
     }
-    return edgePolicy.policy(row,col,grid);
+    return edgePolicy.policy(row, col, grid);
 
   }
 

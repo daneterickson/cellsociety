@@ -18,8 +18,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * This is the abstract class for all the models. Models go through each cell in the grid
- * and calculate their next states. Then the grid is updated with these new states
+ * This is the abstract class for all the models. Models go through each cell in the grid and
+ * calculate their next states. Then the grid is updated with these new states
  *
  * @Authors Albert Yuan, Dane Erickson, Aaric Han
  */
@@ -47,6 +47,7 @@ public abstract class Model {
 
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   *
    * @param type - the type of edgepolicy as a string
    */
   public abstract void setEdgePolicy(String type);
@@ -57,7 +58,9 @@ public abstract class Model {
   public abstract String getEdgePolicyType();
 
   /**
-   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * sets the neighborfinder to a new neighborfinder type by using reflection and
+   * neighborfindersetter class
+   *
    * @param type - the type of neighborfinder as a string
    */
   public abstract void setNeighborFinder(String type);
@@ -65,10 +68,10 @@ public abstract class Model {
   /**
    * @return the current neighborfinder type as a string
    */
-  public abstract String getNeighborFinderType( );
+  public abstract String getNeighborFinderType();
 
 
-  protected void setRule (Rule rule) {
+  protected void setRule(Rule rule) {
     myRule = rule;
   }
 
@@ -97,8 +100,9 @@ public abstract class Model {
   }
 
   /**
-   * Method to be called every step. Iterates through the grid and calculates the new state of the cell.
-   * Then updates the grid, updates the histogram tracker, and tells the view to update
+   * Method to be called every step. Iterates through the grid and calculates the new state of the
+   * cell. Then updates the grid, updates the histogram tracker, and tells the view to update
+   *
    * @param currGrid - the current grid that is holding all the cells
    */
   public void updateModel(Grid currGrid) {
@@ -120,7 +124,7 @@ public abstract class Model {
     myController.setHasUpdate(true);
   }
 
-  protected void updateHistogram(){
+  protected void updateHistogram() {
     histogram.clear();
     iterateGrid(row -> col -> {
       String currState = null;
@@ -131,7 +135,7 @@ public abstract class Model {
         System.out.println("Invalid Property");
       }
       int stateAsInt = parseInt(currState);
-      histogram.add(stateAsInt,1);
+      histogram.add(stateAsInt, 1);
     });
 
   }
@@ -139,7 +143,7 @@ public abstract class Model {
   /**
    * @return a hashmap of [cell state names : amount]
    */
-  public HashMap getHistogramMap(){
+  public HashMap getHistogramMap() {
     return histogram.getHistogramManager();
   }
 
@@ -211,7 +215,8 @@ public abstract class Model {
 
   protected abstract Integer currRule(int currRow, int currCol, int state, List<Integer> nearby);
 
-  protected void setProb(ArrayList newProb) {}
+  protected void setProb(ArrayList newProb) {
+  }
 
   public void changeSettings(ArrayList newProb) {
     setProb(newProb);

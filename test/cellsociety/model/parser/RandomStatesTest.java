@@ -1,9 +1,11 @@
 package cellsociety.model.parser;
+
 import cellsociety.model.Grid;
 import cellsociety.model.exceptions.InvalidFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RandomStatesTest {
@@ -17,9 +19,11 @@ public class RandomStatesTest {
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
     int filled = 0;
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        if (grid.getCellStateNumber(r,c) != 0) filled++;
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        if (grid.getCellStateNumber(r, c) != 0) {
+          filled++;
+        }
       }
     }
     assertEquals(9, filled);
@@ -62,9 +66,9 @@ public class RandomStatesTest {
     myParser.readFile(new File("data/game_of_life/random_probs2_alive.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        assertEquals(1, grid.getCellStateNumber(r,c));
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        assertEquals(1, grid.getCellStateNumber(r, c));
       }
     }
   }
@@ -74,9 +78,9 @@ public class RandomStatesTest {
     myParser.readFile(new File("data/game_of_life/random_probs2_dead.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        assertEquals(0, grid.getCellStateNumber(r,c));
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        assertEquals(0, grid.getCellStateNumber(r, c));
       }
     }
   }
@@ -86,10 +90,11 @@ public class RandomStatesTest {
     myParser.readFile(new File("data/game_of_life/random_probs2_equal.sim"));
     RandomStates rs = new RandomStates(myParser, 1);
     Grid grid = rs.makeGrid();
-    int expected[][] = {{0,1,1,1,0},{1,0,0,0,0},{1,1,1,0,1},{0,0,1,1,1},{0,0,1,0,0}};
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        assertEquals(expected[r][c], grid.getCellStateNumber(r,c));
+    int expected[][] = {{0, 1, 1, 1, 0}, {1, 0, 0, 0, 0}, {1, 1, 1, 0, 1}, {0, 0, 1, 1, 1},
+        {0, 0, 1, 0, 0}};
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        assertEquals(expected[r][c], grid.getCellStateNumber(r, c));
       }
     }
   }
@@ -100,9 +105,11 @@ public class RandomStatesTest {
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
     int filled = 0;
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        if (grid.getCellStateNumber(r,c) != 0) filled++;
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        if (grid.getCellStateNumber(r, c) != 0) {
+          filled++;
+        }
       }
     }
     assertEquals(9, filled);
@@ -129,9 +136,9 @@ public class RandomStatesTest {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_empty.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        assertEquals(0, grid.getCellStateNumber(r,c));
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        assertEquals(0, grid.getCellStateNumber(r, c));
       }
     }
   }
@@ -141,9 +148,9 @@ public class RandomStatesTest {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_tree.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        assertEquals(1, grid.getCellStateNumber(r,c));
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        assertEquals(1, grid.getCellStateNumber(r, c));
       }
     }
   }
@@ -153,9 +160,9 @@ public class RandomStatesTest {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_burn.sim"));
     RandomStates rs = new RandomStates(myParser);
     Grid grid = rs.makeGrid();
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        assertEquals(2, grid.getCellStateNumber(r,c));
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        assertEquals(2, grid.getCellStateNumber(r, c));
       }
     }
   }
@@ -165,10 +172,11 @@ public class RandomStatesTest {
     myParser.readFile(new File("data/spreading_of_fire/random_probs3_equal.sim"));
     RandomStates rs = new RandomStates(myParser, 1);
     Grid grid = rs.makeGrid();
-    int expected[][] = {{2,2,1,0,1},{0,1,0,2,1},{2,2,0,1,1},{1,2,1,2,2},{2,0,0,2,2}};
-    for (int r=0; r<5; r++) {
-      for (int c=0; c<5; c++) {
-        assertEquals(expected[r][c], grid.getCellStateNumber(r,c));
+    int expected[][] = {{2, 2, 1, 0, 1}, {0, 1, 0, 2, 1}, {2, 2, 0, 1, 1}, {1, 2, 1, 2, 2},
+        {2, 0, 0, 2, 2}};
+    for (int r = 0; r < 5; r++) {
+      for (int c = 0; c < 5; c++) {
+        assertEquals(expected[r][c], grid.getCellStateNumber(r, c));
       }
     }
   }

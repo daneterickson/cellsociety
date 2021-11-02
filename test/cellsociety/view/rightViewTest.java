@@ -9,23 +9,24 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 public class rightViewTest extends DukeApplicationTest {
+
   Controller myController;
   ChoiceBox myChoiceBox;
   Button myLineToggleButton;
 
   @Override
-  public void start (Stage stage) {
+  public void start(Stage stage) {
     myController = new Controller(stage);
   }
 
   @BeforeEach
-  public void setUp(){
+  public void setUp() {
     myChoiceBox = lookup("#viewChoiceBox").query();
     myLineToggleButton = lookup("#toggleGridLines").query();
   }
 
   @Test
-  public void testTogglingGridLinesForMultipleGridTypes(){
+  public void testTogglingGridLinesForMultipleGridTypes() {
     clickOn(myLineToggleButton);
     select(myChoiceBox, "TriangleGrid");
     clickOn(myLineToggleButton);

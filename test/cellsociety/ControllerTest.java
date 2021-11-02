@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 public class ControllerTest extends DukeApplicationTest {
+
   private Model myModel;
   private Grid myGrid;
   private int[][] myStates;
@@ -30,32 +31,40 @@ public class ControllerTest extends DukeApplicationTest {
   private String myParameters;
 
   @Override
-  public void start (Stage stage) {
+  public void start(Stage stage) {
     myController = new Controller(stage);
   }
 
   @Test
-  void testHasUpdate(){
-    assertEquals(true, myController.getHasUpdate(),"has update is true by default. got: " + myController.getHasUpdate());
+  void testHasUpdate() {
+    assertEquals(true, myController.getHasUpdate(),
+        "has update is true by default. got: " + myController.getHasUpdate());
     myController.setHasUpdate(false);
-    assertEquals(false, myController.getHasUpdate(),"has update should be set false. got: " + myController.getHasUpdate());
+    assertEquals(false, myController.getHasUpdate(),
+        "has update should be set false. got: " + myController.getHasUpdate());
   }
 
   @Test
-  void testStopAnimation(){
-    assertEquals(false, myController.getStopAnimation(), "stop animation is false by default. got: " + myController.getStopAnimation());
+  void testStopAnimation() {
+    assertEquals(false, myController.getStopAnimation(),
+        "stop animation is false by default. got: " + myController.getStopAnimation());
     myController.setStopAnimation(true);
-    assertEquals(true, myController.getStopAnimation(),"stop animation should be set true. got: " + myController.getStopAnimation());
+    assertEquals(true, myController.getStopAnimation(),
+        "stop animation should be set true. got: " + myController.getStopAnimation());
   }
 
   @Test
-  void testGridGetters(){
-    assertEquals(0, myController.getCellStateNumber(0,0), "cell state is 0 by default. got: " + myController.getCellStateNumber(0,0));
-    myController.setCellState(0,0,1);
-    assertEquals(1, myController.getCellStateNumber(0,0),"cell state should be set 1. got: " + myController.getCellStateNumber(0,0));
+  void testGridGetters() {
+    assertEquals(0, myController.getCellStateNumber(0, 0),
+        "cell state is 0 by default. got: " + myController.getCellStateNumber(0, 0));
+    myController.setCellState(0, 0, 1);
+    assertEquals(1, myController.getCellStateNumber(0, 0),
+        "cell state should be set 1. got: " + myController.getCellStateNumber(0, 0));
 
-    assertEquals(DEFAULT_GRID_WIDTH, myController.getNumGridCols(),"num cols should be 10. got: "+myController.getNumGridRows());
-    assertEquals(DEFAULT_GRID_HEIGHT, myController.getNumGridRows(),"num rows should be 10. got: "+ myController.getNumGridRows());
+    assertEquals(DEFAULT_GRID_WIDTH, myController.getNumGridCols(),
+        "num cols should be 10. got: " + myController.getNumGridRows());
+    assertEquals(DEFAULT_GRID_HEIGHT, myController.getNumGridRows(),
+        "num rows should be 10. got: " + myController.getNumGridRows());
 
   }
 

@@ -17,7 +17,8 @@ import javafx.scene.layout.VBox;
 public class CellProperties {
 
   private static final String RESOURCE = "cellsociety.view.left.";
-  protected static final String STYLESHEET = String.format("/%sCellProp.css", RESOURCE.replace(".", "/"));
+  protected static final String STYLESHEET = String.format("/%sCellProp.css",
+      RESOURCE.replace(".", "/"));
   private static final int SPACING = 40;
 
   private String stateColorTitle;
@@ -33,10 +34,11 @@ public class CellProperties {
 
   /**
    * Constructor to make a new Left panel
+   *
    * @param controller
    * @param resource
    */
-  public CellProperties(Controller controller,ResourceBundle resource){
+  public CellProperties(Controller controller, ResourceBundle resource) {
     myController = controller;
     myResource = resource;
     stateColorTitle = myResource.getString("ColorKey");
@@ -48,32 +50,36 @@ public class CellProperties {
 
   /**
    * Getter method that returns the CellProperties VBox. This contains all the displayed cell info.
+   *
    * @return Node that contains the displayed cell properties.
    */
-  public Node getCellProperties(){
+  public Node getCellProperties() {
     return myCellProperties;
   }
 
   /**
    * Updates the label that displays the current cell that is hovered over.
+   *
    * @param currentX X coordinate of current cell.
    * @param currentY Y coordinate of current cell.
    */
-  public void updateCellCordLabel(int currentX, int currentY){
+  public void updateCellCordLabel(int currentX, int currentY) {
     myCurrentX = currentX;
     myCurrentY = currentY;
-    myCellCoordinatesLabel.setText(String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
+    myCellCoordinatesLabel.setText(
+        String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
   }
 
   /**
    * Updates the label that displays the current simulation type
+   *
    * @param simType The String representing the simulation type
    */
-  public void updateSimTypeLabel(String simType){
+  public void updateSimTypeLabel(String simType) {
     mySimTypeLabel.setText(simType);
   }
 
-  private Node makeCellPropLabels(){
+  private Node makeCellPropLabels() {
     VBox labelBox = new VBox();
     labelBox.getChildren().add(initializeSimTypeLabel());
     labelBox.getChildren().add(makeCellCordTitle());
@@ -82,18 +88,19 @@ public class CellProperties {
     return labelBox;
   }
 
-  private Node initializeCellCordLabel(){
-    myCellCoordinatesLabel = new Label(String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
+  private Node initializeCellCordLabel() {
+    myCellCoordinatesLabel = new Label(
+        String.format(myResource.getString("CoordLabel"), myCurrentX, myCurrentY));
     return myCellCoordinatesLabel;
   }
 
-  private Node makeCellCordTitle(){
+  private Node makeCellCordTitle() {
     Label title = new Label(myResource.getString("CoordinateTitle"));
     title.getStyleClass().add("coordinateTitle");
     return title;
   }
 
-  private Node initializeSimTypeLabel(){
+  private Node initializeSimTypeLabel() {
     mySimTypeLabel = new Label(myResource.getString("DefaultSim"));
     return mySimTypeLabel;
   }
@@ -107,6 +114,7 @@ public class CellProperties {
 
   /**
    * Sets the resource bundle and makes new left panel labels
+   *
    * @param bundle
    * @return the new myCellProperties
    */
@@ -120,6 +128,7 @@ public class CellProperties {
 
   /**
    * Sets the resource bundle and makes new left panel labels
+   *
    * @param bundle
    * @param simProps
    * @return the new myCellProperties
@@ -133,7 +142,7 @@ public class CellProperties {
     Label title = new Label(myResource.getString("CoordinateTitle"));
     title.getStyleClass().add("coordinateTitle");
 
-    myCellCoordinatesLabel = new Label("("+myCurrentX+", "+myCurrentY+")");
+    myCellCoordinatesLabel = new Label("(" + myCurrentX + ", " + myCurrentY + ")");
 
     Label color = new Label(myResource.getString("StateColorTitle"));
     title.getStyleClass().add("stateColorsTitle");

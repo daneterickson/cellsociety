@@ -16,7 +16,8 @@ import javafx.scene.layout.VBox;
  */
 
 
-public class SegregationSettings extends RightPanel{
+public class SegregationSettings extends RightPanel {
+
   private final double MIN_SIMILARITY = 0;
   private final double MAX_SIMILARITY = 1;
   private final double STARTING_SIMILARITY = .5;
@@ -25,28 +26,32 @@ public class SegregationSettings extends RightPanel{
 
   /**
    * Constructor that makes a specific right panel
+   *
    * @param bundle
    * @param controller
    */
-  public SegregationSettings(ResourceBundle bundle, Controller controller){
+  public SegregationSettings(ResourceBundle bundle, Controller controller) {
     super(bundle, controller);
   }
 
   @Override
-  protected void makeSettingsPanel(VBox rightPanel){
-    rightPanel.getChildren().addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
+  protected void makeSettingsPanel(VBox rightPanel) {
+    rightPanel.getChildren()
+        .addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
   }
 
   @Override
-  protected Node makeButtons(){
+  protected Node makeButtons() {
     return makeGridLinesToggleButton();
   }
 
   @Override
-  protected Node makeSliders(){
+  protected Node makeSliders() {
     VBox sliderGroup = new VBox();
-    Label similarityLabel = makeALabel(super.getMyResource().getString("SegregationSimilarityLabel"), "similarityLabel");
-    Slider similaritySlider = makeASlider(MIN_SIMILARITY,MAX_SIMILARITY,STARTING_SIMILARITY, "similaritySlider", true, TICK_SPACING);
+    Label similarityLabel = makeALabel(
+        super.getMyResource().getString("SegregationSimilarityLabel"), "similarityLabel");
+    Slider similaritySlider = makeASlider(MIN_SIMILARITY, MAX_SIMILARITY, STARTING_SIMILARITY,
+        "similaritySlider", true, TICK_SPACING);
     similaritySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
       ArrayList settingsPkg = new ArrayList();
       settingsPkg.add(similaritySlider.getValue());
@@ -57,7 +62,7 @@ public class SegregationSettings extends RightPanel{
   }
 
   @Override
-  protected Node makeTextBox(){
+  protected Node makeTextBox() {
     return null;
   }
 

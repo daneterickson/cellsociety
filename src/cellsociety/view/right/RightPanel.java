@@ -19,10 +19,12 @@ import javafx.scene.layout.VBox;
 
 
 public abstract class RightPanel {
+
   private VBox theRightPanel;
   private static final int NUM_MINOR_TICKS = 2;
   private static final String RESOURCE = "cellsociety.view.right.";
-  private static final String STYLESHEET = String.format("/%sRightSettings.css", RESOURCE.replace(".", "/"));
+  private static final String STYLESHEET = String.format("/%sRightSettings.css",
+      RESOURCE.replace(".", "/"));
   private static final String CENTER_PATH = "cellsociety.view.center.%s";
 
   private ResourceBundle myResource;
@@ -30,6 +32,7 @@ public abstract class RightPanel {
 
   /**
    * Constructor that makes a right panel
+   *
    * @param bundle
    * @param controller
    */
@@ -51,7 +54,8 @@ public abstract class RightPanel {
   protected abstract void setProbSettings(ArrayList probability);
 
 
-  protected Button makeAButton(String className, String buttonAction, String label, String cssLabel) {
+  protected Button makeAButton(String className, String buttonAction, String label,
+      String cssLabel) {
     Button theButton = new Button(label);
     theButton.getStyleClass().add(cssLabel);
     theButton.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -67,7 +71,8 @@ public abstract class RightPanel {
     return theButton;
   }
 
-  protected Slider makeASlider(double min, double max, double start, String cssLabel, boolean ticks, double tickSpacing){
+  protected Slider makeASlider(double min, double max, double start, String cssLabel, boolean ticks,
+      double tickSpacing) {
     Slider theSlider = new Slider(min, max, start);
     theSlider.setShowTickMarks(ticks);
     theSlider.setSnapToTicks(true);
@@ -79,7 +84,7 @@ public abstract class RightPanel {
     return theSlider;
   }
 
-  protected Label makeALabel(String text, String cssLabel){
+  protected Label makeALabel(String text, String cssLabel) {
     Label theLabel = new Label(text);
     theLabel.getStyleClass().add(cssLabel);
     theLabel.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -93,9 +98,11 @@ public abstract class RightPanel {
     return theRightPanel;
   }
 
-  protected Controller getMyController() { return myController; }
+  protected Controller getMyController() {
+    return myController;
+  }
 
-  protected Button makeGridLinesToggleButton(){
+  protected Button makeGridLinesToggleButton() {
     Button lineToggle = new Button(myResource.getString("ToggleGridLines"));
     lineToggle.getStyleClass().add("toggleGridLines");
     lineToggle.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
@@ -104,24 +111,27 @@ public abstract class RightPanel {
     return lineToggle;
   }
 
-  protected ChoiceBox makeEdgeCaseChoiceBox(){
+  protected ChoiceBox makeEdgeCaseChoiceBox() {
     ChoiceBox edgeCaseChooser = new ChoiceBox();
     edgeCaseChooser.getItems().addAll(myResource.getString("EdgeTypes").split(","));
-    edgeCaseChooser.setOnAction(e -> myController.setEdgePolicy(edgeCaseChooser.getValue().toString()));
+    edgeCaseChooser.setOnAction(
+        e -> myController.setEdgePolicy(edgeCaseChooser.getValue().toString()));
     edgeCaseChooser.setId("edgeCaseChooser");
     return edgeCaseChooser;
   }
 
-  protected ChoiceBox makeNeighborChoiceBox(){
+  protected ChoiceBox makeNeighborChoiceBox() {
     ChoiceBox neighborChooser = new ChoiceBox();
     neighborChooser.getItems().addAll(myResource.getString("NeighborTypes").split(","));
-    neighborChooser.setOnAction(e -> myController.setNeighborFinder(neighborChooser.getValue().toString()));
+    neighborChooser.setOnAction(
+        e -> myController.setNeighborFinder(neighborChooser.getValue().toString()));
     neighborChooser.setId("neighborChooser");
     return neighborChooser;
   }
 
   /**
    * Gets the right panel
+   *
    * @return theRightPanel
    */
   public VBox getTheRightPanel() {
@@ -130,8 +140,11 @@ public abstract class RightPanel {
 
   /**
    * Gets the right panel resource bundle
+   *
    * @return myResource
    */
-  public ResourceBundle getMyResource() { return myResource; }
+  public ResourceBundle getMyResource() {
+    return myResource;
+  }
 
 }

@@ -57,7 +57,7 @@ public class CircleTimelineView extends CenterView {
       circleBoxes.add(state, new HBox());
       circleBoxes.get(state).getChildren().clear();
       String name = myNameColorMap.get(state).split(",")[0];
-      Text label = new Text(String.format("%s   ",name));
+      Text label = new Text(String.format("%s   ", name));
       circleBoxes.get(state).getChildren().add(label);
       String color = myNameColorMap.get(state).split(",")[1];
       Circle circle = new Circle(0, Color.web("#" + color));
@@ -70,10 +70,14 @@ public class CircleTimelineView extends CenterView {
 
   @Override
   public void updateView() {
-    if (myCircleTimelineMap == null) initiateView();
+    if (myCircleTimelineMap == null) {
+      initiateView();
+    }
     for (Integer stateNumber : myCircleTimelineMap.keySet()) {
       String color = myNameColorMap.get(stateNumber).split(",")[1];
-      Circle newCircle = new Circle(Double.valueOf(myCircleTimelineMap.get(stateNumber)) / totalNumCells * MAX_CIRCLE_RADIUS, Color.web("#" + color));
+      Circle newCircle = new Circle(
+          Double.valueOf(myCircleTimelineMap.get(stateNumber)) / totalNumCells * MAX_CIRCLE_RADIUS,
+          Color.web("#" + color));
       double totalWidth = calculateWidth(stateNumber);
       while (totalWidth > CANVAS_WIDTH - 50 - 2 * newCircle.getRadius()) {
         circles.get(stateNumber).remove(0);

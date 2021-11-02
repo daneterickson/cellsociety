@@ -28,7 +28,8 @@ public class ParserCSV extends Parser {
    * @throws IOException            may be thrown from the CSVReader readNext() method
    */
   @Override
-  public void readFile(File file) throws IOException, CsvValidationException, NumberFormatException {
+  public void readFile(File file)
+      throws IOException, CsvValidationException, NumberFormatException {
     CSVReader reader = new CSVReader(new FileReader(file));
     String[] nextLine;
     int row = 1;

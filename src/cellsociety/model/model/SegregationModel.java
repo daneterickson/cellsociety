@@ -17,11 +17,13 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This is a subclass of Model. This model calculates the next states for the Segregation Simulation
+ * This is a subclass of Model. This model calculates the next states for the Segregation
+ * Simulation
  *
  * @Authors Albert Yuan, Dane Erickson, Aaric Han
  */
 public class SegregationModel extends Model {
+
   //base class variables
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
@@ -38,8 +40,9 @@ public class SegregationModel extends Model {
 
   /**
    * This is the constructor for the Segregation Simulation
+   *
    * @param controller - the controller that connects the view and model
-   * @param grid - the current grid that holds the cells
+   * @param grid       - the current grid that holds the cells
    */
   public SegregationModel(Controller controller, Grid grid) {
     super(controller, grid);
@@ -49,9 +52,9 @@ public class SegregationModel extends Model {
     random = new Random();
     emptySpots = new ArrayList<>();
     findEmptyCells(grid);
-    try{
-      threshold = currGrid.getModelCell(0,0).getCellParameter("Threshold");
-    } catch(Exception e){
+    try {
+      threshold = currGrid.getModelCell(0, 0).getCellParameter("Threshold");
+    } catch (Exception e) {
       // TODO: catch threshold exception
       threshold = 0.5;
     }
@@ -81,8 +84,10 @@ public class SegregationModel extends Model {
     neighborFinder = new SquareComplete();
     numUpdates = getNumUpdates();
   }
+
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   *
    * @param type - the type of edgepolicy as a string
    */
   @Override
@@ -100,7 +105,9 @@ public class SegregationModel extends Model {
   }
 
   /**
-   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * sets the neighborfinder to a new neighborfinder type by using reflection and
+   * neighborfindersetter class
+   *
    * @param type - the type of neighborfinder as a string
    */
   @Override
@@ -123,12 +130,12 @@ public class SegregationModel extends Model {
   }
 
   /**
-   * current rule for Segregation. returns EMPTY/RACE1/RACE2 state
-   * relocates the state to an empty cell by calling relocate
+   * current rule for Segregation. returns EMPTY/RACE1/RACE2 state relocates the state to an empty
+   * cell by calling relocate
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    int newState = myRule.determineState(currRow,currCol,state,nearby,currGrid,edgePolicy);
+    int newState = myRule.determineState(currRow, currCol, state, nearby, currGrid, edgePolicy);
     if (myRule.relocationStatus()) {
       relocate(state);
       emptySpots.add(currRow * numCols + currCol);

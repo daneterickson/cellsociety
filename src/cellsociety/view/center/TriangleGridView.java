@@ -14,6 +14,7 @@ import javafx.scene.transform.NonInvertibleTransformException;
  * @author Nick Strauch
  */
 public class TriangleGridView extends GridView {
+
   private static final int NUM_VERTEXES = 3;
   private static final int POINT0 = 0;
   private static final int POINT1 = 1;
@@ -21,6 +22,7 @@ public class TriangleGridView extends GridView {
 
   /**
    * Constructor for a type of grid view
+   *
    * @param cellProps
    * @param controller
    */
@@ -33,35 +35,34 @@ public class TriangleGridView extends GridView {
     for (int i = 0; i < getNumRows(getCurrentGridNum()); i++) {
       for (int j = 0; j < getNumCols(getCurrentGridNum()); j++) {
         gc.setFill(Color.web("#" + getCellColor(i, j)));
-        if(j == 0){
+        if (j == 0) {
           fillLeftHalfTriangle(j, i, gc);
-        }
-        else{
+        } else {
           fillTriangle(j, i, gc);
         }
       }
     }
   }
 
-  private void fillLeftHalfTriangle(int i, int j, GraphicsContext gc){
+  private void fillLeftHalfTriangle(int i, int j, GraphicsContext gc) {
     double[] xCoords = {0, 1, 0};
     double[] yCoords = new double[NUM_VERTEXES];
     yCoords[POINT0] = j;
-    if(j % 2 == 0) {
-      yCoords[POINT1] = j+1;
-    } else{
+    if (j % 2 == 0) {
+      yCoords[POINT1] = j + 1;
+    } else {
       yCoords[POINT1] = j;
     }
-    yCoords[POINT2] = j+1;
+    yCoords[POINT2] = j + 1;
     gc.fillPolygon(xCoords, yCoords, NUM_VERTEXES);
   }
 
-  private void fillTriangle(int i, int j, GraphicsContext gc){
-    double[] xCoords = {i-1, i, i+1};
+  private void fillTriangle(int i, int j, GraphicsContext gc) {
+    double[] xCoords = {i - 1, i, i + 1};
     double[] yCoords;
-    if((j%2 == 0 && i%2 != 0) || (j%2 != 0 && i%2 == 0)){
+    if ((j % 2 == 0 && i % 2 != 0) || (j % 2 != 0 && i % 2 == 0)) {
       yCoords = new double[]{j, j + 1, j};
-    } else{
+    } else {
       yCoords = new double[]{j + 1, j, j + 1};
     }
     gc.fillPolygon(xCoords, yCoords, NUM_VERTEXES);
@@ -107,23 +108,33 @@ public class TriangleGridView extends GridView {
     setCursorOverCell(true);
     selectCorrectTriangle(modelAffineXY, correctedX, correctedY, triLength);
   }
-  private void selectCorrectTriangle(Point2D modelAffineXY, double correctedX, double correctedY, double triLength) {
-    if (((int) modelAffineXY.getX() % 2 == 0 && (int)modelAffineXY.getY() % 2 == 0) ||
-        ((int) modelAffineXY.getX() % 2 != 0 && (int)modelAffineXY.getY() % 2 != 0)) {
+
+  private void selectCorrectTriangle(Point2D modelAffineXY, double correctedX, double correctedY,
+      double triLength) {
+    if (((int) modelAffineXY.getX() % 2 == 0 && (int) modelAffineXY.getY() % 2 == 0) ||
+        ((int) modelAffineXY.getX() % 2 != 0 && (int) modelAffineXY.getY() % 2 != 0)) {
       if (correctedX >= correctedY) {
         setMosPos(0, (int) modelAffineXY.getX() + 1);
-        if((int) modelAffineXY.getX() +1 == getNumCols(getCurrentGridNum())){setCursorOverCell(false);}
+        if ((int) modelAffineXY.getX() + 1 == getNumCols(getCurrentGridNum())) {
+          setCursorOverCell(false);
+        }
       } else {
         setMosPos(0, (int) modelAffineXY.getX());
-        if((int) modelAffineXY.getX() == getNumCols(getCurrentGridNum())){setCursorOverCell(false);}
+        if ((int) modelAffineXY.getX() == getNumCols(getCurrentGridNum())) {
+          setCursorOverCell(false);
+        }
       }
     } else {
       if (correctedX > triLength - correctedY) {
         setMosPos(0, (int) modelAffineXY.getX() + 1);
-        if((int) modelAffineXY.getX() +1 == getNumCols(getCurrentGridNum())){setCursorOverCell(false);}
+        if ((int) modelAffineXY.getX() + 1 == getNumCols(getCurrentGridNum())) {
+          setCursorOverCell(false);
+        }
       } else {
         setMosPos(0, (int) modelAffineXY.getX());
-        if((int) modelAffineXY.getX() == getNumCols(getCurrentGridNum())){setCursorOverCell(false);}
+        if ((int) modelAffineXY.getX() == getNumCols(getCurrentGridNum())) {
+          setCursorOverCell(false);
+        }
       }
     }
   }

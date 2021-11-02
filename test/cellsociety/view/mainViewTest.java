@@ -18,6 +18,7 @@ import util.DukeApplicationTest;
 
 
 public class mainViewTest extends DukeApplicationTest {
+
   // keep only if needed to call application methods in tests
   Controller myController;
 
@@ -26,7 +27,7 @@ public class mainViewTest extends DukeApplicationTest {
   Slider speedSlider;
 
   @Override
-  public void start (Stage stage) {
+  public void start(Stage stage) {
     myController = new Controller(stage);
   }
 
@@ -57,13 +58,13 @@ public class mainViewTest extends DukeApplicationTest {
 //  }
 
   @Test
-  void testAnimationSpeedSliderMaxSpeed(){
+  void testAnimationSpeedSliderMaxSpeed() {
     speedSlider = lookup("#speedSlider").query();
     setValue(speedSlider, 3);
   }
 
   @Test
-  void testAnimationSpeedSliderMinSpeed(){
+  void testAnimationSpeedSliderMinSpeed() {
     speedSlider = lookup("#speedSlider").query();
     setValue(speedSlider, .01);
   }

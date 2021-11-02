@@ -31,7 +31,7 @@ public class SegregationRule extends Rule {
 
   @Override
   public int determineState(int currRow, int currCol, int state, List<Integer> nearby, Grid grid,
-      EdgePolicies edgePolicy){
+      EdgePolicies edgePolicy) {
     relocateCheck = false;
     if (state == EMPTY_STATE) {
       return EMPTY_STATE;
@@ -43,6 +43,7 @@ public class SegregationRule extends Rule {
     }
     return state;
   }
+
   /**
    * Getter method that gets the relocation status to know when to relocate a cell. Relocation
    * Status determined in determineState() method.
@@ -57,12 +58,12 @@ public class SegregationRule extends Rule {
       EdgePolicies edgePolicy) {
     double totalNeighbors = 0;
     double allies = 0;
-    for (int i = 0; i<nearby.size();i+=2) {
-      int nearbystate = getState(nearby.get(i),nearby.get(i+1), grid, edgePolicy);
+    for (int i = 0; i < nearby.size(); i += 2) {
+      int nearbystate = getState(nearby.get(i), nearby.get(i + 1), grid, edgePolicy);
       if (nearbystate != EMPTY_STATE) {
         totalNeighbors += 1;
       }
-      if(nearbystate == state){
+      if (nearbystate == state) {
         allies += 1;
       }
     }

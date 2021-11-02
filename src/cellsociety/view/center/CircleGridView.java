@@ -15,19 +15,20 @@ import javafx.scene.transform.NonInvertibleTransformException;
  * @author Nick Strauch
  */
 
-public class CircleGridView extends GridView{
+public class CircleGridView extends GridView {
 
   /**
    * Constructor for a type of grid view
+   *
    * @param cellProps
    * @param controller
    */
-  public CircleGridView(CellProperties cellProps, Controller controller){
+  public CircleGridView(CellProperties cellProps, Controller controller) {
     super(cellProps, controller);
   }
 
   @Override
-  protected void updateCellColors(GraphicsContext gc){
+  protected void updateCellColors(GraphicsContext gc) {
     for (int i = 0; i < getNumRows(getCurrentGridNum()); i++) {
       for (int j = 0; j < getNumCols(getCurrentGridNum()); j++) {
         gc.setFill(Color.web("#" + getCellColor(i, j)));
@@ -37,7 +38,7 @@ public class CircleGridView extends GridView{
   }
 
   @Override
-  protected void drawGridLines(GraphicsContext gc){
+  protected void drawGridLines(GraphicsContext gc) {
     gc.setStroke(GRID_LINE_COLOR);
     gc.setLineWidth(GRID_LINE_SIZE);
     for (int i = 0; i < getNumCols(getCurrentGridNum()) + 1; i++) {
@@ -48,7 +49,7 @@ public class CircleGridView extends GridView{
   }
 
   @Override
-  protected void getMousePosOnGrid(MouseEvent mouseEvent){
+  protected void getMousePosOnGrid(MouseEvent mouseEvent) {
     getMousePositionForCircles(mouseEvent);
   }
 }

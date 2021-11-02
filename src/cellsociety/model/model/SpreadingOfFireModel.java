@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This is a subclass of Model. This model calculates the next states for the Spreading of Fire Simulation
+ * This is a subclass of Model. This model calculates the next states for the Spreading of Fire
+ * Simulation
  *
  * @Authors Albert Yuan, Dane Erickson, Aaric Han
  */
 public class SpreadingOfFireModel extends Model {
+
   //base class variables
   private Grid currGrid;
   private ArrayList<Integer> newUpdates;
@@ -34,8 +36,9 @@ public class SpreadingOfFireModel extends Model {
 
   /**
    * This is the constructor for the Spreading Of Fire Model
+   *
    * @param controller - the controller that connects the model and view
-   * @param grid - the current grid that holds the cells
+   * @param grid       - the current grid that holds the cells
    */
   public SpreadingOfFireModel(Controller controller, Grid grid) {
     super(controller, grid);
@@ -43,7 +46,7 @@ public class SpreadingOfFireModel extends Model {
     random = new Random();
     try {
       probCatch = currGrid.getModelCell(0, 0).getCellParameter("ProbCatch");
-    }catch (Exception e){
+    } catch (Exception e) {
       System.out.println("invalid probCatch variable");
       probCatch = 0.5;
     }
@@ -59,8 +62,10 @@ public class SpreadingOfFireModel extends Model {
     neighborFinder = new SquareEdges();
     numUpdates = getNumUpdates();
   }
+
   /**
    * sets the edgepolicy to a new policy type by using reflection and edgepolicysetter class
+   *
    * @param type - the type of edgepolicy as a string
    */
   @Override
@@ -78,7 +83,9 @@ public class SpreadingOfFireModel extends Model {
   }
 
   /**
-   * sets the neighborfinder to a new neighborfinder type by using reflection and neighborfindersetter class
+   * sets the neighborfinder to a new neighborfinder type by using reflection and
+   * neighborfindersetter class
+   *
    * @param type - the type of neighborfinder as a string
    */
   @Override
@@ -105,7 +112,7 @@ public class SpreadingOfFireModel extends Model {
    */
   @Override
   protected Integer currRule(int currRow, int currCol, int state, List<Integer> nearby) {
-    return myRule.determineState(currRow, currCol, state, nearby,currGrid,edgePolicy);
+    return myRule.determineState(currRow, currCol, state, nearby, currGrid, edgePolicy);
   }
 
   /**

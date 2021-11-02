@@ -44,6 +44,7 @@ public class HistogramView extends CenterView {
 
   /**
    * Constructor for a type of centerview
+   *
    * @param cellProps
    * @param controller
    */
@@ -89,7 +90,8 @@ public class HistogramView extends CenterView {
     numbers.clear();
     numberBox.getChildren().clear();
     for (Integer stateNumber : myHistogramMap.keySet()) {
-      String percent = String.valueOf(Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%";
+      String percent = String.valueOf(
+          Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%";
       Text num = new Text(percent);
       numbers.add(stateNumber, num);
       numberBox.getChildren().add(num);
@@ -137,11 +139,14 @@ public class HistogramView extends CenterView {
    */
   @Override
   public void updateView() {
-    if (myHistogramMap == null) initiateView();
+    if (myHistogramMap == null) {
+      initiateView();
+    }
     for (Integer stateNumber : myHistogramMap.keySet()) {
       bars.get(stateNumber).setHeight(
           Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * MAX_BAR_HEIGHT);
-      numbers.get(stateNumber).setText(String.valueOf(Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%");
+      numbers.get(stateNumber).setText(String.valueOf(
+          Math.round(Double.valueOf(myHistogramMap.get(stateNumber)) / totalNumCells * 100)) + "%");
     }
   }
 

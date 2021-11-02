@@ -43,21 +43,21 @@ public class PercolationRuleTest {
   void testPercolate() {
     int row = 3;
     int col = 1;
-    nearby = nf.getNeighbors(row,col,myGrid);
-    int actual = rule.determineState(0,0,0,nearby,myGrid,edgePolicy);
-    assertEquals(1,actual);
-    actual = rule.determineState(0,0,1,nearby,myGrid,edgePolicy);
-    assertEquals(1,actual);
+    nearby = nf.getNeighbors(row, col, myGrid);
+    int actual = rule.determineState(0, 0, 0, nearby, myGrid, edgePolicy);
+    assertEquals(1, actual);
+    actual = rule.determineState(0, 0, 1, nearby, myGrid, edgePolicy);
+    assertEquals(1, actual);
   }
 
   @Test
   void testNoPercolate() {
     int row = 3;
     int col = 2;
-    nearby = nf.getNeighbors(row,col,myGrid);
-    int actual = rule.determineState(0,0,0,nearby,myGrid,edgePolicy);
-    assertEquals(0,actual);
-    actual = rule.determineState(0,0,1,nearby,myGrid,edgePolicy);
-    assertEquals(1,actual);
+    nearby = nf.getNeighbors(row, col, myGrid);
+    int actual = rule.determineState(0, 0, 0, nearby, myGrid, edgePolicy);
+    assertEquals(0, actual);
+    actual = rule.determineState(0, 0, 1, nearby, myGrid, edgePolicy);
+    assertEquals(1, actual);
   }
 }

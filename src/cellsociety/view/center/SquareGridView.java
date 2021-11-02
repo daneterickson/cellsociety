@@ -17,6 +17,7 @@ public class SquareGridView extends GridView {
 
   /**
    * Constructor for a type of GridView
+   *
    * @param cellProps
    * @param controller
    */

@@ -29,6 +29,7 @@ public class SpreadingOfFireRule extends Rule {
     myProbCatch = probCatch;
     random = new Random();
   }
+
   /**
    * Overridden method to determine the state for a SpreadingOfFireRule
    *
@@ -46,8 +47,8 @@ public class SpreadingOfFireRule extends Rule {
       return EMPTY_STATE;
     }
 
-    for (int i = 0; i<nearby.size();i+=2) {
-      int nearbystate = getState(nearby.get(i),nearby.get(i+1), grid, edgePolicy);
+    for (int i = 0; i < nearby.size(); i += 2) {
+      int nearbystate = getState(nearby.get(i), nearby.get(i + 1), grid, edgePolicy);
       if (nearbystate == BURN_STATE) {
         if (random.nextFloat() < myProbCatch) {
           return BURN_STATE;

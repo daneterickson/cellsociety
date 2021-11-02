@@ -3,21 +3,21 @@
   -fx-min-width: 30;
 }
 
-.coordinateLabel{
+.coordinateLabel {
   -fx-font-size: 16;
 }
 
-.coordinateTitle{
+.coordinateTitle {
   -fx-font-size: 14;
   -fx-font-weight: bold;
 }
 
-.simTypeLabel{
+.simTypeLabel {
   -fx-font-size: 18;
   -fx-underline: true;
 }
 
-.stateColorsTitle{
+.stateColorsTitle {
   -fx-alignment: center;
   -fx-font-size: 16;
 }

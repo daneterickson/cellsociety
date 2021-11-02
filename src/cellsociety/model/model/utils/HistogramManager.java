@@ -23,6 +23,7 @@ public class HistogramManager {
 
   /**
    * Constructor for the HistogramManager
+   *
    * @param grid - the current grid that holds all the cells
    */
   public HistogramManager(Grid grid) {
@@ -49,7 +50,8 @@ public class HistogramManager {
   private List<String> getCellStateNames() {
     List<Field> declaredFields = new ArrayList<>();
     List<Field> childFields = List.of(currGrid.getModelCell(0, 0).getClass().getDeclaredFields());
-    List<Field> parentFields = List.of(currGrid.getModelCell(0, 0).getClass().getSuperclass().getDeclaredFields());
+    List<Field> parentFields = List.of(
+        currGrid.getModelCell(0, 0).getClass().getSuperclass().getDeclaredFields());
 
     declaredFields.addAll(childFields);
     declaredFields.addAll(parentFields);
@@ -96,8 +98,9 @@ public class HistogramManager {
 
   /**
    * adds the given values to the histogram
+   *
    * @param cellStateNum - the key corresponding to a certain cell state
-   * @param amount - the amount to add to the hashmap for the given key
+   * @param amount       - the amount to add to the hashmap for the given key
    */
   public void add(Integer cellStateNum, int amount) {
     int total = histogram.get(cellStateNum) + amount;
@@ -108,8 +111,8 @@ public class HistogramManager {
    * clears the map. this is called everytime the model is updated
    */
   public void clear() {
-    for (Integer key : histogram.keySet()){
-      histogram.put(key,0);
+    for (Integer key : histogram.keySet()) {
+      histogram.put(key, 0);
     }
   }
 }

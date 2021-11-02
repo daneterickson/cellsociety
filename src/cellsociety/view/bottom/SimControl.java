@@ -19,7 +19,7 @@ import javafx.util.Duration;
 
 /**
  * SimControl - Simulation Control View
- *
+ * <p>
  * This class makes elements that are used on the bottom of the display The elements include start,
  * pause, stop, and step buttons
  *
@@ -31,7 +31,7 @@ public class SimControl {
   private String RESOURCE = "cellsociety.view.bottom.";
   private String STYLESHEET = String.format("/%sSimControl.css", RESOURCE.replace(".", "/"));
   private String ICONS = String.format("/%sSimControlIcons/", RESOURCE.replace(".", "/"));
-  private String SLIDER_ICONS = String.format("/%sSliderIcons/",RESOURCE.replace(".", "/"));
+  private String SLIDER_ICONS = String.format("/%sSliderIcons/", RESOURCE.replace(".", "/"));
 
   private static final int BUTTON_SPACING = 15;
   private static final int BUTTON_SLIDER_SPACING = 15;
@@ -100,13 +100,13 @@ public class SimControl {
     return buttonHBox;
   }
 
-  private Node makeSpeedSlider(){
+  private Node makeSpeedSlider() {
     HBox sliderBox = new HBox();
-    Slider speedSlider = new Slider( MIN_SLIDER_VAL,MAX_SLIDER_VAL, INITIAL_RATE);
+    Slider speedSlider = new Slider(MIN_SLIDER_VAL, MAX_SLIDER_VAL, INITIAL_RATE);
     speedSlider.setPrefWidth(SLIDER_LENGTH);
     speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
       myAnimationRate = speedSlider.getValue();
-      if(myAnimation!=null){
+      if (myAnimation != null) {
         myAnimation.setRate(myAnimationRate);
       }
     });
@@ -140,13 +140,11 @@ public class SimControl {
       myAnimation.play();
       isPaused = false;
       playPauseButton.setGraphic(pauseIcon);
-    }
-    else if(isPaused){
+    } else if (isPaused) {
       myAnimation.play();
       isPaused = false;
       playPauseButton.setGraphic(pauseIcon);
-    }
-    else if (!isPaused) {
+    } else if (!isPaused) {
       myAnimation.pause();
       isPaused = true;
       playPauseButton.setGraphic(playIcon);
@@ -155,13 +153,13 @@ public class SimControl {
   }
 
   private void step() {
-    if(myController.getHasUpdate()){
+    if (myController.getHasUpdate()) {
       myController.updateModels();
       myCenterView.updateView();
     }
   }
 
-  private Button makeAddGridButton(){
+  private Button makeAddGridButton() {
     Button button = new Button(myResources.getString("AddGrid"));
     button.setOnAction(e -> myCenterView.addViewToCenter());
     button.getStyleClass().add("addGridButton");
@@ -174,7 +172,8 @@ public class SimControl {
     ChoiceBox views = new ChoiceBox();
     views.getItems().addAll(myResources.getString("ViewTypes").split(","));
     views.setOnAction(e -> {
-    myController.updateCenterViewType(myResources.getString(views.getValue().toString())); });
+      myController.updateCenterViewType(myResources.getString(views.getValue().toString()));
+    });
     views.setId("viewChoiceBox");
     return views;
   }
@@ -192,8 +191,7 @@ public class SimControl {
     if (langButton.getText().equals(EN)) {
       langButton.setText(ES);
       myController.setLang(ES);
-    }
-    else {
+    } else {
       langButton.setText(EN);
       myController.setLang(EN);
     }
@@ -211,6 +209,7 @@ public class SimControl {
 
   /**
    * Updates the component with a new language
+   *
    * @param bundle
    * @return mySimControl
    */

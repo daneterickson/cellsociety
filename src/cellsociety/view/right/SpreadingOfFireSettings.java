@@ -15,7 +15,8 @@ import javafx.scene.layout.VBox;
  * @author Aaric Han, Nick Strauch
  */
 
-public class SpreadingOfFireSettings extends RightPanel{
+public class SpreadingOfFireSettings extends RightPanel {
+
   private double MIN_PROB = 0;
   private double MAX_PROB = 1;
   private double STARTING_PROB = .5;
@@ -23,24 +24,32 @@ public class SpreadingOfFireSettings extends RightPanel{
 
   /**
    * Constructor that makes a specific right panel
+   *
    * @param bundle
    * @param controller
    */
-  public SpreadingOfFireSettings(ResourceBundle bundle, Controller controller){
+  public SpreadingOfFireSettings(ResourceBundle bundle, Controller controller) {
     super(bundle, controller);
   }
 
   @Override
-  protected void makeSettingsPanel(VBox rightPanel){rightPanel.getChildren().addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());}
+  protected void makeSettingsPanel(VBox rightPanel) {
+    rightPanel.getChildren()
+        .addAll(makeSliders(), makeButtons(), makeEdgeCaseChoiceBox(), makeNeighborChoiceBox());
+  }
 
   @Override
-  protected Node makeButtons(){return makeGridLinesToggleButton();}
+  protected Node makeButtons() {
+    return makeGridLinesToggleButton();
+  }
 
   @Override
-  protected Node makeSliders(){
+  protected Node makeSliders() {
     VBox sliderGroup = new VBox();
-    Label probLabel = makeALabel(super.getMyResource().getString("SpreadingOfFireProbLabel"), "probLabel");
-    Slider probSlider = makeASlider(MIN_PROB,MAX_PROB,STARTING_PROB,"probSlider", true, TICK_SPACING);
+    Label probLabel = makeALabel(super.getMyResource().getString("SpreadingOfFireProbLabel"),
+        "probLabel");
+    Slider probSlider = makeASlider(MIN_PROB, MAX_PROB, STARTING_PROB, "probSlider", true,
+        TICK_SPACING);
     probSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
       ArrayList settingsPkg = new ArrayList();
       settingsPkg.add(probSlider.getValue());
@@ -51,7 +60,7 @@ public class SpreadingOfFireSettings extends RightPanel{
   }
 
   @Override
-  protected Node makeTextBox(){
+  protected Node makeTextBox() {
     return null;
   }
 

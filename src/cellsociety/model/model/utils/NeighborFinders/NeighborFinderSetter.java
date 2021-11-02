@@ -4,8 +4,8 @@ package cellsociety.model.model.utils.NeighborFinders;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * helper class that takes a string and returns an NeighborFinder. Allows the user to pick from a dropdown list
- * of strings and change the NeighborFinder
+ * helper class that takes a string and returns an NeighborFinder. Allows the user to pick from a
+ * dropdown list of strings and change the NeighborFinder
  *
  * @Author Albert Yuan
  */
@@ -13,6 +13,7 @@ public class NeighborFinderSetter {
 
   /**
    * Takes a string and uses reflection to instantiate a new NeighborFinder
+   *
    * @param type - the NeighborFinder type as a string
    * @return new NeighborFinder object
    */

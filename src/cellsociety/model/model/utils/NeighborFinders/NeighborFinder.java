@@ -86,7 +86,7 @@ public abstract class NeighborFinder {
     int[] dy = {-1, -1, -1, -1, -1, 0, 0, 0, 0, 1, 1, 1};
 
     for (int idx = 0; idx < dx.length; idx++) {
-      if ((col+row) % 2 == 1) {
+      if ((col + row) % 2 == 1) {
         neighbors.add(row + dy[idx]);
         neighbors.add(col + dx[idx]);
       } else {
@@ -94,7 +94,39 @@ public abstract class NeighborFinder {
         neighbors.add(col + dx[idx]);
       }
     }
+    return neighbors;
+  }
 
+  protected List<Integer> getTriangleEdges(int row, int col, Grid grid) {
+    ArrayList<Integer> neighbors = new ArrayList<>();
+    int[] dx = {0, -1, 1};
+    int[] dy = {-1, 0, 0};
+
+    for (int idx = 0; idx < dx.length; idx++) {
+      if ((col + row) % 2 == 1) {
+        neighbors.add(row + dy[idx]);
+        neighbors.add(col + dx[idx]);
+      } else {
+        neighbors.add(row - dy[idx]);
+        neighbors.add(col + dx[idx]);
+      }
+    }
+    return neighbors;
+  }
+  protected List<Integer> getTriangleVertices(int row, int col, Grid grid) {
+    ArrayList<Integer> neighbors = new ArrayList<>();
+    int[] dx = {-2, -1, 1, 2, -2, 2, -1, 0, 1};
+    int[] dy = {-1, -1, -1, -1, 0, 0, 1, 1, 1};
+
+    for (int idx = 0; idx < dx.length; idx++) {
+      if ((col + row) % 2 == 1) {
+        neighbors.add(row + dy[idx]);
+        neighbors.add(col + dx[idx]);
+      } else {
+        neighbors.add(row - dy[idx]);
+        neighbors.add(col + dx[idx]);
+      }
+    }
     return neighbors;
   }
 }

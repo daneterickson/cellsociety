@@ -84,13 +84,14 @@ public abstract class NeighborFinder {
     ArrayList<Integer> neighbors = new ArrayList<>();
     int[] dx = {-2, -1, 0, 1, 2, -2, -1, 1, 2, -1, 0, 1};
     int[] dy = {-1, -1, -1, -1, -1, 0, 0, 0, 0, 1, 1, 1};
-    int numCols = grid.getNumCols();
 
     for (int idx = 0; idx < dx.length; idx++) {
-      if (col % 2 == 1) {
-        neighbors.add((row + dy[idx]) * numCols + (col + dx[idx]));
+      if ((col+row) % 2 == 1) {
+        neighbors.add(row + dy[idx]);
+        neighbors.add(col + dx[idx]);
       } else {
-        neighbors.add((row - dy[idx]) * numCols + (col + dx[idx]));
+        neighbors.add(row - dy[idx]);
+        neighbors.add(col + dx[idx]);
       }
     }
 

@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -62,7 +60,7 @@ public class HistogramView extends CenterView {
   @Override
   public void initiateView() {
     myHistogramMap = myController.getHistogramMap();
-    totalNumCells = findTotalCells();
+    totalNumCells = findTotalCells(myHistogramMap);
     myNameColorMap = myController.getNamesAndColors();
     histogramElements.getChildren().clear();
     makeBars();
@@ -94,14 +92,6 @@ public class HistogramView extends CenterView {
       labelBox.getChildren().add(label);
     }
     histogramElements.getChildren().add(labelBox);
-  }
-
-  private double findTotalCells() {
-    int ret = 0;
-    for (Integer state : myHistogramMap.keySet()) {
-      ret += myHistogramMap.get(state);
-    }
-    return ret;
   }
 
   private void setStyles() {

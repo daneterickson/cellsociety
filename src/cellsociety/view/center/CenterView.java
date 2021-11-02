@@ -2,6 +2,7 @@ package cellsociety.view.center;
 
 import cellsociety.controller.Controller;
 import cellsociety.view.left.CellProperties;
+import java.util.Map;
 import javafx.scene.Node;
 
 public abstract class CenterView {
@@ -20,6 +21,14 @@ public abstract class CenterView {
   public abstract Node getViewBox();
 
   public abstract void addViewToCenter();
+
+  protected double findTotalCells(Map<Integer, Integer> map) {
+    int ret = 0;
+    for (Integer state : map.keySet()) {
+      ret += map.get(state);
+    }
+    return ret;
+  }
 
 
 

@@ -7,6 +7,7 @@ import cellsociety.view.center.CenterView;
 import cellsociety.view.center.GridView;
 import cellsociety.view.center.HistogramView;
 import cellsociety.view.center.SquareGridView;
+import cellsociety.view.center.TriangleGridView;
 import cellsociety.view.left.CellProperties;
 import cellsociety.view.right.GameOfLifeSettings;
 import cellsociety.view.right.RightPanel;
@@ -78,6 +79,7 @@ public class MainView {
       root.setCenter(myCenterView.getViewBox());
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
       showError(e.getMessage());
+      e.printStackTrace();
     }
     myCenterView.updateView();
   }

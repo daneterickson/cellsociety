@@ -46,7 +46,7 @@ public class SpreadingOfFireModel extends Model {
     myController = getMyController();
     neighborFinder = getNeighborFinder();
     edgePolicy = getEdgePolicy();
-    neighborFinder = new SquareEdges(edgePolicy);
+    neighborFinder = new SquareEdges();
     numUpdates = getNumUpdates();
   }
 
@@ -62,7 +62,7 @@ public class SpreadingOfFireModel extends Model {
   @Override
   public void setNeighborFinder(String type){
     NeighborFinderSetter nfs = new NeighborFinderSetter();
-    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+    neighborFinder = nfs.setNeighborFinder(type);
   }
   @Override
   public String getNeighborFinderType(){

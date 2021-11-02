@@ -1,18 +1,16 @@
 package cellsociety.model.model.utils.NeighborFinders;
 
 import cellsociety.model.Grid;
-import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 import java.util.List;
 
 public class TriangleComplete extends NeighborFinder implements NeighborFinderInterface {
 
-  public TriangleComplete(EdgePolicies edgePolicy) {
-    super(edgePolicy);
-  }
-
+  /**
+   * Overridden method that calls getTriangleEdges
+   */
   @Override
   public List<Integer> getNeighbors(int row, int col, Grid grid){
-    return getTriangleComplete(row,col,grid);
+    return getTriangleComplete(row,col);
   }
 
 }

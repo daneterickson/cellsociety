@@ -46,7 +46,7 @@ public class NeighborFinderTest {
 
   @Test
   void testSquareComplete(){
-    myNeighborFinder = new SquareComplete(edgePolicy);
+    myNeighborFinder = new SquareComplete();
     List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
 
     int population = 0;
@@ -67,7 +67,7 @@ public class NeighborFinderTest {
 
   @Test
   void testSquareEdges(){
-    myNeighborFinder = new SquareEdges(edgePolicy);
+    myNeighborFinder = new SquareEdges();
     List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
 
     int population = 0;
@@ -88,7 +88,7 @@ public class NeighborFinderTest {
 
   @Test
   void testSquareCorners(){
-    myNeighborFinder = new SquareCorners(edgePolicy);
+    myNeighborFinder = new SquareCorners();
     List<Integer> neighbors = myNeighborFinder.getNeighbors(currRow, currCol,myGrid);
 
     int population = 0;
@@ -143,7 +143,7 @@ public class NeighborFinderTest {
     numCols = 5;
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
-    myNeighborFinder = new TriangleComplete(edgePolicy);
+    myNeighborFinder = new TriangleComplete();
 
     currRow = 1;
     currCol = 2;
@@ -179,7 +179,7 @@ public class NeighborFinderTest {
     numCols = 5;
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
-    myNeighborFinder = new TriangleEdges(edgePolicy);
+    myNeighborFinder = new TriangleEdges();
 
     currRow = 1;
     currCol = 2;
@@ -213,7 +213,7 @@ public class NeighborFinderTest {
     numCols = 5;
     String type = "SpreadingOfFire";
     myGrid = new Grid(numRows, numCols, myStates, myStartColors, myParameters, type);
-    myNeighborFinder = new TriangleVertices(edgePolicy);
+    myNeighborFinder = new TriangleVertices();
 
     currRow = 1;
     currCol = 2;

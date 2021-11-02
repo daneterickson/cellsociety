@@ -1,18 +1,22 @@
 package cellsociety.model.model.utils.NeighborFinders;
 
-import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class NeighborFinderSetter {
 
-  public NeighborFinder setNeighborFinder(String type, EdgePolicies currEdgePolicy) {
+  /**
+   * Takes a string and uses reflection to instantiate a new neighborfinder
+   * returns the new neighborfinder object
+   */
+  public NeighborFinder setNeighborFinder(String type) {
     String neighborFinderType = String.format("cellsociety.model.model.utils.NeighborFinders.%s",
         type);
     NeighborFinder neighborFinder = null;
     try {
       Class<?> clazz = Class.forName(neighborFinderType);
-      neighborFinder = (NeighborFinder) clazz.getDeclaredConstructor(EdgePolicies.class)
-          .newInstance(currEdgePolicy);
+      neighborFinder = (NeighborFinder) clazz.getDeclaredConstructor()
+          .newInstance();
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
       System.out.println("Method Not Found");
       e.printStackTrace();

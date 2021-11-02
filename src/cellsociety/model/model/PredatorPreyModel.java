@@ -66,7 +66,7 @@ public class PredatorPreyModel extends Model {
     myController = getMyController();
     numUpdates = getNumUpdates();
     edgePolicy = getEdgePolicy();
-    neighborFinder = new SquareEdges(edgePolicy);
+    neighborFinder = new SquareEdges();
   }
 
   @Override
@@ -81,7 +81,7 @@ public class PredatorPreyModel extends Model {
   @Override
   public void setNeighborFinder(String type){
     NeighborFinderSetter nfs = new NeighborFinderSetter();
-    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+    neighborFinder = nfs.setNeighborFinder(type);
   }
   @Override
   public String getNeighborFinderType(){

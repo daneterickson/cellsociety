@@ -34,7 +34,7 @@ public class GameOfLifeModel extends Model {
     myController = getMyController();
     neighborFinder = getNeighborFinder();
     edgePolicy = getEdgePolicy();
-    neighborFinder = new SquareComplete(edgePolicy);
+    neighborFinder = new SquareComplete();
     numUpdates = getNumUpdates();
   }
 
@@ -50,7 +50,7 @@ public class GameOfLifeModel extends Model {
   @Override
   public void setNeighborFinder(String type){
     NeighborFinderSetter nfs = new NeighborFinderSetter();
-    neighborFinder = nfs.setNeighborFinder(type, edgePolicy);
+    neighborFinder = nfs.setNeighborFinder(type);
   }
   @Override
   public String getNeighborFinderType(){

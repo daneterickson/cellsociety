@@ -32,7 +32,6 @@ public abstract class EdgePolicies {
       col += numCols;
       col = col % numCols;
     }
-
     return grid.getCellStateNumber(row,col);
   }
 
@@ -42,7 +41,6 @@ public abstract class EdgePolicies {
   protected int spherical(int row, int col, Grid grid){
     int numRows = grid.getNumRows();
     int numCols = grid.getNumCols();
-
     int newRow, newCol;
     if (row >= numRows){
       newCol = row - 1;
@@ -51,7 +49,6 @@ public abstract class EdgePolicies {
     }else{
       newCol = row;
     }
-
     if (col >= numCols){
       newRow = col - 1;
     }else if(col < 0) {
@@ -59,7 +56,6 @@ public abstract class EdgePolicies {
     }else{
       newRow = col;
     }
-
     return grid.getCellStateNumber(newRow,newCol);
   }
 

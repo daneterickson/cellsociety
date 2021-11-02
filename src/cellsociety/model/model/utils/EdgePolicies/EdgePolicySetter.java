@@ -4,6 +4,11 @@ import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import java.lang.reflect.InvocationTargetException;
 
 public class EdgePolicySetter {
+
+  /**
+   * Takes a string and uses reflection to instantiate a new edgepolicy
+   * returns the new edgepolicy object
+   */
   public EdgePolicies setEdgePolicy(String type) {
     String edgePolicyType = String.format("cellsociety.model.model.utils.EdgePolicies.%sEdgePolicy", type);
     EdgePolicies edgePolicy = null;

@@ -6,7 +6,7 @@ import java.util.List;
 public class TriangleComplete extends NeighborFinder implements NeighborFinderInterface {
 
   /**
-   * Overridden method that calls getTriangleEdges
+   * Overridden method that calls getTriangleComplete
    */
   @Override
   public List<Integer> getNeighbors(int row, int col, Grid grid){

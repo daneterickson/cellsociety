@@ -6,7 +6,7 @@ import java.util.List;
 public class SquareEdges extends NeighborFinder implements NeighborFinderInterface {
 
   /**
-   * Overridden method that calls getTriangleEdges
+   * Overridden method that calls getSquareEdges
    */
   @Override
   public List<Integer> getNeighbors(int row, int col, Grid grid){

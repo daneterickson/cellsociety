@@ -3,6 +3,11 @@ package cellsociety.model.model.utils.EdgePolicies;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 
+/**
+ * subclass of EdgePolicies. Represents the Spherical EdgePolicy
+ *
+ * @Author Albert Yuan
+ */
 public class SphericalEdgePolicy extends EdgePolicies implements EdgePolicyInterface {
 
   /**

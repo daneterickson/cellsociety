@@ -2,11 +2,20 @@ package cellsociety.model.model.utils.EdgePolicies;
 
 import cellsociety.model.Grid;
 
+/**
+ * Abstract class that represents the edgepolicy. an edgepolicy class takes an out of bounds coordinate
+ * and return a state based on the policy
+ * @Author Albert Yuan
+ */
 public abstract class EdgePolicies {
   public EdgePolicies(){}
 
   /**
-   * abstract class that will be called in each policy
+   * abstract class that will be called in each policy. Calls a method below.
+   * @param row - the row of the out of bounds coordinate
+   * @param col - the column of the out of bounds coordinate
+   * @param grid - the current grid that's holding all the cells
+   * @return an integer that corresponds to a cell state
    */
   public abstract int policy(int row, int col, Grid grid);
 

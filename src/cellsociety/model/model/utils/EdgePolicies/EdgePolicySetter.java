@@ -3,6 +3,12 @@ package cellsociety.model.model.utils.EdgePolicies;
 import cellsociety.model.model.utils.NeighborFinders.NeighborFinder;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * helper class that takes a string and returns an edgepolicy. Allows the user to pick from a drop down list
+ * of strings and change the edge policy
+ *
+ * @Author Albert Yuan
+ */
 public class EdgePolicySetter {
 
   /**

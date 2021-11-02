@@ -3,6 +3,11 @@ package cellsociety.model.model.utils.EdgePolicies;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 
+/**
+ * subclass of EdgePolicies. Represents the Toroidal EdgePolicy
+ *
+ * @Author Albert Yuan
+ */
 public class ToroidalEdgePolicy extends EdgePolicies implements EdgePolicyInterface {
 
   /**

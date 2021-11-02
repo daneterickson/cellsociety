@@ -3,6 +3,11 @@ package cellsociety.model.model.utils.EdgePolicies;
 import cellsociety.model.Grid;
 import cellsociety.model.model.utils.EdgePolicies.EdgePolicies;
 
+/**
+ * subclass of EdgePolicies. Represents the Finite EdgePolicy
+ *
+ * @Author Albert Yuan
+ */
 public class FiniteEdgePolicy extends EdgePolicies implements EdgePolicyInterface {
 
   /**

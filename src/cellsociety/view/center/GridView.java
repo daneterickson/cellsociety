@@ -178,6 +178,7 @@ public abstract class GridView extends CenterView {
     if(cursorOverCell) {
       try {
         myController.setCurrentGridNumber(myCanvasList.indexOf(mouseEvent.getSource()));
+        if(myController.getCurrentGridNumber() == -1){myController.setCurrentGridNumber(0);}
         getMousePosOnGrid(mouseEvent);
         drawSelectedGridIndicatorLines();
       } catch (NonInvertibleTransformException e) {

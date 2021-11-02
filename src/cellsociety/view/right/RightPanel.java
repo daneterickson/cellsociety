@@ -93,6 +93,7 @@ public abstract class RightPanel {
     Button lineToggle = new Button(myResource.getString("ToggleGridLines"));
     lineToggle.getStyleClass().add("toggleGridLines");
     lineToggle.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    lineToggle.setId("toggleGridLines");
     lineToggle.setOnAction(e -> myController.toggleCenterLines());
     return lineToggle;
   }

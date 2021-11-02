@@ -3,6 +3,7 @@ package cellsociety.view;
 import cellsociety.controller.Controller;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class centerViewTest extends DukeApplicationTest {
-  // keep only if needed to call application methods in tests
   Controller myController;
   Canvas myGrid;
   Button myStepButton;
+  ChoiceBox myChoiceBox;
 
   @Override
   public void start (Stage stage) {
@@ -24,6 +25,7 @@ public class centerViewTest extends DukeApplicationTest {
   @BeforeEach
   public void setUp(){
     myGrid = lookup("#canvas").query();
+    myChoiceBox = lookup("#viewChoiceBox").query();
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         if(myController.getCellStateNumber(j,i) == 1){
@@ -43,7 +45,7 @@ public class centerViewTest extends DukeApplicationTest {
 
   @Test
   public void testClickingOnGridInBottomRightAfterOtherClicks(){
-    clickOn(myGrid, 0,  0);
+    clickOn(myGrid, 1,  1);
     clickOn(myGrid, 100,  0);
     clickOn(myGrid, 70,  100);
     clickOn(myGrid, 0,  290);
@@ -62,6 +64,48 @@ public class centerViewTest extends DukeApplicationTest {
     clickOn(myStepButton);
     clickOn(myStepButton);
     assertEquals(1, myController.getCellStateNumber(3,5));
+  }
+
+  @Test
+  public void testChangingToTriangleThenClickingOnGrid(){
+    select(myChoiceBox, "Triangle Grid");
+    myGrid = lookup("#canvas").query();
+    clickOn(myGrid, 30, 50);
+    clickOn(myGrid, 100, 100);
+    clickOn(myGrid, 250, 50);
+    clickOn(myGrid, 0, 0);
+    assertEquals(1, myController.getCellStateNumber(1,1));
+  }
+
+  @Test
+  public void testChangingToCircleThenClickingOnGrid(){
+    select(myChoiceBox, "Circle Grid");
+    myGrid = lookup("#canvas").query();
+    clickOn(myGrid, 35, 35);
+    clickOn(myGrid, 100, 100);
+    clickOn(myGrid, 250, 50);
+    clickOn(myGrid, 10, 10);
+    assertEquals(1, myController.getCellStateNumber(1,1));
+  }
+
+  @Test
+  public void testChangingToHexagonThenClickingOnGrid(){
+    select(myChoiceBox, "Hexagon Grid");
+    myGrid = lookup("#canvas").query();
+    clickOn(myGrid, 35, 35);
+    clickOn(myGrid, 100, 100);
+    clickOn(myGrid, 250, 50);
+    clickOn(myGrid, 10, 10);
+    assertEquals(1, myController.getCellStateNumber(1,1));
+  }
+
+  @Test
+  public void testChangingToHistogramThenRunningAFewSteps(){
+    select(myChoiceBox, "Histogram");
+    myStepButton = lookup("#stepButton").query();
+    clickOn(myStepButton);
+    clickOn(myStepButton);
+    clickOn(myStepButton);
   }
 
 }

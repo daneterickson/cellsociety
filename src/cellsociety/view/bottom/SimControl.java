@@ -174,6 +174,7 @@ public class SimControl {
     views.getItems().addAll(myResources.getString("ViewTypes").split(","));
     views.setOnAction(e -> {
       myController.updateCenterViewType(views.getValue().toString()); });
+    views.setId("viewChoiceBox");
     return views;
   }
 

@@ -9,6 +9,8 @@ import java.io.IOException;
 /**
  * Abstract super class for the Parser hierarchy, which parses the different files needed to run the
  * simulations (CSV and SIM files).
+ *
+ * @Author Dane Erickson
  */
 public abstract class Parser {
 

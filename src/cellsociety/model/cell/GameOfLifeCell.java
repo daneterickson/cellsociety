@@ -4,6 +4,8 @@ import java.util.ResourceBundle;
 
 /**
  * Subclass of ModelCell that makes a cell for each spot in Game of Life simulation
+ *
+ * @Author Dane Erickson
  */
 public class GameOfLifeCell extends ModelCell {
 

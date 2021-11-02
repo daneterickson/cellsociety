@@ -16,6 +16,8 @@ import java.util.TreeMap;
 
 /**
  * Class to generate the initial states for random configurations where a CSV file is not given
+ *
+ * @Author Dane Erickson
  */
 public class RandomStates {
 

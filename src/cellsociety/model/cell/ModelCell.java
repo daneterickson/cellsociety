@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
  * Super class for the model cells for each simulation type. Each object stores its position, state,
  * and other properties like color and parameters for the simulation. Methods allow programmer to
  * get and set some properties for the cell.
+ *
+ * @Author Dane Erickson
  */
 public abstract class ModelCell implements ModelCellInterface, ViewCellInterface {
 

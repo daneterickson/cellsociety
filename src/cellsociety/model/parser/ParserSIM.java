@@ -13,6 +13,8 @@ import java.util.Scanner;
 /**
  * Subclass of the Parser hierarchy that is used to parse a SIM file with the information for the
  * simulation, such as Type, Name, and InitialStates info.
+ *
+ * @Author Dane Erickson
  */
 public class ParserSIM extends Parser {
 

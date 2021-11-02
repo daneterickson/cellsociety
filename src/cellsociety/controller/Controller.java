@@ -197,28 +197,6 @@ public class Controller {
   }
 
 
-//  private void makeProbStates(int rows, int cols, int numFilled, String type) {
-//
-//  }
-//
-//  private void makeRandomStates(int rows, int cols, int numFilled, String type) {
-//    int states[][]s = new int[rows][cols];
-//    int fill = 0;
-//    int numCases = 3;
-//    Random rand = new Random();
-//    if (type.equals("GameOfLife")) numCases = 2;
-//    while (fill < numFilled) {
-//      int state = rand.nextInt(numCases);
-//      int r = rand.nextInt(rows);
-//      int c = rand.nextInt(cols);
-//      if (states[r][c] == 0) {
-//        states[r][c] = state;
-//        fill++;
-//      }
-//    }
-//  }
-
-
   private void readSIMFile(File simFile)
       throws InvalidFileException, IOException, CsvValidationException, NumberFormatException {
     myParserSIM.readFile(simFile);

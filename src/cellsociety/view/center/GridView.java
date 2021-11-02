@@ -16,7 +16,6 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 
 public abstract class GridView extends CenterView {
-  //TODO Make these temporary hardcoded values dependent on the window size or Model values ASAP
   protected static final Color GRID_LINE_COLOR = Color.BLACK;
   protected static final Color SELECTED_GRID_COLOR = Color.LIMEGREEN;
   protected static final double GRID_LINE_SIZE = .04;

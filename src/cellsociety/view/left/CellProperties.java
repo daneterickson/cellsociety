@@ -67,7 +67,6 @@ public class CellProperties {
     labelBox.getChildren().add(initializeSimTypeLabel());
     labelBox.getChildren().add(makeCellCordTitle());
     labelBox.getChildren().add(initializeCellCordLabel());
-    //labelBox.getChildren().add(makeStateColorTitle());
 
     return labelBox;
   }
@@ -87,16 +86,6 @@ public class CellProperties {
     mySimTypeLabel = new Label(myResource.getString("DefaultSim"));
     return mySimTypeLabel;
   }
-
-  private Node makeStateColorTitle(){
-    Label title = new Label(stateColorTitle);
-    title.getStyleClass().add("stateColorsTitle");
-    return title;
-  }
-  /*private Node initializeCellStateLabel(myCurrentState){
-    myCellStateLabel = new Label();
-    return myCellStateLabel;
-  }*/
 
   private void setStyles() {
     myCellProperties.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());

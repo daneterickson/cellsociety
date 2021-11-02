@@ -49,16 +49,6 @@ public abstract class NeighborFinder {
     return neighbors;
   }
 
-  private void addSquareNeighbors(int row, int col, int[] x, int[] y,
-      ArrayList<Integer> neighbors) {
-    int idx = 0;
-    while (idx < x.length) {
-      neighbors.add(row + y[idx]);
-      neighbors.add(col + x[idx]);
-      idx++;
-    }
-  }
-
   /**
    * finds 12 neighboring cells and returns them as a linear array: [(top left)top row... middle
    * row... bottom row (bottom right)]
@@ -99,6 +89,22 @@ public abstract class NeighborFinder {
     return neighbors;
   }
 
+  /**
+   * adds the neighbors to the neighbors arraylist for square neighborfinders
+   */
+  private void addSquareNeighbors(int row, int col, int[] x, int[] y,
+      ArrayList<Integer> neighbors) {
+    int idx = 0;
+    while (idx < x.length) {
+      neighbors.add(row + y[idx]);
+      neighbors.add(col + x[idx]);
+      idx++;
+    }
+  }
+
+  /**
+   * adds the neighbors to the neighbors arraylist for triangle neighborfinders
+   */
   private void addTriangleNeighbors(int row, int col, ArrayList<Integer> neighbors, int[] dx,
       int[] dy) {
     for (int idx = 0; idx < dx.length; idx++) {

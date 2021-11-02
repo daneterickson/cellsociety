@@ -23,8 +23,17 @@ import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The Controller class makes view and model and serves as the connection between them
+ *
+ * The controller is passed into the view components and model components, so they all have access
+ * to public methods
+ *
+ * The Controller also stores the grid for frontend display
+ *
+ * @author Aaric Han, Nick Strauch, Dane Erickson, Albert Yuan
+ */
 public class Controller {
-
   private List<Model> myModelsList;
   private ParserCSV myParserCSV;
   private ParserSIM myParserSIM;
@@ -46,6 +55,10 @@ public class Controller {
   private static final String DEFAULT_TYPE = "GameOfLife";
   private static final int[][] DEFAULT_CELL_STATES = new int[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
 
+  /**
+   * Constructor to make a controller
+   * @param stage
+   */
   public Controller(Stage stage) {
     myResources = ResourceBundle.getBundle("lang.English", Locale.ENGLISH);
     currentGridNumber = 0;
@@ -66,30 +79,57 @@ public class Controller {
     stopAnimation = false;
   }
 
+  /**
+   * stop animation
+   * @param animationState
+   */
   public void setStopAnimation(boolean animationState) {
     stopAnimation = animationState;
   }
 
+  /**
+   * Gets whether the animation is stopped
+   * @return
+   */
   public boolean getStopAnimation(){
     return stopAnimation;
   }
 
+  /**
+   * Sets status of update in the grid
+   * @param hasUpdate
+   */
   public void setHasUpdate(boolean hasUpdate) {
     this.hasUpdate = hasUpdate;
   }
 
+  /**
+   * Checks status of update in the grid
+   * @return hasUpdate
+   */
   public boolean getHasUpdate(){
     return hasUpdate;
   }
 
+  /**
+   * Sets the curr Grid number if there are multiple grids
+   * @param newGridNumber
+   */
   public void setCurrentGridNumber(int newGridNumber){
     currentGridNumber = newGridNumber;
   }
 
+  /**
+   * Gets the current clicked grid
+   * @return currentGridNumber
+   */
   public int getCurrentGridNumber(){
     return currentGridNumber;
   }
 
+  /**
+   * Update models in the grid with the back end and updates view
+   */
   public void updateModels(){
     hasUpdate = false;
     for (int i = 0; i < myModelsList.size(); i++) {
@@ -98,6 +138,10 @@ public class Controller {
     }
   }
 
+  /**
+   * Update model settings like probability
+   * @param prob
+   */
   public void updateModelSettings(ArrayList prob) {
     for (int i = 0; i < myModelsList.size(); i++) {
       myModelsList.get(i).changeSettings(prob);
@@ -105,15 +149,32 @@ public class Controller {
     }
   }
 
-  //refactor to remove these.
+  /**
+   * Get a particular cell's state number
+   * @param i
+   * @param j
+   * @return cellStateNumber
+   */
   public int getCellStateNumber(int i, int j){
     return myGridsList.get(currentGridNumber).getCellStateNumber(i, j);
   }
 
+  /**
+   * Set a particular cell's state number
+   * @param i
+   * @param j
+   * @param state
+   */
   public void setCellState(int i, int j, int state){
     myGridsList.get(currentGridNumber).updateCell(i, j, state);
   }
 
+  /**
+   * Get a particular cell's state color
+   * @param i
+   * @param j
+   * @return
+   */
   public String getCellColor(int i, int j){
     try {
       return myGridsList.get(currentGridNumber).getViewCell(i, j).getCellProperty("StateColor");
@@ -123,24 +184,42 @@ public class Controller {
     }
   }
 
+  /**
+   * Get a histogram map for the first model
+   * @return
+   */
   public Map<Integer, Integer> getHistogramMap() {
     return myModelsList.get(0).getHistogramMap();
   }
 
+  /**
+   * Get names and colors for the first model
+   * @return
+   */
   public Map getNamesAndColors() {
     return myGridsList.get(0).getViewCell(0,0).getNameColorMap();
   }
 
+  /**
+   * Make a default simulation for a cold boot
+   */
   public void makeNewDefaultSimulation(){
     Grid defaultGrid = makeDefaultGrid(DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH, DEFAULT_CELL_STATES, DEFAULT_STATE_COLORS, DEFAULT_PARAMETERS, DEFAULT_TYPE);
     myGridsList.add(defaultGrid);
     myModelsList.add(new GameOfLifeModel(this, defaultGrid));
   }
 
+  /**
+   * Toggle the view lines
+   */
   public void toggleCenterLines(){
     myMainView.toggleLines();
   }
 
+  /**
+   * Open a the file given
+   * @param simFile
+   */
   public void openSIMFile(File simFile) {
     try {
       readSIMFile(simFile);
@@ -150,6 +229,10 @@ public class Controller {
     }
   }
 
+  /**
+   * Change the center view type
+   * @param viewType
+   */
   public void updateCenterViewType(String viewType) {
     myMainView.assignViewType(viewType);
   }
@@ -210,11 +293,17 @@ public class Controller {
     }
   }
 
-
+  /**
+   * Make a new simulation properties list
+   */
   public void addDefaultSimPropMap(){
     simPropertiesList.add(new HashMap<>() );
   }
 
+  /**
+   * Toggle which language depending on the language passed in and updates all view elements
+   * @param langString
+   */
   public void setLang(String langString) {
     ResourceBundle bundle;
     if (langString.equals("EN")) {
@@ -252,6 +341,10 @@ public class Controller {
     return myGridsList.get(currentGridNumber);
   }
 
+  /**
+   * Get current grid simulation properties list
+   * @return simProperty
+   */
   public Map getSimPropertiesMap() {
     if (simPropertiesList == null) {
       return null;
@@ -263,10 +356,18 @@ public class Controller {
     return new Grid(height, width, cellStates, stateColors, parameters, type);
   }
 
+  /**
+   * Set edge policy for the current model
+   * @param policy
+   */
   public void setEdgePolicy(String policy){
     myModelsList.get(currentGridNumber).setEdgePolicy(policy);
   }
 
+  /**
+   * Set NeighborFinder for current Grid number
+   * @param type
+   */
   public void setNeighborFinder(String type){
     myModelsList.get(currentGridNumber).setNeighborFinder(type);
   }
